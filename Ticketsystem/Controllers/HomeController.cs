@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using TicketSystem.Models;
+using Ticketsystem.Models;
 
-namespace TicketSystem.Controllers
+namespace Ticketsystem.Controllers
 {
     public class HomeController : Controller
     {
