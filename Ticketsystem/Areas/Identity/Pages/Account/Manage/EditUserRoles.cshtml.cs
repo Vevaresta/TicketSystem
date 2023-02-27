@@ -65,7 +65,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            return RedirectToPage("ManageRoles");
+            return RedirectToPage("ManageUsers");
         }
     }
 }

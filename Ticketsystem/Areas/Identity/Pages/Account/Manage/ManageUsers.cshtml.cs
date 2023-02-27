@@ -6,7 +6,7 @@ using Ticketsystem.Areas.Identity.Data;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage;
 
-public class ManageRolesModel : PageModel
+public class MangeUsersModel : PageModel
 {
     private readonly UserManager<TicketsystemUser> _userManager;
 
@@ -24,7 +24,7 @@ public class ManageRolesModel : PageModel
 
     public List<UserModel> Users { get; set; }
 
-    public ManageRolesModel(UserManager<TicketsystemUser> userManager)
+    public MangeUsersModel(UserManager<TicketsystemUser> userManager)
     {
         _userManager = userManager;
 
@@ -53,6 +53,20 @@ public class ManageRolesModel : PageModel
             if (user != null)
             {
                 return RedirectToPage("EditUserRoles", new { UserId = userId });
+            }
+        }
+
+        return RedirectToPage();
+    }
+
+    public async Task<IActionResult> OnPostDeleteAsync(string userId)
+    {
+        if (ModelState.IsValid && userId != null)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                return RedirectToPage("ConfirmUserDeletion", new { UserId = userId });
             }
         }
 

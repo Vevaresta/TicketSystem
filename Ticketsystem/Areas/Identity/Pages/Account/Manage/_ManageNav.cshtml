@@ -15,6 +15,6 @@
 
     @if (User.IsInRole(Roles.Administrator.ToString()) || User.IsInRole(Roles.Abteilungsleiter.ToString()))
     {
-        <li class="nav-item"><a class="nav-link @ManageNavPages.ManageRolesNavClass(ViewContext)" id="manage-roles" asp-page="./ManageRoles">Manage Roles</a></li>
+        <li class="nav-item"><a class="nav-link @ManageNavPages.ManageUsersNavClass(ViewContext)" id="manage-roles" asp-page="./ManageUsers">Manage Users</a></li>
     }
 </ul>
