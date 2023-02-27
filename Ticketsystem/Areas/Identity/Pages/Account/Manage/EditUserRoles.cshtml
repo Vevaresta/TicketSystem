@@ -1,0 +1,45 @@
+﻿@page
+@using Ticketsystem.Areas.Identity.Data;
+@model EditUserRolesModel
+@{
+    string user = Model.UserToEdit.UserName;
+    ViewData["Title"] = "Edit Roles for user ";
+    ViewData["ActivePage"] = ManageNavPages.ManageRoles;
+}
+<h3>
+    <span>@ViewData["Title"]</span>
+    <span style="font-weight: bold;"> @user</span>
+</h3>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        <form method="post">
+            @foreach (var role in Enum.GetNames(typeof(Roles)))
+            {
+            <tr class="align-middle">
+                <td>
+                    <input type="checkbox" name="selectedRoles" value="@role" @(Model.UserRoles.Contains(role) ? "checked" : "") />
+                </td>
+                <td>
+                        @role
+                </td>
+            </tr>
+            }
+        <input type="hidden" name="userToEdit" value="@Model.UserToEdit.Id" />
+            @Html.AntiForgeryToken()
+        <tr>
+            <td colspan="2">
+                <button type="submit" class="btn btn-info" asp-page-handler="EditUserRoles">
+                    Save
+                </button>
+            </td>
+        </tr>
+        </form>
+    </tbody>
+</table>

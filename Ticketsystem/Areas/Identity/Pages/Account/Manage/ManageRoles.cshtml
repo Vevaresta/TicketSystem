@@ -1,0 +1,47 @@
+﻿@page
+@model ManageRolesModel
+@{
+    ViewData["Title"] = "Role Manager";
+    ViewData["ActivePage"] = ManageNavPages.ManageRoles;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Roles</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            string roles = "";
+
+            foreach (var role in user.Roles)
+            {
+                roles += role + ", ";
+            }
+
+            roles = roles.Substring(0, roles.Length - 2);
+
+            <tr class="align-middle">
+                <td>@user.User.UserName</td>
+                <td>@roles</td>
+                <td class="d-flex justify-content-end">
+                    <form method="post">
+                        <input type="hidden" name="userId" value="@user.User.Id" />
+                        @Html.AntiForgeryToken()
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-info" asp-page-handler="Edit"
+                                asp-route-userId="@user.User.Id">
+                                Edit Roles
+                            </button>
+                        </span>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
