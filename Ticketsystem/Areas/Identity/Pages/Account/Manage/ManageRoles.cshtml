@@ -23,8 +23,8 @@
             {
                 roles += role + ", ";
             }
-
-            roles = roles.Substring(0, roles.Length - 2);
+            if (roles != "")
+                roles = roles.Substring(0, roles.Length - 2);
 
             <tr class="align-middle">
                 <td>@user.User.UserName</td>
