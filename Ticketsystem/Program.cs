@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Ticketsystem.Areas.Identity.Data;
 namespace Ticketsystem
@@ -14,7 +15,7 @@ namespace Ticketsystem
             builder.Services.AddDbContext<IdentityContext>(options => options.UseSqlite(identityConnectionString));
 
             builder.Services.AddDefaultIdentity<TicketsystemUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddRoles<IdentityRole>()
+                .AddRoles<EnhancedIdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext>()
                 .AddDefaultTokenProviders();
 
@@ -24,10 +25,13 @@ namespace Ticketsystem
             var app = builder.Build();
 
             using var scope = app.Services.CreateScope();
-            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<EnhancedIdentityRole>>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<TicketsystemUser>>();
+            var identityContext = scope.ServiceProvider.GetRequiredService<IdentityContext>();
             ContextSeed.SeedUserRolesAsync(roleManager).Wait();
             ContextSeed.SeedDefaultAdmin(userManager).Wait();
+            ContextSeed.SeedPermissionsAsync(identityContext).Wait();
+            ContextSeed.SeedRolePermissions(roleManager, identityContext).Wait();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
