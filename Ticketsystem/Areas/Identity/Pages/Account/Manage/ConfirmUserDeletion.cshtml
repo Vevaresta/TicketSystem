@@ -1,0 +1,25 @@
+﻿@page
+@model ConfirmUserDeletionModel
+@{
+    ViewData["Title"] = "Delete user ";
+    ViewData["ActivePage"] = ManageNavPages.ConfirmUserDeletion;
+}
+
+<h3>
+    <span>Are you sure to delete user</span>
+    <span style="font-weight: bold;"> @Model.UserToDelete.UserName?</span>
+</h3>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+    <span class="me-4">
+        <button type="submit" class="btn btn-info" asp-page-handler="Confirm" asp-route-userId="@Model.UserToDelete.Id">
+            Yes
+        </button>
+    </span>
+    <span>
+        <button type="submit" class="btn btn-info" asp-page-handler="Cancel">
+            No
+        </button>
+    </span>
+</form>
