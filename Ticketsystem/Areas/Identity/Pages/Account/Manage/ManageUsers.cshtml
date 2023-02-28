@@ -2,7 +2,7 @@
 @model MangeUsersModel
 @inject SignInManager<TicketsystemUser> SignInManager
 @{
-    ViewData["Title"] = "Manage Users";
+    ViewData["Title"] = "Benutzer verwalten";
     ViewData["ActivePage"] = ManageNavPages.ManageUsers;
 }
 
@@ -30,12 +30,12 @@
                         <td class="d-flex justify-content-end">
                             <span class="me-2">
                                 <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="ChangeRole" asp-route-userId="@user.User.Id">
-                                    Change Role
+                                    Rolle ändern
                                 </button>
                             </span>
                             <span>
                                 <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Delete" asp-route-userId="@user.User.Id">
-                                    Delete
+                                    Löschen
                                 </button>
                             </span>
                         </td>

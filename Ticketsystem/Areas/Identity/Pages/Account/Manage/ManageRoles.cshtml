@@ -1,7 +1,7 @@
 ﻿@page
 @model ManageRolesModel
 @{
-    ViewData["Title"] = "Manage Roles";
+    ViewData["Title"] = "Rollen verwalten";
 }
 
 <h3>@ViewData["Title"]</h3>
@@ -54,7 +54,7 @@
                             <td class="d-flex justify-content-end">
                                 <span class="me-2">
                                     <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Edit" asp-route-role="@role">
-                                        Edit
+                                        Bearbeiten
                                     </button>
                                 </span>
                                 @{
@@ -72,7 +72,7 @@
                                 {
                                     <span>
                                         <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Delete" asp-route-role="@role">
-                                            Delete
+                                            Löschen
                                         </button>
                                     </span>
                                 }
@@ -89,6 +89,6 @@
     </table>
 
     <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Add">
-        Add Role
+        OK
     </button>
 </form>
