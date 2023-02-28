@@ -71,7 +71,7 @@ namespace  Ticketsystem.Areas.Identity.Pages.Account.Manage
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
-        public static string EditUserRoles => "EditUserRoles";
+        public static string ChangeUserRole => "ChangeUserRole";
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -137,7 +137,7 @@ namespace  Ticketsystem.Areas.Identity.Pages.Account.Manage
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
-        public static string EditUserRolesNavClass(ViewContext viewContext) => PageNavClass(viewContext, EditUserRoles);
+        public static string ChangeUserRoleNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangeUserRole);
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used

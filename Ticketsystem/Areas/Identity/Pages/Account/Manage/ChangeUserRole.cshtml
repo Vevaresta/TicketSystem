@@ -1,8 +1,8 @@
 ﻿@page
 @using Ticketsystem.Areas.Identity.Data;
-@model EditUserRolesModel
+@model ChangeUserRoleModel
 @{
-    ViewData["ActivePage"] = ManageNavPages.EditUserRoles;
+    ViewData["ActivePage"] = ManageNavPages.ChangeUserRole;
 }
 
 <h3>
@@ -24,7 +24,7 @@
             {
                 <tr class="align-middle">
                     <td>
-                        <input type="checkbox" name="selectedRoles" value="@role" @(Model.UserRoles.Contains(role) ? "checked" : "") />
+                        <input type="radio" asp-for="Role" value="@role") />
                     </td>
                     <td>
                         @role
@@ -35,7 +35,7 @@
             @Html.AntiForgeryToken()
             <tr>
                 <td colspan="2">
-                    <button type="submit" class="btn btn-info" asp-page-handler="EditUserRoles">
+                    <button type="submit" class="btn btn-info" asp-page-handler="ChangeUserRole">
                         Save
                     </button>
                 </td>

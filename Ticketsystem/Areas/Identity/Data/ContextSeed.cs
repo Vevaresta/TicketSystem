@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using Ticketsystem.Areas.Identity.Services;
 
 namespace Ticketsystem.Areas.Identity.Data
 {
@@ -7,9 +9,17 @@ namespace Ticketsystem.Areas.Identity.Data
     {
         public static async Task SeedUserRolesAsync(RoleManager<EnhancedIdentityRole> roleManager)
         {
-            await roleManager.CreateAsync(new EnhancedIdentityRole(RolesEnum.Administrator.ToString()));
-            await roleManager.CreateAsync(new EnhancedIdentityRole(RolesEnum.Mitarbeiter.ToString()));
-            await roleManager.CreateAsync(new EnhancedIdentityRole(RolesEnum.Abteilungsleiter.ToString()));
+            var query = from role in roleManager.Roles
+                        select role.Name;
+
+            foreach (var role in Enum.GetNames(typeof(RolesEnum)))
+            {
+                if (!query.Contains(role.ToString()))
+                {
+                    await roleManager.CreateAsync(new EnhancedIdentityRole(role.ToString()));
+
+                }
+            }
         }
 
         public static async Task SeedDefaultAdmin(UserManager<TicketsystemUser> userManager)
@@ -54,32 +64,17 @@ namespace Ticketsystem.Areas.Identity.Data
 
         public static async Task SeedRolePermissions(RoleManager<EnhancedIdentityRole> roleManager, IdentityContext identityContext)
         {
-            EnhancedIdentityRole administrator = await roleManager.Roles.Include(r => r.Permissions).FirstOrDefaultAsync(r => r.Name == RolesEnum.Administrator.ToString());
-            EnhancedIdentityRole abteilungsleiter = await roleManager.Roles.Include(r => r.Permissions).FirstOrDefaultAsync(r => r.Name == RolesEnum.Abteilungsleiter.ToString());
-            EnhancedIdentityRole mitarbeiter = await roleManager.Roles.Include(r => r.Permissions).FirstOrDefaultAsync(r => r.Name == RolesEnum.Mitarbeiter.ToString());
+            RolePermissionsService rolePermissionsService = new RolePermissionsService(identityContext, roleManager);
 
-            await AddPermissionToRole(identityContext, roleManager, administrator, PermissionsEnum.ManageUsers);
-            await AddPermissionToRole(identityContext, roleManager, administrator, PermissionsEnum.CreateTickets);
-            await AddPermissionToRole(identityContext, roleManager, administrator, PermissionsEnum.UpdateTickets);
-            await AddPermissionToRole(identityContext, roleManager, administrator, PermissionsEnum.DeleteTickets);
-        }
+            EnhancedIdentityRole administrator = await rolePermissionsService.GetRole(RolesEnum.Administrator);
+            EnhancedIdentityRole abteilungsleiter = await rolePermissionsService.GetRole(RolesEnum.Abteilungsleiter);
+            EnhancedIdentityRole mitarbeiter = await rolePermissionsService.GetRole(RolesEnum.Mitarbeiter);
 
-        private static async Task AddPermissionToRole(
-            IdentityContext identityContext,
-            RoleManager<EnhancedIdentityRole> roleManager,
-            EnhancedIdentityRole role,
-            PermissionsEnum permission
-            )
-        {
-            var permObject = await identityContext.Permissions.FirstOrDefaultAsync(p => p.Name == permission.ToString());
 
-            // Check if the permission is already in the administrator's permission list
-            if (!role.Permissions.Contains(permObject))
-            {
-                // Add the permission to the administrator's permission list
-                role.Permissions.Add(permObject);
-                await roleManager.UpdateAsync(role);
-            }
+            await rolePermissionsService.AddPermissionToRole(administrator, PermissionsEnum.ManageUsers);
+            await rolePermissionsService.AddPermissionToRole(administrator, PermissionsEnum.CreateTickets);
+            await rolePermissionsService.AddPermissionToRole(administrator, PermissionsEnum.UpdateTickets);
+            await rolePermissionsService.AddPermissionToRole(administrator, PermissionsEnum.DeleteTickets);
         }
     }
 }

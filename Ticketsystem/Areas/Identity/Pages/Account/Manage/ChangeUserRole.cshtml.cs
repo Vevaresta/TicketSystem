@@ -5,14 +5,16 @@ using Ticketsystem.Areas.Identity.Data;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {
-    public class EditUserRolesModel : PageModel
+    public class ChangeUserRoleModel : PageModel
     {
         private UserManager<TicketsystemUser> _userManager;
 
         public TicketsystemUser UserToEdit { get; set; }
-        public IEnumerable<string> UserRoles { get; set; }
 
-        public EditUserRolesModel(UserManager<TicketsystemUser> userManager)
+        [BindProperty]
+        public string Role { get; set; }
+
+        public ChangeUserRoleModel(UserManager<TicketsystemUser> userManager)
         {
             _userManager = userManager;
             UserToEdit = new TicketsystemUser();
@@ -32,13 +34,14 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
                 return NotFound();
             }
 
-            UserRoles = await _userManager.GetRolesAsync(user);
+            var userRoles = await _userManager.GetRolesAsync(user);
+            Role = userRoles.FirstOrDefault();
             UserToEdit = user;
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostEditUserRolesAsync(string userToEdit, string[] selectedRoles)
+        public async Task<IActionResult> OnPostChangeUserRoleAsync(string userToEdit)
         {
             var user = await _userManager.FindByIdAsync(userToEdit);
 
@@ -49,21 +52,26 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 
             var roles = await _userManager.GetRolesAsync(user);
 
-            var result = await _userManager.AddToRolesAsync(user, selectedRoles.Except(roles));
-
-            if (!result.Succeeded)
+            foreach (var role in roles)
             {
-                ModelState.AddModelError("", "Failed to update user roles.");
-                return Page();
+                await _userManager.RemoveFromRoleAsync(user, role);
             }
 
-            result = await _userManager.RemoveFromRolesAsync(user, roles.Except(selectedRoles));
+            var result = await _userManager.AddToRoleAsync(user, Role);
 
-            if (!result.Succeeded)
-            {
-                ModelState.AddModelError("", "Failed to update user roles.");
-                return Page();
-            }
+            //if (!result.Succeeded)
+            //{
+            //    ModelState.AddModelError("", "Failed to update user roles.");
+            //    return Page();
+            //}
+
+            //result = await _userManager.RemoveFromRolesAsync(user, roles.Except(selectedRoles));
+
+            //if (!result.Succeeded)
+            //{
+            //    ModelState.AddModelError("", "Failed to update user roles.");
+            //    return Page();
+            //}
 
             return RedirectToPage("ManageUsers");
         }

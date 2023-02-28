@@ -12,14 +12,14 @@ public class MangeUsersModel : PageModel
 
     public class UserModel
     {
-        public UserModel(TicketsystemUser user, IEnumerable<string> roles)
+        public UserModel(TicketsystemUser user, string role)
         {
             User = user;
-            Roles = roles;
+            Role = role;
         }
 
         public TicketsystemUser User { get; set; }
-        public IEnumerable<string> Roles { get; set; }
+        public string Role { get; set; }
     }
 
     public List<UserModel> Users { get; set; }
@@ -38,21 +38,23 @@ public class MangeUsersModel : PageModel
         foreach (var user in users)
         {
             var roles = await _userManager.GetRolesAsync(user);
-            var vm = new UserModel(user, roles);
+            var role = roles.FirstOrDefault();
+            var vm = new UserModel(user, role);
+
             Users.Add(vm);
         }
 
         return Page();
     }
 
-    public async Task<IActionResult> OnPostEditAsync(string userId)
+    public async Task<IActionResult> OnPostChangeRoleAsync(string userId)
     {
         if (ModelState.IsValid && userId != null)
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user != null)
             {
-                return RedirectToPage("EditUserRoles", new { UserId = userId });
+                return RedirectToPage("ChangeUserRole", new { UserId = userId });
             }
         }
 

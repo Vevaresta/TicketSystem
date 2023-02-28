@@ -22,25 +22,16 @@
         <tbody>
             @foreach (var user in Model.Users)
             {
-                string roles = "";
-
-                foreach (var role in user.Roles)
-                {
-                    roles += role + ", ";
-                }
-                if (roles != "")
-                    roles = roles.Substring(0, roles.Length - 2);
-
                 <tr class="align-middle">
                     <td>@user.User.UserName</td>
-                    <td>@roles</td>
+                    <td>@user.Role</td>
                     @if (user.User.UserName != "admin")
                     {
                         <td class="d-flex justify-content-end">
                             <span class="me-2">
                                 @*<input type="hidden" name="userId" value="@user.User.Id" />*@
-                                <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Edit" asp-route-userId="@user.User.Id">
-                                    Edit Roles
+                                <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="ChangeRole" asp-route-userId="@user.User.Id">
+                                    Role
                                 </button>
                             </span>
                             <span>
