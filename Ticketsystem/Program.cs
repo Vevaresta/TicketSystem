@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Ticketsystem.Areas.Identity.Data;
+using Ticketsystem.Areas.Identity.Services;
+
 namespace Ticketsystem
 {
     public class Program
@@ -13,6 +15,9 @@ namespace Ticketsystem
             var identityConnectionString = builder.Configuration.GetConnectionString("IdentityContextConnection") ?? throw new InvalidOperationException("Connection string 'IdentityContextConnection' not found.");
 
             builder.Services.AddDbContext<IdentityContext>(options => options.UseSqlite(identityConnectionString));
+
+            builder.Services.AddScoped<RolePermissionsService>();
+            builder.Services.AddScoped<RolesService>();
 
             builder.Services.AddDefaultIdentity<TicketsystemUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<EnhancedIdentityRole>()
@@ -31,7 +36,7 @@ namespace Ticketsystem
             ContextSeed.SeedUserRolesAsync(roleManager).Wait();
             ContextSeed.SeedDefaultAdmin(userManager).Wait();
             ContextSeed.SeedPermissionsAsync(identityContext).Wait();
-            ContextSeed.SeedRolePermissions(roleManager, identityContext).Wait();
+            ContextSeed.SeedRolePermissions(scope.ServiceProvider).Wait();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

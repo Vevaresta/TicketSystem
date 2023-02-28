@@ -12,12 +12,11 @@ namespace Ticketsystem.Areas.Identity.Data
             var query = from role in roleManager.Roles
                         select role.Name;
 
-            foreach (var role in Enum.GetNames(typeof(RolesEnum)))
+            foreach (var role in Enum.GetNames(typeof(DefaultRoles)))
             {
                 if (!query.Contains(role.ToString()))
                 {
                     await roleManager.CreateAsync(new EnhancedIdentityRole(role.ToString()));
-
                 }
             }
         }
@@ -38,7 +37,7 @@ namespace Ticketsystem.Areas.Identity.Data
                 if (adminInDb == null)
                 {
                     await userManager.CreateAsync(admin, "Service1234!");
-                    await userManager.AddToRoleAsync(admin, RolesEnum.Administrator.ToString());
+                    await userManager.AddToRoleAsync(admin, DefaultRoles.Administrator.ToString());
                 }
             }
         }
@@ -62,16 +61,20 @@ namespace Ticketsystem.Areas.Identity.Data
             await identityContext.SaveChangesAsync();
         }
 
-        public static async Task SeedRolePermissions(RoleManager<EnhancedIdentityRole> roleManager, IdentityContext identityContext)
+        public static async Task SeedRolePermissions(IServiceProvider serviceProvider)
         {
-            RolePermissionsService rolePermissionsService = new RolePermissionsService(identityContext, roleManager);
+            var rolesService = serviceProvider.GetRequiredService<RolesService>();
+            var rolePermissionsService = serviceProvider.GetRequiredService<RolePermissionsService>();
 
-            EnhancedIdentityRole administrator = await rolePermissionsService.GetRole(RolesEnum.Administrator);
+            EnhancedIdentityRole administrator = await rolesService.GetRoleByName(DefaultRoles.Administrator.ToString());
+            EnhancedIdentityRole fallback = await rolesService.GetRoleByName(DefaultRoles.Fallback.ToString());
 
             foreach (PermissionsEnum permission in Enum.GetValues(typeof(PermissionsEnum)))
             { 
                 await rolePermissionsService.AddPermissionToRole(administrator, permission);
             }
+
+            await rolePermissionsService.RemoveAllPermissionsFromRole(fallback);
         }
     }
 }

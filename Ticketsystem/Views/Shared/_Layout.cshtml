@@ -27,7 +27,7 @@
                         </li>
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            @if (User.IsInRole(RolesEnum.Administrator.ToString()) || User.IsInRole(RolesEnum.Abteilungsleiter.ToString()))
+                            @if (User.IsInRole(DefaultRoles.Administrator.ToString()) || User.IsInRole(DefaultRoles.Abteilungsleiter.ToString()))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Create New User</a>

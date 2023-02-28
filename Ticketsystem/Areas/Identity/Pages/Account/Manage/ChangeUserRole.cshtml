@@ -1,5 +1,6 @@
 ﻿@page
 @using Ticketsystem.Areas.Identity.Data;
+@inject RoleManager<EnhancedIdentityRole> roleManager
 @model ChangeUserRoleModel
 @{
     ViewData["ActivePage"] = ManageNavPages.ChangeUserRole;
@@ -20,7 +21,23 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var role in Enum.GetNames(typeof(RolesEnum)))
+            @{
+                List<string> rolesToDisplay = new List<string>();
+                rolesToDisplay.Add(DefaultRoles.Mitarbeiter.ToString());
+                rolesToDisplay.Add(DefaultRoles.Abteilungsleiter.ToString());
+                rolesToDisplay.Add(DefaultRoles.Administrator.ToString());
+                rolesToDisplay.Add(DefaultRoles.Fallback.ToString());
+
+                foreach (var role in roleManager.Roles)
+                {
+                    if (!rolesToDisplay.Contains(role.Name))
+                    {
+                        rolesToDisplay.Add(role.Name);
+                    }
+                }
+            }
+
+            @foreach (var role in rolesToDisplay)
             {
                 <tr class="align-middle">
                     <td>

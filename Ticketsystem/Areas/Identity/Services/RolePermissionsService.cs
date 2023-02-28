@@ -8,26 +8,13 @@ namespace Ticketsystem.Areas.Identity.Services
 {
     public class RolePermissionsService
     {
-        private IdentityContext _identityContext;
-        private RoleManager<EnhancedIdentityRole> _roleManager;
+        private readonly IdentityContext _identityContext;
+        private readonly RoleManager<EnhancedIdentityRole> _roleManager;
 
         public RolePermissionsService(IdentityContext identityContext, RoleManager<EnhancedIdentityRole> roleManager)
         {
             _identityContext = identityContext;
             _roleManager = roleManager;
-        }
-
-        public async Task<EnhancedIdentityRole> GetRole(RolesEnum role)
-        {
-            EnhancedIdentityRole roleInDB = await _roleManager.Roles.Include(r => r.Permissions).FirstOrDefaultAsync(r => r.Name == role.ToString());
-            if (roleInDB == null)
-            {
-                throw new Exception("Role not found in DB");
-            }
-            else
-            {
-                return roleInDB;
-            }
         }
 
         public async Task AddPermissionToRole(EnhancedIdentityRole role, PermissionsEnum permission)
@@ -104,6 +91,15 @@ namespace Ticketsystem.Areas.Identity.Services
             if (role.Permissions.Contains(permission))
             {
                 // Add the permission to the administrator's permission list
+                role.Permissions.Remove(permission);
+                await _roleManager.UpdateAsync(role);
+            }
+        }
+
+        public async Task RemoveAllPermissionsFromRole(EnhancedIdentityRole role)
+        {
+            foreach (var permission in role.Permissions)
+            {
                 role.Permissions.Remove(permission);
                 await _roleManager.UpdateAsync(role);
             }

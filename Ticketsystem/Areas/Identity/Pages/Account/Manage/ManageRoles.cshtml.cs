@@ -29,5 +29,15 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
         {
             return RedirectToPage(nameof(ManageNavPages.EditRolePermissions), new { Role = role });
         }
+
+        public IActionResult OnPostAdd()
+        {
+            return RedirectToPage(nameof(ManageNavPages.AddRole));
+        }
+
+        public IActionResult OnPostDelete(string role)
+        {
+            return RedirectToPage(nameof(ManageNavPages.ConfirmRoleDeletion), new { Role = role });
+        }
     }
 }

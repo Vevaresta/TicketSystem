@@ -9,16 +9,16 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {
     public class EditRolePermissionsModel : PageModel
     {
-        private IdentityContext _identityContext;
-        private RoleManager<EnhancedIdentityRole> _roleManager;
+        private readonly RolesService _rolesService;
+        private readonly RolePermissionsService _rolePermissionsService;
 
         public string RoleToEdit { get; set; }
         public List<string> Permissions;
 
-        public EditRolePermissionsModel(IdentityContext identityContext, RoleManager<EnhancedIdentityRole> roleManager)
+        public EditRolePermissionsModel(RolesService rolesService, RolePermissionsService rolePermissionsService)
         {
-            _identityContext = identityContext;
-            _roleManager = roleManager;
+            _rolesService = rolesService;
+            _rolePermissionsService = rolePermissionsService;
             Permissions = new List<string>();
         }
 
@@ -26,10 +26,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
         {
             RoleToEdit = role;
 
-            RolePermissionsService rolePermissionsService = new RolePermissionsService(_identityContext, _roleManager);
-            RolesEnum rolesEnum = Enum.Parse<RolesEnum>(role);
-
-            var roleInDb = await rolePermissionsService.GetRole(rolesEnum);
+            var roleInDb = await _rolesService.GetRoleByName(role);
 
             foreach (var permission in roleInDb.Permissions)
             {
@@ -41,7 +38,6 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostSaveAsync(string role, string[] permissions)
         {
-            RolePermissionsService rolePermissionsService = new RolePermissionsService(_identityContext, _roleManager);
             List<PermissionsEnum> permissionsEnum = new List<PermissionsEnum>();
 
             foreach (var permission in permissions)
@@ -50,9 +46,9 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
                 permissionsEnum.Add(permissionEnum);
             }
 
-            var roleInDb = await rolePermissionsService.GetRole(Enum.Parse<RolesEnum>(role));
+            var roleInDb = await _rolesService.GetRoleByName(role);
 
-            await rolePermissionsService.AddPermissionListToRole(roleInDb, permissionsEnum);
+            await _rolePermissionsService.AddPermissionListToRole(roleInDb, permissionsEnum);
 
             //await rolePermissionsService.AddPermissionToRole(roleInDb, PermissionsEnum.DeleteTickets);
 

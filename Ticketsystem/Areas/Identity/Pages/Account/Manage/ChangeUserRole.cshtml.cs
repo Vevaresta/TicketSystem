@@ -7,7 +7,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {
     public class ChangeUserRoleModel : PageModel
     {
-        private UserManager<TicketsystemUser> _userManager;
+        private readonly UserManager<TicketsystemUser> _userManager;
 
         public TicketsystemUser UserToEdit { get; set; }
 
@@ -57,21 +57,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
                 await _userManager.RemoveFromRoleAsync(user, role);
             }
 
-            var result = await _userManager.AddToRoleAsync(user, Role);
-
-            //if (!result.Succeeded)
-            //{
-            //    ModelState.AddModelError("", "Failed to update user roles.");
-            //    return Page();
-            //}
-
-            //result = await _userManager.RemoveFromRolesAsync(user, roles.Except(selectedRoles));
-
-            //if (!result.Succeeded)
-            //{
-            //    ModelState.AddModelError("", "Failed to update user roles.");
-            //    return Page();
-            //}
+            await _userManager.AddToRoleAsync(user, Role);
 
             return RedirectToPage("ManageUsers");
         }

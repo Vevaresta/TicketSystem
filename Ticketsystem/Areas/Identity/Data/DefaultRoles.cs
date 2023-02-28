@@ -1,9 +1,10 @@
 ﻿namespace Ticketsystem.Areas.Identity.Data
 {
-    public enum RolesEnum
+    public enum DefaultRoles
     {
         Administrator,
         Abteilungsleiter,
-        Mitarbeiter
+        Mitarbeiter,
+        Fallback
     }
 }

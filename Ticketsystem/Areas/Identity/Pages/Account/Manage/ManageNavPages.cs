@@ -83,6 +83,12 @@ namespace  Ticketsystem.Areas.Identity.Pages.Account.Manage
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
+        public static string AddRole => "AddRole";
+
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
         public static string ChangeUserRole => "EditRolePermissions";
 
         /// <summary>
@@ -90,6 +96,12 @@ namespace  Ticketsystem.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         public static string ConfirmUserDeletion => "ConfirmUserDeletion";
+
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
+        public static string ConfirmRoleDeletion => "ConfirmRoleDeletion";
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -162,6 +174,18 @@ namespace  Ticketsystem.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         public static string ManageRolesNavClass(ViewContext viewContext) => PageNavClass(viewContext, ManageRoles);
+
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
+        public static string AddRoleNavClass(ViewContext viewContext) => PageNavClass(viewContext, AddRole);
+
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
+        public static string ConfirmRoleDeletionNavClass(ViewContext viewContext) => PageNavClass(viewContext, ConfirmRoleDeletion);
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used

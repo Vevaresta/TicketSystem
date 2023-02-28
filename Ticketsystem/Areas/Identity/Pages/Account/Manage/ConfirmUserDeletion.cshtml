@@ -5,6 +5,11 @@
 @inject RoleManager<EnhancedIdentityRole> roleManager
 
 @{
+    ViewData["Title"] = "Delete user ";
+    ViewData["ActivePage"] = ManageNavPages.ConfirmUserDeletion;
+}
+
+@{
     var user = await userManager.GetUserAsync(User);
     var roles = await userManager.GetRolesAsync(user);
     var permissions = new List<string>();
@@ -19,10 +24,6 @@
     }
     bool hasDeleteUsersPermission = permissions.Contains(PermissionsEnum.DeleteUsers.ToString());
 
-}
-@{
-    ViewData["Title"] = "Delete user ";
-    ViewData["ActivePage"] = ManageNavPages.ConfirmUserDeletion;
 }
 
 <h3>
