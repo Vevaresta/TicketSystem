@@ -1,0 +1,21 @@
+﻿@page
+@model AddRoleModel
+@{
+    ViewData["Title"] = "Add a new role";
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<form method="post">
+    <div class="form-floating">
+        <input asp-for="RoleName" class="form-control" autocomplete="on" aria-required="true" />
+        <label asp-for="RoleName"></label>
+        <span asp-validation-for="RoleName" class="text-danger"></span>
+    </div>
+    <button type="submit" class="w-25 btn btn-lg btn-primary" asp-page-handler="Add">Add</button>
+</form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

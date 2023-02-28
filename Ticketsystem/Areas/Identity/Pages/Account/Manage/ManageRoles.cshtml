@@ -1,0 +1,94 @@
+﻿@page
+@model ManageRolesModel
+@{
+    ViewData["Title"] = "Manage Roles";
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    <table class="table table-striped w-50">
+        <thead>
+            <tr>
+                <th>Role</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                List<string> rolesToDisplay = new List<string>();
+                rolesToDisplay.Add(DefaultRoles.Mitarbeiter.ToString());
+                rolesToDisplay.Add(DefaultRoles.Abteilungsleiter.ToString());
+                rolesToDisplay.Add(DefaultRoles.Administrator.ToString());
+                rolesToDisplay.Add(DefaultRoles.Fallback.ToString());
+
+                foreach (var role in Model.Roles)
+                {
+                    if (!rolesToDisplay.Contains(role))
+                    {
+                        rolesToDisplay.Add(role);
+                    }
+                }
+            }
+
+            @foreach (var role in rolesToDisplay)
+            {
+                <tr class="align-middle">
+                    @{
+                        if (role == DefaultRoles.Administrator.ToString())
+                        {
+                            <td>@role (alle Rechte)</td>
+                        }
+                        else if (role == DefaultRoles.Fallback.ToString())
+                        {
+                            <td>@role (keine Rechte)</td>
+                        }
+                        else
+                        {
+                            <td>@role</td>
+                        }
+                        if (role != DefaultRoles.Administrator.ToString() && role != DefaultRoles.Fallback.ToString())
+                        {
+                            <td class="d-flex justify-content-end">
+                                <span class="me-2">
+                                    <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Edit" asp-route-role="@role">
+                                        Edit
+                                    </button>
+                                </span>
+                                @{
+                                    bool isDefaultRole = false;
+                                    foreach (var defaultRole in Enum.GetValues<DefaultRoles>())
+                                    {
+                                        if (role == defaultRole.ToString())
+                                        {
+                                            isDefaultRole = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                @if (!isDefaultRole)
+                                {
+                                    <span>
+                                        <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Delete" asp-route-role="@role">
+                                            Delete
+                                        </button>
+                                    </span>
+                                }
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Add">
+        Add Role
+    </button>
+</form>

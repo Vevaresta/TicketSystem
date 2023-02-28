@@ -1,0 +1,26 @@
+﻿@page
+@model ConfirmRoleDeletionModel
+@{
+    ViewData["Title"] = "Delete role ";
+    ViewData["ActivePage"] = ManageNavPages.ConfirmRoleDeletion;
+}
+
+<h3>
+    <span>Are you sure you want to delete the role</span>
+    <span style="font-weight: bold;"> @Model.RoleToDelete.Name?</span>
+</h3>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+    <span class="me-4">
+        <button type="submit" class="btn btn-info" asp-page-handler="Confirm" asp-route-roleName="@Model.RoleToDelete.Name">
+            Yes
+        </button>
+    </span>
+    <span>
+        <button type="submit" class="btn btn-info" asp-page-handler="Cancel">
+            No
+        </button>
+    </span>
+</form>
+

@@ -124,7 +124,6 @@ namespace Ticketsystem.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
@@ -149,7 +148,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
                     
-                    await _userManager.AddToRoleAsync(user, Roles.Mitarbeiter.ToString());
+                    await _userManager.AddToRoleAsync(user, DefaultRoles.Mitarbeiter.ToString());
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

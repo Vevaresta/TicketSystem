@@ -7,7 +7,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {
     public class ConfirmUserDeletionModel : PageModel
     {
-        private UserManager<TicketsystemUser> _userManager;
+        private readonly UserManager<TicketsystemUser> _userManager;
 
         public TicketsystemUser UserToDelete;
 
