@@ -1,0 +1,43 @@
+﻿@page
+@model ManageRolesModel
+@{
+    ViewData["Title"] = "Manage Roles";
+}
+
+<h3>@ViewData["Title"]</h3>
+
+
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    <table class="table table-striped w-50">
+        <thead>
+            <tr>
+                <th>Role</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var role in Model.Roles)
+            {
+                <tr class="align-middle">
+                    <td>@role</td>
+                    @if (role != RolesEnum.Administrator.ToString())
+                    {
+                        <td class="d-flex justify-content-end">
+                            <span class="me-2">
+                                <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Edit" asp-route-role="@role">
+                                    Edit
+                                </button>
+                            </span>
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>

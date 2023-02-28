@@ -1,0 +1,44 @@
+﻿@page
+@model EditRolePermissionsModel
+@{
+    ViewData["ActivePage"] = ManageNavPages.EditRolePermissions;
+}
+
+<h3>
+    <span>Edit permissions for role</span>
+    <span style="font-weight: bold;"> @Model.RoleToEdit</span>
+</h3>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th style="width:50px;"></th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var permission in Enum.GetNames(typeof(PermissionsEnum)))
+            {
+                <tr class="align-middle">
+                    <td>
+                        <input type="checkbox" name="permissions" value="@permission" @(Model.Permissions.Contains(permission) ? "checked" : "") />
+                    </td>
+                    <td>
+                        @permission
+                    </td>
+                </tr>
+            }
+            @Html.AntiForgeryToken()
+            <tr>
+                <td colspan="2">
+                    <button type="submit" class="btn btn-info" asp-page-handler="Save" asp-route-role="@Model.RoleToEdit">
+                        Save
+                    </button>
+                </td>
+            </tr>
+            </>
+        </tbody>
+    </table>
+</form>

@@ -67,14 +67,11 @@ namespace Ticketsystem.Areas.Identity.Data
             RolePermissionsService rolePermissionsService = new RolePermissionsService(identityContext, roleManager);
 
             EnhancedIdentityRole administrator = await rolePermissionsService.GetRole(RolesEnum.Administrator);
-            EnhancedIdentityRole abteilungsleiter = await rolePermissionsService.GetRole(RolesEnum.Abteilungsleiter);
-            EnhancedIdentityRole mitarbeiter = await rolePermissionsService.GetRole(RolesEnum.Mitarbeiter);
 
-
-            await rolePermissionsService.AddPermissionToRole(administrator, PermissionsEnum.ManageUsers);
-            await rolePermissionsService.AddPermissionToRole(administrator, PermissionsEnum.CreateTickets);
-            await rolePermissionsService.AddPermissionToRole(administrator, PermissionsEnum.UpdateTickets);
-            await rolePermissionsService.AddPermissionToRole(administrator, PermissionsEnum.DeleteTickets);
+            foreach (PermissionsEnum permission in Enum.GetValues(typeof(PermissionsEnum)))
+            { 
+                await rolePermissionsService.AddPermissionToRole(administrator, permission);
+            }
         }
     }
 }
