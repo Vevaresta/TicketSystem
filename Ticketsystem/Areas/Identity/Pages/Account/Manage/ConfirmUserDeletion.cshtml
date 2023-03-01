@@ -27,20 +27,21 @@
 }
 
 <h3>
-    <span>Are you sure you want to delete the user</span>
+    <span>Wollen Sie den Benutzer</span>
     <span style="font-weight: bold;"> @Model.UserToDelete.UserName?</span>
+    <span> wirklich löschen?</span>
 </h3>
 
 <form method="post">
     @Html.AntiForgeryToken()
     <span class="me-4">
         <button type="submit" class="btn btn-info" asp-page-handler="Confirm" asp-route-userId="@Model.UserToDelete.Id">
-            Yes
+            Ja
         </button>
     </span>
     <span>
         <button type="submit" class="btn btn-info" asp-page-handler="Cancel">
-            No
+            Nein
         </button>
     </span>
 </form>
