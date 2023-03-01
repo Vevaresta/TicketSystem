@@ -5,7 +5,6 @@
 @inject RoleManager<EnhancedIdentityRole> roleManager
 
 @{
-    ViewData["Title"] = "Delete user ";
     ViewData["ActivePage"] = ManageNavPages.ConfirmUserDeletion;
 }
 
@@ -28,7 +27,7 @@
 
 <h3>
     <span>Wollen Sie den Benutzer</span>
-    <span style="font-weight: bold;"> @Model.UserToDelete.UserName?</span>
+    <span style="font-weight: bold;"> @Model.UserToDelete.UserName</span>
     <span> wirklich löschen?</span>
 </h3>
 

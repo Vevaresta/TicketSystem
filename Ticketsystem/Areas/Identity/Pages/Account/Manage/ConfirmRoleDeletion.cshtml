@@ -1,13 +1,12 @@
 ﻿@page
 @model ConfirmRoleDeletionModel
 @{
-    ViewData["Title"] = "Delete role ";
     ViewData["ActivePage"] = ManageNavPages.ConfirmRoleDeletion;
 }
 
 <h3>
     <span>Wollen Sie die Rolle</span>
-    <span style="font-weight: bold;"> @Model.RoleToDelete.Name?</span>
+    <span style="font-weight: bold;"> @Model.RoleToDelete.Name</span>
     <span> wirklich löschen?</span>
 </h3>
 

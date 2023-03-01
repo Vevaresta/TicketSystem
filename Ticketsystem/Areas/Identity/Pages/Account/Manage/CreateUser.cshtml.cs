@@ -22,20 +22,20 @@ using Ticketsystem.Areas.Identity.Data;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account
 {
-    public class RegisterModel : PageModel
+    public class CreateUserModel : PageModel
     {
         private readonly SignInManager<TicketsystemUser> _signInManager;
         private readonly UserManager<TicketsystemUser> _userManager;
         private readonly IUserStore<TicketsystemUser> _userStore;
         private readonly IUserEmailStore<TicketsystemUser> _emailStore;
-        private readonly ILogger<RegisterModel> _logger;
+        private readonly ILogger<CreateUserModel> _logger;
         private readonly IEmailSender _emailSender;
 
-        public RegisterModel(
+        public CreateUserModel(
             UserManager<TicketsystemUser> userManager,
             IUserStore<TicketsystemUser> userStore,
             SignInManager<TicketsystemUser> signInManager,
-            ILogger<RegisterModel> logger,
+            ILogger<CreateUserModel> logger,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -76,7 +76,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [Display(Name = "Username")]
+            [Display(Name = "Benutzername")]
             public string UserName { get; set; }
 
             /// <summary>
@@ -84,7 +84,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [Display(Name = "First Name")]
+            [Display(Name = "Vorname")]
             public string FirstName { get; set; }
 
             /// <summary>
@@ -92,7 +92,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [Display(Name = "Last Name")]
+            [Display(Name = "Nachname")]
             public string LastName { get; set; }
 
             /// <summary>
@@ -101,7 +101,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = "Email-Adresse")]
             public string Email { get; set; }
 
             /// <summary>
@@ -109,9 +109,9 @@ namespace Ticketsystem.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "Das Passwort muss mindestens 6 und höchstens 100 Zeichen lang sein.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Passwort")]
             public string Password { get; set; }
 
             /// <summary>
@@ -119,8 +119,8 @@ namespace Ticketsystem.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Passwort bestätigen")]
+            [Compare("Password", ErrorMessage = "Die eingegebenen Passwörter stimmen nicht überein.")]
             public string ConfirmPassword { get; set; }
         }
 

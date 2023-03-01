@@ -14,9 +14,9 @@
     <table class="table table-striped w-75">
         <thead>
             <tr>
-                <th>Username</th>
-                <th>Role</th>
-                <th class="text-end">Actions</th>
+                <th>Benutzer</th>
+                <th>Rolle</th>
+                <th class="text-end">Aktionen</th>
             </tr>
         </thead>
         <tbody>
@@ -27,7 +27,7 @@
                     <td>@user.Role</td>
                     @if (user.User.UserName != "admin")
                     {
-                        <td class="d-flex justify-content-end">
+                        <td class="text-end text-nowrap">
                             <span class="me-2">
                                 <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="ChangeRole" asp-route-userId="@user.User.Id">
                                     Rolle ändern
@@ -48,4 +48,13 @@
             }
         </tbody>
     </table>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        @if (User.IsInRole(DefaultRoles.Administrator.ToString()) || User.IsInRole(DefaultRoles.Abteilungsleiter.ToString()))
+        {
+            <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="CreateUser">
+                Neuer Benutzer
+            </button>
+        }
+    }
 </form>

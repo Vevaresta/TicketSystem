@@ -36,6 +36,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
+        [Display(Name = "Aktuelle Email-Adresse")]
         public string Email { get; set; }
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             /// </summary>
             [Required]
             [EmailAddress]
-            [Display(Name = "New email")]
+            [Display(Name = "Neue Email-Adresse")]
             public string NewEmail { get; set; }
         }
 
@@ -126,7 +127,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
                     protocol: Request.Scheme);
                 await _emailSender.SendEmailAsync(
                     Input.NewEmail,
-                    "Confirm your email",
+                    "Sie müssen Ihre Email-Adresse bestätigen",
                     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                 StatusMessage = "Confirmation link to change email sent. Please check your email.";

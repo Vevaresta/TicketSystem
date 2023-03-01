@@ -71,6 +71,12 @@ namespace  Ticketsystem.Areas.Identity.Pages.Account.Manage
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
+        public static string CreateUser => "CreateUser";
+
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
         public static string EditRolePermissions => "EditRolePermissions";
 
         /// <summary>
@@ -168,6 +174,12 @@ namespace  Ticketsystem.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         public static string ConfirmUserDeletionNavClass(ViewContext viewContext) => PageNavClass(viewContext, ConfirmUserDeletion);
+
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
+        public static string CreateUserNavClass(ViewContext viewContext) => PageNavClass(viewContext, CreateUser);
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used

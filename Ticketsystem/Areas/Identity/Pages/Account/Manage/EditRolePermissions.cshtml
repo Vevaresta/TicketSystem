@@ -30,15 +30,9 @@
                     </td>
                 </tr>
             }
-            @Html.AntiForgeryToken()
-            <tr>
-                <td colspan="2">
-                    <button type="submit" class="btn btn-info" asp-page-handler="Save" asp-route-role="@Model.RoleToEdit">
-                        Speichern
-                    </button>
-                </td>
-            </tr>
-            </>
         </tbody>
     </table>
+    <button type="submit" class="btn btn-info" asp-page-handler="Save" asp-route-role="@Model.RoleToEdit">
+        Speichern
+    </button>
 </form>
