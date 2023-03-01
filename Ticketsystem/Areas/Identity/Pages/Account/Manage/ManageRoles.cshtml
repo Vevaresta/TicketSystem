@@ -4,6 +4,12 @@
     ViewData["Title"] = "Rollen verwalten";
 }
 
+@{
+    @using Ticketsystem.Areas.Identity.Services;
+    @inject UserManager<TicketsystemUser> userManager;
+    @inject CheckPermissionsService checkPermissionsService;
+    TicketsystemUser loggedInUser = await userManager.GetUserAsync(User);
+}
 
 <div class="col-sm-12 col-md-12 col-lg-8 col-xl-6 col-xxl-6">
     <h3>@ViewData["Title"]</h3>
@@ -47,48 +53,53 @@
                             {
                                 <td>@role</td>
                             }
-                            if (role != DefaultRoles.Administrator.ToString() && role != DefaultRoles.Fallback.ToString())
-                            {
-                                <td class="text-end text-nowrap">
+                            <td class="text-end text-nowrap">
+                                @if (
+                                    await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.ChangeRolePermissions) && 
+                                    !(role == DefaultRoles.Administrator.ToString())
+                                )
+                                {
                                     <span>
                                         <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Edit" asp-route-role="@role">
                                             Bearbeiten
                                         </button>
                                     </span>
-                                    @{
-                                        bool isDefaultRole = false;
-                                        foreach (var defaultRole in Enum.GetValues<DefaultRoles>())
+                                }
+                                @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.DeleteRole))
+                                {
+                                    bool isDefaultRole = false;
+                                    foreach (var defaultRole in Enum.GetValues<DefaultRoles>())
+                                    {
+                                        if (role == defaultRole.ToString())
                                         {
-                                            if (role == defaultRole.ToString())
-                                            {
-                                                isDefaultRole = true;
-                                                break;
-                                            }
+                                            isDefaultRole = true;
+                                            break;
                                         }
                                     }
                                     @if (!isDefaultRole)
                                     {
-                                        <span class="me-2"></span>
+                                        @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.ChangeRolePermissions))
+                                        {
+                                            <span class="me-2"></span>
+                                        }
                                         <span>
                                             <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Delete" asp-route-role="@role">
                                                 Löschen
                                             </button>
                                         </span>
                                     }
-                                </td>
-                            }
-                            else
-                            {
-                                <td></td>
-                            }
+                                }
+                            </td>
                         }
                     </tr>
                 }
             </tbody>
         </table>
-
-        <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Add">
-            Neue Rolle
-        </button>
+        @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.AddRole))
+        {
+            <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Add">
+                Neue Rolle
+            </button>
+        }
     </form>
 </div>

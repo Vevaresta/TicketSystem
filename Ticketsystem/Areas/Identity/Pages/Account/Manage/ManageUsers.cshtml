@@ -1,11 +1,18 @@
 ﻿@page
 @model MangeUsersModel
 @inject SignInManager<TicketsystemUser> SignInManager
+
+@{
+    @using Ticketsystem.Areas.Identity.Services;
+    @inject UserManager<TicketsystemUser> userManager;
+    @inject CheckPermissionsService checkPermissionsService;
+    TicketsystemUser loggedInUser = await userManager.GetUserAsync(User);
+}
+
 @{
     ViewData["Title"] = "Benutzer verwalten";
     ViewData["ActivePage"] = ManageNavPages.ManageUsers;
 }
-
 
 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8 col-xxl-8">
     <h3>@ViewData["Title"]</h3>
@@ -27,37 +34,37 @@
                     <tr class="align-middle">
                         <td>@user.User.UserName</td>
                         <td>@user.Role</td>
-                        @if (user.User.UserName != "admin")
-                        {
-                            <td class="text-end text-nowrap">
-                                <span class="me-2">
+                        <td class="text-end text-nowrap">
+                            @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.ChangeUserRole))
+                            {
+                                <span>
                                     <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="ChangeRole" asp-route-userId="@user.User.Id">
                                         Rolle ändern
                                     </button>
                                 </span>
+                            }
+                            @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.DeleteUsers))
+                            {
+                                if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.ChangeUserRole))
+                                {
+                                    <span class="me-2"></span>
+                                }
                                 <span>
                                     <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Delete" asp-route-userId="@user.User.Id">
                                         Löschen
                                     </button>
                                 </span>
-                            </td>
-                        }
-                        else
-                        {
-                            <td></td>
-                        }
+                            }
+                        </td>
                     </tr>
                 }
             </tbody>
         </table>
-        @if (SignInManager.IsSignedIn(User))
+        @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.AddUsers))
         {
-            @if (User.IsInRole(DefaultRoles.Administrator.ToString()) || User.IsInRole(DefaultRoles.Abteilungsleiter.ToString()))
-            {
-                <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="CreateUser">
-                    Neuer Benutzer
-                </button>
-            }
+            <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="CreateUser">
+                Neuer Benutzer
+            </button>
         }
     </form>
 </div>

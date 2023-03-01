@@ -18,6 +18,7 @@ namespace Ticketsystem
 
             builder.Services.AddScoped<RolePermissionsService>();
             builder.Services.AddScoped<RolesService>();
+            builder.Services.AddScoped<CheckPermissionsService>();
 
             builder.Services.AddDefaultIdentity<TicketsystemUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<EnhancedIdentityRole>()

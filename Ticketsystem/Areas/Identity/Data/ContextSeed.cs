@@ -44,9 +44,26 @@ namespace Ticketsystem.Areas.Identity.Data
 
         public static async Task SeedPermissionsAsync(IdentityContext identityContext)
         {
-            foreach (PermissionsEnum permission in Enum.GetValues(typeof(PermissionsEnum)))
+            var permissionsEnumList = Enum.GetValues(typeof(PermissionsEnum));
+            List<string> permissions = new List<string>();
+            foreach (var pEnum in permissionsEnumList)
             {
-                if (!identityContext.Permissions.Where(p => p.Name == permission.ToString()).Any())
+                permissions.Add(pEnum.ToString());
+            }
+
+            List<Permission> tempList = new List<Permission>(identityContext.Permissions);
+
+            foreach (Permission p in tempList)
+            {
+                if (!permissions.Contains(p.Name))
+                {
+                    identityContext.Permissions.Remove(p);
+                }
+            }
+
+            foreach (string permission in permissions)
+            {
+                if (!identityContext.Permissions.Where(p => p.Name == permission).Any())
                 {
                     var perm = new Permission
                     {
@@ -64,8 +81,8 @@ namespace Ticketsystem.Areas.Identity.Data
             var rolesService = serviceProvider.GetRequiredService<RolesService>();
             var rolePermissionsService = serviceProvider.GetRequiredService<RolePermissionsService>();
 
-            EnhancedIdentityRole administrator = await rolesService.GetRoleByName(DefaultRoles.Administrator.ToString());
-            EnhancedIdentityRole fallback = await rolesService.GetRoleByName(DefaultRoles.Fallback.ToString());
+            EnhancedIdentityRole administrator = await rolesService.GetRoleByNameAsync(DefaultRoles.Administrator.ToString());
+            EnhancedIdentityRole fallback = await rolesService.GetRoleByNameAsync(DefaultRoles.Fallback.ToString());
 
             foreach (PermissionsEnum permission in Enum.GetValues(typeof(PermissionsEnum)))
             { 
