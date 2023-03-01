@@ -38,19 +38,17 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostSaveAsync(string role, string[] permissions)
         {
-            List<PermissionsEnum> permissionsEnum = new List<PermissionsEnum>();
+            List<PermissionsEnum> permissionsEmumList = new List<PermissionsEnum>();
 
             foreach (var permission in permissions)
             {
                 PermissionsEnum permissionEnum = Enum.Parse<PermissionsEnum>(permission);
-                permissionsEnum.Add(permissionEnum);
+                permissionsEmumList.Add(permissionEnum);
             }
 
             var roleInDb = await _rolesService.GetRoleByName(role);
 
-            await _rolePermissionsService.AddPermissionListToRole(roleInDb, permissionsEnum);
-
-            //await rolePermissionsService.AddPermissionToRole(roleInDb, PermissionsEnum.DeleteTickets);
+            await _rolePermissionsService.AddPermissionListToRole(roleInDb, permissionsEmumList);
 
             return RedirectToPage(nameof(ManageNavPages.ManageRoles));
         }

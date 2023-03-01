@@ -6,55 +6,58 @@
     ViewData["ActivePage"] = ManageNavPages.ManageUsers;
 }
 
-<h3>@ViewData["Title"]</h3>
 
-<form method="post">
-    @Html.AntiForgeryToken()
+<div class="col-sm-12 col-md-12 col-lg-12 col-xl-8 col-xxl-8">
+    <h3>@ViewData["Title"]</h3>
+    <hr />
+    <form method="post">
+        @Html.AntiForgeryToken()
 
-    <table class="table table-striped w-75">
-        <thead>
-            <tr>
-                <th>Benutzer</th>
-                <th>Rolle</th>
-                <th class="text-end">Aktionen</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var user in Model.Users)
-            {
-                <tr class="align-middle">
-                    <td>@user.User.UserName</td>
-                    <td>@user.Role</td>
-                    @if (user.User.UserName != "admin")
-                    {
-                        <td class="text-end text-nowrap">
-                            <span class="me-2">
-                                <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="ChangeRole" asp-route-userId="@user.User.Id">
-                                    Rolle ändern
-                                </button>
-                            </span>
-                            <span>
-                                <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Delete" asp-route-userId="@user.User.Id">
-                                    Löschen
-                                </button>
-                            </span>
-                        </td>
-                    }
-                    else
-                    {
-                        <td></td>
-                    }
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Benutzer</th>
+                    <th>Rolle</th>
+                    <th class="text-end">Aktionen</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-    @if (SignInManager.IsSignedIn(User))
-    {
-        @if (User.IsInRole(DefaultRoles.Administrator.ToString()) || User.IsInRole(DefaultRoles.Abteilungsleiter.ToString()))
+            </thead>
+            <tbody>
+                @foreach (var user in Model.Users)
+                {
+                    <tr class="align-middle">
+                        <td>@user.User.UserName</td>
+                        <td>@user.Role</td>
+                        @if (user.User.UserName != "admin")
+                        {
+                            <td class="text-end text-nowrap">
+                                <span class="me-2">
+                                    <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="ChangeRole" asp-route-userId="@user.User.Id">
+                                        Rolle ändern
+                                    </button>
+                                </span>
+                                <span>
+                                    <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Delete" asp-route-userId="@user.User.Id">
+                                        Löschen
+                                    </button>
+                                </span>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @if (SignInManager.IsSignedIn(User))
         {
-            <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="CreateUser">
-                Neuer Benutzer
-            </button>
+            @if (User.IsInRole(DefaultRoles.Administrator.ToString()) || User.IsInRole(DefaultRoles.Abteilungsleiter.ToString()))
+            {
+                <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="CreateUser">
+                    Neuer Benutzer
+                </button>
+            }
         }
-    }
-</form>
+    </form>
+</div>

@@ -4,23 +4,25 @@
     ViewData["ActivePage"] = ManageNavPages.ConfirmRoleDeletion;
 }
 
-<h3>
-    <span>Wollen Sie die Rolle</span>
-    <span style="font-weight: bold;"> @Model.RoleToDelete.Name</span>
-    <span> wirklich löschen?</span>
-</h3>
 
-<form method="post">
-    @Html.AntiForgeryToken()
-    <span class="me-4">
-        <button type="submit" class="btn btn-info" asp-page-handler="Confirm" asp-route-roleName="@Model.RoleToDelete.Name">
-            Ja
-        </button>
-    </span>
-    <span>
-        <button type="submit" class="btn btn-info" asp-page-handler="Cancel">
-            Nein
-        </button>
-    </span>
-</form>
-
+<div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 col-xxl-8">
+    <h3>
+        <span>Wollen Sie die Rolle</span>
+        <span style="font-weight: bold;"> @Model.RoleToDelete.Name</span>
+        <span> wirklich löschen?</span>
+    </h3>
+    <hr />
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <span class="me-4">
+            <button type="submit" class="btn btn-info" asp-page-handler="Confirm" asp-route-roleName="@Model.RoleToDelete.Name">
+                Ja
+            </button>
+        </span>
+        <span>
+            <button type="submit" class="btn btn-info" asp-page-handler="Cancel">
+                Nein
+            </button>
+        </span>
+    </form>
+</div>

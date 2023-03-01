@@ -4,88 +4,91 @@
     ViewData["Title"] = "Rollen verwalten";
 }
 
-<h3>@ViewData["Title"]</h3>
 
-<form method="post">
-    @Html.AntiForgeryToken()
+<div class="col-sm-12 col-md-12 col-lg-8 col-xl-6 col-xxl-6">
+    <h3>@ViewData["Title"]</h3>
+    <hr />
+    <form method="post">
+        @Html.AntiForgeryToken()
 
-    <table class="table table-striped w-75">
-        <thead>
-            <tr>
-                <th>Rolle</th>
-                <th class="text-end">Aktionen</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                List<string> rolesToDisplay = new List<string>();
-                rolesToDisplay.Add(DefaultRoles.Mitarbeiter.ToString());
-                rolesToDisplay.Add(DefaultRoles.Abteilungsleiter.ToString());
-                rolesToDisplay.Add(DefaultRoles.Administrator.ToString());
-                //rolesToDisplay.Add(DefaultRoles.Fallback.ToString());
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Rolle</th>
+                    <th class="text-end">Aktionen</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    List<string> rolesToDisplay = new List<string>();
+                    rolesToDisplay.Add(DefaultRoles.Mitarbeiter.ToString());
+                    rolesToDisplay.Add(DefaultRoles.Abteilungsleiter.ToString());
+                    rolesToDisplay.Add(DefaultRoles.Administrator.ToString());
+                    //rolesToDisplay.Add(DefaultRoles.Fallback.ToString());
 
-                foreach (var role in Model.Roles)
-                {
-                    if (!rolesToDisplay.Contains(role) && !(role == DefaultRoles.Fallback.ToString()))
+                    foreach (var role in Model.Roles)
                     {
-                        rolesToDisplay.Add(role);
+                        if (!rolesToDisplay.Contains(role) && !(role == DefaultRoles.Fallback.ToString()))
+                        {
+                            rolesToDisplay.Add(role);
+                        }
                     }
                 }
-            }
 
-            @foreach (var role in rolesToDisplay)
-            {
-                <tr class="align-middle">
-                    @{
-                        if (role == DefaultRoles.Administrator.ToString())
-                        {
-                            <td>@role (alle Rechte)</td>
-                        }
-                        else
-                        {
-                            <td>@role</td>
-                        }
-                        if (role != DefaultRoles.Administrator.ToString() && role != DefaultRoles.Fallback.ToString())
-                        {
-                            <td class="text-end text-nowrap">
-                                <span>
-                                    <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Edit" asp-route-role="@role">
-                                        Bearbeiten
-                                    </button>
-                                </span>
-                                @{
-                                    bool isDefaultRole = false;
-                                    foreach (var defaultRole in Enum.GetValues<DefaultRoles>())
-                                    {
-                                        if (role == defaultRole.ToString())
-                                        {
-                                            isDefaultRole = true;
-                                            break;
-                                        }
-                                    }
-                                }
-                                @if (!isDefaultRole)
-                                {
-                                    <span class="me-2"></span>
+                @foreach (var role in rolesToDisplay)
+                {
+                    <tr class="align-middle">
+                        @{
+                            if (role == DefaultRoles.Administrator.ToString())
+                            {
+                                <td>@role (alle Rechte)</td>
+                            }
+                            else
+                            {
+                                <td>@role</td>
+                            }
+                            if (role != DefaultRoles.Administrator.ToString() && role != DefaultRoles.Fallback.ToString())
+                            {
+                                <td class="text-end text-nowrap">
                                     <span>
-                                        <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Delete" asp-route-role="@role">
-                                            Löschen
+                                        <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Edit" asp-route-role="@role">
+                                            Bearbeiten
                                         </button>
                                     </span>
-                                }
-                            </td>
+                                    @{
+                                        bool isDefaultRole = false;
+                                        foreach (var defaultRole in Enum.GetValues<DefaultRoles>())
+                                        {
+                                            if (role == defaultRole.ToString())
+                                            {
+                                                isDefaultRole = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    @if (!isDefaultRole)
+                                    {
+                                        <span class="me-2"></span>
+                                        <span>
+                                            <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Delete" asp-route-role="@role">
+                                                Löschen
+                                            </button>
+                                        </span>
+                                    }
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
                         }
-                        else
-                        {
-                            <td></td>
-                        }
-                    }
-                </tr>
-            }
-        </tbody>
-    </table>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-    <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Add">
-        Neue Rolle
-    </button>
-</form>
+        <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Add">
+            Neue Rolle
+        </button>
+    </form>
+</div>

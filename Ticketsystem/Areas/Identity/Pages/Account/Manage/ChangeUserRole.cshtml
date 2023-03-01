@@ -6,53 +6,56 @@
     ViewData["ActivePage"] = ManageNavPages.ChangeUserRole;
 }
 
-<h3>
-    <span>Rolle von Benutzer</span>
-    <span style="font-weight: bold;"> @Model.UserToEdit.UserName</span>
-    <span> ändern</span>
-</h3>
 
-<form method="post">
-    @Html.AntiForgeryToken()
-    <table class="table table-striped w-50">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Rolle</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                List<string> rolesToDisplay = new List<string>();
-                rolesToDisplay.Add(DefaultRoles.Mitarbeiter.ToString());
-                rolesToDisplay.Add(DefaultRoles.Abteilungsleiter.ToString());
-                rolesToDisplay.Add(DefaultRoles.Administrator.ToString());
-                //rolesToDisplay.Add(DefaultRoles.Fallback.ToString());
+<div class="col-sm-12 col-md-12 col-lg-8 col-xl-6 col-xxl-6">
+    <h3>
+        <span>Rolle von Benutzer</span>
+        <span style="font-weight: bold;"> @Model.UserToEdit.UserName</span>
+        <span> ändern</span>
+    </h3>
+    <hr />
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Rolle</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    List<string> rolesToDisplay = new List<string>();
+                    rolesToDisplay.Add(DefaultRoles.Mitarbeiter.ToString());
+                    rolesToDisplay.Add(DefaultRoles.Abteilungsleiter.ToString());
+                    rolesToDisplay.Add(DefaultRoles.Administrator.ToString());
+                    //rolesToDisplay.Add(DefaultRoles.Fallback.ToString());
 
-                foreach (var role in roleManager.Roles)
-                {
-                    if (!rolesToDisplay.Contains(role.Name) && !(role.Name == DefaultRoles.Fallback.ToString()))
+                    foreach (var role in roleManager.Roles)
                     {
-                        rolesToDisplay.Add(role.Name);
+                        if (!rolesToDisplay.Contains(role.Name) && !(role.Name == DefaultRoles.Fallback.ToString()))
+                        {
+                            rolesToDisplay.Add(role.Name);
+                        }
                     }
                 }
-            }
 
-            @foreach (var role in rolesToDisplay)
-            {
-                <tr class="align-middle">
-                    <td style="width:50px;">
-                        <input type="radio" asp-for="Role" value="@role" ) />
-                    </td>
-                    <td>
-                        @role
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>    
-    <input type="hidden" name="userToEdit" value="@Model.UserToEdit.Id" />
-    <button type="submit" class="btn btn-info" asp-page-handler="ChangeUserRole">
-        Speichern
-    </button>
-</form>
+                @foreach (var role in rolesToDisplay)
+                {
+                    <tr class="align-middle">
+                        <td style="width:50px;">
+                            <input type="radio" asp-for="Role" value="@role" ) />
+                        </td>
+                        <td>
+                            @role
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <input type="hidden" name="userToEdit" value="@Model.UserToEdit.Id" />
+        <button type="submit" class="btn btn-info" asp-page-handler="ChangeUserRole">
+            Speichern
+        </button>
+    </form>
+</div>
