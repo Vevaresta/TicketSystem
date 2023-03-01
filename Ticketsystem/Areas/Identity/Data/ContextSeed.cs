@@ -44,18 +44,16 @@ namespace Ticketsystem.Areas.Identity.Data
 
         public static async Task SeedPermissionsAsync(IdentityContext identityContext)
         {
-            if (identityContext.Permissions.Any())
-            {
-                return;   // Permissions already seeded
-            }
-
             foreach (PermissionsEnum permission in Enum.GetValues(typeof(PermissionsEnum)))
             {
-                var perm = new Permission
+                if (!identityContext.Permissions.Where(p => p.Name == permission.ToString()).Any())
                 {
-                    Name = permission.ToString()
-                };
-                identityContext.Permissions.Add(perm);
+                    var perm = new Permission
+                    {
+                        Name = permission.ToString()
+                    };
+                    identityContext.Permissions.Add(perm);
+                }
             }
 
             await identityContext.SaveChangesAsync();
