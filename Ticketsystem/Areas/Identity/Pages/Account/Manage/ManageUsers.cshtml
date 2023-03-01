@@ -35,25 +35,28 @@
                         <td>@user.User.UserName</td>
                         <td>@user.Role</td>
                         <td class="text-end text-nowrap">
-                            @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.ChangeUserRole))
+                            @if (user.User.UserName != "admin")
                             {
-                                <span>
-                                    <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="ChangeRole" asp-route-userId="@user.User.Id">
-                                        Rolle ändern
-                                    </button>
-                                </span>
-                            }
-                            @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.DeleteUsers))
-                            {
-                                if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.ChangeUserRole))
+                                @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.ChangeUserRole))
                                 {
-                                    <span class="me-2"></span>
+                                    <span>
+                                        <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="ChangeRole" asp-route-userId="@user.User.Id">
+                                            Rolle ändern
+                                        </button>
+                                    </span>
                                 }
-                                <span>
-                                    <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Delete" asp-route-userId="@user.User.Id">
-                                        Löschen
-                                    </button>
-                                </span>
+                                @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.DeleteUsers))
+                                {
+                                    if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.ChangeUserRole))
+                                    {
+                                        <span class="me-2"></span>
+                                    }
+                                    <span>
+                                        <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Delete" asp-route-userId="@user.User.Id">
+                                            Löschen
+                                        </button>
+                                    </span>
+                                }
                             }
                         </td>
                     </tr>
