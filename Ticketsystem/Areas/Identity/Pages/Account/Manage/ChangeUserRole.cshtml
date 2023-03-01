@@ -27,11 +27,11 @@
                 rolesToDisplay.Add(DefaultRoles.Mitarbeiter.ToString());
                 rolesToDisplay.Add(DefaultRoles.Abteilungsleiter.ToString());
                 rolesToDisplay.Add(DefaultRoles.Administrator.ToString());
-                rolesToDisplay.Add(DefaultRoles.Fallback.ToString());
+                //rolesToDisplay.Add(DefaultRoles.Fallback.ToString());
 
                 foreach (var role in roleManager.Roles)
                 {
-                    if (!rolesToDisplay.Contains(role.Name))
+                    if (!rolesToDisplay.Contains(role.Name) && !(role.Name == DefaultRoles.Fallback.ToString()))
                     {
                         rolesToDisplay.Add(role.Name);
                     }

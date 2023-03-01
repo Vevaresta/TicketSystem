@@ -22,11 +22,11 @@
                 rolesToDisplay.Add(DefaultRoles.Mitarbeiter.ToString());
                 rolesToDisplay.Add(DefaultRoles.Abteilungsleiter.ToString());
                 rolesToDisplay.Add(DefaultRoles.Administrator.ToString());
-                rolesToDisplay.Add(DefaultRoles.Fallback.ToString());
+                //rolesToDisplay.Add(DefaultRoles.Fallback.ToString());
 
                 foreach (var role in Model.Roles)
                 {
-                    if (!rolesToDisplay.Contains(role))
+                    if (!rolesToDisplay.Contains(role) && !(role == DefaultRoles.Fallback.ToString()))
                     {
                         rolesToDisplay.Add(role);
                     }
