@@ -14,16 +14,20 @@
 
     public enum PermissionsEnum
     {
-        AddUsers,
-        DeleteUsers,
         ManageUsers,
-        AddRole,
+        AddUsers,
         ChangeUserRole,
+        DeleteUsers,
 
+        ManageRoles,
+        AddRole,
+        DeleteRole,
         ChangeRolePermissions,
+
         CreateTickets,
         UpdateTickets,
         DeleteTickets,
+
         ViewHistory
     }
 
@@ -31,16 +35,20 @@
     {
         public PermissionsDict()
         {
-            this[PermissionsEnum.AddUsers] = "Neue Benutzer hinzufügen";
-            this[PermissionsEnum.DeleteUsers] = "Benutzer löschen";
             this[PermissionsEnum.ManageUsers] = "Benutzer verwalten";
+            this[PermissionsEnum.AddUsers] = "Neue Benutzer hinzufügen";
+            this[PermissionsEnum.ChangeUserRole] = "Benutzerrolle ändern";
+            this[PermissionsEnum.DeleteUsers] = "Benutzer löschen";
+
+            this[PermissionsEnum.ManageRoles] = "Rollen verwalten";
+            this[PermissionsEnum.AddRole] = "Neue Rollen hinzufügen";
+            this[PermissionsEnum.DeleteRole] = "Rolle löschen";
+            this[PermissionsEnum.ChangeRolePermissions] = "Berechtigungen von Rollen ändern";
+
             this[PermissionsEnum.CreateTickets] = "Neue Tickets erstellen";
             this[PermissionsEnum.UpdateTickets] = "Tickets updaten";
-
             this[PermissionsEnum.DeleteTickets] = "Tickets löschen";
-            this[PermissionsEnum.AddRole] = "Neue Rollen hinzufügen";
-            this[PermissionsEnum.ChangeUserRole] = "Benutzerrolle ändern";
-            this[PermissionsEnum.ChangeRolePermissions] = "Berechtigungen von Rollen ändern";
+
             this[PermissionsEnum.ViewHistory] = "Ticketverlauf anzeigen";
         }
     }
