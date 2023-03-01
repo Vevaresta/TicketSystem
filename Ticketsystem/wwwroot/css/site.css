@@ -17,6 +17,6 @@ body {
   margin-bottom: 60px;
 }
 
-table.table-striped > tbody > tr {
+table.table-striped > tbody > tr > td {
     height: 50px !important;
 }

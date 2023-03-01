@@ -4,35 +4,38 @@
     ViewData["ActivePage"] = ManageNavPages.EditRolePermissions;
 }
 
-<h3>
-    <span>Berechtigungen für Rolle </span>
-    <span style="font-weight: bold;"> @Model.RoleToEdit</span>
-</h3>
 
-<form method="post">
-    @Html.AntiForgeryToken()
-    <table class="table table-striped w-50">
-        <thead>
-            <tr>
-                <th style="width:50px;"></th>
-                <th>Berechtigung</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var permission in Permissions.PermissionNames.Keys)
-            {
-                <tr class="align-middle">
-                    <td>
-                        <input type="checkbox" name="permissions" value="@permission.ToString()" @(Model.Permissions.Contains(permission.ToString()) ? "checked" : "") />
-                    </td>
-                    <td>
-                        @Permissions.PermissionNames[permission]
-                    </td>
+<div class="col-sm-12 col-md-12 col-lg-8 col-xl-6 col-xxl-6">
+    <h3>
+        <span>Berechtigungen für Rolle </span>
+        <span style="font-weight: bold;"> @Model.RoleToEdit</span>
+    </h3>
+    <hr />
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width:50px;"></th>
+                    <th>Berechtigung</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-    <button type="submit" class="btn btn-info" asp-page-handler="Save" asp-route-role="@Model.RoleToEdit">
-        Speichern
-    </button>
-</form>
+            </thead>
+            <tbody>
+                @foreach (var permission in Permissions.PermissionNames.Keys)
+                {
+                    <tr class="align-middle">
+                        <td>
+                            <input type="checkbox" name="permissions" value="@permission.ToString()" @(Model.Permissions.Contains(permission.ToString()) ? "checked" : "") />
+                        </td>
+                        <td>
+                            @Permissions.PermissionNames[permission]
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-info" asp-page-handler="Save" asp-route-role="@Model.RoleToEdit">
+            Speichern
+        </button>
+    </form>
+</div>

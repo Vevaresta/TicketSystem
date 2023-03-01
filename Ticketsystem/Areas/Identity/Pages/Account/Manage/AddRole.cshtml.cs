@@ -18,7 +18,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 
         [BindProperty]
         [Required]
-        [Display(Name = "Role Name")]
+        [Display(Name = "Rolle")]
         public string RoleName { get; set; }
 
         public IActionResult OnGet()
@@ -28,8 +28,6 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAddAsync()
         {
-
-
             var roles = from role in _roleManager.Roles
                         select role.Name;
 
@@ -37,8 +35,6 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             {
                 await _roleManager.CreateAsync(new EnhancedIdentityRole { Name =  RoleName, Permissions = new List<Permission>()});
             }
-
-            // Perform any necessary actions with the new role here
 
             return RedirectToPage(nameof(ManageNavPages.ManageRoles));
         }
