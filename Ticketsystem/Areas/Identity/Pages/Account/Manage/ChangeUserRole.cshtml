@@ -49,16 +49,10 @@
                     </td>
                 </tr>
             }
-            <input type="hidden" name="userToEdit" value="@Model.UserToEdit.Id" />
-            @Html.AntiForgeryToken()
-            <tr>
-                <td colspan="2">
-                    <button type="submit" class="btn btn-info" asp-page-handler="ChangeUserRole">
-                        Speichern
-                    </button>
-                </td>
-            </tr>
-            </>
         </tbody>
-    </table>
+    </table>    
+    <input type="hidden" name="userToEdit" value="@Model.UserToEdit.Id" />
+    <button type="submit" class="btn btn-info" asp-page-handler="ChangeUserRole">
+        Speichern
+    </button>
 </form>

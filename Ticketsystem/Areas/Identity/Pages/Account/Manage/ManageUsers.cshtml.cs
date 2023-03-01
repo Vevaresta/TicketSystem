@@ -74,4 +74,9 @@ public class MangeUsersModel : PageModel
 
         return RedirectToPage();
     }
+
+    public IActionResult OnPostCreateUser()
+    {
+        return RedirectToPage(nameof(ManageNavPages.CreateUser));
+    }
 }

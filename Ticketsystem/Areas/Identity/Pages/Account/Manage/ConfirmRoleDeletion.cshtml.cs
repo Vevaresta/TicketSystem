@@ -44,5 +44,10 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 
             return RedirectToPage(nameof(ManageNavPages.ManageRoles));
         }
+
+        public IActionResult OnPostCancel()
+        {
+            return RedirectToPage(nameof(ManageNavPages.ManageRoles));
+        }
     }
 }

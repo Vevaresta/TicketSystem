@@ -9,7 +9,7 @@
 <form method="post">
     @Html.AntiForgeryToken()
 
-    <table class="table table-striped w-50">
+    <table class="table table-striped w-75">
         <thead>
             <tr>
                 <th>Rolle</th>
@@ -41,18 +41,14 @@
                         {
                             <td>@role (alle Rechte)</td>
                         }
-                        else if (role == DefaultRoles.Fallback.ToString())
-                        {
-                            <td>@role (keine Rechte)</td>
-                        }
                         else
                         {
                             <td>@role</td>
                         }
                         if (role != DefaultRoles.Administrator.ToString() && role != DefaultRoles.Fallback.ToString())
                         {
-                            <td class="d-flex justify-content-end">
-                                <span class="me-2">
+                            <td class="text-end text-nowrap">
+                                <span>
                                     <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Edit" asp-route-role="@role">
                                         Bearbeiten
                                     </button>
@@ -70,6 +66,7 @@
                                 }
                                 @if (!isDefaultRole)
                                 {
+                                    <span class="me-2"></span>
                                     <span>
                                         <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Delete" asp-route-role="@role">
                                             Löschen

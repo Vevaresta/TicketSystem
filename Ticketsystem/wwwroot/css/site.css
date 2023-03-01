@@ -16,3 +16,7 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+table.table-striped > tbody > tr {
+    height: 50px !important;
+}
