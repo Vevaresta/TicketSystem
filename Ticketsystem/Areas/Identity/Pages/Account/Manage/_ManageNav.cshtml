@@ -1,5 +1,7 @@
 ﻿@{
+    @using Ticketsystem.Areas.Identity.Enums;
     @using Ticketsystem.Areas.Identity.Services;
+    @using Ticketsystem.Areas.Identity.Models;
     @inject UserManager<TicketsystemUser> userManager;
     @inject CheckRolePermissionsService checkRolePermissionsService;
     var loggedInUser = await userManager.GetUserAsync(User);
@@ -20,11 +22,11 @@
     @*<li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>*@
     @*<li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>*@
 
-    @if (await checkRolePermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.ManageUsers))
+    @if (await checkRolePermissionsService.HasPermissionAsync(loggedInUser, RolePermissions.ManageUsers))
     {
         <li class="nav-item"><a class="nav-link @ManageNavPages.ManageUsersNavClass(ViewContext)" id="manage-users" asp-page="./ManageUsers">Benutzer verwalten</a></li>
     }
-    @if (await checkRolePermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.ManageRoles))
+    @if (await checkRolePermissionsService.HasPermissionAsync(loggedInUser, RolePermissions.ManageRoles))
     {
         <li class="nav-item"><a class="nav-link @ManageNavPages.ManageRolesNavClass(ViewContext)" id="manage-roles" asp-page="./ManageRoles">Rollen verwalten</a></li>
     }

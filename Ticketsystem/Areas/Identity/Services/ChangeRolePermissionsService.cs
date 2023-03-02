@@ -3,21 +3,23 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
 using Ticketsystem.Areas.Identity.Data;
+using Ticketsystem.Areas.Identity.Enums;
+using Ticketsystem.Areas.Identity.Models;
 
 namespace Ticketsystem.Areas.Identity.Services
 {
     public class ChangeRolePermissionsService
     {
-        private readonly IdentityContext _identityContext;
+        private readonly UsersDbContext _identityContext;
         private readonly RoleManager<EnhancedIdentityRole> _roleManager;
 
-        public ChangeRolePermissionsService(IdentityContext identityContext, RoleManager<EnhancedIdentityRole> roleManager)
+        public ChangeRolePermissionsService(UsersDbContext identityContext, RoleManager<EnhancedIdentityRole> roleManager)
         {
             _identityContext = identityContext;
             _roleManager = roleManager;
         }
 
-        public async Task AddPermissionToRole(EnhancedIdentityRole role, PermissionsEnum permission)
+        public async Task AddPermissionToRole(EnhancedIdentityRole role, RolePermissions permission)
         {
             var permObject = await _identityContext.Permissions.FirstOrDefaultAsync(p => p.Name == permission.ToString());
 
@@ -41,7 +43,7 @@ namespace Ticketsystem.Areas.Identity.Services
             }
         }
 
-        public async Task AddPermissionListToRole(EnhancedIdentityRole role, List<PermissionsEnum> permissions)
+        public async Task AddPermissionListToRole(EnhancedIdentityRole role, List<RolePermissions> permissions)
         {
             List<Permission> permissionObjects = new();
 
@@ -72,7 +74,7 @@ namespace Ticketsystem.Areas.Identity.Services
             await _roleManager.UpdateAsync(role);
         }
 
-        public async Task RemovePermissionFromRole(EnhancedIdentityRole role, PermissionsEnum permission)
+        public async Task RemovePermissionFromRole(EnhancedIdentityRole role, RolePermissions permission)
         {
             var permObject = await _identityContext.Permissions.FirstOrDefaultAsync(p => p.Name == permission.ToString());
 

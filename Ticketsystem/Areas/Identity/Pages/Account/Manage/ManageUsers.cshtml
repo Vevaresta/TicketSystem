@@ -1,9 +1,11 @@
 ﻿@page
 @model ManageUsersModel
-@inject SignInManager<TicketsystemUser> SignInManager
 
 @{
+    @using Ticketsystem.Areas.Identity.Enums;
     @using Ticketsystem.Areas.Identity.Services;
+    @using Ticketsystem.Areas.Identity.Models;
+    @inject SignInManager<TicketsystemUser> SignInManager
     @inject UserManager<TicketsystemUser> userManager;
     @inject CheckRolePermissionsService checkPermissionsService;
     var loggedInUser = await userManager.GetUserAsync(User);
@@ -37,7 +39,7 @@
                         <td class="text-end text-nowrap">
                             @if (user.User.UserName != "admin")
                             {
-                                @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.ChangeUserRole))
+                                @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, RolePermissions.ChangeUserRole))
                                 {
                                     <span>
                                         <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="ChangeRole" asp-route-userId="@user.User.Id">
@@ -45,9 +47,9 @@
                                         </button>
                                     </span>
                                 }
-                                @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.DeleteUsers))
+                                @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, RolePermissions.DeleteUsers))
                                 {
-                                    if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.ChangeUserRole))
+                                    if (await checkPermissionsService.HasPermissionAsync(loggedInUser, RolePermissions.ChangeUserRole))
                                     {
                                         <span class="me-2"></span>
                                     }
@@ -63,7 +65,7 @@
                 }
             </tbody>
         </table>
-        @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.AddUsers))
+        @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, RolePermissions.AddUsers))
         {
             <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="CreateUser">
                 Neuer Benutzer

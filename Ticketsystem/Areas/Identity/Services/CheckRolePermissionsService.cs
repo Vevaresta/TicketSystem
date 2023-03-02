@@ -2,21 +2,23 @@
 using Ticketsystem.Areas.Identity.Data;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using Ticketsystem.Areas.Identity.Models;
+using Ticketsystem.Areas.Identity.Enums;
 
 namespace Ticketsystem.Areas.Identity.Services
 {
     public class CheckRolePermissionsService
     {
         private readonly GetRolesService _getRolesService;
-        private readonly IdentityContext _identityContext;
+        private readonly UsersDbContext _identityContext;
 
-        public CheckRolePermissionsService(GetRolesService getRolesService, IdentityContext identityContext)
+        public CheckRolePermissionsService(GetRolesService getRolesService, UsersDbContext identityContext)
         {
             _getRolesService = getRolesService;
             _identityContext = identityContext;
         }
 
-        public async Task<bool> HasPermissionAsync(TicketsystemUser loggedInUser, PermissionsEnum permission)
+        public async Task<bool> HasPermissionAsync(TicketsystemUser loggedInUser, RolePermissions permission)
         {
             var userRole = await _getRolesService.GetUserRoleAsync(loggedInUser);
 

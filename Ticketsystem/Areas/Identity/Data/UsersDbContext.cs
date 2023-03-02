@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Reflection.Emit;
-using Ticketsystem.Areas.Identity.Data;
+using Ticketsystem.Areas.Identity.Models;
 
 namespace Ticketsystem.Areas.Identity.Data;
 
-public class IdentityContext : IdentityDbContext<TicketsystemUser, EnhancedIdentityRole, string>
+public class UsersDbContext : IdentityDbContext<TicketsystemUser, EnhancedIdentityRole, string>
 {
-    public IdentityContext(DbContextOptions<IdentityContext> options)
+    public UsersDbContext(DbContextOptions<UsersDbContext> options)
         : base(options)
     {
     }

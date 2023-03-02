@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Ticketsystem.Areas.Identity.Data;
+using Ticketsystem.Areas.Identity.Enums;
+using Ticketsystem.Areas.Identity.Models;
 using Ticketsystem.Areas.Identity.Services;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
@@ -38,11 +38,11 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostSaveAsync(string role, string[] permissions)
         {
-            List<PermissionsEnum> permissionsEmumList = new List<PermissionsEnum>();
+            List<RolePermissions> permissionsEmumList = new List<RolePermissions>();
 
             foreach (string permission in permissions)
             {
-                PermissionsEnum permissionEnum = Enum.Parse<PermissionsEnum>(permission);
+                RolePermissions permissionEnum = Enum.Parse<RolePermissions>(permission);
                 permissionsEmumList.Add(permissionEnum);
             }
 

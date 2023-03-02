@@ -1,7 +1,11 @@
 ﻿@page
+
+@using Ticketsystem.Areas.Identity.Enums;
 @using Ticketsystem.Areas.Identity.Data;
+
 @inject RoleManager<EnhancedIdentityRole> roleManager
 @model ChangeUserRoleModel
+
 @{
     ViewData["ActivePage"] = ManageNavPages.ChangeUserRole;
 }

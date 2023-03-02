@@ -1,11 +1,14 @@
 ﻿@page
 @model ManageRolesModel
+
 @{
     ViewData["Title"] = "Rollen verwalten";
 }
 
 @{
     @using Ticketsystem.Areas.Identity.Services;
+    @using Ticketsystem.Areas.Identity.Models;
+    @using Ticketsystem.Areas.Identity.Enums;
     @inject UserManager<TicketsystemUser> userManager;
     @inject CheckRolePermissionsService checkPermissionsService;
     var loggedInUser = await userManager.GetUserAsync(User);
@@ -54,7 +57,7 @@
                             }
                             <td class="text-end text-nowrap">
                                 @if (
-                                    await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.ChangeRolePermissions) && 
+                                    await checkPermissionsService.HasPermissionAsync(loggedInUser, RolePermissions.ChangeRolePermissions) && 
                                     !(role == DefaultRoles.Administrator.ToString())
                                 )
                                 {
@@ -64,7 +67,7 @@
                                         </button>
                                     </span>
                                 }
-                                @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.DeleteRole))
+                                @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, RolePermissions.DeleteRole))
                                 {
                                     bool isDefaultRole = false;
                                     foreach (var defaultRole in Enum.GetValues<DefaultRoles>())
@@ -77,7 +80,7 @@
                                     }
                                     @if (!isDefaultRole)
                                     {
-                                        @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.ChangeRolePermissions))
+                                        @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, RolePermissions.ChangeRolePermissions))
                                         {
                                             <span class="me-2"></span>
                                         }
@@ -94,7 +97,7 @@
                 }
             </tbody>
         </table>
-        @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.AddRole))
+        @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, RolePermissions.AddRole))
         {
             <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Add">
                 Neue Rolle

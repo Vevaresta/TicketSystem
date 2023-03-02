@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Ticketsystem.Areas.Identity.Data;
+using Ticketsystem.Areas.Identity.Models;
+
 namespace Ticketsystem.Areas.Identity.Pages.Account
 {
     public class LoginWithRecoveryCodeModel : PageModel

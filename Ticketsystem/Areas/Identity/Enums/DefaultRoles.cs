@@ -1,4 +1,4 @@
-﻿namespace Ticketsystem.Areas.Identity.Data
+﻿namespace Ticketsystem.Areas.Identity.Enums
 {
     public enum DefaultRoles
     {
