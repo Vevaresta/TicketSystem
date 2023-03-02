@@ -14,13 +14,14 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Manage.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Ticketsystem.Areas.Identity.Data;
 
-namespace Ticketsystem.Areas.Identity.Pages.Account
+namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {
     public class CreateUserModel : PageModel
     {
@@ -168,8 +169,10 @@ namespace Ticketsystem.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        //await _signInManager.SignInAsync(user, isPersistent: false);
+                        //return LocalRedirect(returnUrl);
+
+                        return RedirectToPage(nameof(ManageNavPages.CreateUser));
                     }
                 }
                 foreach (var error in result.Errors)
