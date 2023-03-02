@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Reflection.Emit;
 using Ticketsystem.Areas.Identity.Data;
 
 namespace Ticketsystem.Areas.Identity.Data;
 
-public class IdentityContext : IdentityDbContext<TicketsystemUser>
+public class IdentityContext : IdentityDbContext<TicketsystemUser, EnhancedIdentityRole, string>
 {
     public IdentityContext(DbContextOptions<IdentityContext> options)
         : base(options)
@@ -21,6 +22,14 @@ public class IdentityContext : IdentityDbContext<TicketsystemUser>
         // Customize the ASP.NET Identity model and override the defaults if needed.
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
+
+        builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
+        builder.Entity<EnhancedIdentityRole>().ToTable("Roles");
+        builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
+        builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
+        builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
+        builder.Entity<TicketsystemUser>().ToTable("Users");
+        builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
 
         builder.Entity<EnhancedIdentityRole>()
             .HasMany(r => r.Permissions)

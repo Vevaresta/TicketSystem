@@ -2,7 +2,12 @@
 {
     public class Permission
     {
-        public int Id { get; set; }
+        public Permission()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
+
+        public string Id { get; set; }
         public string Name { get; set; }
         public List<EnhancedIdentityRole> Roles { get; set; }
     }
