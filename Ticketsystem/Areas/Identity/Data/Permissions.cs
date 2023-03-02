@@ -12,49 +12,44 @@
         public List<EnhancedIdentityRole> Roles { get; set; }
     }
 
-    public class Permissions
+    public static class Permissions
     {
-        public static PermissionsDict PermissionNames { get; set; } = new PermissionsDict();
-    }
-
-    public enum PermissionsEnum
-    {
-        ManageUsers,
-        AddUsers,
-        ChangeUserRole,
-        DeleteUsers,
-
-        ManageRoles,
-        AddRole,
-        DeleteRole,
-        ChangeRolePermissions,
-
-        CreateTickets,
-        UpdateTickets,
-        DeleteTickets,
-
-        ViewHistory
-    }
-
-    public class PermissionsDict : Dictionary<PermissionsEnum, string>
-    {
-        public PermissionsDict()
+        public static Dictionary<PermissionsEnum, string> PermissionNames { get; set; } = new Dictionary<PermissionsEnum, string>
         {
-            this[PermissionsEnum.ManageUsers] = "Benutzer verwalten";
-            this[PermissionsEnum.AddUsers] = "Neue Benutzer hinzufügen";
-            this[PermissionsEnum.ChangeUserRole] = "Benutzerrolle ändern";
-            this[PermissionsEnum.DeleteUsers] = "Benutzer löschen";
+            [PermissionsEnum.ManageUsers] = "Benutzer verwalten",
+            [PermissionsEnum.AddUsers] = "Neue Benutzer hinzufügen",
+            [PermissionsEnum.ChangeUserRole] = "Benutzerrolle ändern",
+            [PermissionsEnum.DeleteUsers] = "Benutzer löschen",
 
-            this[PermissionsEnum.ManageRoles] = "Rollen verwalten";
-            this[PermissionsEnum.AddRole] = "Neue Rollen hinzufügen";
-            this[PermissionsEnum.DeleteRole] = "Rolle löschen";
-            this[PermissionsEnum.ChangeRolePermissions] = "Berechtigungen von Rollen ändern";
+            [PermissionsEnum.ManageRoles] = "Rollen verwalten",
+            [PermissionsEnum.AddRole] = "Neue Rollen hinzufügen",
+            [PermissionsEnum.DeleteRole] = "Rolle löschen",
+            [PermissionsEnum.ChangeRolePermissions] = "Berechtigungen von Rollen ändern",
 
-            this[PermissionsEnum.CreateTickets] = "Neue Tickets erstellen";
-            this[PermissionsEnum.UpdateTickets] = "Tickets updaten";
-            this[PermissionsEnum.DeleteTickets] = "Tickets löschen";
+            [PermissionsEnum.CreateTickets] = "Neue Tickets erstellen",
+            [PermissionsEnum.UpdateTickets] = "Tickets updaten",
+            [PermissionsEnum.DeleteTickets] = "Tickets löschen",
 
-            this[PermissionsEnum.ViewHistory] = "Ticketverlauf anzeigen";
-        }
+            [PermissionsEnum.ViewHistory] = "Ticketverlauf anzeigen",
+        };
     }
+}
+
+public enum PermissionsEnum
+{
+    ManageUsers,
+    AddUsers,
+    ChangeUserRole,
+    DeleteUsers,
+
+    ManageRoles,
+    AddRole,
+    DeleteRole,
+    ChangeRolePermissions,
+
+    CreateTickets,
+    UpdateTickets,
+    DeleteTickets,
+
+    ViewHistory
 }

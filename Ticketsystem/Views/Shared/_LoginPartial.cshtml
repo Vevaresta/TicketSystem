@@ -9,7 +9,7 @@
 }
 
 <ul class="navbar-nav">
-    @if (signInManager.IsSignedIn(User))
+    @if (signInManager.IsSignedIn(User) && loggedInUser != null)
     {
         <li class="nav-item">
             <span class="nav-link text-dark fw-bold">Hallo @loggedInUser.FirstName @loggedInUser.LastName</span>
