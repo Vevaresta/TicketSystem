@@ -19,6 +19,7 @@ namespace Ticketsystem
             builder.Services.AddScoped<ChangeRolePermissionsService>();
             builder.Services.AddScoped<GetRolesService>();
             builder.Services.AddScoped<CheckRolePermissionsService>();
+            builder.Services.AddScoped<ContextSeed>();
 
             builder.Services.AddDefaultIdentity<TicketsystemUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<EnhancedIdentityRole>()
@@ -32,16 +33,8 @@ namespace Ticketsystem
 
             // add custom tables to the identity db and seed with default values:
             using IServiceScope scope = app.Services.CreateScope();
-            RoleManager<EnhancedIdentityRole> roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<EnhancedIdentityRole>>();
-            UserManager<TicketsystemUser> userManager = scope.ServiceProvider.GetRequiredService<UserManager<TicketsystemUser>>();
-            IdentityContext identityContext = scope.ServiceProvider.GetRequiredService<IdentityContext>();
-            GetRolesService getRolesService = scope.ServiceProvider.GetRequiredService<GetRolesService>();
-            ChangeRolePermissionsService changeRolePermissionsService = scope.ServiceProvider.GetService<ChangeRolePermissionsService>();
-
-            ContextSeed.SeedUserRolesAsync(roleManager).Wait();
-            ContextSeed.SeedDefaultAdmin(userManager).Wait();
-            ContextSeed.SeedPermissionsAsync(identityContext).Wait();
-            ContextSeed.SeedRolePermissions(getRolesService, changeRolePermissionsService).Wait();
+            ContextSeed contextSeed = scope.ServiceProvider.GetService<ContextSeed>();
+            contextSeed.Seed().Wait();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
