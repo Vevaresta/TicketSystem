@@ -1,23 +1,29 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Ticketsystem.Areas.Identity.Data;
+using Ticketsystem.Areas.Identity.Enums;
 using Ticketsystem.Areas.Identity.Models;
+using Ticketsystem.Areas.Identity.Services;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {
     public class ChangeUserRoleModel : PageModel
     {
         private readonly UserManager<TicketsystemUser> _userManager;
+        private readonly GetRolesToDisplayService _getRolesToDisplayService;
 
         public TicketsystemUser UserToEdit { get; set; }
+        public List<string> RolesToDisplay { get; set; }
 
         [BindProperty]
         public string Role { get; set; }
 
-        public ChangeUserRoleModel(UserManager<TicketsystemUser> userManager)
+        public ChangeUserRoleModel(UserManager<TicketsystemUser> userManager, GetRolesToDisplayService rolesToDisplayService)
         {
             _userManager = userManager;
             UserToEdit = new TicketsystemUser();
+            _getRolesToDisplayService = rolesToDisplayService;
         }
 
         public async Task<IActionResult> OnGetAsync(string userId)
@@ -37,6 +43,8 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             var userRoles = await _userManager.GetRolesAsync(user);
             Role = userRoles.FirstOrDefault();
             UserToEdit = user;
+
+            RolesToDisplay = _getRolesToDisplayService.GetList();
 
             return Page();
         }

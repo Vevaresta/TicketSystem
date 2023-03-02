@@ -19,6 +19,7 @@ namespace Ticketsystem
 
             builder.Services.AddScoped<ChangeRolePermissionsService>();
             builder.Services.AddScoped<CheckRolePermissionsService>();
+            builder.Services.AddScoped<GetRolesToDisplayService>();
             builder.Services.AddScoped<GetRolesService>();
             builder.Services.AddScoped<ContextSeed>();
 

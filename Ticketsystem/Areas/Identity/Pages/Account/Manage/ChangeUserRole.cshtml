@@ -3,7 +3,6 @@
 @using Ticketsystem.Areas.Identity.Enums;
 @using Ticketsystem.Areas.Identity.Data;
 
-@inject RoleManager<EnhancedIdentityRole> roleManager
 @model ChangeUserRoleModel
 
 @{
@@ -27,23 +26,7 @@
                 </tr>
             </thead>
             <tbody>
-                @{
-                    List<string> rolesToDisplay = new();
-                    rolesToDisplay.Add(DefaultRoles.Mitarbeiter.ToString());
-                    rolesToDisplay.Add(DefaultRoles.Abteilungsleiter.ToString());
-                    rolesToDisplay.Add(DefaultRoles.Administrator.ToString());
-                    //rolesToDisplay.Add(DefaultRoles.Fallback.ToString());
-
-                    foreach (var role in roleManager.Roles)
-                    {
-                        if (!rolesToDisplay.Contains(role.Name) && !(role.Name == DefaultRoles.Fallback.ToString()))
-                        {
-                            rolesToDisplay.Add(role.Name);
-                        }
-                    }
-                }
-
-                @foreach (var role in rolesToDisplay)
+                @foreach (var role in Model.RolesToDisplay)
                 {
                     <tr class="align-middle">
                         <td style="width:50px;">
