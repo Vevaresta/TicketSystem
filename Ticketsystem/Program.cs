@@ -10,15 +10,15 @@ namespace Ticketsystem
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-            var identityConnectionString = builder.Configuration.GetConnectionString("IdentityContextConnection") ?? throw new InvalidOperationException("Connection string 'IdentityContextConnection' not found.");
+            string identityConnectionString = builder.Configuration.GetConnectionString("IdentityContextConnection") ?? throw new InvalidOperationException("Connection string 'IdentityContextConnection' not found.");
 
             builder.Services.AddDbContext<IdentityContext>(options => options.UseSqlite(identityConnectionString));
 
-            builder.Services.AddScoped<RolePermissionsService>();
-            builder.Services.AddScoped<RolesService>();
-            builder.Services.AddScoped<CheckPermissionsService>();
+            builder.Services.AddScoped<ChangeRolePermissionsService>();
+            builder.Services.AddScoped<GetRolesService>();
+            builder.Services.AddScoped<CheckRolePermissionsService>();
 
             builder.Services.AddDefaultIdentity<TicketsystemUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<EnhancedIdentityRole>()
@@ -28,16 +28,20 @@ namespace Ticketsystem
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            var app = builder.Build();
+            WebApplication app = builder.Build();
 
-            using var scope = app.Services.CreateScope();
-            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<EnhancedIdentityRole>>();
-            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<TicketsystemUser>>();
-            var identityContext = scope.ServiceProvider.GetRequiredService<IdentityContext>();
+            // add custom tables to the identity db and seed with default values:
+            using IServiceScope scope = app.Services.CreateScope();
+            RoleManager<EnhancedIdentityRole> roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<EnhancedIdentityRole>>();
+            UserManager<TicketsystemUser> userManager = scope.ServiceProvider.GetRequiredService<UserManager<TicketsystemUser>>();
+            IdentityContext identityContext = scope.ServiceProvider.GetRequiredService<IdentityContext>();
+            GetRolesService getRolesService = scope.ServiceProvider.GetRequiredService<GetRolesService>();
+            ChangeRolePermissionsService changeRolePermissionsService = scope.ServiceProvider.GetService<ChangeRolePermissionsService>();
+
             ContextSeed.SeedUserRolesAsync(roleManager).Wait();
             ContextSeed.SeedDefaultAdmin(userManager).Wait();
             ContextSeed.SeedPermissionsAsync(identityContext).Wait();
-            ContextSeed.SeedRolePermissions(scope.ServiceProvider).Wait();
+            ContextSeed.SeedRolePermissions(getRolesService, changeRolePermissionsService).Wait();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

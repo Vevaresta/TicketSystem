@@ -1,12 +1,12 @@
 ﻿@page
-@model MangeUsersModel
+@model ManageUsersModel
 @inject SignInManager<TicketsystemUser> SignInManager
 
 @{
     @using Ticketsystem.Areas.Identity.Services;
     @inject UserManager<TicketsystemUser> userManager;
-    @inject CheckPermissionsService checkPermissionsService;
-    TicketsystemUser loggedInUser = await userManager.GetUserAsync(User);
+    @inject CheckRolePermissionsService checkPermissionsService;
+    var loggedInUser = await userManager.GetUserAsync(User);
 }
 
 @{

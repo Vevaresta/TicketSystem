@@ -12,7 +12,7 @@ namespace Ticketsystem.Areas.Identity.Data
             var query = from role in roleManager.Roles
                         select role.Name;
 
-            foreach (var role in Enum.GetNames(typeof(DefaultRoles)))
+            foreach (var role in Enum.GetNames<DefaultRoles>())
             {
                 if (!query.Contains(role.ToString()))
                 {
@@ -23,7 +23,7 @@ namespace Ticketsystem.Areas.Identity.Data
 
         public static async Task SeedDefaultAdmin(UserManager<TicketsystemUser> userManager)
         {
-            TicketsystemUser admin = new TicketsystemUser
+            TicketsystemUser admin = new()
             {
                 UserName = "admin",
                 FirstName = "Super",
@@ -33,7 +33,7 @@ namespace Ticketsystem.Areas.Identity.Data
 
             if (userManager.Users.All(user => user.Id != admin.Id))
             {
-                TicketsystemUser adminInDb = await userManager.FindByNameAsync(admin.UserName);
+                var adminInDb = await userManager.FindByNameAsync(admin.UserName);
                 if (adminInDb == null)
                 {
                     await userManager.CreateAsync(admin, "Service1234!");
@@ -44,16 +44,17 @@ namespace Ticketsystem.Areas.Identity.Data
 
         public static async Task SeedPermissionsAsync(IdentityContext identityContext)
         {
-            var permissionsEnumList = Enum.GetValues(typeof(PermissionsEnum));
-            List<string> permissions = new List<string>();
-            foreach (var pEnum in permissionsEnumList)
+            var permissionsEnumList = Enum.GetValues<PermissionsEnum>();
+            List<string> permissions = new();
+
+            foreach (PermissionsEnum pEnum in permissionsEnumList)
             {
                 permissions.Add(pEnum.ToString());
             }
 
-            List<Permission> tempList = new List<Permission>(identityContext.Permissions);
+            List<Permission> tempList = new(identityContext.Permissions);
 
-            foreach (Permission p in tempList)
+            foreach (var p in tempList)
             {
                 if (!permissions.Contains(p.Name))
                 {
@@ -65,7 +66,7 @@ namespace Ticketsystem.Areas.Identity.Data
             {
                 if (!identityContext.Permissions.Where(p => p.Name == permission).Any())
                 {
-                    var perm = new Permission
+                    Permission perm = new()
                     {
                         Name = permission.ToString()
                     };
@@ -76,20 +77,17 @@ namespace Ticketsystem.Areas.Identity.Data
             await identityContext.SaveChangesAsync();
         }
 
-        public static async Task SeedRolePermissions(IServiceProvider serviceProvider)
+        public static async Task SeedRolePermissions(GetRolesService getRolesService, ChangeRolePermissionsService changeRolePermissionsService)
         {
-            var rolesService = serviceProvider.GetRequiredService<RolesService>();
-            var rolePermissionsService = serviceProvider.GetRequiredService<RolePermissionsService>();
+            var administrator = await getRolesService.GetRoleByNameAsync(DefaultRoles.Administrator.ToString());
+            var fallback = await getRolesService.GetRoleByNameAsync(DefaultRoles.Fallback.ToString());
 
-            EnhancedIdentityRole administrator = await rolesService.GetRoleByNameAsync(DefaultRoles.Administrator.ToString());
-            EnhancedIdentityRole fallback = await rolesService.GetRoleByNameAsync(DefaultRoles.Fallback.ToString());
-
-            foreach (PermissionsEnum permission in Enum.GetValues(typeof(PermissionsEnum)))
+            foreach (var permission in Enum.GetValues<PermissionsEnum>())
             { 
-                await rolePermissionsService.AddPermissionToRole(administrator, permission);
+                await changeRolePermissionsService.AddPermissionToRole(administrator, permission);
             }
 
-            await rolePermissionsService.RemoveAllPermissionsFromRole(fallback);
+            await changeRolePermissionsService.RemoveAllPermissionsFromRole(fallback);
         }
     }
 }

@@ -6,12 +6,12 @@ using Ticketsystem.Areas.Identity.Data;
 
 namespace Ticketsystem.Areas.Identity.Services
 {
-    public class RolePermissionsService
+    public class ChangeRolePermissionsService
     {
         private readonly IdentityContext _identityContext;
         private readonly RoleManager<EnhancedIdentityRole> _roleManager;
 
-        public RolePermissionsService(IdentityContext identityContext, RoleManager<EnhancedIdentityRole> roleManager)
+        public ChangeRolePermissionsService(IdentityContext identityContext, RoleManager<EnhancedIdentityRole> roleManager)
         {
             _identityContext = identityContext;
             _roleManager = roleManager;
@@ -43,7 +43,7 @@ namespace Ticketsystem.Areas.Identity.Services
 
         public async Task AddPermissionListToRole(EnhancedIdentityRole role, List<PermissionsEnum> permissions)
         {
-            List<Permission> permissionObjects = new List<Permission>();
+            List<Permission> permissionObjects = new();
 
             foreach (var perm in permissions)
             {

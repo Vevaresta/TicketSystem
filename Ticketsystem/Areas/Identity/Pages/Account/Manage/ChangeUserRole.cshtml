@@ -6,7 +6,6 @@
     ViewData["ActivePage"] = ManageNavPages.ChangeUserRole;
 }
 
-
 <div class="col-sm-12 col-md-12 col-lg-8 col-xl-6 col-xxl-6">
     <h3>
         <span>Rolle von Benutzer</span>
@@ -25,7 +24,7 @@
             </thead>
             <tbody>
                 @{
-                    List<string> rolesToDisplay = new List<string>();
+                    List<string> rolesToDisplay = new();
                     rolesToDisplay.Add(DefaultRoles.Mitarbeiter.ToString());
                     rolesToDisplay.Add(DefaultRoles.Abteilungsleiter.ToString());
                     rolesToDisplay.Add(DefaultRoles.Administrator.ToString());

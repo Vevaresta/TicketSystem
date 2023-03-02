@@ -5,12 +5,12 @@ using Ticketsystem.Areas.Identity.Data;
 
 namespace Ticketsystem.Areas.Identity.Services
 {
-    public class RolesService
+    public class GetRolesService
     {
         private readonly RoleManager<EnhancedIdentityRole> _roleManager;
         private readonly UserManager<TicketsystemUser> _userManager;
 
-        public RolesService(RoleManager<EnhancedIdentityRole> roleManager, UserManager<TicketsystemUser> userManager)
+        public GetRolesService(RoleManager<EnhancedIdentityRole> roleManager, UserManager<TicketsystemUser> userManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -23,7 +23,8 @@ namespace Ticketsystem.Areas.Identity.Services
 
         public async Task<EnhancedIdentityRole> GetRoleByNameAsync(string role)
         {
-            EnhancedIdentityRole roleInDB = await _roleManager.Roles.Include(r => r.Permissions).FirstOrDefaultAsync(r => r.Name == role);
+            var roleInDB = await _roleManager.Roles.Include(r => r.Permissions).FirstOrDefaultAsync(r => r.Name == role);
+
             if (roleInDB == null)
             {
                 throw new Exception("Role not found in DB");
@@ -36,9 +37,9 @@ namespace Ticketsystem.Areas.Identity.Services
 
         public async Task<EnhancedIdentityRole> GetUserRoleAsync(TicketsystemUser user)
         {
-            var userRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+            var userRoleName = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
 
-            return await GetRoleByNameAsync(userRole);
+            return await GetRoleByNameAsync(userRoleName);
         }
     }
 }

@@ -9,16 +9,16 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {
     public class EditRolePermissionsModel : PageModel
     {
-        private readonly RolesService _rolesService;
-        private readonly RolePermissionsService _rolePermissionsService;
+        private readonly GetRolesService _getRolesService;
+        private readonly ChangeRolePermissionsService _changeRolePermissionsService;
 
         public string RoleToEdit { get; set; }
         public List<string> Permissions;
 
-        public EditRolePermissionsModel(RolesService rolesService, RolePermissionsService rolePermissionsService)
+        public EditRolePermissionsModel(GetRolesService getRolesService, ChangeRolePermissionsService changeRolePermissionsService)
         {
-            _rolesService = rolesService;
-            _rolePermissionsService = rolePermissionsService;
+            _getRolesService = getRolesService;
+            _changeRolePermissionsService = changeRolePermissionsService;
             Permissions = new List<string>();
         }
 
@@ -26,9 +26,9 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
         {
             RoleToEdit = role;
 
-            var roleInDb = await _rolesService.GetRoleByNameAsync(role);
+            EnhancedIdentityRole roleInDb = await _getRolesService.GetRoleByNameAsync(role);
 
-            foreach (var permission in roleInDb.Permissions)
+            foreach (Permission permission in roleInDb.Permissions)
             {
                 Permissions.Add(permission.Name);
             }
@@ -40,15 +40,15 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
         {
             List<PermissionsEnum> permissionsEmumList = new List<PermissionsEnum>();
 
-            foreach (var permission in permissions)
+            foreach (string permission in permissions)
             {
                 PermissionsEnum permissionEnum = Enum.Parse<PermissionsEnum>(permission);
                 permissionsEmumList.Add(permissionEnum);
             }
 
-            var roleInDb = await _rolesService.GetRoleByNameAsync(role);
+            EnhancedIdentityRole roleInDb = await _getRolesService.GetRoleByNameAsync(role);
 
-            await _rolePermissionsService.AddPermissionListToRole(roleInDb, permissionsEmumList);
+            await _changeRolePermissionsService.AddPermissionListToRole(roleInDb, permissionsEmumList);
 
             return RedirectToPage(nameof(ManageNavPages.ManageRoles));
         }

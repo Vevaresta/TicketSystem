@@ -1,13 +1,13 @@
 ﻿@{
     @using Ticketsystem.Areas.Identity.Services;
     @inject UserManager<TicketsystemUser> userManager;
-    @inject CheckPermissionsService checkPermissionsService;
-    TicketsystemUser loggedInUser = await userManager.GetUserAsync(User);
+    @inject CheckRolePermissionsService checkRolePermissionsService;
+    var loggedInUser = await userManager.GetUserAsync(User);
 }
 
 @inject SignInManager<TicketsystemUser> SignInManager
 @{
-    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+    bool hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
 <ul class="nav nav-pills flex-column">
     <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Persönliche Daten</a></li>
@@ -20,11 +20,11 @@
     @*<li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>*@
     @*<li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>*@
 
-    @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.ManageUsers))
+    @if (await checkRolePermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.ManageUsers))
     {
         <li class="nav-item"><a class="nav-link @ManageNavPages.ManageUsersNavClass(ViewContext)" id="manage-users" asp-page="./ManageUsers">Benutzer verwalten</a></li>
     }
-    @if (await checkPermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.ManageRoles))
+    @if (await checkRolePermissionsService.HasPermissionAsync(loggedInUser, PermissionsEnum.ManageRoles))
     {
         <li class="nav-item"><a class="nav-link @ManageNavPages.ManageRolesNavClass(ViewContext)" id="manage-roles" asp-page="./ManageRoles">Rollen verwalten</a></li>
     }

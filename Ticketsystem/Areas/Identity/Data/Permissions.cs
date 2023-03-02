@@ -1,5 +1,24 @@
 ﻿namespace Ticketsystem.Areas.Identity.Data
 {
+    public enum PermissionsEnum
+    {
+        ManageUsers,
+        AddUsers,
+        ChangeUserRole,
+        DeleteUsers,
+
+        ManageRoles,
+        AddRole,
+        DeleteRole,
+        ChangeRolePermissions,
+
+        CreateTickets,
+        UpdateTickets,
+        DeleteTickets,
+
+        ViewHistory
+    }
+
     public class Permission
     {
         public Permission()
@@ -33,23 +52,4 @@
             [PermissionsEnum.ViewHistory] = "Ticketverlauf anzeigen",
         };
     }
-}
-
-public enum PermissionsEnum
-{
-    ManageUsers,
-    AddUsers,
-    ChangeUserRole,
-    DeleteUsers,
-
-    ManageRoles,
-    AddRole,
-    DeleteRole,
-    ChangeRolePermissions,
-
-    CreateTickets,
-    UpdateTickets,
-    DeleteTickets,
-
-    ViewHistory
 }

@@ -6,7 +6,7 @@ using Ticketsystem.Areas.Identity.Data;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage;
 
-public class MangeUsersModel : PageModel
+public class ManageUsersModel : PageModel
 {
     private readonly UserManager<TicketsystemUser> _userManager;
 
@@ -24,7 +24,7 @@ public class MangeUsersModel : PageModel
 
     public List<UserModel> Users { get; set; }
 
-    public MangeUsersModel(UserManager<TicketsystemUser> userManager)
+    public ManageUsersModel(UserManager<TicketsystemUser> userManager)
     {
         _userManager = userManager;
 
