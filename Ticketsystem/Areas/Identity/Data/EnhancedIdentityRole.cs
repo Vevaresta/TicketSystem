@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Ticketsystem.Areas.Identity.Models;
 
 namespace Ticketsystem.Areas.Identity.Data
 {

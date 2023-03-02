@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Ticketsystem.Areas.Identity.Data;
+using Ticketsystem.Areas.Identity.Models;
 using Ticketsystem.Areas.Identity.Services;
 
 namespace Ticketsystem
@@ -14,16 +15,16 @@ namespace Ticketsystem
 
             string identityConnectionString = builder.Configuration.GetConnectionString("IdentityContextConnection") ?? throw new InvalidOperationException("Connection string 'IdentityContextConnection' not found.");
 
-            builder.Services.AddDbContext<IdentityContext>(options => options.UseSqlite(identityConnectionString));
+            builder.Services.AddDbContext<UsersDbContext>(options => options.UseSqlite(identityConnectionString));
 
             builder.Services.AddScoped<ChangeRolePermissionsService>();
-            builder.Services.AddScoped<GetRolesService>();
             builder.Services.AddScoped<CheckRolePermissionsService>();
+            builder.Services.AddScoped<GetRolesService>();
             builder.Services.AddScoped<ContextSeed>();
 
             builder.Services.AddDefaultIdentity<TicketsystemUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<EnhancedIdentityRole>()
-                .AddEntityFrameworkStores<IdentityContext>()
+                .AddEntityFrameworkStores<UsersDbContext>()
                 .AddDefaultTokenProviders();
 
             // Add services to the container.

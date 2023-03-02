@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 using Ticketsystem.Areas.Identity.Data;
+using Ticketsystem.Areas.Identity.Models;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {

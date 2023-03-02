@@ -20,14 +20,14 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var permission in Permissions.PermissionNames.Keys)
+                @foreach (var permission in PermissionTexts.Texts.Keys)
                 {
                     <tr class="align-middle">
                         <td>
                             <input type="checkbox" name="permissions" value="@permission.ToString()" @(Model.Permissions.Contains(permission.ToString()) ? "checked" : "") />
                         </td>
                         <td>
-                            @Permissions.PermissionNames[permission]
+                            @PermissionTexts.Texts[permission]
                         </td>
                     </tr>
                 }

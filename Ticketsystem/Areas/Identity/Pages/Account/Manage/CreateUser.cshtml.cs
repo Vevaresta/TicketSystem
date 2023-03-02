@@ -19,7 +19,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using Ticketsystem.Areas.Identity.Data;
+using Ticketsystem.Areas.Identity.Enums;
+using Ticketsystem.Areas.Identity.Models;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {

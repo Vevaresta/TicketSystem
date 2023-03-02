@@ -1,20 +1,22 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Ticketsystem.Areas.Identity.Enums;
+using Ticketsystem.Areas.Identity.Models;
 using Ticketsystem.Areas.Identity.Services;
 
 namespace Ticketsystem.Areas.Identity.Data
 {
     public class ContextSeed
     {
-        private readonly IdentityContext _identityContext;
+        private readonly UsersDbContext _identityContext;
         private readonly RoleManager<EnhancedIdentityRole> _roleManager;
         private readonly UserManager<TicketsystemUser> _userManager;
         private readonly GetRolesService _getRolesService;
         private readonly ChangeRolePermissionsService _changeRolePermissionsService;
 
         public ContextSeed(
-            IdentityContext identityContext,
+            UsersDbContext identityContext,
             RoleManager<EnhancedIdentityRole> roleManager,
             UserManager<TicketsystemUser> userManager,
             GetRolesService getRolesService,
@@ -73,10 +75,10 @@ namespace Ticketsystem.Areas.Identity.Data
 
         public async Task SeedPermissionsAsync()
         {
-            var permissionsEnumList = Enum.GetValues<PermissionsEnum>();
+            var permissionsEnumList = Enum.GetValues<RolePermissions>();
             List<string> permissions = new();
 
-            foreach (PermissionsEnum pEnum in permissionsEnumList)
+            foreach (RolePermissions pEnum in permissionsEnumList)
             {
                 permissions.Add(pEnum.ToString());
             }
@@ -111,7 +113,7 @@ namespace Ticketsystem.Areas.Identity.Data
             var administrator = await _getRolesService.GetRoleByNameAsync(DefaultRoles.Administrator.ToString());
             var fallback = await _getRolesService.GetRoleByNameAsync(DefaultRoles.Fallback.ToString());
 
-            foreach (var permission in Enum.GetValues<PermissionsEnum>())
+            foreach (var permission in Enum.GetValues<RolePermissions>())
             { 
                 await _changeRolePermissionsService.AddPermissionToRole(administrator, permission);
             }
