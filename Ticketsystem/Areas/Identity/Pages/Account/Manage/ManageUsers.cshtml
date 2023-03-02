@@ -5,7 +5,6 @@
     @using Ticketsystem.Areas.Identity.Enums;
     @using Ticketsystem.Areas.Identity.Services;
     @using Ticketsystem.Areas.Identity.Models;
-    @inject SignInManager<TicketsystemUser> SignInManager
     @inject UserManager<TicketsystemUser> userManager;
     @inject CheckRolePermissionsService checkPermissionsService;
     var loggedInUser = await userManager.GetUserAsync(User);

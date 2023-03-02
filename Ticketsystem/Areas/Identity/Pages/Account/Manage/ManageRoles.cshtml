@@ -28,22 +28,8 @@
                 </tr>
             </thead>
             <tbody>
-                @{
-                    List<string> rolesToDisplay = new();
-                    rolesToDisplay.Add(DefaultRoles.Mitarbeiter.ToString());
-                    rolesToDisplay.Add(DefaultRoles.Abteilungsleiter.ToString());
-                    rolesToDisplay.Add(DefaultRoles.Administrator.ToString());
 
-                    foreach (var role in Model.Roles)
-                    {
-                        if (!rolesToDisplay.Contains(role) && !(role == DefaultRoles.Fallback.ToString()))
-                        {
-                            rolesToDisplay.Add(role);
-                        }
-                    }
-                }
-
-                @foreach (var role in rolesToDisplay)
+                @foreach (var role in Model.RolesToDisplay)
                 {
                     <tr class="align-middle">
                         @{
