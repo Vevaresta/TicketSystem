@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Ticketsystem.Areas.Identity.Data;
 using Ticketsystem.Areas.Identity.Models;
 using Ticketsystem.Areas.Identity.Services;
+using Ticketsystem.Areas.Tickets.Data;
 
 namespace Ticketsystem
 {
@@ -14,8 +15,10 @@ namespace Ticketsystem
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
             string identityConnectionString = builder.Configuration.GetConnectionString("IdentityContextConnection") ?? throw new InvalidOperationException("Connection string 'IdentityContextConnection' not found.");
+            string ticketsConnectionString = builder.Configuration.GetConnectionString("TicketsContextConnection") ?? throw new InvalidOperationException("Connection string 'TicketsContextConnection' not found.");
 
             builder.Services.AddDbContext<UsersDbContext>(options => options.UseSqlite(identityConnectionString));
+            builder.Services.AddDbContext<TicketsDbContext>(options => options.UseSqlite(ticketsConnectionString));
 
             builder.Services.AddScoped<ChangeRolePermissionsService>();
             builder.Services.AddScoped<CheckRolePermissionsService>();
