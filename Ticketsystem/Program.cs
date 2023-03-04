@@ -17,8 +17,8 @@ namespace Ticketsystem
             string identityConnectionString = builder.Configuration.GetConnectionString("IdentityContextConnection") ?? throw new InvalidOperationException("Connection string 'IdentityContextConnection' not found.");
             string ticketsConnectionString = builder.Configuration.GetConnectionString("TicketsContextConnection") ?? throw new InvalidOperationException("Connection string 'TicketsContextConnection' not found.");
 
-            builder.Services.AddDbContext<UsersDbContext>(options => options.UseSqlite(identityConnectionString));
-            builder.Services.AddDbContext<TicketsDbContext>(options => options.UseSqlite(ticketsConnectionString));
+            builder.Services.AddDbContext<UsersContext>(options => options.UseSqlite(identityConnectionString));
+            builder.Services.AddDbContext<TicketsContext>(options => options.UseSqlite(ticketsConnectionString));
 
             builder.Services.AddScoped<ChangeRolePermissionsService>();
             builder.Services.AddScoped<CheckRolePermissionsService>();
@@ -28,7 +28,7 @@ namespace Ticketsystem
 
             builder.Services.AddDefaultIdentity<TicketsystemUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<EnhancedIdentityRole>()
-                .AddEntityFrameworkStores<UsersDbContext>()
+                .AddEntityFrameworkStores<UsersContext>()
                 .AddDefaultTokenProviders();
 
             // Add services to the container.

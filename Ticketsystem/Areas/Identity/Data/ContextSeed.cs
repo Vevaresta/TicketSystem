@@ -9,14 +9,14 @@ namespace Ticketsystem.Areas.Identity.Data
 {
     public class ContextSeed
     {
-        private readonly UsersDbContext _identityContext;
+        private readonly UsersContext _identityContext;
         private readonly RoleManager<EnhancedIdentityRole> _roleManager;
         private readonly UserManager<TicketsystemUser> _userManager;
         private readonly GetRolesService _getRolesService;
         private readonly ChangeRolePermissionsService _changeRolePermissionsService;
 
         public ContextSeed(
-            UsersDbContext identityContext,
+            UsersContext identityContext,
             RoleManager<EnhancedIdentityRole> roleManager,
             UserManager<TicketsystemUser> userManager,
             GetRolesService getRolesService,

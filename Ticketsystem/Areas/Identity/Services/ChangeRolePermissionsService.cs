@@ -10,10 +10,10 @@ namespace Ticketsystem.Areas.Identity.Services
 {
     public class ChangeRolePermissionsService
     {
-        private readonly UsersDbContext _identityContext;
+        private readonly UsersContext _identityContext;
         private readonly RoleManager<EnhancedIdentityRole> _roleManager;
 
-        public ChangeRolePermissionsService(UsersDbContext identityContext, RoleManager<EnhancedIdentityRole> roleManager)
+        public ChangeRolePermissionsService(UsersContext identityContext, RoleManager<EnhancedIdentityRole> roleManager)
         {
             _identityContext = identityContext;
             _roleManager = roleManager;

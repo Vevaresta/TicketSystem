@@ -5,7 +5,7 @@ using Ticketsystem.Areas.Tickets.Models;
 
 namespace Ticketsystem.Areas.Tickets.Data
 {
-    public class TicketsDbContext : DbContext
+    public class TicketsContext : DbContext
     {
         public DbSet<Device> Device { get; set; }
         public DbSet<Ticket> Ticket { get; set; }
@@ -19,7 +19,7 @@ namespace Ticketsystem.Areas.Tickets.Data
 
 
 
-        public TicketsDbContext(DbContextOptions<TicketsDbContext> options)
+        public TicketsContext(DbContextOptions<TicketsContext> options)
             : base(options)
         {
         }

@@ -7,9 +7,9 @@ using Ticketsystem.Areas.Identity.Models;
 
 namespace Ticketsystem.Areas.Identity.Data;
 
-public class UsersDbContext : IdentityDbContext<TicketsystemUser, EnhancedIdentityRole, string>
+public class UsersContext : IdentityDbContext<TicketsystemUser, EnhancedIdentityRole, string>
 {
-    public UsersDbContext(DbContextOptions<UsersDbContext> options)
+    public UsersContext(DbContextOptions<UsersContext> options)
         : base(options)
     {
     }

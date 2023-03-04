@@ -10,9 +10,9 @@ namespace Ticketsystem.Areas.Identity.Services
     public class CheckRolePermissionsService
     {
         private readonly GetRolesService _getRolesService;
-        private readonly UsersDbContext _identityContext;
+        private readonly UsersContext _identityContext;
 
-        public CheckRolePermissionsService(GetRolesService getRolesService, UsersDbContext identityContext)
+        public CheckRolePermissionsService(GetRolesService getRolesService, UsersContext identityContext)
         {
             _getRolesService = getRolesService;
             _identityContext = identityContext;
