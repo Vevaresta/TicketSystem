@@ -1,28 +1,27 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Ticketsystem.Areas.Identity.Data;
-using Ticketsystem.Areas.Identity.Enums;
-using Ticketsystem.Areas.Identity.Models;
+using Ticketsystem.Enums;
+using Ticketsystem.Models;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {
     public class ConfirmRoleDeletionModel : PageModel
     {
-        private readonly UserManager<TicketsystemUser> _userManager;
-        private readonly RoleManager<EnhancedIdentityRole> _roleManager;
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
 
-        public ConfirmRoleDeletionModel(UserManager<TicketsystemUser> userManager, RoleManager<EnhancedIdentityRole> roleManager)
+        public ConfirmRoleDeletionModel(UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
         }
 
-        public EnhancedIdentityRole RoleToDelete { get; set; }
+        public Role RoleToDelete { get; set; }
 
         public IActionResult OnGetAsync(string role)
         {
-            RoleToDelete = new EnhancedIdentityRole(role);
+            RoleToDelete = new Role(role);
 
             return Page();
         }

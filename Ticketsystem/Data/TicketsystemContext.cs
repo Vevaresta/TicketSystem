@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Reflection.Emit;
-using Ticketsystem.Areas.Identity.Models;
+using Ticketsystem.Models;
 
-namespace Ticketsystem.Areas.Identity.Data;
+namespace Ticketsystem.Data;
 
-public class UsersContext : IdentityDbContext<TicketsystemUser, EnhancedIdentityRole, string>
+public class TicketsystemContext : IdentityDbContext<User, Role, string>
 {
-    public UsersContext(DbContextOptions<UsersContext> options)
+    public TicketsystemContext(DbContextOptions<TicketsystemContext> options)
         : base(options)
     {
     }
@@ -24,14 +24,14 @@ public class UsersContext : IdentityDbContext<TicketsystemUser, EnhancedIdentity
         // Add your customizations after calling base.OnModelCreating(builder);
 
         builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
-        builder.Entity<EnhancedIdentityRole>().ToTable("Roles");
         builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
         builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
         builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
-        builder.Entity<TicketsystemUser>().ToTable("Users");
         builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
+        builder.Entity<User>().ToTable("Users");
+        builder.Entity<Role>().ToTable("Roles");
 
-        builder.Entity<EnhancedIdentityRole>()
+        builder.Entity<Role>()
             .HasMany(r => r.Permissions)
             .WithMany(p => p.Roles)
             .UsingEntity(j => j.ToTable("RolePermissions"));

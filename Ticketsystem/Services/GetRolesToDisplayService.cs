@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Ticketsystem.Areas.Identity.Data;
-using Ticketsystem.Areas.Identity.Enums;
+using Ticketsystem.Enums;
+using Ticketsystem.Models;
 
-namespace Ticketsystem.Areas.Identity.Services
+namespace Ticketsystem.Services
 {
     public class GetRolesToDisplayService
     {
-        private readonly RoleManager<EnhancedIdentityRole> _roleManager;
+        private readonly RoleManager<Role> _roleManager;
 
-        public GetRolesToDisplayService(RoleManager<EnhancedIdentityRole> roleManager)
+        public GetRolesToDisplayService(RoleManager<Role> roleManager)
         {
             _roleManager = roleManager;
         }

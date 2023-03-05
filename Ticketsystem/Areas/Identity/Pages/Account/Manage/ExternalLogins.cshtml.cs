@@ -11,20 +11,20 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Ticketsystem.Areas.Identity.Models;
+using Ticketsystem.Models;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {
     public class ExternalLoginsModel : PageModel
     {
-        private readonly UserManager<TicketsystemUser> _userManager;
-        private readonly SignInManager<TicketsystemUser> _signInManager;
-        private readonly IUserStore<TicketsystemUser> _userStore;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly IUserStore<User> _userStore;
 
         public ExternalLoginsModel(
-            UserManager<TicketsystemUser> userManager,
-            SignInManager<TicketsystemUser> signInManager,
-            IUserStore<TicketsystemUser> userStore)
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            IUserStore<User> userStore)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -70,7 +70,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
                 .ToList();
 
             string passwordHash = null;
-            if (_userStore is IUserPasswordStore<TicketsystemUser> userPasswordStore)
+            if (_userStore is IUserPasswordStore<User> userPasswordStore)
             {
                 passwordHash = await userPasswordStore.GetPasswordHashAsync(user, HttpContext.RequestAborted);
             }

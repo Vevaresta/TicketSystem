@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Tickets\**" />
+    <Content Remove="Areas\Tickets\**" />
+    <EmbeddedResource Remove="Areas\Tickets\**" />
+    <None Remove="Areas\Tickets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.14" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.14" />
@@ -15,11 +22,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.12" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\Tickets\Enums\" />
-    <Folder Include="Areas\Tickets\Services\" />
   </ItemGroup>
 
 </Project>

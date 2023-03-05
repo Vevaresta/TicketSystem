@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Ticketsystem.Areas.Identity.Data;
-using Ticketsystem.Areas.Identity.Models;
-using Ticketsystem.Areas.Identity.Services;
-using Ticketsystem.Areas.Tickets.Data;
+using Ticketsystem.Data;
+using Ticketsystem.Models;
+using Ticketsystem.Services;
 
 namespace Ticketsystem
 {
@@ -14,11 +13,9 @@ namespace Ticketsystem
         {
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-            string identityConnectionString = builder.Configuration.GetConnectionString("IdentityContextConnection") ?? throw new InvalidOperationException("Connection string 'IdentityContextConnection' not found.");
-            string ticketsConnectionString = builder.Configuration.GetConnectionString("TicketsContextConnection") ?? throw new InvalidOperationException("Connection string 'TicketsContextConnection' not found.");
+            string dbConnectionString = builder.Configuration.GetConnectionString("TicketsystemContextConnection") ?? throw new InvalidOperationException("Connection string 'TicketsystemContextConnection' not found.");
 
-            builder.Services.AddDbContext<UsersContext>(options => options.UseSqlite(identityConnectionString));
-            builder.Services.AddDbContext<TicketsContext>(options => options.UseSqlite(ticketsConnectionString));
+            builder.Services.AddDbContext<TicketsystemContext>(options => options.UseSqlite(dbConnectionString));
 
             builder.Services.AddScoped<ChangeRolePermissionsService>();
             builder.Services.AddScoped<CheckRolePermissionsService>();
@@ -26,9 +23,9 @@ namespace Ticketsystem
             builder.Services.AddScoped<GetRolesService>();
             builder.Services.AddScoped<ContextSeed>();
 
-            builder.Services.AddDefaultIdentity<TicketsystemUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddRoles<EnhancedIdentityRole>()
-                .AddEntityFrameworkStores<UsersContext>()
+            builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<Role>()
+                .AddEntityFrameworkStores<TicketsystemContext>()
                 .AddDefaultTokenProviders();
 
             // Add services to the container.

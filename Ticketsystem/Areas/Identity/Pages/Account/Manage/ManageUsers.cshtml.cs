@@ -2,29 +2,29 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Ticketsystem.Areas.Identity.Models;
+using Ticketsystem.Models;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage;
 
 public class ManageUsersModel : PageModel
 {
-    private readonly UserManager<TicketsystemUser> _userManager;
+    private readonly UserManager<User> _userManager;
 
     public class UserModel
     {
-        public UserModel(TicketsystemUser user, string role)
+        public UserModel(User user, string role)
         {
             User = user;
             Role = role;
         }
 
-        public TicketsystemUser User { get; set; }
+        public User User { get; set; }
         public string Role { get; set; }
     }
 
     public List<UserModel> Users { get; set; }
 
-    public ManageUsersModel(UserManager<TicketsystemUser> userManager)
+    public ManageUsersModel(UserManager<User> userManager)
     {
         _userManager = userManager;
 

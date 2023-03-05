@@ -1,6 +1,6 @@
-﻿using Ticketsystem.Areas.Identity.Enums;
+﻿using Ticketsystem.Enums;
 
-namespace Ticketsystem.Areas.Identity.Data
+namespace Ticketsystem.Data
 {
     public static class PermissionTexts
     {

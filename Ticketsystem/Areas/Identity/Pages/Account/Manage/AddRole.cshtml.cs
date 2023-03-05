@@ -3,16 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
-using Ticketsystem.Areas.Identity.Data;
-using Ticketsystem.Areas.Identity.Models;
+using Ticketsystem.Models;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {
     public class AddRoleModel : PageModel
     {
-        private readonly RoleManager<EnhancedIdentityRole> _roleManager;
+        private readonly RoleManager<Role> _roleManager;
 
-        public AddRoleModel(RoleManager<EnhancedIdentityRole> roleManager)
+        public AddRoleModel(RoleManager<Role> roleManager)
         {
             _roleManager = roleManager;
         }
@@ -34,7 +33,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 
             if (!roles.Contains(RoleName) )
             {
-                await _roleManager.CreateAsync(new EnhancedIdentityRole { Name =  RoleName, Permissions = new List<Permission>()});
+                await _roleManager.CreateAsync(new Role { Name =  RoleName, Permissions = new List<Permission>()});
             }
 
             return RedirectToPage(nameof(ManageNavPages.ManageRoles));

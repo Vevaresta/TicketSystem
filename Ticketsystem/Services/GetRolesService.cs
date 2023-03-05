@@ -1,28 +1,27 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
-using Ticketsystem.Areas.Identity.Data;
-using Ticketsystem.Areas.Identity.Models;
+using Ticketsystem.Models;
 
-namespace Ticketsystem.Areas.Identity.Services
+namespace Ticketsystem.Services
 {
     public class GetRolesService
     {
-        private readonly RoleManager<EnhancedIdentityRole> _roleManager;
-        private readonly UserManager<TicketsystemUser> _userManager;
+        private readonly RoleManager<Role> _roleManager;
+        private readonly UserManager<User> _userManager;
 
-        public GetRolesService(RoleManager<EnhancedIdentityRole> roleManager, UserManager<TicketsystemUser> userManager)
+        public GetRolesService(RoleManager<Role> roleManager, UserManager<User> userManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
         }
 
-        public List<EnhancedIdentityRole> GetAllRolesFromDb()
+        public List<Role> GetAllRolesFromDb()
         {
             return _roleManager.Roles.Include(r => r.Permissions).ToList();
         }
 
-        public async Task<EnhancedIdentityRole> GetRoleByNameAsync(string role)
+        public async Task<Role> GetRoleByNameAsync(string role)
         {
             var roleInDB = await _roleManager.Roles.Include(r => r.Permissions).FirstOrDefaultAsync(r => r.Name == role);
 
@@ -36,7 +35,7 @@ namespace Ticketsystem.Areas.Identity.Services
             }
         }
 
-        public async Task<EnhancedIdentityRole> GetUserRoleAsync(TicketsystemUser user)
+        public async Task<Role> GetUserRoleAsync(User user)
         {
             var userRoleName = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
 

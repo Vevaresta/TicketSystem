@@ -1,17 +1,17 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Ticketsystem.Areas.Identity.Data;
-using Ticketsystem.Areas.Identity.Services;
+using Ticketsystem.Models;
+using Ticketsystem.Services;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {
     public class ManageRolesModel : PageModel
     {
-        private readonly RoleManager<EnhancedIdentityRole> _roleManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly GetRolesToDisplayService _getRolesToDisplayService;
 
-        public ManageRolesModel(RoleManager<EnhancedIdentityRole> roleManager, GetRolesToDisplayService getRolesToDisplayService)
+        public ManageRolesModel(RoleManager<Role> roleManager, GetRolesToDisplayService getRolesToDisplayService)
         {
             _roleManager = roleManager;
             _getRolesToDisplayService = getRolesToDisplayService;

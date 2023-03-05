@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using Ticketsystem.Models;
+using Ticketsystem.ViewModels;
 
 namespace Ticketsystem.Controllers
 {

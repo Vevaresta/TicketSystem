@@ -399,3 +399,7 @@ FodyWeavers.xsd
 /Ticketsystem/*.db*
 /Ticketsystem/Migrations
 /Ticketsystem/.vscode
+/out/UML/ticketsystem_rdm
+/out
+/.vscode
+/UML

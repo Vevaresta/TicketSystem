@@ -1,13 +1,13 @@
 ﻿@{
-    @using Ticketsystem.Areas.Identity.Enums;
-    @using Ticketsystem.Areas.Identity.Services;
-    @using Ticketsystem.Areas.Identity.Models;
-    @inject UserManager<TicketsystemUser> userManager;
+    @using Ticketsystem.Enums;
+    @using Ticketsystem.Models;
+    @using Ticketsystem.Services;
+    @inject UserManager<User> userManager;
     @inject CheckRolePermissionsService checkRolePermissionsService;
     var loggedInUser = await userManager.GetUserAsync(User);
 }
 
-@inject SignInManager<TicketsystemUser> SignInManager
+@inject SignInManager<User> SignInManager
 @{
     bool hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

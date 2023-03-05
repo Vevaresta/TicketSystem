@@ -19,24 +19,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using Ticketsystem.Areas.Identity.Enums;
-using Ticketsystem.Areas.Identity.Models;
+using Ticketsystem.Enums;
+using Ticketsystem.Models;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {
     public class CreateUserModel : PageModel
     {
-        private readonly SignInManager<TicketsystemUser> _signInManager;
-        private readonly UserManager<TicketsystemUser> _userManager;
-        private readonly IUserStore<TicketsystemUser> _userStore;
-        private readonly IUserEmailStore<TicketsystemUser> _emailStore;
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly IUserStore<User> _userStore;
+        private readonly IUserEmailStore<User> _emailStore;
         private readonly ILogger<CreateUserModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public CreateUserModel(
-            UserManager<TicketsystemUser> userManager,
-            IUserStore<TicketsystemUser> userStore,
-            SignInManager<TicketsystemUser> signInManager,
+            UserManager<User> userManager,
+            IUserStore<User> userStore,
+            SignInManager<User> signInManager,
             ILogger<CreateUserModel> logger,
             IEmailSender emailSender)
         {
@@ -186,27 +186,27 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
-        private TicketsystemUser CreateUser()
+        private User CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<TicketsystemUser>();
+                return Activator.CreateInstance<User>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(TicketsystemUser)}'. " +
-                    $"Ensure that '{nameof(TicketsystemUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(Models.User)}'. " +
+                    $"Ensure that '{nameof(Models.User)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
-        private IUserEmailStore<TicketsystemUser> GetEmailStore()
+        private IUserEmailStore<User> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<TicketsystemUser>)_userStore;
+            return (IUserEmailStore<User>)_userStore;
         }
     }
 }

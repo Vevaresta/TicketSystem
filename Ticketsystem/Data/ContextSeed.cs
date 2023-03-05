@@ -1,24 +1,24 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using Ticketsystem.Areas.Identity.Enums;
-using Ticketsystem.Areas.Identity.Models;
-using Ticketsystem.Areas.Identity.Services;
+using Ticketsystem.Enums;
+using Ticketsystem.Models;
+using Ticketsystem.Services;
 
-namespace Ticketsystem.Areas.Identity.Data
+namespace Ticketsystem.Data
 {
     public class ContextSeed
     {
-        private readonly UsersContext _identityContext;
-        private readonly RoleManager<EnhancedIdentityRole> _roleManager;
-        private readonly UserManager<TicketsystemUser> _userManager;
+        private readonly TicketsystemContext _identityContext;
+        private readonly RoleManager<Role> _roleManager;
+        private readonly UserManager<User> _userManager;
         private readonly GetRolesService _getRolesService;
         private readonly ChangeRolePermissionsService _changeRolePermissionsService;
 
         public ContextSeed(
-            UsersContext identityContext,
-            RoleManager<EnhancedIdentityRole> roleManager,
-            UserManager<TicketsystemUser> userManager,
+            TicketsystemContext identityContext,
+            RoleManager<Role> roleManager,
+            UserManager<User> userManager,
             GetRolesService getRolesService,
             ChangeRolePermissionsService changeRolePermissionsService
             )
@@ -47,14 +47,14 @@ namespace Ticketsystem.Areas.Identity.Data
             {
                 if (!query.Contains(role.ToString()))
                 {
-                    await _roleManager.CreateAsync(new EnhancedIdentityRole(role.ToString()));
+                    await _roleManager.CreateAsync(new Role(role.ToString()));
                 }
             }
         }
 
         public async Task SeedDefaultAdmin()
         {
-            TicketsystemUser admin = new()
+            User admin = new()
             {
                 UserName = "admin",
                 FirstName = "Super",
@@ -114,7 +114,7 @@ namespace Ticketsystem.Areas.Identity.Data
             var fallback = await _getRolesService.GetRoleByNameAsync(DefaultRoles.Fallback.ToString());
 
             foreach (var permission in Enum.GetValues<RolePermissions>())
-            { 
+            {
                 await _changeRolePermissionsService.AddPermissionToRole(administrator, permission);
             }
 
