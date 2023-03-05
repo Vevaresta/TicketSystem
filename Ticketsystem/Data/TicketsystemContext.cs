@@ -15,6 +15,12 @@ public class TicketsystemContext : IdentityDbContext<User, Role, string>
     }
 
     public DbSet<Permission> Permissions { get; set; }
+    public DbSet<Client> Client { get; set; }
+    public DbSet<Device> Device { get; set; }
+    public DbSet<Software> Software { get; set; }
+    public DbSet<Ticket> Ticket { get; set; }
+    public DbSet<TicketStatus> TicketStatus { get; set; }
+    public DbSet<TicketType> TicketType { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
