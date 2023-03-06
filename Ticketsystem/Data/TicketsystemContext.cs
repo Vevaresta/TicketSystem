@@ -15,12 +15,15 @@ public class TicketsystemContext : IdentityDbContext<User, Role, string>
     }
 
     public DbSet<Permission> Permissions { get; set; }
-    public DbSet<Client> Client { get; set; }
-    public DbSet<Device> Device { get; set; }
+    public DbSet<Client> Clients { get; set; }
+    public DbSet<Device> Devices { get; set; }
     public DbSet<Software> Software { get; set; }
-    public DbSet<Ticket> Ticket { get; set; }
-    public DbSet<TicketStatus> TicketStatus { get; set; }
-    public DbSet<TicketType> TicketType { get; set; }
+    public DbSet<Ticket> Tickets { get; set; }
+    public DbSet<TicketStatus> TicketStatuses { get; set; }
+    public DbSet<TicketType> TicketTypes { get; set; }
+    public DbSet<TicketUsers> TicketUsers { get; set; }
+    public DbSet<TicketChanges> TicketChanges { get; set; }
+    public DbSet<PermissionsTriggered> PermissionsTriggered { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -41,5 +44,14 @@ public class TicketsystemContext : IdentityDbContext<User, Role, string>
             .HasMany(r => r.Permissions)
             .WithMany(p => p.Roles)
             .UsingEntity(j => j.ToTable("RolePermissions"));
+
+        builder.Entity<TicketUsers>()
+            .HasKey(tu => new { tu.UserId, tu.TicketId });
+
+        builder.Entity<TicketChanges>()
+            .HasKey(ut => new { ut.UserId, ut.TicketId });
+
+        builder.Entity<PermissionsTriggered>()
+            .HasKey(up => new { up.UserId, up.PermissionId });
     }
 }

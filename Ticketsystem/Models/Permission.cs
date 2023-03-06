@@ -11,5 +11,6 @@
         public string Name { get; set; }
 
         public virtual ICollection<Role> Roles { get; set; }
+        public virtual ICollection<PermissionsTriggered> PermissionsTriggered { get; set; }
     }
 }
