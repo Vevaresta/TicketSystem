@@ -47,7 +47,25 @@ namespace Ticketsystem.Controllers
         }
 
         // GET: Tickets/Create
-        public IActionResult Create()
+        public IActionResult Reparatur()
+        {
+            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Id");
+            ViewData["TicketTypeId"] = new SelectList(_context.TicketType, "Id", "Id");
+            return View();
+        }
+        public IActionResult Datenrettung()
+        {
+            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Id");
+            ViewData["TicketTypeId"] = new SelectList(_context.TicketType, "Id", "Id");
+            return View();
+        }
+        public IActionResult Auftrag()
+        {
+            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Id");
+            ViewData["TicketTypeId"] = new SelectList(_context.TicketType, "Id", "Id");
+            return View();
+        }
+        public IActionResult Beratung()
         {
             ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Id");
             ViewData["TicketTypeId"] = new SelectList(_context.TicketType, "Id", "Id");
@@ -59,7 +77,7 @@ namespace Ticketsystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TicketTypeId,TicketStatusId,WorkOrder,DataBackupByClient,DataBackupByStaff,DataBackupDone,Comments")] Ticket ticket)
+        public async Task<IActionResult> Reparatur([Bind("Id,TicketTypeId,TicketStatusId,WorkOrder,DataBackupByClient,DataBackupByStaff,DataBackupDone,Comments")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
@@ -71,6 +89,50 @@ namespace Ticketsystem.Controllers
             ViewData["TicketTypeId"] = new SelectList(_context.TicketType, "Id", "Id", ticket.TicketTypeId);
             return View(ticket);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Datenrettung([Bind("Id,TicketTypeId,TicketStatusId,WorkOrder,DataBackupByClient,DataBackupByStaff,DataBackupDone,Comments")] Ticket ticket)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(ticket);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Id", ticket.TicketStatusId);
+            ViewData["TicketTypeId"] = new SelectList(_context.TicketType, "Id", "Id", ticket.TicketTypeId);
+            return View(ticket);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Auftrag([Bind("Id,TicketTypeId,TicketStatusId,WorkOrder,DataBackupByClient,DataBackupByStaff,DataBackupDone,Comments")] Ticket ticket)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(ticket);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Id", ticket.TicketStatusId);
+            ViewData["TicketTypeId"] = new SelectList(_context.TicketType, "Id", "Id", ticket.TicketTypeId);
+            return View(ticket);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Beratung([Bind("Id,TicketTypeId,TicketStatusId,WorkOrder,DataBackupByClient,DataBackupByStaff,DataBackupDone,Comments")] Ticket ticket)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(ticket);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Id", ticket.TicketStatusId);
+            ViewData["TicketTypeId"] = new SelectList(_context.TicketType, "Id", "Id", ticket.TicketTypeId);
+            return View(ticket);
+        }
+
 
         // GET: Tickets/Edit/5
         public async Task<IActionResult> Edit(string id)

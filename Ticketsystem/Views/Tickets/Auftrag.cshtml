@@ -1,0 +1,129 @@
+﻿@model Ticketsystem.Models.Ticket
+
+@{
+    ViewData["Title"] = "Auftrag";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Ticket anlegen</h1>
+
+<h4>Auftrag</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Auftrag">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h5>Kunden Daten:</h5>
+            <div class="form-group">
+                <label class="control-label">Name</label>
+                <input class="form-control" />
+                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label class="control-label">Vorname</label>
+                <input class="form-control" />
+                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label class="control-label">Reha Nummer</label>
+                <input class="form-control" />
+                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label class="control-label">Kurs Nummer</label>
+                <input class="form-control" />
+                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label class="control-label">Straße</label>
+                <input class="form-control" />
+                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+            </div>
+            <div class="row">
+                 <div class="col-md-6">
+                    <label class="control-label">Hausnummer</label>
+                    <input class="form-control" />
+                    @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                </div>
+                <div class="col-md-6">
+                    <label class="control-label">PLZ</label>
+                    <input class="form-control" />
+                    @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Wohnort</label>
+                <input class="form-control" />
+                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+            </div>
+            <div class="row">
+                 <div class="col-md-6">
+                    <label class="control-label">Telefonnummer</label>
+                    <input class="form-control" />
+                    @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                </div>
+                <div class="col-md-6">
+                    <label class="control-label">E-Mail Adresse</label>
+                    <input class="form-control" />
+                    @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <form asp-action="Auftrag">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h5>Produkt Daten:</h5>
+           <div class="form-group">
+                <label class="control-label">Bezeichnung</label>
+                <input class="form-control" />
+                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label class="control-label">Hersteller</label>
+                <input class="form-control" />
+                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label class="control-label">Seriennummer</label>
+                <input class="form-control" />
+                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label class="control-label">Art</label>
+                <input class="form-control" />
+                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+            </div>
+            <div class="form-group" style="margin-top: 20px">
+                <input type="submit" value="Weiteres Produkt hinzufügen" class="btn btn-lg btn-primary" />
+    </div>
+        </form>
+    </div>
+     <div class="col-md-4">
+        <form asp-action="Auftrag">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h5>Besprochene Dienstleistungen:</h5>
+            <div class="form-group">
+                    <label for="exampleTextarea" class="control-label">Auftrag</label>
+                    <textarea class="form-control" id="exampleTextarea" rows="13"></textarea>
+            </div>
+            <div class="form-group">
+                    <label for="exampleTextarea" class="control-label">Notizen</label>
+                    <textarea class="form-control" id="exampleTextarea" rows="4"></textarea>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="form-group" style="margin-top: 20px">
+    <div class="form-group">
+                <input type="submit" value="Speichern" class="btn btn-lg btn-primary" />
+    </div>
+    <div>
+                <a asp-action="Index">Zurück zur Übersicht</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
