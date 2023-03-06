@@ -19,6 +19,9 @@ public class Ticket
     [ForeignKey(nameof(TicketStatus))]
     public string TicketStatusId { get; set; }
 
+    [ForeignKey(nameof(Client))]
+    public string ClientId { get; set; }
+
     public DateTime OrderDate { get; set; }
     public string WorkOrder { get; set; }
     public bool DataBackupByClient { get; set; }
@@ -28,6 +31,7 @@ public class Ticket
 
     public TicketType TicketType { get; set; }
     public TicketStatus TicketStatus { get; set; }
+    public Client Client { get; set; }
 
     public virtual ICollection<Device> Devices { get; set; }
     public virtual ICollection<TicketUsers> TicketUsers { get; set; }
