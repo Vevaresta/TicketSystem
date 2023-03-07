@@ -46,6 +46,11 @@ namespace Ticketsystem.Controllers
             return View(ticket);
         }
 
+        public IActionResult CreateWithTabs()
+        {
+            return View();
+        }
+
         // GET: Tickets/Create
         public IActionResult Create()
         {
