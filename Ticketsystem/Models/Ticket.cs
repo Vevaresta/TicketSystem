@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Ticketsystem.Models;
 
@@ -31,7 +32,7 @@ public class Ticket
     public TicketStatus TicketStatus { get; set; }
     public Client Client { get; set; }
 
-    public virtual ICollection<Device> Devices { get; set; }
-    public virtual ICollection<TicketUsers> TicketUsers { get; set; }
-    public virtual ICollection<TicketChanges> TicketChanges { get; set; }
+    public virtual IList<Device> Devices { get; set; }
+    public virtual IList<TicketUsers> TicketUsers { get; set; }
+    public virtual IList<TicketChanges> TicketChanges { get; set; }
 }

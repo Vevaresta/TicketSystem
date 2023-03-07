@@ -12,6 +12,6 @@ namespace Ticketsystem.Models
         {
         }
 
-        public virtual ICollection<Permission> Permissions { get; set; }
+        public virtual IList<Permission> Permissions { get; set; }
     }
 }

@@ -31,36 +31,42 @@
                         <h5>Produktdaten:</h5>
                         <div class="row mb-1">
                             <div class="form-group">
-                                <label class="control-label">Bezeichnung</label>
-                                <input class="form-control" />
+                                <label asp-for="Devices[0].Name" class="control-label">Bezeichnung</label>
+                                <input asp-for="Devices[0].Name" class="form-control" />
                                 @*<span asp-validation-for="Id" class="text-danger"></span>*@
                             </div>
                         </div>
                         <div class="row mb-1">
                             <div class="form-group">
-                                <label class="control-label">Hersteller</label>
-                                <input class="form-control" />
+                                <label asp-for="Devices[0].DeviceType" class="control-label">Art</label>
+                                <input asp-for="Devices[0].DeviceType" class="form-control" />
                                 @*<span asp-validation-for="Id" class="text-danger"></span>*@
                             </div>
                         </div>
                         <div class="row mb-1">
                             <div class="form-group">
-                                <label class="control-label">Seriennummer</label>
-                                <input class="form-control" />
+                                <label asp-for="Devices[0].Manufacturer" class="control-label">Hersteller</label>
+                                <input asp-for="Devices[0].Manufacturer" class="form-control" />
                                 @*<span asp-validation-for="Id" class="text-danger"></span>*@
                             </div>
                         </div>
                         <div class="row mb-1">
                             <div class="form-group">
-                                <label class="control-label">Art</label>
-                                <input class="form-control" />
+                                <label asp-for="Devices[0].SerialNumber" class="control-label">Seriennummer</label>
+                                <input asp-for="Devices[0].SerialNumber" class="form-control" />
                                 @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="Devices[0].Accessories" class="control-label">Zubehör</label>
+                                <textarea asp-for="Devices[0].Accessories" class="form-control" rows="3"></textarea>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group">
-                                <label for="exampleTextarea" class="control-label">Userdaten und Passwörter</label>
-                                <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                                <label asp-for="Devices[0].Comments" class="control-label">Kommentar</label>
+                                <textarea asp-for="Devices[0].Comments" class="form-control" rows="3"></textarea>
                             </div>
                         </div>
                         <div class="row">

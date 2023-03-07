@@ -11,8 +11,8 @@ namespace Ticketsystem.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public virtual ICollection<TicketUsers> TicketUsers { get; set; }
-        public virtual ICollection<TicketChanges> TicketChanges { get; set; }
-        public virtual ICollection<PermissionsTriggered> PermissionsTriggered { get; set; }
+        public virtual IList<TicketUsers> TicketUsers { get; set; }
+        public virtual IList<TicketChanges> TicketChanges { get; set; }
+        public virtual IList<PermissionsTriggered> PermissionsTriggered { get; set; }
     }
 }
