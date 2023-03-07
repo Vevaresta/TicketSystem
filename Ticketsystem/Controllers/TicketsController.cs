@@ -46,14 +46,8 @@ namespace Ticketsystem.Controllers
             return View(ticket);
         }
 
-        public IActionResult CreateWithTabs()
-        {
-            return View();
-        }
-
         // GET: Tickets/Create
-
-        public IActionResult NeuesTicketAnlegen()
+        public IActionResult Create()
         {
             ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id");
             ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id");
@@ -66,7 +60,7 @@ namespace Ticketsystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> NeuesTicketAnlegen([Bind("Id,TicketTypeId,TicketStatusId,WorkOrder,DataBackupByClient,DataBackupByStaff,DataBackupDone,Comments")] Ticket ticket)
+        public async Task<IActionResult> Create([Bind("Id,TicketTypeId,TicketStatusId,WorkOrder,DataBackupByClient,DataBackupByStaff,DataBackupDone,Comments")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
@@ -78,9 +72,6 @@ namespace Ticketsystem.Controllers
             ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
             return View(ticket);
         }
-
-        
-
 
         // GET: Tickets/Edit/5
         public async Task<IActionResult> Edit(string id)

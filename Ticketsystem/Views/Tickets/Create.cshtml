@@ -1,0 +1,354 @@
+﻿@{
+    ViewData["Title"] = "NeuesTicketAnlegen";
+}
+
+<div class="container">
+    <h3>Neues Ticket Anlegen</h3>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Reparatur</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Datenrettung</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Auftrag</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4" aria-selected="false">Beratung</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+            <div class="row">
+                <div class="col-md-4">
+                    <partial name="_CreateTicketFirstTab" />
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <h5>Produktdaten:</h5>
+                        <div class="form-group">
+                            <label class="control-label">Bezeichnung</label>
+                            <input class="form-control" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Hersteller</label>
+                            <input class="form-control" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Seriennummer</label>
+                            <input class="form-control" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Art</label>
+                            <input class="form-control" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleTextarea" class="control-label">Userdaten und Passwörtet</label>
+                            <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                        </div>
+                        <fieldset class="form-group">
+                            <legend class="mt-3">Datensicherung gewünscht?</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                                <label class="form-check-label" for="optionsRadios1">Ja</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                <label class="form-check-label" for="optionsRadios2">Nein</label>
+                            </div>
+                            <div class="form-check disabled">
+                                <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+                                <label class="form-check-label" for="optionsRadios3">Bereits durch Kunden durchgeführt</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <form asp-action="Reparatur">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <h5>Notizen:</h5>
+                            <div class="form-group">
+                                <label for="exampleTextarea" class="control-label">Fehlerbeschreibung</label>
+                                <textarea class="form-control" id="exampleTextarea" rows="13"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleTextarea" class="control-label">Notizen</label>
+                                <textarea class="form-control" id="exampleTextarea" rows="4"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+            <div class="row">
+                <div class="col-md-4">
+                    <partial name="_CreateTicketFirstTab" />
+                </div>
+                <div class="col-md-4">
+                    <h5>Produktdaten Quelle:</h5>
+                    <div class="form-group">
+                        <label class="control-label">Bezeichnung</label>
+                        <input class="form-control" />
+                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Hersteller</label>
+                        <input class="form-control" />
+                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Seriennummer</label>
+                        <input class="form-control" />
+                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Art</label>
+                        <input class="form-control" />
+                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleTextarea" class="control-label">Userdaten und Passwörtet</label>
+                        <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                    </div>
+                    <fieldset class="form-group">
+                        <legend class="mt-3">Kunde hat Zielmedium dabei?</legend>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                            <label class="form-check-label" for="optionsRadios1">Ja</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                            <label class="form-check-label" for="optionsRadios2">Nein</label>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-md-4">
+                    <h5>Produktdaten Ziel:</h5>
+                    <div class="form-group">
+                        <label class="control-label">Bezeichnung</label>
+                        <input class="form-control" />
+                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Hersteller</label>
+                        <input class="form-control" />
+                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Seriennummer</label>
+                        <input class="form-control" />
+                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Art</label>
+                        <input class="form-control" />
+                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleTextarea" class="control-label">Userdaten und Passwörtet</label>
+                        <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleTextarea" class="control-label">Notizen</label>
+                        <textarea class="form-control" id="exampleTextarea" rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+            <div class="row">
+                <div class="col-md-4">
+                    <partial name="_CreateTicketFirstTab" />
+                </div>
+                <div class="col-md-4">
+                    <h5>1. Produkt:</h5>
+                    <div id="ProduktDaten">
+                        <div class="form-group">
+                            <label class="control-label">Bezeichnung</label>
+                            <input class="form-control" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Hersteller</label>
+                            <input class="form-control" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Seriennummer</label>
+                            <input class="form-control" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Art</label>
+                            <input class="form-control" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                        <div class="form-group" style="margin-top: 20px">
+                            <button onclick="duplicate()" class="btn btn-lg btn-primary mb-4">Produkt Hinzufügen</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <h5>Besprochene Dienstleistungen:</h5>
+                        <div class="form-group">
+                            <label for="exampleTextarea" class="control-label">Auftrag</label>
+                            <textarea class="form-control" id="exampleTextarea" rows="13"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleTextarea" class="control-label">Notizen</label>
+                            <textarea class="form-control" id="exampleTextarea" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
+            <div class="row">
+                <div class="col-md-4">
+                    <partial name="_CreateTicketFirstTab" />
+                </div>
+                <div class="col-md-4">
+                    <h5>Fragestellung des Kunden:</h5>
+                    <div class="form-group">
+                        <label for="exampleTextarea" class="control-label">Frage oder Problem</label>
+                        <textarea class="form-control" id="exampleTextarea" rows="6"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleTextarea" class="control-label">Empfehlung</label>
+                        <textarea class="form-control" id="exampleTextarea" rows="6"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h5>Anmerkungen:</h5>
+                    <div class="form-group">
+                        <label for="exampleTextarea" class="control-label">Notizen</label>
+                        <textarea class="form-control" id="exampleTextarea" rows="6"></textarea>
+                    </div>
+                    <fieldset class="form-group">
+                        <legend class="mt-3">Weiterer Auftrag entstanden?</legend>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                            <label class="form-check-label" for="optionsRadios1">Ja</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                            <label class="form-check-label" for="optionsRadios2">Nein</label>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <script>
+
+        $(document).ready(function () {
+            var lastname = $('.lastname');
+            lastname.on('input', function () {
+                var currentValue = $(this).val();
+                lastname.not(this).val(currentValue);
+            });
+
+            var firstname = $('.firstname');
+            firstname.on('input', function () {
+                var currentValue = $(this).val();
+                firstname.not(this).val(currentValue);
+            });
+
+            var rehanumber = $('.rehanumber');
+            rehanumber.on('input', function () {
+                var currentValue = $(this).val();
+                rehanumber.not(this).val(currentValue);
+            });
+
+            var coursenumber = $('.coursenumber');
+            coursenumber.on('input', function () {
+                var currentValue = $(this).val();
+                coursenumber.not(this).val(currentValue);
+            });
+
+            var street = $('.street');
+            street.on('input', function () {
+                var currentValue = $(this).val();
+                street.not(this).val(currentValue);
+            });
+
+            var postalcode = $('.postalcode');
+            postalcode.on('input', function () {
+                var currentValue = $(this).val();
+                postalcode.not(this).val(currentValue);
+            });
+
+            var city = $('.city');
+            city.on('input', function () {
+                var currentValue = $(this).val();
+                city.not(this).val(currentValue);
+            });
+
+            var email = $('.email');
+            email.on('input', function () {
+                var currentValue = $(this).val();
+                email.not(this).val(currentValue);
+            });
+
+            var phonenumber1 = $('.phonenumber1');
+            phonenumber1.on('input', function () {
+                var currentValue = $(this).val();
+                phonenumber1.not(this).val(currentValue);
+            });
+
+            var phonenumber2 = $('.phonenumber2');
+            phonenumber2.on('input', function () {
+                var currentValue = $(this).val();
+                phonenumber2.not(this).val(currentValue);
+            });
+        });
+
+
+        var counter = 1;
+
+        function duplicate() {
+            var original = document.getElementById('ProduktDaten');
+            var clone = original.cloneNode(true);
+
+            // Hinzufügen des Lösch-Buttons
+            var deleteButton = document.createElement("button");
+            deleteButton.innerHTML = "Produkt Löschen";
+            deleteButton.classList.add("btn", "btn-lg", "btn-primary");
+            deleteButton.onclick = function () { clone.remove(); counter--; };
+
+            clone.appendChild(deleteButton);
+
+            // Erhöhen der Zählvariable und Hinzufügen des Zählers
+            counter++;
+            var counterSpan = document.createElement("h5");
+            counterSpan.innerHTML = counter + ". " + "Produkt:";
+            clone.insertBefore(counterSpan, clone.firstChild);
+
+            original.parentNode.appendChild(clone);
+        }
+
+
+        $(function () {
+            $('#myTab a').on('click', function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+
+
+        });
+    </script>
+}
