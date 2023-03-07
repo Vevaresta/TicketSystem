@@ -22,19 +22,19 @@ namespace Ticketsystem.Controllers
         // GET: Tickets
         public async Task<IActionResult> Index()
         {
-            var ticketsystemContext = _context.Ticket.Include(t => t.TicketStatus).Include(t => t.TicketType);
+            var ticketsystemContext = _context.Tickets.Include(t => t.TicketStatus).Include(t => t.TicketType);
             return View(await ticketsystemContext.ToListAsync());
         }
 
         // GET: Tickets/Details/5
         public async Task<IActionResult> Details(string id)
         {
-            if (id == null || _context.Ticket == null)
+            if (id == null || _context.Tickets == null)
             {
                 return NotFound();
             }
 
-            var ticket = await _context.Ticket
+            var ticket = await _context.Tickets
                 .Include(t => t.TicketStatus)
                 .Include(t => t.TicketType)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -44,6 +44,11 @@ namespace Ticketsystem.Controllers
             }
 
             return View(ticket);
+        }
+
+        public IActionResult CreateWithTabs()
+        {
+            return View();
         }
 
         // GET: Tickets/Create
@@ -67,8 +72,8 @@ namespace Ticketsystem.Controllers
         }
         public IActionResult Beratung()
         {
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Id");
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketType, "Id", "Id");
+            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id");
+            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id");
             return View();
         }
 
@@ -85,8 +90,8 @@ namespace Ticketsystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Id", ticket.TicketStatusId);
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketType, "Id", "Id", ticket.TicketTypeId);
+            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
+            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
             return View(ticket);
         }
 
@@ -137,18 +142,18 @@ namespace Ticketsystem.Controllers
         // GET: Tickets/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null || _context.Ticket == null)
+            if (id == null || _context.Tickets == null)
             {
                 return NotFound();
             }
 
-            var ticket = await _context.Ticket.FindAsync(id);
+            var ticket = await _context.Tickets.FindAsync(id);
             if (ticket == null)
             {
                 return NotFound();
             }
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Id", ticket.TicketStatusId);
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketType, "Id", "Id", ticket.TicketTypeId);
+            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
+            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
             return View(ticket);
         }
 
@@ -184,20 +189,20 @@ namespace Ticketsystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Id", ticket.TicketStatusId);
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketType, "Id", "Id", ticket.TicketTypeId);
+            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
+            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
             return View(ticket);
         }
 
         // GET: Tickets/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null || _context.Ticket == null)
+            if (id == null || _context.Tickets == null)
             {
                 return NotFound();
             }
 
-            var ticket = await _context.Ticket
+            var ticket = await _context.Tickets
                 .Include(t => t.TicketStatus)
                 .Include(t => t.TicketType)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -214,14 +219,14 @@ namespace Ticketsystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            if (_context.Ticket == null)
+            if (_context.Tickets == null)
             {
-                return Problem("Entity set 'TicketsystemContext.Ticket'  is null.");
+                return Problem("Entity set 'TicketsystemContext.Tickets'  is null.");
             }
-            var ticket = await _context.Ticket.FindAsync(id);
+            var ticket = await _context.Tickets.FindAsync(id);
             if (ticket != null)
             {
-                _context.Ticket.Remove(ticket);
+                _context.Tickets.Remove(ticket);
             }
             
             await _context.SaveChangesAsync();
@@ -230,7 +235,7 @@ namespace Ticketsystem.Controllers
 
         private bool TicketExists(string id)
         {
-          return _context.Ticket.Any(e => e.Id == id);
+          return _context.Tickets.Any(e => e.Id == id);
         }
     }
 }
