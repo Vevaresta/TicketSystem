@@ -315,9 +315,9 @@
             </div>
         </div>
         <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
-            <div class="row">
+                <div class="row">
                  <div class="col-md-4">
-                     <h5>Kunden Daten:</h5>
+                    <h5>Kunden Daten:</h5>
                     <div class="row">
                         <div class="form-group">
                             <label class="control-label">Name</label>
@@ -396,30 +396,33 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                     <h5>Produkt Daten:</h5>
-                       <div class="form-group">
-                            <label class="control-label">Bezeichnung</label>
-                            <input class="form-control" />
-                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Hersteller</label>
-                            <input class="form-control" />
-                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Seriennummer</label>
-                            <input class="form-control" />
-                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Art</label>
-                            <input class="form-control" />
-                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
-                        </div>
-                        <div class="form-group" style="margin-top: 20px">
-                            <input type="submit" value="Weiteres Produkt hinzufügen" class="btn btn-lg btn-primary" />
-                            </div>
+                       <h5>1. Produkt:</h5>
+                       <div id="ProduktDaten">
+                           <div class="form-group">
+                                <label class="control-label">Bezeichnung</label>
+                                <input class="form-control" />
+                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                           </div>
+                           <div class="form-group">
+                                <label class="control-label">Hersteller</label>
+                                <input class="form-control" />
+                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                           </div>
+                           <div class="form-group">
+                                <label class="control-label">Seriennummer</label>
+                                <input class="form-control" />
+                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                           </div>
+                           <div class="form-group">
+                                <label class="control-label">Art</label>
+                                <input class="form-control" />
+                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                           </div>
+                           <div class="form-group" style="margin-top: 20px">
+                                <button onclick="duplicate()" class="btn btn-lg btn-primary mb-4">Produkt Hinzufügen</button>
+                       </div>
+                       </div>
+                       
                 </div>
                 <div class="col-md-4">
                     <div class="row">
@@ -434,6 +437,7 @@
                         </div>
                     </div>
                 </div>
+                
             </div>
         </div>
         <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
@@ -550,12 +554,36 @@
             </div>
         </div>
     </div>
-</div>
+
 
 
 @section Scripts
     {
 <script>
+    var counter = 1;
+
+    function duplicate() {
+      var original = document.getElementById('ProduktDaten');
+      var clone = original.cloneNode(true);
+  
+      // Hinzufügen des Lösch-Buttons
+      var deleteButton = document.createElement("button");
+      deleteButton.innerHTML = "Produkt Löschen";
+      deleteButton.classList.add("btn", "btn-lg", "btn-primary");
+      deleteButton.onclick = function() { clone.remove(); counter--; };
+
+      clone.appendChild(deleteButton);
+  
+      // Erhöhen der Zählvariable und Hinzufügen des Zählers
+      counter++;
+      var counterSpan = document.createElement("h5");
+      counterSpan.innerHTML = counter + ". " + "Produkt:";
+      clone.insertBefore(counterSpan, clone.firstChild);
+  
+      original.parentNode.appendChild(clone);
+    }
+
+
     $(function () {
         $('#myTab a').on('click', function (e) {
             e.preventDefault();
@@ -602,6 +630,7 @@
             $('#tel-tab1, #tel-tab2, #tel-tab3, #tel-tab4').not(this).val($(this).val());
         });
 
+        
         
 
         //$('#input2-tab1').on('input', function () {
