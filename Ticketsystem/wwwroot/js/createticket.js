@@ -47,16 +47,10 @@ $(document).ready(function () {
         email.not(this).val(currentValue);
     });
 
-    var phonenumber1 = $('.phonenumber1');
-    phonenumber1.on('input', function () {
+    var phonenumber = $('.phonenumber');
+    phonenumber.on('input', function () {
         var currentValue = $(this).val();
-        phonenumber1.not(this).val(currentValue);
-    });
-
-    var phonenumber2 = $('.phonenumber2');
-    phonenumber2.on('input', function () {
-        var currentValue = $(this).val();
-        phonenumber2.not(this).val(currentValue);
+        phonenumber.not(this).val(currentValue);
     });
 });
 

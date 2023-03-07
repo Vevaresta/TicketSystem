@@ -7,11 +7,9 @@ public class Ticket
 {
     public Ticket()
     {
-        Id = Guid.NewGuid().ToString();
     }
 
-    [Key]
-    public string Id { get; set; }
+    public int Id { get; set; }
 
     [ForeignKey(nameof(TicketType))]
     public string TicketTypeId { get; set; }

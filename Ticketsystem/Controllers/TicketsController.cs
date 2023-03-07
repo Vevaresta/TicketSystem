@@ -27,9 +27,9 @@ namespace Ticketsystem.Controllers
         }
 
         // GET: Tickets/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null || _context.Tickets == null)
+            if (_context.Tickets == null)
             {
                 return NotFound();
             }
@@ -60,7 +60,7 @@ namespace Ticketsystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TicketTypeId,TicketStatusId,WorkOrder,DataBackupByClient,DataBackupByStaff,DataBackupDone,Comments")] Ticket ticket)
+        public async Task<IActionResult> Create(Ticket ticket)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace Ticketsystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,TicketTypeId,TicketStatusId,WorkOrder,DataBackupByClient,DataBackupByStaff,DataBackupDone,Comments")] Ticket ticket)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TicketTypeId,TicketStatusId,WorkOrder,DataBackupByClient,DataBackupByStaff,DataBackupDone,Comments")] Ticket ticket)
         {
             if (id != ticket.Id)
             {
@@ -129,9 +129,9 @@ namespace Ticketsystem.Controllers
         }
 
         // GET: Tickets/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null || _context.Tickets == null)
+            if (_context.Tickets == null)
             {
                 return NotFound();
             }
@@ -167,7 +167,7 @@ namespace Ticketsystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TicketExists(string id)
+        private bool TicketExists(int id)
         {
           return _context.Tickets.Any(e => e.Id == id);
         }

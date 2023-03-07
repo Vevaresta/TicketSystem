@@ -10,11 +10,10 @@ public class Device
         Id = Guid.NewGuid().ToString();
     }
 
-    [Key]
     public string Id { get; set; }
 
     [ForeignKey(nameof(Ticket))]
-    public string TicketId { get; set; }
+    public int TicketId { get; set; }
 
     public string DeviceType { get; set; }
     public string PriorDamage { get; set; }
