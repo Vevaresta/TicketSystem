@@ -52,37 +52,21 @@ namespace Ticketsystem.Controllers
         }
 
         // GET: Tickets/Create
-        public IActionResult Reparatur()
+
+        public IActionResult NeuesTicketAnlegen()
         {
             ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id");
             ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id");
             return View();
         }
-        public IActionResult Datenrettung()
-        {
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id");
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id");
-            return View();
-        }
-        public IActionResult Auftrag()
-        {
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id");
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id");
-            return View();
-        }
-        public IActionResult Beratung()
-        {
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id");
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id");
-            return View();
-        }
+        
 
         // POST: Tickets/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Reparatur([Bind("Id,TicketTypeId,TicketStatusId,WorkOrder,DataBackupByClient,DataBackupByStaff,DataBackupDone,Comments")] Ticket ticket)
+        public async Task<IActionResult> NeuesTicketAnlegen([Bind("Id,TicketTypeId,TicketStatusId,WorkOrder,DataBackupByClient,DataBackupByStaff,DataBackupDone,Comments")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
@@ -95,48 +79,7 @@ namespace Ticketsystem.Controllers
             return View(ticket);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Datenrettung([Bind("Id,TicketTypeId,TicketStatusId,WorkOrder,DataBackupByClient,DataBackupByStaff,DataBackupDone,Comments")] Ticket ticket)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(ticket);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
-            return View(ticket);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Auftrag([Bind("Id,TicketTypeId,TicketStatusId,WorkOrder,DataBackupByClient,DataBackupByStaff,DataBackupDone,Comments")] Ticket ticket)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(ticket);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
-            return View(ticket);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Beratung([Bind("Id,TicketTypeId,TicketStatusId,WorkOrder,DataBackupByClient,DataBackupByStaff,DataBackupDone,Comments")] Ticket ticket)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(ticket);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
-            return View(ticket);
-        }
+        
 
 
         // GET: Tickets/Edit/5

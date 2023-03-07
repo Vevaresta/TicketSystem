@@ -1,0 +1,616 @@
+﻿@{
+    ViewData["Title"] = "NeuesTicketAnlegen";
+}
+
+<div class="container">
+    <h1>Neues Ticket Anlegen</h1>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Reparatur</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Datenrettung</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Auftrag</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4" aria-selected="false">Beratung</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Kunden Daten:</h5>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Name</label>
+                            <input class="form-control" id="name-tab1" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Vorname</label>
+                            <input class="form-control" id="vorname-tab1" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Reha Nummer</label>
+                            <input class="form-control" id="rehanr-tab1" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Kurs Nummer</label>
+                            <input class="form-control" id="kursnr-tab1" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Straße</label>
+                            <input class="form-control" id="strasse-tab1" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="control-label">Hausnummer</label>
+                            <input class="form-control" id="hausnr-tab1"/>
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label">PLZ</label>
+                            <input class="form-control" id="plz-tab1" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Wohnort</label>
+                            <input class="form-control" id="wohnort-tab1" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="control-label">E-Mail Adresse</label>
+                            <input class="form-control" id="mail-tab1"/>
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label">Telefonnummer</label>
+                            <input class="form-control" id="tel-tab1" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                    </div>
+                    <div class="row">
+                        <div class="form-group" style="margin-top: 20px">
+                            <div class="form-group">
+                                <input type="submit" value="Speichern" class="btn btn-lg btn-primary" />
+                            </div>
+                            <div>
+                                <a asp-action="Index">Zurück zur Übersicht</a>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                                    <h5>Produkt Daten:</h5>
+                                       <div class="form-group">
+                                            <label class="control-label">Bezeichnung</label>
+                                            <input class="form-control" />
+                                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Hersteller</label>
+                                            <input class="form-control" />
+                                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Seriennummer</label>
+                                            <input class="form-control" />
+                                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Art</label>
+                                            <input class="form-control" />
+                                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                                        </div>
+                                        <div class="form-group">
+                                                <label for="exampleTextarea" class="control-label">Userdaten und Passwörtet</label>
+                                                <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                                        </div>
+                                        <fieldset class="form-group">
+                                            <legend class="mt-3">Datensicherung gewünscht?</legend>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                                                    <label class="form-check-label" for="optionsRadios1">Ja</label>                       
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                                    <label class="form-check-label" for="optionsRadios2">Nein</label>
+                                                </div>
+                                                <div class="form-check disabled">
+                                                    <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+                                                    <label class="form-check-label" for="optionsRadios3">Bereits durch Kunden durchgeführt</label>
+                                                </div>
+                                        </fieldset>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <form asp-action="Reparatur">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <h5>Notizen:</h5>
+                                <div class="form-group">
+                                        <label for="exampleTextarea" class="control-label">Fehlerbeschreibung</label>
+                                        <textarea class="form-control" id="exampleTextarea" rows="13"></textarea>
+                                </div>
+                                <div class="form-group">
+                                        <label for="exampleTextarea" class="control-label">Notizen</label>
+                                        <textarea class="form-control" id="exampleTextarea" rows="4"></textarea>
+                                </div>
+                           </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Kunden Daten:</h5>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Name</label>
+                            <input class="form-control" id="name-tab2" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Vorname</label>
+                            <input class="form-control" id="vorname-tab2" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Reha Nummer</label>
+                            <input class="form-control" id="rehanr-tab2" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Kurs Nummer</label>
+                            <input class="form-control" id="kursnr-tab2" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Straße</label>
+                            <input class="form-control" id="strasse-tab2" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="control-label">Hausnummer</label>
+                            <input class="form-control" id="hausnr-tab2"/>
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label">PLZ</label>
+                            <input class="form-control" id="plz-tab2" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Wohnort</label>
+                            <input class="form-control" id="wohnort-tab2" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="control-label">E-Mail Adresse</label>
+                            <input class="form-control" id="mail-tab2"/>
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label">Telefonnummer</label>
+                            <input class="form-control" id="tel-tab2" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" style="margin-top: 20px">
+                            <div class="form-group">
+                                <input type="submit" value="Speichern" class="btn btn-lg btn-primary" />
+                            </div>
+                            <div>
+                                <a asp-action="Index">Zurück zur Übersicht</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h5>Produkt Daten Qulle:</h5>
+                    <div class="form-group">
+                        <label class="control-label">Bezeichnung</label>
+                        <input class="form-control" />
+                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Hersteller</label>
+                        <input class="form-control" />
+                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Seriennummer</label>
+                        <input class="form-control" />
+                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Art</label>
+                        <input class="form-control" />
+                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                    </div>
+                    <div class="form-group">
+                            <label for="exampleTextarea" class="control-label">Userdaten und Passwörtet</label>
+                            <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                    </div>
+                    <fieldset class="form-group">
+                        <legend class="mt-3">Kunde hat Zielmedium dabei?</legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                                <label class="form-check-label" for="optionsRadios1">Ja</label>                       
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                <label class="form-check-label" for="optionsRadios2">Nein</label>
+                            </div>
+                    </fieldset>
+                </div>
+                 <div class="col-md-4">
+                    <h5>Produkt Daten Ziel:</h5>
+                   <div class="form-group">
+                        <label class="control-label">Bezeichnung</label>
+                        <input class="form-control" />
+                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Hersteller</label>
+                        <input class="form-control" />
+                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Seriennummer</label>
+                        <input class="form-control" />
+                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Art</label>
+                        <input class="form-control" />
+                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                    </div>
+                    <div class="form-group">
+                            <label for="exampleTextarea" class="control-label">Userdaten und Passwörtet</label>
+                            <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                    </div>    
+                    <div class="form-group">
+                            <label for="exampleTextarea" class="control-label">Notizen</label>
+                            <textarea class="form-control" id="exampleTextarea" rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+            <div class="row">
+                 <div class="col-md-4">
+                     <h5>Kunden Daten:</h5>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Name</label>
+                            <input class="form-control" id="name-tab3" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Vorname</label>
+                            <input class="form-control" id="vorname-tab3" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Reha Nummer</label>
+                            <input class="form-control" id="rehanr-tab3" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Kurs Nummerr</label>
+                            <input class="form-control" id="kursnr-tab3" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Straße</label>
+                            <input class="form-control" id="strasse-tab3" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="control-label">Hausnummer</label>
+                            <input class="form-control" id="hausnr-tab3"/>
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label">PLZ</label>
+                            <input class="form-control" id="plz-tab3" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Wohnort</label>
+                            <input class="form-control" id="wohnort-tab3" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="control-label">E-Mail Adresse</label>
+                            <input class="form-control" id="mail-tab3"/>
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label">Telefonnummer</label>
+                            <input class="form-control" id="tel-tab3" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" style="margin-top: 20px">
+                            <div class="form-group">
+                                <input type="submit" value="Speichern" class="btn btn-lg btn-primary" />
+                            </div>
+                            <div>
+                                <a asp-action="Index">Zurück zur Übersicht</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                     <h5>Produkt Daten:</h5>
+                       <div class="form-group">
+                            <label class="control-label">Bezeichnung</label>
+                            <input class="form-control" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Hersteller</label>
+                            <input class="form-control" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Seriennummer</label>
+                            <input class="form-control" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Art</label>
+                            <input class="form-control" />
+                            @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                        <div class="form-group" style="margin-top: 20px">
+                            <input type="submit" value="Weiteres Produkt hinzufügen" class="btn btn-lg btn-primary" />
+                            </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <h5>Besprochene Dienstleistungen:</h5>
+                        <div class="form-group">
+                                <label for="exampleTextarea" class="control-label">Auftrag</label>
+                                <textarea class="form-control" id="exampleTextarea" rows="13"></textarea>
+                        </div>
+                        <div class="form-group">
+                                <label for="exampleTextarea" class="control-label">Notizen</label>
+                                <textarea class="form-control" id="exampleTextarea" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
+            <div class="row">
+                 <div class="col-md-4">
+                     <h5>Kunden Daten:</h5>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label">Name</label>
+                                <input class="form-control" id="name-tab4" />
+                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label">Vorname</label>
+                                <input class="form-control" id="vorname-tab4" />
+                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label">Reha Nummer</label>
+                                <input class="form-control" id="rehanr-tab4" />
+                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label">Kurs Nummer</label>
+                                <input class="form-control" id="kursnr-tab4" />
+                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label">Straße</label>
+                                <input class="form-control" id="strasse-tab4" />
+                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="control-label">Hausnummer</label>
+                                <input class="form-control" id="hausnr-tab4"/>
+                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                            </div>
+                            <div class="col-md-6">
+                                <label class="control-label">PLZ</label>
+                                <input class="form-control" id="plz-tab4" />
+                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label">Wohnort</label>
+                                <input class="form-control" id="wohnort-tab4" />
+                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="control-label">E-Mail Adresse</label>
+                                <input class="form-control" id="mail-tab4"/>
+                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                            </div>
+                            <div class="col-md-6">
+                                <label class="control-label">Telefonnummer</label>
+                                <input class="form-control" id="tel-tab4" />
+                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group" style="margin-top: 20px">
+                                <div class="form-group">
+                                    <input type="submit" value="Speichern" class="btn btn-lg btn-primary" />
+                                </div>
+                                <div>
+                                    <a asp-action="Index">Zurück zur Übersicht</a>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="col-md-4">
+                        <h5>Fragestellung des Kunden:</h5>
+                        <div class="form-group">
+                            <label for="exampleTextarea" class="control-label">Frage oder Problem</label>
+                            <textarea class="form-control" id="exampleTextarea" rows="6"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleTextarea" class="control-label">Empfehlung</label>
+                            <textarea class="form-control" id="exampleTextarea" rows="6"></textarea>
+                        </div>
+                 </div>
+                 <div class="col-md-4">
+                            <h5>Anmerkungen:</h5>
+                            <div class="form-group">
+                                    <label for="exampleTextarea" class="control-label">Notizen</label>
+                                    <textarea class="form-control" id="exampleTextarea" rows="6"></textarea>
+                            </div>
+                             <fieldset class="form-group">
+                                <legend class="mt-3">Weiterer Auftrag entstanden?</legend>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                                        <label class="form-check-label" for="optionsRadios1">Ja</label>                       
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                        <label class="form-check-label" for="optionsRadios2">Nein</label>
+                                    </div>
+                            </fieldset>
+                        </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+    {
+<script>
+    $(function () {
+        $('#myTab a').on('click', function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+
+        $('#name-tab1, #name-tab2, #name-tab3, #name-tab4').on('input', function () {
+            $('#name-tab1, #name-tab2, #name-tab3, #name-tab4').not(this).val($(this).val());
+        });
+
+        $('#vorname-tab1, #vorname-tab2, #vorname-tab3, #vorname-tab4').on('input', function () {
+            $('#vorname-tab1, #vorname-tab2, #vorname-tab3, #vorname-tab4').not(this).val($(this).val());
+        });
+
+        $('#rehanr-tab1, #rehanr-tab2, #rehanr-tab3, #rehanr-tab4').on('input', function () {
+            $('#rehanr-tab1, #rehanr-tab2, #rehanr-tab3, #rehanr-tab4').not(this).val($(this).val());
+        });
+
+        $('#kursnr-tab1, #kursnr-tab2, #kursnr-tab3, #kursnr-tab4').on('input', function () {
+            $('#kursnr-tab1, #kursnr-tab2, #kursnr-tab3, #kursnr-tab4').not(this).val($(this).val());
+        });
+
+        $('#strasse-tab1, #strasse-tab2, #strasse-tab3, #strasse-tab4').on('input', function () {
+            $('#strasse-tab1, #strasse-tab2, #strasse-tab3, #strasse-tab4').not(this).val($(this).val());
+        });
+
+        $('#hausnr-tab1, #hausnr-tab2, #hausnr-tab3, #hausnr-tab4').on('input', function () {
+            $('#hausnr-tab1, #hausnr-tab2, #hausnr-tab3, #hausnr-tab4').not(this).val($(this).val());
+        });
+
+        $('#plz-tab1, #plz-tab2, #plz-tab3, #plz-tab4').on('input', function () {
+            $('#plz-tab1, #plz-tab2, #plz-tab3, #plz-tab4').not(this).val($(this).val());
+        });
+
+        $('#wohnort-tab1, #wohnort-tab2, #wohnort-tab3, #wohnort-tab4').on('input', function () {
+            $('#wohnort-tab1, #wohnort-tab2, #wohnort-tab3, #wohnort-tab4').not(this).val($(this).val());
+        });
+
+        $('#mail-tab1, #mail-tab2, #mail-tab3, #mailt-tab4').on('input', function () {
+            $('#mail-tab1, #mail-tab2, #mail-tab3, #mail-tab4').not(this).val($(this).val());
+        });
+
+        $('#tel-tab1, #tel-tab2, #tel-tab3, #tel-tab4').on('input', function () {
+            $('#tel-tab1, #tel-tab2, #tel-tab3, #tel-tab4').not(this).val($(this).val());
+        });
+
+        
+
+        //$('#input2-tab1').on('input', function () {
+        //    $('#input2-tab1, #input2-tab2').val($(this).val());
+        //});
+
+        //$('#input3-tab1').on('input', function () {
+        //    $('#input3-tab1, #input3-tab2').val($(this).val());
+        //});
+    });
+</script>
+}

@@ -11,13 +11,10 @@
 <div class="row">
      <div class="col-md-4">
             <h5>Neues Ticket:</h5>
-                <div class="btn-group" role="group" aria-label="TicketAuswahl">
-                    <a class="btn btn-primary" asp-action="Reparatur">Reparatur</a>
-                    <a class="btn btn-primary" asp-action="Datenrettung">Datenrettung</a>
-                    <a class="btn btn-primary" asp-action="Auftrag">Auftrag</a>
-                    <a class="btn btn-primary" asp-action="Beratung">Beratung</a>
-                </div>
-         </div>
+            <div class="d-grid gap-2">
+                  <a class="btn btn-primary" asp-action="NeuesTicketAnlegen" type="button">Neues Ticket erstellen</a>
+            </div>
+      </div>
          <div class="col-md-4">
             <h5>Ticket suchen:</h5>
                 <form class="d-flex">
