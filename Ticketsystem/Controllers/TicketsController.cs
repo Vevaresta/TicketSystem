@@ -54,20 +54,20 @@ namespace Ticketsystem.Controllers
         // GET: Tickets/Create
         public IActionResult Reparatur()
         {
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Id");
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketType, "Id", "Id");
+            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id");
+            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id");
             return View();
         }
         public IActionResult Datenrettung()
         {
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Id");
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketType, "Id", "Id");
+            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id");
+            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id");
             return View();
         }
         public IActionResult Auftrag()
         {
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Id");
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketType, "Id", "Id");
+            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id");
+            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id");
             return View();
         }
         public IActionResult Beratung()
@@ -105,8 +105,8 @@ namespace Ticketsystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Id", ticket.TicketStatusId);
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketType, "Id", "Id", ticket.TicketTypeId);
+            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
+            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
             return View(ticket);
         }
         [HttpPost]
@@ -119,8 +119,8 @@ namespace Ticketsystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Id", ticket.TicketStatusId);
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketType, "Id", "Id", ticket.TicketTypeId);
+            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
+            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
             return View(ticket);
         }
         [HttpPost]
@@ -133,8 +133,8 @@ namespace Ticketsystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatus, "Id", "Id", ticket.TicketStatusId);
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketType, "Id", "Id", ticket.TicketTypeId);
+            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
+            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
             return View(ticket);
         }
 
