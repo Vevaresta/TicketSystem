@@ -1,311 +1,316 @@
-﻿@model Ticketsystem.Models.Ticket
+﻿@using Ticketsystem.Models;
+@model Ticketsystem.Models.Ticket
 
 @{
-    ViewData["Title"] = "NeuesTicketAnlegen";
+    ViewData["Title"] = "Neues Ticket";
 }
 
 <div class="container">
     <form method="post">
-        <h3>Neues Ticket Anlegen</h3>
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <h3>Neues Ticket</h3>
+        <div class="row ms-lg-2">
+            <fieldset class="form-group col-md-5 mb-3">
+                <div class="row">
+                    <div class="col-md-3 form-check">
+                        <input class="form-check-input radio-ticket-type" type="radio" name="ticket-type" value="reparatur" checked>
+                        <label class="form-check-label">Reparatur</label>
+                    </div>
+                    <div class="col-md-3 form-check">
+                        <input class="form-check-input radio-ticket-type" type="radio" name="ticket-type" value="datenrettung">
+                        <label class="form-check-label">Datenrettung</label>
+                    </div>
+                    <div class="col-md-3 form-check">
+                        <input class="form-check-input radio-ticket-type" type="radio" name="ticket-type" value="beratung">
+                        <label class="form-check-label">Beratung</label>
+                    </div>
+                    <div class="col-md-3 form-check">
+                        <input class="form-check-input radio-ticket-type" type="radio" name="ticket-type" value="allgemein">
+                        <label class="form-check-label">Auftrag</label>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <ul class="nav nav-tabs" id="tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Reparatur</a>
+                <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Daten</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Datenrettung</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Auftrag</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4" aria-selected="false">Beratung</a>
+            <li class="nav-item" id="geraetetab" hidden>
+                <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Geräte</a>
             </li>
         </ul>
-        <div class="tab-content" id="myTabContent">
+        <div class="tab-content">
             <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
-                <div class="row">
+                <div class="row mt-2 mb-3">
                     <div class="col-md-4">
-                        <partial name="_CreateTicketFirstTab" />
+                        <h5>Auftraggeber</h5>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="Client.LastName" class="control-label">Nachname</label>
+                                <input asp-for="Client.LastName" class="form-control lastname" />
+                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="Client.FirstName" class="control-label">Vorname</label>
+                                <input asp-for="Client.FirstName" class="form-control firstname" />
+                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Client.RehaNumber" class="control-label">Reha Nummer</label>
+                                    <input asp-for="Client.RehaNumber" class="form-control rehanumber" />
+                                    @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Client.Course" class="control-label">Kurs Nummer</label>
+                                    <input asp-for="Client.Course" class="form-control coursenumber" />
+                                    @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="Client.StreetAndHouseNumber" class="control-label">Straße und Hausnummer</label>
+                                <input asp-for="Client.StreetAndHouseNumber" class="form-control street" />
+                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Client.PostalCode" class="control-label">PLZ</label>
+                                    <input asp-for="Client.PostalCode" class="form-control postalcode" />
+                                    @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label asp-for="Client.City" class="control-label">Wohnort</label>
+                                    <input asp-for="Client.City" class="form-control city" />
+                                    @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="Client.Email" class="control-label">E-Mail Adresse</label>
+                                <input asp-for="Client.Email" class="form-control email" />
+                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="Client.PhoneNumber" class="control-label">Telefonnummer</label>
+                                <input asp-for="Client.PhoneNumber" class="form-control phonenumber" />
+                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-4">
-                        <h5>Produktdaten:</h5>
+                        <h5>Aufgaben</h5>
                         <div class="row mb-1">
                             <div class="form-group">
-                                <label asp-for="Devices[0].Name" class="control-label">Bezeichnung</label>
-                                <input asp-for="Devices[0].Name" class="form-control" />
+                                <label class="control-label">Auftragsname</label>
+                                <input class="form-control" />
                                 @*<span asp-validation-for="Id" class="text-danger"></span>*@
                             </div>
                         </div>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label asp-for="Devices[0].DeviceType" class="control-label">Art</label>
-                                <input asp-for="Devices[0].DeviceType" class="form-control" />
-                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label asp-for="Devices[0].Manufacturer" class="control-label">Hersteller</label>
-                                <input asp-for="Devices[0].Manufacturer" class="form-control" />
-                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label asp-for="Devices[0].SerialNumber" class="control-label">Seriennummer</label>
-                                <input asp-for="Devices[0].SerialNumber" class="form-control" />
-                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label asp-for="Devices[0].Accessories" class="control-label">Zubehör</label>
-                                <textarea asp-for="Devices[0].Accessories" class="form-control" rows="3"></textarea>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group">
-                                <label asp-for="Devices[0].Comments" class="control-label">Kommentar</label>
-                                <textarea asp-for="Devices[0].Comments" class="form-control" rows="3"></textarea>
-                            </div>
-                        </div>
-                        <div class="row">
+                        <div class="row mb-2">
                             <fieldset class="form-group">
-                                <legend class="mt-3">Datensicherung gewünscht?</legend>
+                                <legend class="mt-3">Datensicherung durchführen?</legend>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
-                                    <label class="form-check-label" for="optionsRadios1">Ja</label>
+                                    <label class="form-check-label" for="optionsRadios1">Durch Auftraggeber</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                                    <label class="form-check-label" for="optionsRadios2">Nein</label>
+                                    <label class="form-check-label" for="optionsRadios2">Durch uns</label>
                                 </div>
-                                <div class="form-check disabled">
-                                    <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-                                    <label class="form-check-label" for="optionsRadios3">Bereits durch Kunden durchgeführt</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                    <label class="form-check-label" for="optionsRadios2">Bereits erledigt</label>
                                 </div>
                             </fieldset>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
-                        <h5>Notizen:</h5>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label for="exampleTextarea" class="control-label">Fehlerbeschreibung</label>
-                                <textarea class="form-control" id="exampleTextarea" rows="13"></textarea>
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="form-group">
-                                <label for="exampleTextarea" class="control-label">Notizen</label>
-                                <textarea class="form-control" id="exampleTextarea" rows="4"></textarea>
+                                <label for="exampleTextarea" class="control-label">Auftragsbeschreibung</label>
+                                <textarea class="form-control" id="exampleTextarea" rows="8"></textarea>
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row" id="einzelgeraet">
+                            <h5>Gerät</h5>
+                            <div class="row">
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Bezeichnung</label>
+                                        <input class="form-control" />
+                                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Produktart</label>
+                                        <input class="form-control" />
+                                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Hersteller</label>
+                                        <input class="form-control" />
+                                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Seriennummer</label>
+                                        <input class="form-control" />
+                                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Zubehör</label>
+                                        <input class="form-control" />
+                                        @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="exampleTextarea" class="control-label">Notizen</label>
+                                        <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="deviceListInput" name="deviceList" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="submit" value="Speichern" class="btn btn-lg btn-primary mb-2" asp-action="Create" />
+                        <div>
+                            <a asp-action="Index">Zurück zur Übersicht</a>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
-                <div class="row">
+                <div class="row mt-2">
                     <div class="col-md-4">
-                        <partial name="_CreateTicketFirstTab" />
-                    </div>
-                    <div class="col-md-4">
-                        <h5>Produktdaten Quelle:</h5>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label class="control-label">Bezeichnung</label>
-                                <input class="form-control" />
-                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label class="control-label">Hersteller</label>
-                                <input class="form-control" />
-                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label class="control-label">Seriennummer</label>
-                                <input class="form-control" />
-                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label class="control-label">Art</label>
-                                <input class="form-control" />
-                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label for="exampleTextarea" class="control-label">Userdaten und Passwörtet</label>
-                                <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
-                            </div>
-                        </div>
                         <div class="row">
-                            <fieldset class="form-group">
-                                <legend class="mt-3">Kunde hat Zielmedium dabei?</legend>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
-                                    <label class="form-check-label" for="optionsRadios1">Ja</label>
+                            <h5>Geräteliste</h5>
+                            <div class="row mb-4">
+                                <div class="list-group bg-light" id="device-listbox" style="height: 400px; overflow-y: scroll;">
+                                    @*<button type="button" class="list-group-item list-group-item-action device-listbox-item">Eintrag 1</button>*@
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                                    <label class="form-check-label" for="optionsRadios2">Nein</label>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 text-start">
+                                    <span class="btn btn-primary me-2" id="button-add-device">Hinzufügen</span>
+                                    <span class="btn btn-primary me-2" id="button-edit-device">Bearbeiten</span>
+                                    <span class="btn btn-primary" id="button-delete-device">Löschen</span>
                                 </div>
-                            </fieldset>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <h5>Produktdaten Ziel:</h5>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label class="control-label">Bezeichnung</label>
-                                <input class="form-control" />
-                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label class="control-label">Hersteller</label>
-                                <input class="form-control" />
-                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label class="control-label">Seriennummer</label>
-                                <input class="form-control" />
-                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label class="control-label">Art</label>
-                                <input class="form-control" />
-                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label for="exampleTextarea" class="control-label">Userdaten und Passwörter</label>
-                                <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group">
-                                <label for="exampleTextarea" class="control-label">Notizen</label>
-                                <textarea class="form-control" id="exampleTextarea" rows="4"></textarea>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
-                <div class="row">
                     <div class="col-md-4">
-                        <partial name="_CreateTicketFirstTab" />
-                    </div>
-                    <div class="col-md-4">
-                        <h5>1. Produkt:</h5>
-                        <div id="ProduktDaten">
+                        <div class="row" id="add-device" hidden>
+                            <h5>Gerät</h5>
                             <div class="row mb-1">
                                 <div class="form-group">
                                     <label class="control-label">Bezeichnung</label>
-                                    <input class="form-control" />
+                                    <input class="form-control" id="input-device-name"/>
+                                    @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="form-group">
+                                    <label class="control-label">Produktart</label>
+                                    <input class="form-control" id="input-device-type" />
                                     @*<span asp-validation-for="Id" class="text-danger"></span>*@
                                 </div>
                             </div>
                             <div class="row mb-1">
                                 <div class="form-group">
                                     <label class="control-label">Hersteller</label>
-                                    <input class="form-control" />
+                                    <input class="form-control" id="input-device-manufacturer" />
                                     @*<span asp-validation-for="Id" class="text-danger"></span>*@
                                 </div>
                             </div>
                             <div class="row mb-1">
                                 <div class="form-group">
                                     <label class="control-label">Seriennummer</label>
-                                    <input class="form-control" />
+                                    <input class="form-control" id="input-device-serialnumber" />
                                     @*<span asp-validation-for="Id" class="text-danger"></span>*@
                                 </div>
                             </div>
-                            <div class="row mb-3">
+                            <div class="row mb-1">
                                 <div class="form-group">
-                                    <label class="control-label">Art</label>
-                                    <input class="form-control" />
+                                    <label class="control-label">Zubehör</label>
+                                    <input class="form-control" id="input-device-accessories" />
                                     @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="form-group">
+                                    <label for="exampleTextarea" class="control-label">Notizen</label>
+                                    <textarea class="form-control" id="input-device-comments" rows="3"></textarea>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group" style="margin-top: 20px">
-                                    <button onclick="duplicate()" class="btn btn-lg btn-primary mb-4">Produkt Hinzufügen</button>
+                                <div class="col-sm-12 text-start">
+                                    <span class="btn btn-primary me-2" id="button-device-save">Speichern</span>
+                                    <span class="btn btn-primary me-2" id="button-device-cancel">Abbrechen</span>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div class="col-md-4">
-                        <h5>Besprochene Dienstleistungen:</h5>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label for="exampleTextarea" class="control-label">Auftrag</label>
-                                <textarea class="form-control" id="exampleTextarea" rows="13"></textarea>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group">
-                                <label for="exampleTextarea" class="control-label">Notizen</label>
-                                <textarea class="form-control" id="exampleTextarea" rows="4"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
-                <div class="row">
-                    <div class="col-md-4">
-                        <partial name="_CreateTicketFirstTab" />
-                    </div>
-                    <div class="col-md-4">
-                        <h5>Fragestellung des Kunden:</h5>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label for="exampleTextarea" class="control-label">Frage oder Problem</label>
-                                <textarea class="form-control" id="exampleTextarea" rows="6"></textarea>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group">
-                                <label for="exampleTextarea" class="control-label">Empfehlung</label>
-                                <textarea class="form-control" id="exampleTextarea" rows="6"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <h5>Anmerkungen:</h5>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label for="exampleTextarea" class="control-label">Notizen</label>
-                                <textarea class="form-control" id="exampleTextarea" rows="6"></textarea>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <fieldset class="form-group">
-                                <legend class="mt-3">Weiterer Auftrag entstanden?</legend>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
-                                    <label class="form-check-label" for="optionsRadios1">Ja</label>
+                        <div class="row mb-4" id="software-list" hidden>
+                            <h5>Softwareliste</h5>
+                            <div class="row mb-4">
+                                <div class="list-group bg-light" id="software-listbox" style="height: 130px; overflow-y: scroll;">
+                                    @*<button type="button" class="list-group-item list-group-item-action">Eintrag 1</button>*@
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                                    <label class="form-check-label" for="optionsRadios2">Nein</label>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 text-start">
+                                    <span class="btn btn-primary me-2" id="button-add-software">Hinzufügen</span>
+                                    <span class="btn btn-primary me-2" id="button-edit-software">Bearbeiten</span>
+                                    <span class="btn btn-primary" id="button-delete-software">Löschen</span>
                                 </div>
-                            </fieldset>
+                            </div>
+                        </div>
+                        <div class="row" id="add-software" hidden>
+                            <h5>Software</h5>
+                            <div class="row mb-1">
+                                <div class="form-group">
+                                    <label class="control-label">Bezeichnung</label>
+                                    <input class="form-control" id="input-software-name"/>
+                                    @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="form-group">
+                                    <label for="exampleTextarea" class="control-label">Notizen</label>
+                                    <textarea class="form-control" id="input-software-comments" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 text-start">
+                                    <span class="btn btn-primary me-2" id="button-software-save">Speichern</span>
+                                    <span class="btn btn-primary me-2" id="button-software-cancel">Abbrechen</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

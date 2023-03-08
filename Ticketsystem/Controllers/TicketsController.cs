@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Ticketsystem.Data;
 using Ticketsystem.Models;
 
@@ -60,8 +61,13 @@ namespace Ticketsystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Ticket ticket)
+        public async Task<IActionResult> Create(Ticket ticket, string deviceList)
         {
+            if (!string.IsNullOrEmpty(deviceList))
+            {
+                ticket.Devices = JsonConvert.DeserializeObject<List<Device>>(deviceList);
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(ticket);

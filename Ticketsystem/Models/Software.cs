@@ -15,9 +15,6 @@ public class Software
     public string DeviceId { get; set; }
 
     public string Name { get; set; }
-    public DateTime InstallationDateTime { get; set; }
-    public string RegUserName { get; set; }
-    public string RegPassword { get; set; }
     public string Comments { get; set; }
 
     public Device Device { get; set; }
