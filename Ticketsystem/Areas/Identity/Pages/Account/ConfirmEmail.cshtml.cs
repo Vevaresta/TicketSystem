@@ -11,15 +11,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Ticketsystem.Areas.Identity.Models;
+using Ticketsystem.Models;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account
 {
     public class ConfirmEmailModel : PageModel
     {
-        private readonly UserManager<TicketsystemUser> _userManager;
+        private readonly UserManager<User> _userManager;
 
-        public ConfirmEmailModel(UserManager<TicketsystemUser> userManager)
+        public ConfirmEmailModel(UserManager<User> userManager)
         {
             _userManager = userManager;
         }

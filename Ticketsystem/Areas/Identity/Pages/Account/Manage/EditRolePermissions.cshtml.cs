@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Ticketsystem.Areas.Identity.Data;
-using Ticketsystem.Areas.Identity.Enums;
-using Ticketsystem.Areas.Identity.Models;
-using Ticketsystem.Areas.Identity.Services;
+using Ticketsystem.Enums;
+using Ticketsystem.Models;
+using Ticketsystem.Services;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {
@@ -26,7 +25,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
         {
             RoleToEdit = role;
 
-            EnhancedIdentityRole roleInDb = await _getRolesService.GetRoleByNameAsync(role);
+            Role roleInDb = await _getRolesService.GetRoleByNameAsync(role);
 
             foreach (Permission permission in roleInDb.Permissions)
             {
@@ -46,7 +45,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
                 permissionsEmumList.Add(permissionEnum);
             }
 
-            EnhancedIdentityRole roleInDb = await _getRolesService.GetRoleByNameAsync(role);
+            Role roleInDb = await _getRolesService.GetRoleByNameAsync(role);
 
             await _changeRolePermissionsService.AddPermissionListToRole(roleInDb, permissionsEmumList);
 

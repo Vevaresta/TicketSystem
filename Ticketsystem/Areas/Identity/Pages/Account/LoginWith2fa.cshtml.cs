@@ -11,19 +11,19 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using Ticketsystem.Areas.Identity.Models;
+using Ticketsystem.Models;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account
 {
     public class LoginWith2faModel : PageModel
     {
-        private readonly SignInManager<TicketsystemUser> _signInManager;
-        private readonly UserManager<TicketsystemUser> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
         private readonly ILogger<LoginWith2faModel> _logger;
 
         public LoginWith2faModel(
-            SignInManager<TicketsystemUser> signInManager,
-            UserManager<TicketsystemUser> userManager,
+            SignInManager<User> signInManager,
+            UserManager<User> userManager,
             ILogger<LoginWith2faModel> logger)
         {
             _signInManager = signInManager;

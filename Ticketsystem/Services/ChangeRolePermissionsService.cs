@@ -2,24 +2,24 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
-using Ticketsystem.Areas.Identity.Data;
-using Ticketsystem.Areas.Identity.Enums;
-using Ticketsystem.Areas.Identity.Models;
+using Ticketsystem.Data;
+using Ticketsystem.Enums;
+using Ticketsystem.Models;
 
-namespace Ticketsystem.Areas.Identity.Services
+namespace Ticketsystem.Services
 {
     public class ChangeRolePermissionsService
     {
-        private readonly UsersDbContext _identityContext;
-        private readonly RoleManager<EnhancedIdentityRole> _roleManager;
+        private readonly TicketsystemContext _identityContext;
+        private readonly RoleManager<Role> _roleManager;
 
-        public ChangeRolePermissionsService(UsersDbContext identityContext, RoleManager<EnhancedIdentityRole> roleManager)
+        public ChangeRolePermissionsService(TicketsystemContext identityContext, RoleManager<Role> roleManager)
         {
             _identityContext = identityContext;
             _roleManager = roleManager;
         }
 
-        public async Task AddPermissionToRole(EnhancedIdentityRole role, RolePermissions permission)
+        public async Task AddPermissionToRole(Role role, RolePermissions permission)
         {
             var permObject = await _identityContext.Permissions.FirstOrDefaultAsync(p => p.Name == permission.ToString());
 
@@ -32,7 +32,7 @@ namespace Ticketsystem.Areas.Identity.Services
             }
         }
 
-        public async Task AddPermissionToRole(EnhancedIdentityRole role, Permission permission)
+        public async Task AddPermissionToRole(Role role, Permission permission)
         {
             // Check if the permission is already in the administrator's permission list
             if (!role.Permissions.Contains(permission))
@@ -43,7 +43,7 @@ namespace Ticketsystem.Areas.Identity.Services
             }
         }
 
-        public async Task AddPermissionListToRole(EnhancedIdentityRole role, List<RolePermissions> permissions)
+        public async Task AddPermissionListToRole(Role role, List<RolePermissions> permissions)
         {
             List<Permission> permissionObjects = new();
 
@@ -74,7 +74,7 @@ namespace Ticketsystem.Areas.Identity.Services
             await _roleManager.UpdateAsync(role);
         }
 
-        public async Task RemovePermissionFromRole(EnhancedIdentityRole role, RolePermissions permission)
+        public async Task RemovePermissionFromRole(Role role, RolePermissions permission)
         {
             var permObject = await _identityContext.Permissions.FirstOrDefaultAsync(p => p.Name == permission.ToString());
 
@@ -87,7 +87,7 @@ namespace Ticketsystem.Areas.Identity.Services
             }
         }
 
-        public async Task RemovePermissionFromRole(EnhancedIdentityRole role, Permission permission)
+        public async Task RemovePermissionFromRole(Role role, Permission permission)
         {
             // Check if the permission is in the administrator's permission list
             if (role.Permissions.Contains(permission))
@@ -98,7 +98,7 @@ namespace Ticketsystem.Areas.Identity.Services
             }
         }
 
-        public async Task RemoveAllPermissionsFromRole(EnhancedIdentityRole role)
+        public async Task RemoveAllPermissionsFromRole(Role role)
         {
             foreach (var permission in role.Permissions)
             {

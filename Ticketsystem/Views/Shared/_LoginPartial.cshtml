@@ -1,12 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using Ticketsystem.Areas.Identity.Data
-@using Ticketsystem.Areas.Identity.Models;
+@using Ticketsystem.Data
+@using Ticketsystem.Models;
 
-@inject SignInManager<TicketsystemUser> signInManager
-@inject UserManager<TicketsystemUser> userManager
+@inject SignInManager<User> signInManager
+@inject UserManager<User> userManager
 
 @{
-    TicketsystemUser loggedInUser = await userManager.GetUserAsync(User);
+    User loggedInUser = await userManager.GetUserAsync(User);
 }
 
 <ul class="navbar-nav">

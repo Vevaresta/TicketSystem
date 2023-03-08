@@ -1,17 +1,17 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Ticketsystem.Areas.Identity.Models;
+using Ticketsystem.Models;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {
     public class ConfirmUserDeletionModel : PageModel
     {
-        private readonly UserManager<TicketsystemUser> _userManager;
+        private readonly UserManager<User> _userManager;
 
-        public TicketsystemUser UserToDelete;
+        public User UserToDelete;
 
-        public ConfirmUserDeletionModel(UserManager<TicketsystemUser> userManager)
+        public ConfirmUserDeletionModel(UserManager<User> userManager)
         {
             _userManager = userManager;
         }
@@ -28,7 +28,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostConfirmAsync(string userId)
         {
-            TicketsystemUser userToDelete = await _userManager.FindByIdAsync(userId);
+            User userToDelete = await _userManager.FindByIdAsync(userId);
             
             if (userToDelete != null)
             {

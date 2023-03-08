@@ -9,16 +9,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Ticketsystem.Areas.Identity.Models;
+using Ticketsystem.Models;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account
 {
     public class LogoutModel : PageModel
     {
-        private readonly SignInManager<TicketsystemUser> _signInManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly ILogger<LogoutModel> _logger;
 
-        public LogoutModel(SignInManager<TicketsystemUser> signInManager, ILogger<LogoutModel> logger)
+        public LogoutModel(SignInManager<User> signInManager, ILogger<LogoutModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;

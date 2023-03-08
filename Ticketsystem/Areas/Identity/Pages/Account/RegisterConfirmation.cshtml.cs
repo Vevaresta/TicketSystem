@@ -11,17 +11,17 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Ticketsystem.Areas.Identity.Models;
+using Ticketsystem.Models;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterConfirmationModel : PageModel
     {
-        private readonly UserManager<TicketsystemUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly IEmailSender _sender;
 
-        public RegisterConfirmationModel(UserManager<TicketsystemUser> userManager, IEmailSender sender)
+        public RegisterConfirmationModel(UserManager<User> userManager, IEmailSender sender)
         {
             _userManager = userManager;
             _sender = sender;

@@ -398,5 +398,8 @@ FodyWeavers.xsd
 *.sln.iml
 /Ticketsystem/*.db*
 /Ticketsystem/Migrations
-/UML/**
-.vscode
+/Ticketsystem/.vscode
+/out/UML/ticketsystem_rdm
+/out
+/.vscode
+/UML

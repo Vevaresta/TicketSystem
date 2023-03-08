@@ -1,6 +1,4 @@
-﻿using Ticketsystem.Areas.Identity.Data;
-
-namespace Ticketsystem.Areas.Identity.Models
+﻿namespace Ticketsystem.Models
 {
     public class Permission
     {
@@ -11,6 +9,8 @@ namespace Ticketsystem.Areas.Identity.Models
 
         public string Id { get; set; }
         public string Name { get; set; }
-        public List<EnhancedIdentityRole> Roles { get; set; }
+
+        public virtual IList<Role> Roles { get; set; }
+        public virtual IList<PermissionsTriggered> PermissionsTriggered { get; set; }
     }
 }
