@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
@@ -12,12 +13,10 @@ public class Client
     }
 
     public string Id { get; set; }
-
     public string LastName { get; set; }
     public string FirstName { get; set; }
     public string Email { get; set; }
     public string StreetAndHouseNumber { get; set; }
-
     public int? PostalCode { get; set; }
     public string City { get; set; }
     public string PhoneNumber { get; set; }

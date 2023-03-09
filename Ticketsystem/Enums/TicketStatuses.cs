@@ -2,8 +2,8 @@ namespace Ticketsystem.Enums;
 
 public enum TicketStatuses
 {
-    OrderAccepted,
-    InProgess,
+    Open,
+    Pending,
     NeedsCustomerConsultation,
-    Finished
+    Closed
 }

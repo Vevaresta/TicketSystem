@@ -1,30 +1,31 @@
-﻿@using Ticketsystem.Models;
-@model Ticketsystem.Models.Ticket
+﻿@using Ticketsystem.ViewModels;
+@model TicketViewModel
 
 @{
-    ViewData["Title"] = "Neues Ticket";
+    ViewData["Title"] = "Neues TicketViewModel";
 }
 
 <div class="container">
     <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <h3>Neues Ticket</h3>
         <div class="row ms-lg-2">
             <fieldset class="form-group col-md-5 mb-3">
                 <div class="row">
                     <div class="col-md-3 form-check">
-                        <input class="form-check-input radio-ticket-type" type="radio" name="ticket-type" value="reparatur" checked>
+                        <input class="form-check-input radio-ticket-type" type="radio" name="ticket-type" value="Reparatur" checked>
                         <label class="form-check-label">Reparatur</label>
                     </div>
                     <div class="col-md-3 form-check">
-                        <input class="form-check-input radio-ticket-type" type="radio" name="ticket-type" value="datenrettung">
+                        <input class="form-check-input radio-ticket-type" type="radio" name="ticket-type" value="Datenrettung">
                         <label class="form-check-label">Datenrettung</label>
                     </div>
                     <div class="col-md-3 form-check">
-                        <input class="form-check-input radio-ticket-type" type="radio" name="ticket-type" value="beratung">
+                        <input class="form-check-input radio-ticket-type" type="radio" name="ticket-type" value="Beratung">
                         <label class="form-check-label">Beratung</label>
                     </div>
                     <div class="col-md-3 form-check">
-                        <input class="form-check-input radio-ticket-type" type="radio" name="ticket-type" value="allgemein">
+                        <input class="form-check-input radio-ticket-type" type="radio" name="ticket-type" value="Auftrag">
                         <label class="form-check-label">Auftrag</label>
                     </div>
                 </div>
@@ -32,9 +33,9 @@
         </div>
         <ul class="nav nav-tabs" id="tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Daten</a>
+                <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Ticket</a>
             </li>
-            <li class="nav-item" id="geraetetab" hidden>
+            <li class="nav-item" id="geraetetab" style="display: none;">
                 <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Geräte</a>
             </li>
         </ul>
@@ -115,33 +116,35 @@
                         <h5>Aufgaben</h5>
                         <div class="row mb-1">
                             <div class="form-group">
-                                <label class="control-label">Auftragsname</label>
-                                <input class="form-control" />
-                                @*<span asp-validation-for="Id" class="text-danger"></span>*@
+                                <label asp-for="Name" class="control-label"></label>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="row mb-2">
-                            <fieldset class="form-group">
-                                <legend class="mt-3">Datensicherung durchführen?</legend>
+                        <div class="row mb-4">
+                            <div class="form-group">
+                                <label asp-for="WorkOrder" class="control-label"></label>
+                                <textarea asp-for="WorkOrder" class="form-control" id="exampleTextarea" rows="8"></textarea>
+                                <span asp-validation-for="WorkOrder" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-2" id="backup">
+                            <div class="d-flex align-items-center">
+                                <h5 class="me-4">Datensicherung?</h5>
+                                <div class="form-check form-switch pb-2">
+                                    <input class="form-check-input" type="checkbox" id="switch-backup">
+                                </div>
+                            </div>
+                            <fieldset class="form-group" id="backup-choices" style="display: none;">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
                                     <label class="form-check-label" for="optionsRadios1">Durch Auftraggeber</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                                    <label class="form-check-label" for="optionsRadios2">Durch uns</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                                    <label class="form-check-label" for="optionsRadios2">Bereits erledigt</label>
+                                    <label class="form-check-label" for="optionsRadios2">Durch Mitarbeiter</label>
                                 </div>
                             </fieldset>
-                        </div>
-                        <div class="row">
-                            <div class="form-group">
-                                <label for="exampleTextarea" class="control-label">Auftragsbeschreibung</label>
-                                <textarea class="form-control" id="exampleTextarea" rows="8"></textarea>
-                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -151,54 +154,55 @@
                                 <div class="row mb-1">
                                     <div class="form-group">
                                         <label class="control-label">Bezeichnung</label>
-                                        <input class="form-control" />
+                                        <input class="form-control" id="input-device-name" />
                                         @*<span asp-validation-for="Id" class="text-danger"></span>*@
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <div class="form-group">
                                         <label class="control-label">Produktart</label>
-                                        <input class="form-control" />
+                                        <input class="form-control" id="input-device-type" />
                                         @*<span asp-validation-for="Id" class="text-danger"></span>*@
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <div class="form-group">
                                         <label class="control-label">Hersteller</label>
-                                        <input class="form-control" />
+                                        <input class="form-control" id="input-device-manufacturer" />
                                         @*<span asp-validation-for="Id" class="text-danger"></span>*@
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <div class="form-group">
                                         <label class="control-label">Seriennummer</label>
-                                        <input class="form-control" />
+                                        <input class="form-control" id="input-device-serialnumber" />
                                         @*<span asp-validation-for="Id" class="text-danger"></span>*@
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <div class="form-group">
                                         <label class="control-label">Zubehör</label>
-                                        <input class="form-control" />
+                                        <input class="form-control" id="input-device-accessories" />
                                         @*<span asp-validation-for="Id" class="text-danger"></span>*@
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group">
                                         <label for="exampleTextarea" class="control-label">Notizen</label>
-                                        <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                                        <textarea class="form-control" id="input-device-comments" rows="3"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <input type="hidden" id="ticketTypeInput" name="ticketType" />
                 <input type="hidden" id="deviceListInput" name="deviceList" />
                 <div class="row">
                     <div class="col-md-6">
-                        <input type="submit" value="Speichern" class="btn btn-lg btn-primary mb-2" asp-action="Create" />
+                        <input type="submit" value="Speichern" class="btn btn-lg btn-primary mb-2" id="button-main-save-ticket" asp-action="Create" />
                         <div>
-                            <a asp-action="Index">Zurück zur Übersicht</a>
+                            <a asp-action="Index" id="link-main-back">Zurück zur Übersicht</a>
                         </div>
                     </div>
                 </div>
@@ -215,67 +219,68 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 text-start">
-                                    <span class="btn btn-primary me-2" id="button-add-device">Hinzufügen</span>
-                                    <span class="btn btn-primary me-2" id="button-edit-device">Bearbeiten</span>
-                                    <span class="btn btn-primary" id="button-delete-device">Löschen</span>
+                                    <button type="button" class="btn btn-primary me-2" id="button-add-device">Hinzufügen</button>
+                                    <button type="button" class="btn btn-primary me-2" id="button-edit-device">Bearbeiten</button>
+                                    <button type="button" class="btn btn-primary" id="button-delete-device">Löschen</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="row" id="add-device" hidden>
+                        <div class="row" id="add-device" style="display: none;">
                             <h5>Gerät</h5>
                             <div class="row mb-1">
                                 <div class="form-group">
                                     <label class="control-label">Bezeichnung</label>
-                                    <input class="form-control" id="input-device-name"/>
+                                    <input class="form-control" id="input-devices-name" />
                                     @*<span asp-validation-for="Id" class="text-danger"></span>*@
                                 </div>
                             </div>
                             <div class="row mb-1">
                                 <div class="form-group">
                                     <label class="control-label">Produktart</label>
-                                    <input class="form-control" id="input-device-type" />
+                                    <input class="form-control" id="input-devices-type" />
                                     @*<span asp-validation-for="Id" class="text-danger"></span>*@
                                 </div>
                             </div>
                             <div class="row mb-1">
                                 <div class="form-group">
                                     <label class="control-label">Hersteller</label>
-                                    <input class="form-control" id="input-device-manufacturer" />
+                                    <input class="form-control" id="input-devices-manufacturer" />
                                     @*<span asp-validation-for="Id" class="text-danger"></span>*@
                                 </div>
                             </div>
                             <div class="row mb-1">
                                 <div class="form-group">
                                     <label class="control-label">Seriennummer</label>
-                                    <input class="form-control" id="input-device-serialnumber" />
+                                    <input class="form-control" id="input-devices-serialnumber" />
                                     @*<span asp-validation-for="Id" class="text-danger"></span>*@
                                 </div>
                             </div>
                             <div class="row mb-1">
                                 <div class="form-group">
                                     <label class="control-label">Zubehör</label>
-                                    <input class="form-control" id="input-device-accessories" />
+                                    <input class="form-control" id="input-devices-accessories" />
                                     @*<span asp-validation-for="Id" class="text-danger"></span>*@
                                 </div>
                             </div>
                             <div class="row mb-4">
                                 <div class="form-group">
                                     <label for="exampleTextarea" class="control-label">Notizen</label>
-                                    <textarea class="form-control" id="input-device-comments" rows="3"></textarea>
+                                    <textarea class="form-control" id="input-devices-comments" rows="3"></textarea>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 text-start">
-                                    <span class="btn btn-primary me-2" id="button-device-save">Speichern</span>
-                                    <span class="btn btn-primary me-2" id="button-device-cancel">Abbrechen</span>
+                                    <button type="button" class="btn btn-primary me-2" id="button-devices-save">Speichern</button>
+                                    <button type="button" class="btn btn-primary me-2 collapse" id="button-devices-edit">Ändern</button>
+                                    <button type ="button" class="btn btn-primary me-2" id="button-devices-cancel">Abbrechen</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="row mb-4" id="software-list" hidden>
+                        <div class="row mb-4" id="software-list" style="display: none;">
                             <h5>Softwareliste</h5>
                             <div class="row mb-4">
                                 <div class="list-group bg-light" id="software-listbox" style="height: 130px; overflow-y: scroll;">
@@ -284,18 +289,18 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 text-start">
-                                    <span class="btn btn-primary me-2" id="button-add-software">Hinzufügen</span>
-                                    <span class="btn btn-primary me-2" id="button-edit-software">Bearbeiten</span>
-                                    <span class="btn btn-primary" id="button-delete-software">Löschen</span>
+                                    <button type="button" class="btn btn-primary me-2" id="button-add-software">Hinzufügen</button>
+                                    <button type="button" class="btn btn-primary me-2" id="button-edit-software">Bearbeiten</button>
+                                    <button type="button" class="btn btn-primary" id="button-delete-software">Löschen</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="row" id="add-software" hidden>
+                        <div class="row" id="add-software" style="display: none;">
                             <h5>Software</h5>
                             <div class="row mb-1">
                                 <div class="form-group">
                                     <label class="control-label">Bezeichnung</label>
-                                    <input class="form-control" id="input-software-name"/>
+                                    <input class="form-control" id="input-software-name" />
                                     @*<span asp-validation-for="Id" class="text-danger"></span>*@
                                 </div>
                             </div>
@@ -307,8 +312,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 text-start">
-                                    <span class="btn btn-primary me-2" id="button-software-save">Speichern</span>
-                                    <span class="btn btn-primary me-2" id="button-software-cancel">Abbrechen</span>
+                                    <button type="button" class="btn btn-primary me-2" id="button-software-save">Speichern</button>
+                                    <button type="button" class="btn btn-primary me-2" id="button-software-cancel">Abbrechen</button>
                                 </div>
                             </div>
                         </div>
@@ -320,5 +325,6 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/createticket.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+    <script type="module" src="~/js/createticket/ticket_tab.js"></script>
     }

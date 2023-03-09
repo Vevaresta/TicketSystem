@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Ticketsystem.Data;
+using Ticketsystem.Enums;
 using Ticketsystem.Models;
+using Ticketsystem.ViewModels;
 
 namespace Ticketsystem.Controllers
 {
@@ -61,21 +63,37 @@ namespace Ticketsystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Ticket ticket, string deviceList)
+        public async Task<IActionResult> Create(TicketViewModel ticket, string ticketType, string deviceList)
         {
+            var ticketTypeString = JsonConvert.DeserializeObject<string>(ticketType);
+
+            TicketType ticketTypeObject = new();
+
+            if (!string.IsNullOrEmpty(ticketTypeString))
+            {
+                ticketTypeObject = await _context.TicketTypes.FirstOrDefaultAsync(tt => tt.Name == ticketTypeString);
+            }
+
             if (!string.IsNullOrEmpty(deviceList))
             {
-                ticket.Devices = JsonConvert.DeserializeObject<List<Device>>(deviceList);
+                ticket.Devices = JsonConvert.DeserializeObject<List<DeviceViewModel>>(deviceList);
             }
 
             if (ModelState.IsValid)
             {
-                _context.Add(ticket);
+                Ticket newTicket = ticket;
+
+                var ticketStatusOpen = await _context.TicketStatuses.FirstOrDefaultAsync(ts => ts.Name == TicketStatuses.Open.ToString());
+
+                newTicket.TicketStatus = ticketStatusOpen;
+                newTicket.TicketType = ticketTypeObject;
+
+                _context.Add(newTicket);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
+            //ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
+            //ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
             return View(ticket);
         }
 
