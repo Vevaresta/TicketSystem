@@ -9,21 +9,21 @@ namespace Ticketsystem.Data
 {
     public class ContextSeed
     {
-        private readonly TicketsystemContext _identityContext;
+        private readonly TicketsystemContext _ticketSystemContext;
         private readonly RoleManager<Role> _roleManager;
         private readonly UserManager<User> _userManager;
         private readonly GetRolesService _getRolesService;
         private readonly ChangeRolePermissionsService _changeRolePermissionsService;
 
         public ContextSeed(
-            TicketsystemContext identityContext,
+            TicketsystemContext ticketsystemContext,
             RoleManager<Role> roleManager,
             UserManager<User> userManager,
             GetRolesService getRolesService,
             ChangeRolePermissionsService changeRolePermissionsService
             )
         {
-            _identityContext = identityContext;
+            _ticketSystemContext = ticketsystemContext;
             _roleManager = roleManager;
             _userManager = userManager;
             _getRolesService = getRolesService;
@@ -36,6 +36,8 @@ namespace Ticketsystem.Data
             await SeedDefaultAdmin();
             await SeedPermissionsAsync();
             await SeedRolePermissions();
+            await SeedTicketStatuses();
+            await SeedTicketTypes();
         }
 
         public async Task SeedUserRolesAsync()
@@ -83,29 +85,29 @@ namespace Ticketsystem.Data
                 permissions.Add(pEnum.ToString());
             }
 
-            List<Permission> tempList = new(_identityContext.Permissions);
+            List<Permission> tempList = new(_ticketSystemContext.Permissions);
 
             foreach (var p in tempList)
             {
                 if (!permissions.Contains(p.Name))
                 {
-                    _identityContext.Permissions.Remove(p);
+                    _ticketSystemContext.Permissions.Remove(p);
                 }
             }
 
             foreach (string permission in permissions)
             {
-                if (!_identityContext.Permissions.Where(p => p.Name == permission).Any())
+                if (!_ticketSystemContext.Permissions.Where(p => p.Name == permission).Any())
                 {
                     Permission perm = new()
                     {
                         Name = permission.ToString()
                     };
-                    _identityContext.Permissions.Add(perm);
+                    _ticketSystemContext.Permissions.Add(perm);
                 }
             }
 
-            await _identityContext.SaveChangesAsync();
+            await _ticketSystemContext.SaveChangesAsync();
         }
 
         public async Task SeedRolePermissions()
@@ -119,6 +121,30 @@ namespace Ticketsystem.Data
             }
 
             await _changeRolePermissionsService.RemoveAllPermissionsFromRole(fallback);
+        }
+
+        public async Task SeedTicketTypes()
+        {
+            foreach (var type in Enum.GetValues<TicketTypes>())
+            {
+                if (!await _ticketSystemContext.TicketTypes.AnyAsync(t => t.Name == type.ToString()))
+                {
+                    await _ticketSystemContext.TicketTypes.AddAsync(new TicketType() { Name = type.ToString() });
+                }
+            }
+            await _ticketSystemContext.SaveChangesAsync();
+        }
+
+        public async Task SeedTicketStatuses()
+        {
+            foreach (var status in Enum.GetValues(typeof(TicketStatuses)))
+            {
+                if (!await _ticketSystemContext.TicketStatuses.AnyAsync(t => t.Name == status.ToString()))
+                {
+                    await _ticketSystemContext.TicketStatuses.AddAsync(new TicketStatus { Name = status.ToString() });
+                }
+            }
+            await _ticketSystemContext.SaveChangesAsync();
         }
     }
 }

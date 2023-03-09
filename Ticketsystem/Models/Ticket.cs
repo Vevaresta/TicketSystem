@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
@@ -21,11 +22,19 @@ public class Ticket
     [ForeignKey(nameof(Client))]
     public string ClientId { get; set; }
 
+    [Required(ErrorMessage = "Dies ist ein Plichtfeld")]
+    [DisplayName("Ticketname")]
+    public string Name { get; set; }
     public DateTime OrderDate { get; set; }
+
+    [Required(ErrorMessage = "Dies ist ein Plichtfeld")]
+    [DisplayName("Arbeitsanweisung")]
     public string WorkOrder { get; set; }
     public bool DataBackupByClient { get; set; }
     public bool DataBackupByStaff { get; set; }
     public bool DataBackupDone { get; set; }
+
+    [DisplayName("Notizen")]
     public string Comments { get; set; }
 
     public TicketType TicketType { get; set; }
