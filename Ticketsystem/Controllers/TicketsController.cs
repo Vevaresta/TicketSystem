@@ -84,13 +84,14 @@ namespace Ticketsystem.Controllers
 
                 if (ticket.DoBackup)
                 {
-                    if (ticket.DataBackup == BackupChoices.BackupByStaff.ToString())
+                    if (ticket.BackupChoices == BackupChoices.BackupByStaff.ToString())
                     {
                         newTicket.DataBackupByStaff = true;
                     }
-                    else if (ticket.DataBackup == BackupChoices.BackupByClient.ToString())
+                    else if (ticket.BackupChoices == BackupChoices.BackupByClient.ToString())
                     {
                         newTicket.DataBackupByClient = true;
+                        newTicket.DataBackupDone = true;
                     }
                 }
 

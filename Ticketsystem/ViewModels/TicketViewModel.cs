@@ -17,14 +17,13 @@ namespace Ticketsystem.ViewModels
         [DisplayName("Notizen")]
         public string Comments { get; set; }
 
-        public bool DoBackup { get; set; }
-
-        [Display(Name = "Durch Auftraggeber")]
+        [Display(Name = "Bereits erledigt durch Auftraggeber")]
         public bool DataBackupByClient { get; set; }
 
-        [Display(Name = "Durch Mitarbeiter")]
+        [Display(Name = "Durch Mitarbeiter durchzuführen")]
         public bool DataBackupByStaff { get; set; }
 
+        [DisplayName("Backup erledigt?")]
         public bool DataBackupDone { get; set; }
         public ClientViewModel Client { get; set; }
 
@@ -63,6 +62,7 @@ namespace Ticketsystem.ViewModels
             return ticket;
         }
 
-        public string DataBackup { get; set; }
+        public string BackupChoices { get; set; }
+        public bool DoBackup { get; set; }
     }
 }
