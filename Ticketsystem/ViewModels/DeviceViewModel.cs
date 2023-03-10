@@ -6,6 +6,7 @@ namespace Ticketsystem.ViewModels;
 
 public class DeviceViewModel
 {
+    [Required]
     public string Name { get; set; }
     public string DeviceType { get; set; }
     public string Manufacturer { get; set; }

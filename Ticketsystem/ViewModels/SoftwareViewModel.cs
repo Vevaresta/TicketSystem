@@ -5,6 +5,7 @@ using Ticketsystem.Models;
 namespace Ticketsystem.ViewModels;
 public class SoftwareViewModel
 {
+    [Required]
     public string Name { get; set; }
     public string Comments { get; set; }
 

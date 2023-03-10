@@ -17,14 +17,20 @@ namespace Ticketsystem.ViewModels
         [DisplayName("Notizen")]
         public string Comments { get; set; }
 
+        public bool DoBackup { get; set; }
+
+        [Display(Name = "Durch Auftraggeber")]
         public bool DataBackupByClient { get; set; }
 
+        [Display(Name = "Durch Mitarbeiter")]
         public bool DataBackupByStaff { get; set; }
 
         public bool DataBackupDone { get; set; }
         public ClientViewModel Client { get; set; }
 
         public IList<DeviceViewModel> Devices { get; set; }
+
+        public DeviceViewModel Device { get; set; }
 
         // Defining an implicit conversion between the ticket model and and ticket viewmodel
         // This enables the following:
@@ -56,5 +62,7 @@ namespace Ticketsystem.ViewModels
 
             return ticket;
         }
+
+        public string DataBackup { get; set; }
     }
 }
