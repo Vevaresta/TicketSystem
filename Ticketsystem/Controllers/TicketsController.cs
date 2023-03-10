@@ -56,7 +56,6 @@ namespace Ticketsystem.Controllers
             ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id");
             return View();
         }
-        
 
         // POST: Tickets/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -82,6 +81,18 @@ namespace Ticketsystem.Controllers
             if (ModelState.IsValid)
             {
                 Ticket newTicket = ticket;
+
+                if (ticket.DoBackup)
+                {
+                    if (ticket.DataBackup == BackupChoices.BackupByStaff.ToString())
+                    {
+                        newTicket.DataBackupByStaff = true;
+                    }
+                    else if (ticket.DataBackup == BackupChoices.BackupByClient.ToString())
+                    {
+                        newTicket.DataBackupByClient = true;
+                    }
+                }
 
                 var ticketStatusOpen = await _context.TicketStatuses.FirstOrDefaultAsync(ts => ts.Name == TicketStatuses.Open.ToString());
 
@@ -194,6 +205,11 @@ namespace Ticketsystem.Controllers
         private bool TicketExists(int id)
         {
           return _context.Tickets.Any(e => e.Id == id);
+        }
+
+        public IActionResult TicketHistory()
+        {
+            return View();
         }
     }
 }
