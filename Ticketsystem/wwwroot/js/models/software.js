@@ -1,4 +1,4 @@
-﻿// Datenklasse Device als JS-Entsprechung für die C#-Models definieren
+﻿// Datenklasse Software als JS-Entsprechung für das C#-ViewModel definieren
 export default class Software {
     Name;
     Comments;

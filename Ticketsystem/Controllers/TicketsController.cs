@@ -64,23 +64,12 @@ namespace Ticketsystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TicketViewModel ticket, string ticketType, string deviceList)
         {
-            var ticketTypeString = JsonConvert.DeserializeObject<string>(ticketType);
-
-            TicketType ticketTypeObject = new();
-
-            if (!string.IsNullOrEmpty(ticketTypeString))
-            {
-                ticketTypeObject = await _context.TicketTypes.FirstOrDefaultAsync(tt => tt.Name == ticketTypeString);
-            }
-
-            if (!string.IsNullOrEmpty(deviceList))
-            {
-                ticket.Devices = JsonConvert.DeserializeObject<List<DeviceViewModel>>(deviceList);
-            }
-
             if (ModelState.IsValid)
             {
+                ticket.Devices = JsonConvert.DeserializeObject<List<DeviceViewModel>>(deviceList);
                 Ticket newTicket = ticket;
+                var ticketTypeViewModel = JsonConvert.DeserializeObject<TicketTypeViewModel>(ticketType);
+                newTicket.TicketType = await _context.TicketTypes.FirstOrDefaultAsync(t => t.Name == ticketTypeViewModel.Name);
 
                 if (ticket.DoBackup)
                 {
@@ -98,7 +87,6 @@ namespace Ticketsystem.Controllers
                 var ticketStatusOpen = await _context.TicketStatuses.FirstOrDefaultAsync(ts => ts.Name == TicketStatuses.Open.ToString());
 
                 newTicket.TicketStatus = ticketStatusOpen;
-                newTicket.TicketType = ticketTypeObject;
 
                 _context.Add(newTicket);
                 await _context.SaveChangesAsync();
