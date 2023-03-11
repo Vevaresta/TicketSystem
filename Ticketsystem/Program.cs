@@ -18,12 +18,12 @@ namespace Ticketsystem
 
             if (dbms == "sqlite")
             {
-                string dbConnectionString = builder.Configuration.GetConnectionString("SQLiteConnectionString") ?? throw new InvalidOperationException("Connection string 'TicketsystemContextConnection' not found.");
+                string dbConnectionString = builder.Configuration.GetConnectionString("SQLiteContextConnection") ?? throw new InvalidOperationException("Connection string 'SQLiteContextConnection' not found.");
                 builder.Services.AddDbContext<TicketsystemContext>(options => options.UseSqlite(dbConnectionString));
             }
             else if (dbms == "postgres")
             {
-                string dbConnectionString = builder.Configuration.GetConnectionString("PostgreSQLConnectionString") ?? throw new InvalidOperationException("Connection string 'TicketsystemContextConnection' not found.");
+                string dbConnectionString = builder.Configuration.GetConnectionString("PostgreSQLContextConnection") ?? throw new InvalidOperationException("Connection string 'PostgreSQLContextConnection' not found.");
                 builder.Services.AddDbContext<TicketsystemContext>(options => options.UseNpgsql(dbConnectionString));
             }
 
