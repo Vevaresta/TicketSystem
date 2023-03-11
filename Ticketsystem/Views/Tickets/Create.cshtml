@@ -12,21 +12,21 @@
         <div class="row ms-lg-2">
             <fieldset class="form-group col-md-5 mb-3">
                 <div class="row">
-                    <div class="col-md-3 form-check">
-                        <input class="form-check-input radio-ticket-type" type="radio" name="ticket-type" value="Reparatur" checked>
-                        <label class="form-check-label">Reparatur</label>
+                    <div class="col-md-3 form-check ticket-type-container">
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-repair" checked>
+                        <label class="form-check-label" id="radio-label-repair">Reparatur</label>
                     </div>
-                    <div class="col-md-3 form-check">
-                        <input class="form-check-input radio-ticket-type" type="radio" name="ticket-type" value="Datenrettung">
-                        <label class="form-check-label">Datenrettung</label>
+                    <div class="col-md-3 form-check ticket-type-container">
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-recovery">
+                        <label class="form-check-label" id="radio-label-recovery">Datenrettung</label>
                     </div>
-                    <div class="col-md-3 form-check">
-                        <input class="form-check-input radio-ticket-type" type="radio" name="ticket-type" value="Beratung">
-                        <label class="form-check-label">Beratung</label>
+                    <div class="col-md-3 form-check ticket-type-container">
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-advice">
+                        <label class="form-check-label" id="radio-label-advice">Beratung</label>
                     </div>
-                    <div class="col-md-3 form-check">
-                        <input class="form-check-input radio-ticket-type" type="radio" name="ticket-type" value="Auftrag">
-                        <label class="form-check-label">Sonstiges</label>
+                    <div class="col-md-3 form-check ticket-type-container">
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-other">
+                        <label class="form-check-label" id="radio-label-other">Sonstiges</label>
                     </div>
                 </div>
             </fieldset>
@@ -138,12 +138,12 @@
                             <div class="row" id="backup-choices" style="display: none;">
                                 <div class="form-group">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" asp-for="BackupChoices" value="@BackupChoices.BackupByClient.ToString()">
-                                        <label asp-for="DataBackupByClient" class="form-check-label"></label>
+                                        <input class="form-check-input" id="radio-backup-client" type="radio" asp-for="BackupChoices" value="@BackupChoices.BackupByClient.ToString()">
+                                        <label asp-for="DataBackupByClient" id="radio-label-backup-client" class="form-check-label label-backup-choice"></label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" asp-for="BackupChoices" value="@BackupChoices.BackupByStaff.ToString()" checked>
-                                        <label asp-for="DataBackupByStaff" class="form-check-label"></label>
+                                        <input class="form-check-input" id="radio-backup-staff" type="radio" asp-for="BackupChoices" value="@BackupChoices.BackupByStaff.ToString()" checked>
+                                        <label asp-for="DataBackupByStaff" id="radio-label-backup-staff" class="form-check-label label-backup-choice"></label>
                                     </div>
                                 </div>
                             </div>
@@ -228,38 +228,38 @@
                             <div class="row mb-1">
                                 <div class="form-group">
                                     <label asp-for="Device.Name" class="control-label"></label>
-                                    <input class="form-control" id="input-devices-name" />
+                                    <input class="form-control" id="input-devices-name" autocomplete="off" />
                                     <span class="text-danger field-validation-valid" id="validate-input-devices-name" data-valmsg-replace="true" style="display: none;">Plichtfeld</span>
                                 </div>
                             </div>
                             <div class="row mb-1">
                                 <div class="form-group">
                                     <label asp-for="Device.DeviceType" class="control-label"></label>
-                                    <input class="form-control" id="input-devices-type" />
+                                    <input class="form-control" id="input-devices-type" autocomplete="off" />
                                 </div>
                             </div>
                             <div class="row mb-1">
                                 <div class="form-group">
                                     <label asp-for="Device.Manufacturer" class="control-label"></label>
-                                    <input class="form-control" id="input-devices-manufacturer" />
+                                    <input class="form-control" id="input-devices-manufacturer" autocomplete="off" />
                                 </div>
                             </div>
                             <div class="row mb-1">
                                 <div class="form-group">
                                     <label asp-for="Device.SerialNumber" class="control-label"></label>
-                                    <input class="form-control" id="input-devices-serialnumber" />
+                                    <input class="form-control" id="input-devices-serialnumber" autocomplete="off" />
                                 </div>
                             </div>
                             <div class="row mb-1">
                                 <div class="form-group">
                                     <label asp-for="Device.Accessories" class="control-label"></label>
-                                    <input class="form-control" id="input-devices-accessories" />
+                                    <input class="form-control" id="input-devices-accessories" autocomplete="off" />
                                 </div>
                             </div>
                             <div class="row mb-4">
                                 <div class="form-group">
                                     <label asp-for="Device.Comments" class="control-label"></label>
-                                    <textarea class="form-control" id="input-devices-comments" rows="3"></textarea>
+                                    <textarea class="form-control" id="input-devices-comments" rows="3" autocomplete="off"></textarea>
                                 </div>
                             </div>
                             <div class="row">
@@ -292,14 +292,14 @@
                             <div class="row mb-1">
                                 <div class="form-group">
                                     <label class="control-label">Bezeichnung</label>
-                                    <input class="form-control" id="input-software-name" />
+                                    <input class="form-control" id="input-software-name" autocomplete="off" />
                                     <span class="text-danger field-validation-valid" id="validate-input-software-name" data-valmsg-replace="true" style="display: none;">Plichtfeld</span>
                                 </div>
                             </div>
                             <div class="row mb-4">
                                 <div class="form-group">
                                     <label for="exampleTextarea" class="control-label">Notizen</label>
-                                    <textarea class="form-control" id="input-software-comments" rows="3"></textarea>
+                                    <textarea class="form-control" id="input-software-comments" rows="3" autocomplete="off"></textarea>
                                 </div>
                             </div>
                             <div class="row">
