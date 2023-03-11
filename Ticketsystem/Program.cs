@@ -13,9 +13,18 @@ namespace Ticketsystem
         {
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-            string dbConnectionString = builder.Configuration.GetConnectionString("TicketsystemContextConnection") ?? throw new InvalidOperationException("Connection string 'TicketsystemContextConnection' not found.");
+            string dbms = builder.Configuration.GetValue<string>("DBMS");
 
-            builder.Services.AddDbContext<TicketsystemContext>(options => options.UseSqlite(dbConnectionString));
+            if (dbms == "sqlite")
+            {
+                string dbConnectionString = builder.Configuration.GetConnectionString("SQLiteContextConnection") ?? throw new InvalidOperationException("Connection string 'SQLiteContextConnection' not found.");
+                builder.Services.AddDbContext<TicketsystemContext>(options => options.UseSqlite(dbConnectionString));
+            }
+            else if (dbms == "postgres")
+            {
+                string dbConnectionString = builder.Configuration.GetConnectionString("PostgreSQLContextConnection") ?? throw new InvalidOperationException("Connection string 'PostgreSQLContextConnection' not found.");
+                builder.Services.AddDbContext<TicketsystemContext>(options => options.UseNpgsql(dbConnectionString));
+            }
 
             builder.Services.AddScoped<ChangeRolePermissionsService>();
             builder.Services.AddScoped<CheckRolePermissionsService>();
