@@ -1,5 +1,6 @@
 ﻿import Device from "./models/device.js";
 import Software from "./models/software.js";
+import TicketType from "./models/tickettype.js";
 
 // Ticketart als string (wird bei jedem Radiobutton-Klick geändert)
 var radioTicketTypeSelectedValue = $('input[name="ticket-type"]:checked').siblings('label').text();
@@ -108,11 +109,12 @@ $(function () {
 
 // Button "Hauptseite -> Speichern"
 $("#button-main-save-ticket").on("click", function () {
-    var tickettype = radioTicketTypeSelectedValue;
+    var ticketType = new TicketType();
+    ticketType.Name = radioTicketTypeSelectedValue;
 
-    $('#ticketTypeInput').val(JSON.stringify(tickettype));
+    $('#ticketTypeInput').val(JSON.stringify(ticketType));
 
-    if (radioTicketTypeSelectedValue == "Reparatur") {
+    if (radioTicketTypeSelectedValue == "Reparatur" || radioTicketTypeSelectedValue == "Datenrettung") {
         if ($("#input-device-name").val() != "") {
             var newDevice = new Device();
             newDevice.Name = $("#input-device-name").val();

@@ -27,6 +27,8 @@ namespace Ticketsystem.ViewModels
         public bool DataBackupDone { get; set; }
         public ClientViewModel Client { get; set; }
 
+        public TicketTypeViewModel TicketType { get; set; }
+
         public IList<DeviceViewModel> Devices { get; set; }
 
         public DeviceViewModel Device { get; set; }
