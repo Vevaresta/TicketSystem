@@ -2,10 +2,7 @@
 import Software from "./models/software.js";
 
 // Ticketart als string (wird bei jedem Radiobutton-Klick geändert)
-var radioTicketTypeSelectedValue = $('input[name="ticket-type"]:checked').val();
-
-// Liste der Radiobuttons zum Wählen der Ticketart
-var radioButtons = $(".radio-ticket-type");
+var radioTicketTypeSelectedValue = $('input[name="ticket-type"]:checked').siblings('label').text();
 
 // Variable für Geräteliste
 var deviceList = [];
@@ -32,9 +29,25 @@ $(document).ready(function () {
     $("#button-edit-software").prop("disabled", true);
     $("#button-delete-software").prop("disabled", true);
 
-    radioButtons.change(function handleRadioChange(event) {
-        radioTicketTypeSelectedValue = event.target.value;
-
+    // Umschalten der Ticketart durch Klick auf Radio-Button oder Label
+    $(".ticket-type-container").on("click", function (event) {
+        let id = event.target.id;
+        if (String(id).includes("repair")) {
+            radioTicketTypeSelectedValue = "Reparatur";
+            $("#radio-repair").prop("checked", true);
+        }
+        else if (String(id).includes("recovery")) {
+            radioTicketTypeSelectedValue = "Datenrettung";
+            $("#radio-recovery").prop("checked", true);
+        }
+        else if (String(id).includes("advice")) {
+            radioTicketTypeSelectedValue = "Beratung";
+            $("#radio-advice").prop("checked", true);
+        }
+        else if (String(id).includes("other")) {
+            radioTicketTypeSelectedValue = "Sonstiges";
+            $("#radio-other").prop("checked", true);
+        }
         var einzelgeraet = $("#einzelgeraet");
         var geraetetab = $("#geraetetab");
         var backup = $("#backup")
@@ -55,6 +68,17 @@ $(document).ready(function () {
             einzelgeraet.hide();
             geraetetab.show();
             backup.show();
+        }
+    });
+
+    // Erlaube die Auswahl des Backup-Durchführenden durch Klick auf Label
+    $(".label-backup-choice").on("click", function (event) {
+        let id = event.target.id;
+        if (String(id).includes("client")) {
+            $("#radio-backup-client").prop("checked", true);
+        }
+        if (String(id).includes("staff")) {
+            $("#radio-backup-staff").prop("checked", true);
         }
     });
 
