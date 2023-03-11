@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Ticketsystem.Models;
 
@@ -6,13 +7,24 @@ namespace Ticketsystem.ViewModels;
 
 public class DeviceViewModel
 {
-    [Required]
+    [DisplayName("Bezeichnung")]
     public string Name { get; set; }
+
+    [DisplayName("Geräteart")]
     public string DeviceType { get; set; }
+
+    [DisplayName("Hersteller")]
     public string Manufacturer { get; set; }
+
+    [DisplayName("Seriennummer")]
     public string SerialNumber { get; set; }
+
+    [DisplayName("Zubehör")]
     public string Accessories { get; set; }
+
+    [DisplayName("Notizen")]
     public string Comments { get; set; }
+
     public virtual IList<SoftwareViewModel> Software { get; set; }
 
     public static implicit operator Device(DeviceViewModel viewModel)

@@ -6,11 +6,11 @@ namespace Ticketsystem.ViewModels
 {
     public class TicketViewModel
     {
-        [Required(ErrorMessage = "Dies ist ein Plichtfeld")]
+        [Required(ErrorMessage = "Pflichtfeld")]
         [DisplayName("Ticketname")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Dies ist ein Plichtfeld")]
+        [Required(ErrorMessage = "Pflichtfeld")]
         [DisplayName("Arbeitsanweisung")]
         public string WorkOrder { get; set; }
 

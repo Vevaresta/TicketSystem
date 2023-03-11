@@ -89,21 +89,22 @@ $("#button-main-save-ticket").on("click", function () {
     $('#ticketTypeInput').val(JSON.stringify(tickettype));
 
     if (radioTicketTypeSelectedValue == "Reparatur") {
-        var newDevice = new Device();
         if ($("#input-device-name").val() != "") {
+            var newDevice = new Device();
             newDevice.Name = $("#input-device-name").val();
             newDevice.DeviceType = $("#input-device-type").val();
             newDevice.Manufacturer = $("#input-device-manufacturer").val();
             newDevice.SerialNumber = $("#input-device-serialnumber").val();
             newDevice.Accessories = $("#input-device-accessories").val();
             newDevice.Comments = $("#input-device-comments").val();
+
             newDevice.Software = [];
+            deviceList = [];
+
+            deviceList.push(newDevice);
+
+            $('#deviceListInput').val(JSON.stringify(deviceList));
         }
-
-        deviceList = [];
-        deviceList.push(newDevice);
-
-        $('#deviceListInput').val(JSON.stringify(deviceList));
     }
 });
 
@@ -303,6 +304,7 @@ $("#button-software-save").on("click", function () {
 
         var newItem = $('<button type="button" class="list-group-item list-group-item-action software-listbox-item">' + newSoftware.Name + '</button>');
         newItem.click(function () {
+            newItem.addClass("active");
             softwareListBoxSelectedIndex = newItem.index();
             $("#button-edit-software").prop("disabled", false);
             $("#button-delete-software").prop("disabled", false);
@@ -337,3 +339,5 @@ $("#button-software-edit").on("click", function () {
 $("#button-software-cancel").on("click", function () {
     $("#add-software").hide();
 });
+
+

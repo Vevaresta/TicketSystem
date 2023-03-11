@@ -17,11 +17,11 @@ public class Client
     public string FirstName { get; set; }
     public string Email { get; set; }
     public string StreetAndHouseNumber { get; set; }
-    public int? PostalCode { get; set; }
+    public string PostalCode { get; set; }
     public string City { get; set; }
     public string PhoneNumber { get; set; }
 
-    public int? RehaNumber { get; set; }
+    public int? ParticipantNumber { get; set; }
     public string Course { get; set; }
 
     public IList<Ticket> Tickets { get; set; }

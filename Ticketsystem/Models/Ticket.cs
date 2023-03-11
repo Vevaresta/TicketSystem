@@ -25,11 +25,13 @@ public class Ticket
     [Required(ErrorMessage = "Dies ist ein Plichtfeld")]
     [DisplayName("Ticketname")]
     public string Name { get; set; }
+
     public DateTime OrderDate { get; set; }
 
     [Required(ErrorMessage = "Dies ist ein Plichtfeld")]
     [DisplayName("Arbeitsanweisung")]
     public string WorkOrder { get; set; }
+
     public bool DataBackupByClient { get; set; }
     public bool DataBackupByStaff { get; set; }
     public bool DataBackupDone { get; set; }
