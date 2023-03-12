@@ -62,39 +62,38 @@ namespace Ticketsystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(TicketViewModel ticket, string ticketType, string deviceList)
+        public async Task<IActionResult> Create(TicketViewModel ticketViewModel, string ticketType, string deviceList)
         {
             if (ModelState.IsValid)
             {
-                ticket.Devices = JsonConvert.DeserializeObject<List<DeviceViewModel>>(deviceList);
-                Ticket newTicket = ticket;
-                var ticketTypeViewModel = JsonConvert.DeserializeObject<TicketTypeViewModel>(ticketType);
-                newTicket.TicketType = await _context.TicketTypes.FirstOrDefaultAsync(t => t.Name == ticketTypeViewModel.Name);
+                ticketViewModel.Devices = JsonConvert.DeserializeObject<List<DeviceViewModel>>(deviceList);
+                Ticket ticket = ticketViewModel;
+                ticket.TicketType = await _context.TicketTypes.FirstOrDefaultAsync(t => t.Name == ticketType);
 
-                if (ticket.DoBackup)
+                if (ticketViewModel.DoBackup)
                 {
-                    if (ticket.BackupChoices == BackupChoices.BackupByStaff.ToString())
+                    if (ticketViewModel.BackupChoices == BackupChoices.BackupByStaff.ToString())
                     {
-                        newTicket.DataBackupByStaff = true;
+                        ticket.DataBackupByStaff = true;
                     }
-                    else if (ticket.BackupChoices == BackupChoices.BackupByClient.ToString())
+                    else if (ticketViewModel.BackupChoices == BackupChoices.BackupByClient.ToString())
                     {
-                        newTicket.DataBackupByClient = true;
-                        newTicket.DataBackupDone = true;
+                        ticket.DataBackupByClient = true;
+                        ticket.DataBackupDone = true;
                     }
                 }
 
                 var ticketStatusOpen = await _context.TicketStatuses.FirstOrDefaultAsync(ts => ts.Name == TicketStatuses.Open.ToString());
 
-                newTicket.TicketStatus = ticketStatusOpen;
+                ticket.TicketStatus = ticketStatusOpen;
 
-                _context.Add(newTicket);
+                _context.Add(ticket);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
-            //ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
-            return View(ticket);
+            //ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticketViewModel.TicketStatusId);
+            //ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticketViewModel.TicketTypeId);
+            return View(ticketViewModel);
         }
 
         // GET: Tickets/Edit/5

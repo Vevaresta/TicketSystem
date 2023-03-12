@@ -1,6 +1,5 @@
 ﻿import Device from "./models/device.js";
 import Software from "./models/software.js";
-import TicketType from "./models/tickettype.js";
 
 // Ticketart als string (wird bei jedem Radiobutton-Klick geändert)
 var radioTicketTypeSelectedValue = $('input[name="ticket-type"]:checked').siblings('label').text();
@@ -109,10 +108,9 @@ $(function () {
 
 // Button "Hauptseite -> Speichern"
 $("#button-main-save-ticket").on("click", function () {
-    var ticketType = new TicketType();
-    ticketType.Name = radioTicketTypeSelectedValue;
+    var ticketType = radioTicketTypeSelectedValue;
 
-    $('#ticketTypeInput').val(JSON.stringify(ticketType));
+    $('#ticketTypeInput').val(ticketType);
 
     if (radioTicketTypeSelectedValue == "Reparatur" || radioTicketTypeSelectedValue == "Datenrettung") {
         if ($("#input-device-name").val() != "") {
@@ -128,10 +126,10 @@ $("#button-main-save-ticket").on("click", function () {
             deviceList = [];
 
             deviceList.push(newDevice);
-
-            $('#deviceListInput').val(JSON.stringify(deviceList));
         }
     }
+
+    $('#deviceListInput').val(JSON.stringify(deviceList));
 });
 
 // Button "Geräteliste -> Hinzufügen"
@@ -175,12 +173,15 @@ $("#button-edit-device").on("click", function () {
     for (let software of deviceList[deviceEditedIndex].Software) {
         var newItem = $('<button type="button" class="list-group-item list-group-item-action software-listbox-item">' + software.Name + '</button>');
         newItem.click(function () {
+            softwareListBoxSelectedIndex = newItem.index();
             $("#button-edit-software").prop("disabled", false);
             $("#button-delete-software").prop("disabled", false);
         });
 
         $('#software-listbox').append(newItem);
     }
+
+    tempSoftwareList = deviceList[deviceEditedIndex].Software;
 
     $("#add-device").show();
     $("#software-list").show();
@@ -227,7 +228,6 @@ $("#button-devices-save").on("click", function () {
         var newItem = $('<button type="button" class="list-group-item list-group-item-action device-listbox-item">' + newDevice.Name + '</button>');
         newItem.click(function () {
             deviceListBoxSelectedIndex = newItem.index();
-
             $("#button-edit-device").prop("disabled", false);
             $("#button-delete-device").prop("disabled", false);
         });
@@ -235,8 +235,6 @@ $("#button-devices-save").on("click", function () {
         $('#device-listbox').append(newItem);
 
         $('#software-listbox').empty()
-
-        $('#deviceListInput').val(JSON.stringify(deviceList));
     }
 });
 
@@ -261,8 +259,6 @@ $("#button-devices-edit").on("click", function () {
         $('#device-listbox .device-listbox-item').eq(deviceEditedIndex).text(oldDevice.Name);
 
         $('#software-listbox').empty()
-
-        $('#deviceListInput').val(JSON.stringify(deviceList));
     }
 });
 
@@ -330,7 +326,6 @@ $("#button-software-save").on("click", function () {
 
         var newItem = $('<button type="button" class="list-group-item list-group-item-action software-listbox-item">' + newSoftware.Name + '</button>');
         newItem.click(function () {
-            newItem.addClass("active");
             softwareListBoxSelectedIndex = newItem.index();
             $("#button-edit-software").prop("disabled", false);
             $("#button-delete-software").prop("disabled", false);
@@ -340,8 +335,6 @@ $("#button-software-save").on("click", function () {
         $("#button-delete-software").prop("disabled", true);
 
         $('#software-listbox').append(newItem);
-
-        $('#deviceListInput').val(JSON.stringify(deviceList));
     }
 });
 
