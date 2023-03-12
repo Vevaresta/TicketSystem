@@ -168,12 +168,13 @@ $("#button-edit-device").on("click", function () {
 
     $("#validate-input-devices-name").hide();
 
-    $('#software-listbox').empty();
+    var softwareListBox = $('#software-listbox');
+    softwareListBox.empty();
 
     for (let software of deviceList[deviceEditedIndex].Software) {
         var newItem = $('<button type="button" class="list-group-item list-group-item-action software-listbox-item">' + software.Name + '</button>');
         newItem.click(function () {
-            softwareListBoxSelectedIndex = newItem.index();
+            softwareListBoxSelectedIndex = $(this).index();
             $("#button-edit-software").prop("disabled", false);
             $("#button-delete-software").prop("disabled", false);
         });
@@ -227,7 +228,7 @@ $("#button-devices-save").on("click", function () {
 
         var newItem = $('<button type="button" class="list-group-item list-group-item-action device-listbox-item">' + newDevice.Name + '</button>');
         newItem.click(function () {
-            deviceListBoxSelectedIndex = newItem.index();
+            deviceListBoxSelectedIndex = $(this).index();
             $("#button-edit-device").prop("disabled", false);
             $("#button-delete-device").prop("disabled", false);
         });
@@ -326,7 +327,7 @@ $("#button-software-save").on("click", function () {
 
         var newItem = $('<button type="button" class="list-group-item list-group-item-action software-listbox-item">' + newSoftware.Name + '</button>');
         newItem.click(function () {
-            softwareListBoxSelectedIndex = newItem.index();
+            softwareListBoxSelectedIndex = $(this).index();
             $("#button-edit-software").prop("disabled", false);
             $("#button-delete-software").prop("disabled", false);
         });
