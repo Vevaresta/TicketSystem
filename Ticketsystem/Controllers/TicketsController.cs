@@ -86,6 +86,7 @@ namespace Ticketsystem.Controllers
                 var ticketStatusOpen = await _context.TicketStatuses.FirstOrDefaultAsync(ts => ts.Name == TicketStatuses.Open.ToString());
 
                 ticket.TicketStatus = ticketStatusOpen;
+                ticket.OrderDate = DateTime.Now;
 
                 _context.Add(ticket);
                 await _context.SaveChangesAsync();

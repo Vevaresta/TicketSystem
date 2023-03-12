@@ -1,5 +1,5 @@
-﻿import Device from "./models/device.js";
-import Software from "./models/software.js";
+﻿import Device from './models/device.js';
+import Software from './models/software.js';
 
 // Ticketart als string (wird bei jedem Radiobutton-Klick geändert)
 var radioTicketTypeSelectedValue = $('input[name="ticket-type"]:checked').siblings('label').text();
@@ -29,6 +29,7 @@ $(document).ready(function () {
     $("#button-edit-software").prop("disabled", true);
     $("#button-delete-software").prop("disabled", true);
 
+
     // Umschalten der Ticketart durch Klick auf Radio-Button oder Label
     $(".ticket-type-container").on("click", function (event) {
         let id = event.target.id;
@@ -57,17 +58,20 @@ $(document).ready(function () {
             einzelgeraet.show();
             geraetetab.hide();
             backup.show();
+            $('#input-device-name').rules('add', 'required');
         }
         else if (radioTicketTypeSelectedValue == "Beratung") {
             $('#tabs a[href="#tab1"]').tab('show');
             einzelgeraet.hide();
             geraetetab.hide();
             backup.hide();
+            $('#input-device-name').rules('remove', 'required');
         }
         else {
             einzelgeraet.hide();
             geraetetab.show();
             backup.show();
+            $('#input-device-name').rules('remove', 'required');
         }
     });
 
@@ -104,32 +108,6 @@ $(function () {
         e.preventDefault();
         $(this).tab('show');
     });
-});
-
-// Button "Hauptseite -> Speichern"
-$("#button-main-save-ticket").on("click", function () {
-    var ticketType = radioTicketTypeSelectedValue;
-
-    $('#ticketTypeInput').val(ticketType);
-
-    if (radioTicketTypeSelectedValue == "Reparatur" || radioTicketTypeSelectedValue == "Datenrettung") {
-        if ($("#input-device-name").val() != "") {
-            var newDevice = new Device();
-            newDevice.Name = $("#input-device-name").val();
-            newDevice.DeviceType = $("#input-device-type").val();
-            newDevice.Manufacturer = $("#input-device-manufacturer").val();
-            newDevice.SerialNumber = $("#input-device-serialnumber").val();
-            newDevice.Accessories = $("#input-device-accessories").val();
-            newDevice.Comments = $("#input-device-comments").val();
-
-            newDevice.Software = [];
-            deviceList = [];
-
-            deviceList.push(newDevice);
-        }
-    }
-
-    $('#deviceListInput').val(JSON.stringify(deviceList));
 });
 
 // Button "Geräteliste -> Hinzufügen"
@@ -358,6 +336,32 @@ $("#button-software-edit").on("click", function () {
 // Button "Software -> Abbrechen"
 $("#button-software-cancel").on("click", function () {
     $("#add-software").hide();
+});
+
+// Button "Hauptseite -> Speichern"
+$("#button-main-save-ticket").on("click", function (event) {
+    var ticketType = radioTicketTypeSelectedValue;
+
+    $('#ticketTypeInput').val(ticketType);
+
+    if (radioTicketTypeSelectedValue == "Reparatur" || radioTicketTypeSelectedValue == "Datenrettung") {
+        if ($("#input-device-name").val() != "") {
+            var newDevice = new Device();
+            newDevice.Name = $("#input-device-name").val();
+            newDevice.DeviceType = $("#input-device-type").val();
+            newDevice.Manufacturer = $("#input-device-manufacturer").val();
+            newDevice.SerialNumber = $("#input-device-serialnumber").val();
+            newDevice.Accessories = $("#input-device-accessories").val();
+            newDevice.Comments = $("#input-device-comments").val();
+
+            newDevice.Software = [];
+            deviceList = [];
+
+            deviceList.push(newDevice);
+        }
+    }
+
+    $('#deviceListInput').val(JSON.stringify(deviceList));
 });
 
 
