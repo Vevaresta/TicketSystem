@@ -9,38 +9,32 @@ using Newtonsoft.Json;
 using Ticketsystem.Data;
 using Ticketsystem.Enums;
 using Ticketsystem.Models;
+using Ticketsystem.Services;
 using Ticketsystem.ViewModels;
 
 namespace Ticketsystem.Controllers
 {
     public class TicketsController : Controller
     {
-        private readonly TicketsystemContext _context;
+        private readonly IServiceFactory _serviceFactory;
 
-        public TicketsController(TicketsystemContext context)
+        public TicketsController(IServiceFactory serviceFactory)
         {
-            _context = context;
+            _serviceFactory = serviceFactory;
         }
 
         // GET: Tickets
         public async Task<IActionResult> Index()
         {
-            var ticketsystemContext = _context.Tickets.Include(t => t.TicketStatus).Include(t => t.TicketType);
-            return View(await ticketsystemContext.ToListAsync());
+            var tickets = _serviceFactory.GetTicketsService().GetAllTickets();
+
+            return View(await tickets.ToListAsync());
         }
 
         // GET: Tickets/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            if (_context.Tickets == null)
-            {
-                return NotFound();
-            }
-
-            var ticket = await _context.Tickets
-                .Include(t => t.TicketStatus)
-                .Include(t => t.TicketType)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var ticket = await _serviceFactory.GetTicketsService().GetTicketById(id);
             if (ticket == null)
             {
                 return NotFound();
@@ -52,8 +46,8 @@ namespace Ticketsystem.Controllers
         // GET: Tickets/Create
         public IActionResult Create()
         {
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id");
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id");
+            //ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id");
+            //ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id");
             return View();
         }
 
@@ -68,7 +62,7 @@ namespace Ticketsystem.Controllers
             {
                 ticketViewModel.Devices = JsonConvert.DeserializeObject<List<DeviceViewModel>>(deviceList);
                 Ticket ticket = ticketViewModel;
-                ticket.TicketType = await _context.TicketTypes.FirstOrDefaultAsync(t => t.Name == ticketType);
+                ticket.TicketType = await _serviceFactory.GetTicketTypesService().GetTicketTypeByName(ticketType);
 
                 if (ticketViewModel.DoBackup)
                 {
@@ -83,13 +77,13 @@ namespace Ticketsystem.Controllers
                     }
                 }
 
-                var ticketStatusOpen = await _context.TicketStatuses.FirstOrDefaultAsync(ts => ts.Name == TicketStatuses.Open.ToString());
+                var ticketStatusOpen = await _serviceFactory.GetTicketStatusesService().GetTicketStatusByName(TicketStatuses.Open.ToString());
 
                 ticket.TicketStatus = ticketStatusOpen;
                 ticket.OrderDate = DateTime.Now;
 
-                _context.Add(ticket);
-                await _context.SaveChangesAsync();
+                await _serviceFactory.GetTicketsService().AddTicket(ticket);
+
                 return RedirectToAction(nameof(Index));
             }
             //ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticketViewModel.TicketStatusId);
@@ -98,20 +92,17 @@ namespace Ticketsystem.Controllers
         }
 
         // GET: Tickets/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null || _context.Tickets == null)
-            {
-                return NotFound();
-            }
+            var ticket = await _serviceFactory.GetTicketsService().GetTicketById(id);
 
-            var ticket = await _context.Tickets.FindAsync(id);
             if (ticket == null)
             {
                 return NotFound();
             }
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
+
+            //ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
+            //ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
             return View(ticket);
         }
 
@@ -131,8 +122,7 @@ namespace Ticketsystem.Controllers
             {
                 try
                 {
-                    _context.Update(ticket);
-                    await _context.SaveChangesAsync();
+                    await _serviceFactory.GetTicketsService().UpdateTicket(ticket);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -147,23 +137,17 @@ namespace Ticketsystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
+
+            //ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
+            //ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
             return View(ticket);
         }
 
         // GET: Tickets/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            if (_context.Tickets == null)
-            {
-                return NotFound();
-            }
+            var ticket = await _serviceFactory.GetTicketsService().GetTicketById(id);
 
-            var ticket = await _context.Tickets
-                .Include(t => t.TicketStatus)
-                .Include(t => t.TicketType)
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (ticket == null)
             {
                 return NotFound();
@@ -175,28 +159,26 @@ namespace Ticketsystem.Controllers
         // POST: Tickets/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Tickets == null)
-            {
-                return Problem("Entity set 'TicketsystemContext.Tickets'  is null.");
-            }
-            var ticket = await _context.Tickets.FindAsync(id);
-            if (ticket != null)
-            {
-                _context.Tickets.Remove(ticket);
-            }
-            
-            await _context.SaveChangesAsync();
+            var ticket = await _serviceFactory.GetTicketsService().GetTicketById(id);
+
+            await _serviceFactory.GetTicketsService().DeleteTicket(ticket);
+
             return RedirectToAction(nameof(Index));
         }
 
         private bool TicketExists(int id)
         {
-          return _context.Tickets.Any(e => e.Id == id);
+            return _serviceFactory.GetTicketsService().GetTicketById(id) != null;
         }
 
         public IActionResult TicketHistory()
+        {
+            return View();
+        }
+
+        public IActionResult PermissionError()
         {
             return View();
         }

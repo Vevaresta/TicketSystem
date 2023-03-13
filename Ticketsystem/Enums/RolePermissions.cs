@@ -8,10 +8,11 @@
         DeleteUsers,
 
         ManageRoles,
-        AddRole,
-        DeleteRole,
+        AddRoles,
+        DeleteRoles,
         ChangeRolePermissions,
 
+        ViewTickets,
         CreateTickets,
         UpdateTickets,
         DeleteTickets,

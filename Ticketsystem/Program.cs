@@ -27,16 +27,14 @@ namespace Ticketsystem
                 builder.Services.AddDbContext<TicketsystemContext>(options => options.UseNpgsql(dbConnectionString));
             }
 
-            builder.Services.AddScoped<ChangeRolePermissionsService>();
-            builder.Services.AddScoped<CheckRolePermissionsService>();
-            builder.Services.AddScoped<GetRolesToDisplayService>();
-            builder.Services.AddScoped<GetRolesService>();
             builder.Services.AddScoped<ContextSeed>();
 
             builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<Role>()
                 .AddEntityFrameworkStores<TicketsystemContext>()
                 .AddDefaultTokenProviders();
+
+            builder.Services.AddScoped<IServiceFactory, ServiceFactory>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

@@ -11,7 +11,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
     public class ChangeUserRoleModel : PageModel
     {
         private readonly UserManager<User> _userManager;
-        private readonly GetRolesToDisplayService _getRolesToDisplayService;
+        private readonly IServiceFactory _serviceFactory;
 
         public User UserToEdit { get; set; }
         public List<string> RolesToDisplay { get; set; }
@@ -19,11 +19,11 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public string Role { get; set; }
 
-        public ChangeUserRoleModel(UserManager<User> userManager, GetRolesToDisplayService rolesToDisplayService)
+        public ChangeUserRoleModel(UserManager<User> userManager, IServiceFactory serviceFactory)
         {
             _userManager = userManager;
             UserToEdit = new User();
-            _getRolesToDisplayService = rolesToDisplayService;
+            _serviceFactory = serviceFactory;
         }
 
         public async Task<IActionResult> OnGetAsync(string userId)
@@ -44,7 +44,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             Role = userRoles.FirstOrDefault();
             UserToEdit = user;
 
-            RolesToDisplay = _getRolesToDisplayService.GetList();
+            RolesToDisplay = _serviceFactory.GetRolesToDisplayService().GetList();
 
             return Page();
         }

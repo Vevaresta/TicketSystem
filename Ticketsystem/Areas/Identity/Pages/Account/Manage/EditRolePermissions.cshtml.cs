@@ -8,16 +8,15 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {
     public class EditRolePermissionsModel : PageModel
     {
-        private readonly GetRolesService _getRolesService;
-        private readonly ChangeRolePermissionsService _changeRolePermissionsService;
+        private readonly IServiceFactory _serviceFactory;
 
         public string RoleToEdit { get; set; }
         public List<string> Permissions;
 
-        public EditRolePermissionsModel(GetRolesService getRolesService, ChangeRolePermissionsService changeRolePermissionsService)
+        public EditRolePermissionsModel(IServiceFactory serviceFactory)
         {
-            _getRolesService = getRolesService;
-            _changeRolePermissionsService = changeRolePermissionsService;
+            _serviceFactory = serviceFactory;
+
             Permissions = new List<string>();
         }
 
@@ -25,7 +24,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
         {
             RoleToEdit = role;
 
-            Role roleInDb = await _getRolesService.GetRoleByNameAsync(role);
+            Role roleInDb = await _serviceFactory.GetRolesService().GetRoleByNameAsync(role);
 
             foreach (Permission permission in roleInDb.Permissions)
             {
@@ -45,9 +44,9 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
                 permissionsEmumList.Add(permissionEnum);
             }
 
-            Role roleInDb = await _getRolesService.GetRoleByNameAsync(role);
+            Role roleInDb = await _serviceFactory.GetRolesService().GetRoleByNameAsync(role);
 
-            await _changeRolePermissionsService.AddPermissionListToRole(roleInDb, permissionsEmumList);
+            await _serviceFactory.GetRolePermissionsService().AddPermissionListToRole(roleInDb, permissionsEmumList);
 
             return RedirectToPage(nameof(ManageNavPages.ManageRoles));
         }

@@ -8,15 +8,37 @@ using Ticketsystem.Models;
 
 namespace Ticketsystem.Services
 {
-    public class ChangeRolePermissionsService
+    public class RolePermissionsService
     {
         private readonly TicketsystemContext _identityContext;
+        private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
 
-        public ChangeRolePermissionsService(TicketsystemContext identityContext, RoleManager<Role> roleManager)
+        public RolePermissionsService(TicketsystemContext identityContext, UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             _identityContext = identityContext;
+            _userManager = userManager;
             _roleManager = roleManager;
+        }
+
+        public async Task<bool> HasPermissionAsync(User loggedInUser, RolePermissions permission)
+        {
+            RolesService getRolesService = new(_userManager, _roleManager);
+
+            var userRole = await getRolesService.GetUserRoleAsync(loggedInUser);
+
+            var permissionInDb = (from p in _identityContext.Permissions
+                                  where p.Name == permission.ToString()
+                                  select p).FirstOrDefault();
+
+            if (userRole.Permissions.Contains(permissionInDb))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public async Task AddPermissionToRole(Role role, RolePermissions permission)
@@ -100,11 +122,8 @@ namespace Ticketsystem.Services
 
         public async Task RemoveAllPermissionsFromRole(Role role)
         {
-            foreach (var permission in role.Permissions)
-            {
-                role.Permissions.Remove(permission);
-                await _roleManager.UpdateAsync(role);
-            }
+            role.Permissions.Clear();
+            await _roleManager.UpdateAsync(role);
         }
     }
 }

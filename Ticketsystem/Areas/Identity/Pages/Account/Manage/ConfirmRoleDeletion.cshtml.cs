@@ -21,6 +21,11 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 
         public IActionResult OnGetAsync(string role)
         {
+            if (string.IsNullOrEmpty(role))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             RoleToDelete = new Role(role);
 
             return Page();

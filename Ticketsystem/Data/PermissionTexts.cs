@@ -12,10 +12,11 @@ namespace Ticketsystem.Data
             [RolePermissions.DeleteUsers] = "Benutzer löschen",
 
             [RolePermissions.ManageRoles] = "Rollen verwalten",
-            [RolePermissions.AddRole] = "Neue Rollen hinzufügen",
-            [RolePermissions.DeleteRole] = "Rolle löschen",
+            [RolePermissions.AddRoles] = "Neue Rollen hinzufügen",
+            [RolePermissions.DeleteRoles] = "Rolle löschen",
             [RolePermissions.ChangeRolePermissions] = "Berechtigungen von Rollen ändern",
 
+            [RolePermissions.ViewTickets] = "Tickets anzeigen",
             [RolePermissions.CreateTickets] = "Neue Tickets erstellen",
             [RolePermissions.UpdateTickets] = "Tickets updaten",
             [RolePermissions.DeleteTickets] = "Tickets löschen",
