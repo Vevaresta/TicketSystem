@@ -28,7 +28,7 @@ namespace Ticketsystem.Data
             _serviceFactory = serviceFactory;
         }
 
-        public async Task SeedAsync()
+        public async Task Seed()
         {
             await SeedUserRoles();
             await SeedDefaultAdmin();

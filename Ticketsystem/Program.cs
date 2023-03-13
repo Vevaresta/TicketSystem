@@ -44,7 +44,7 @@ namespace Ticketsystem
             // add custom tables to the identity db and seed with default values:
             using IServiceScope scope = app.Services.CreateScope();
             ContextSeed contextSeed = scope.ServiceProvider.GetService<ContextSeed>();
-            contextSeed.SeedAsync().Wait();
+            contextSeed.Seed().Wait();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
