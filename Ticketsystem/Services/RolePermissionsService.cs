@@ -10,13 +10,13 @@ namespace Ticketsystem.Services
 {
     public class RolePermissionsService
     {
-        private readonly TicketsystemContext _identityContext;
+        private readonly TicketsystemContext _ticketsystemContext;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
 
-        public RolePermissionsService(TicketsystemContext identityContext, UserManager<User> userManager, RoleManager<Role> roleManager)
+        public RolePermissionsService(TicketsystemContext ticketsystemContext, UserManager<User> userManager, RoleManager<Role> roleManager)
         {
-            _identityContext = identityContext;
+            _ticketsystemContext = ticketsystemContext;
             _userManager = userManager;
             _roleManager = roleManager;
         }
@@ -27,7 +27,7 @@ namespace Ticketsystem.Services
 
             var userRole = await getRolesService.GetUserRole(loggedInUser);
 
-            var permissionInDb = (from p in _identityContext.Permissions
+            var permissionInDb = (from p in _ticketsystemContext.Permissions
                                   where p.Name == permission.ToString()
                                   select p).FirstOrDefault();
 
@@ -43,7 +43,7 @@ namespace Ticketsystem.Services
 
         public async Task AddPermissionToRole(Role role, RolePermissions permission)
         {
-            var permObject = await _identityContext.Permissions.FirstOrDefaultAsync(p => p.Name == permission.ToString());
+            var permObject = await _ticketsystemContext.Permissions.FirstOrDefaultAsync(p => p.Name == permission.ToString());
 
             // Check if the permission is already in the administrator's permission list
             if (!role.Permissions.Contains(permObject))
@@ -71,7 +71,7 @@ namespace Ticketsystem.Services
 
             foreach (var perm in permissions)
             {
-                permissionObjects.Add(await _identityContext.Permissions.FirstOrDefaultAsync(p => p.Name == perm.ToString()));
+                permissionObjects.Add(await _ticketsystemContext.Permissions.FirstOrDefaultAsync(p => p.Name == perm.ToString()));
             }
 
 
@@ -98,7 +98,7 @@ namespace Ticketsystem.Services
 
         public async Task RemovePermissionFromRole(Role role, RolePermissions permission)
         {
-            var permObject = await _identityContext.Permissions.FirstOrDefaultAsync(p => p.Name == permission.ToString());
+            var permObject = await _ticketsystemContext.Permissions.FirstOrDefaultAsync(p => p.Name == permission.ToString());
 
             // Check if the permission is in the administrator's permission list
             if (role.Permissions.Contains(permObject))
