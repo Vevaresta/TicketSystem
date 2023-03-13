@@ -32,7 +32,7 @@
 
                         @if (loggedInUser != null)
                         {
-                            if (await serviceFactory.GetRolePermissionsService().HasPermissionAsync(loggedInUser, RolePermissions.ViewTickets))
+                            if (await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ViewTickets))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Tickets" asp-action="Index">Tickets</a>

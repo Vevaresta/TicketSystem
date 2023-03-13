@@ -21,7 +21,7 @@ namespace Ticketsystem.Services
             return _roleManager.Roles.Include(r => r.Permissions).ToList();
         }
 
-        public async Task<Role> GetRoleByNameAsync(string role)
+        public async Task<Role> GetRoleByName(string role)
         {
             var roleInDB = await _roleManager.Roles.Include(r => r.Permissions).FirstOrDefaultAsync(r => r.Name == role);
 
@@ -35,11 +35,11 @@ namespace Ticketsystem.Services
             }
         }
 
-        public async Task<Role> GetUserRoleAsync(User user)
+        public async Task<Role> GetUserRole(User user)
         {
             var userRoleName = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
 
-            return await GetRoleByNameAsync(userRoleName);
+            return await GetRoleByName(userRoleName);
         }
     }
 }

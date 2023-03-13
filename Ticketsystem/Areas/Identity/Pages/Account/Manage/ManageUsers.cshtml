@@ -5,7 +5,7 @@
     @inject UserManager<User> userManager;
     @inject IServiceFactory serviceFactory;
     var loggedInUser = await userManager.GetUserAsync(User);
-    if (!await serviceFactory.GetRolePermissionsService().HasPermissionAsync(loggedInUser, RolePermissions.ManageUsers))
+    if (!await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ManageUsers))
     {
         Response.Redirect("PermissionError");
         return;
@@ -40,7 +40,7 @@
                         <td class="text-end text-nowrap">
                             @if (user.User.UserName != "admin")
                             {
-                                @if (await serviceFactory.GetRolePermissionsService().HasPermissionAsync(loggedInUser, RolePermissions.ChangeUserRole))
+                                @if (await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ChangeUserRole))
                                 {
                                     <span>
                                         <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="ChangeRole" asp-route-userId="@user.User.Id">
@@ -48,9 +48,9 @@
                                         </button>
                                     </span>
                                 }
-                                @if (await serviceFactory.GetRolePermissionsService().HasPermissionAsync(loggedInUser, RolePermissions.DeleteUsers))
+                                @if (await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.DeleteUsers))
                                 {
-                                    if (await serviceFactory.GetRolePermissionsService().HasPermissionAsync(loggedInUser, RolePermissions.ChangeUserRole))
+                                    if (await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ChangeUserRole))
                                     {
                                         <span class="me-2"></span>
                                     }
@@ -66,7 +66,7 @@
                 }
             </tbody>
         </table>
-        @if (await serviceFactory.GetRolePermissionsService().HasPermissionAsync(loggedInUser, RolePermissions.AddUsers))
+        @if (await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.AddUsers))
         {
             <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="CreateUser">
                 Neuer Benutzer

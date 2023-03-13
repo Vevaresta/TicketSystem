@@ -24,7 +24,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
         {
             RoleToEdit = role;
 
-            Role roleInDb = await _serviceFactory.GetRolesService().GetRoleByNameAsync(role);
+            Role roleInDb = await _serviceFactory.GetRolesService().GetRoleByName(role);
 
             foreach (Permission permission in roleInDb.Permissions)
             {
@@ -44,7 +44,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
                 permissionsEmumList.Add(permissionEnum);
             }
 
-            Role roleInDb = await _serviceFactory.GetRolesService().GetRoleByNameAsync(role);
+            Role roleInDb = await _serviceFactory.GetRolesService().GetRoleByName(role);
 
             await _serviceFactory.GetRolePermissionsService().AddPermissionListToRole(roleInDb, permissionsEmumList);
 

@@ -28,17 +28,17 @@ namespace Ticketsystem.Data
             _serviceFactory = serviceFactory;
         }
 
-        public async Task Seed()
+        public async Task SeedAsync()
         {
-            await SeedUserRolesAsync();
+            await SeedUserRoles();
             await SeedDefaultAdmin();
-            await SeedPermissionsAsync();
+            await SeedPermissions();
             await SeedRolePermissions();
             await SeedTicketStatuses();
             await SeedTicketTypes();
         }
 
-        public async Task SeedUserRolesAsync()
+        public async Task SeedUserRoles()
         {
             var query = from role in _roleManager.Roles
                         select role.Name;
@@ -73,7 +73,7 @@ namespace Ticketsystem.Data
             }
         }
 
-        public async Task SeedPermissionsAsync()
+        public async Task SeedPermissions()
         {
             var permissionsEnumList = Enum.GetValues<RolePermissions>();
             List<string> permissions = new();
@@ -110,8 +110,8 @@ namespace Ticketsystem.Data
 
         public async Task SeedRolePermissions()
         {
-            var administrator = await _serviceFactory.GetRolesService().GetRoleByNameAsync(DefaultRoles.Administrator.ToString());
-            var fallback = await _serviceFactory.GetRolesService().GetRoleByNameAsync(DefaultRoles.Fallback.ToString());
+            var administrator = await _serviceFactory.GetRolesService().GetRoleByName(DefaultRoles.Administrator.ToString());
+            var fallback = await _serviceFactory.GetRolesService().GetRoleByName(DefaultRoles.Fallback.ToString());
 
             foreach (var permission in Enum.GetValues<RolePermissions>())
             {

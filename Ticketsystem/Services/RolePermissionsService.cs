@@ -21,11 +21,11 @@ namespace Ticketsystem.Services
             _roleManager = roleManager;
         }
 
-        public async Task<bool> HasPermissionAsync(User loggedInUser, RolePermissions permission)
+        public async Task<bool> HasPermission(User loggedInUser, RolePermissions permission)
         {
             RolesService getRolesService = new(_userManager, _roleManager);
 
-            var userRole = await getRolesService.GetUserRoleAsync(loggedInUser);
+            var userRole = await getRolesService.GetUserRole(loggedInUser);
 
             var permissionInDb = (from p in _identityContext.Permissions
                                   where p.Name == permission.ToString()

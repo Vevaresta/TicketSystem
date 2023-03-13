@@ -7,7 +7,7 @@
     @inject UserManager<User> userManager;
     @inject IServiceFactory serviceFactory;
     var loggedInUser = await userManager.GetUserAsync(User);
-    if (!await serviceFactory.GetRolePermissionsService().HasPermissionAsync(loggedInUser, RolePermissions.AddUsers))
+    if (!await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.AddUsers))
     {
         Response.Redirect("PermissionError");
         return;

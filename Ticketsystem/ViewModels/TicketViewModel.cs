@@ -33,16 +33,10 @@ namespace Ticketsystem.ViewModels
 
         public DeviceViewModel Device { get; set; }
 
-        // Defining an implicit conversion between the ticket model and and ticket viewmodel
-        // This enables the following:
-        // TicketViewModel vm = new();
-        // Ticket ticket = vm;
-        // Uses the implicit operator keyword:
         public static implicit operator Ticket(TicketViewModel viewModel)
         {
             var ticket = new Ticket
             {
-                // Properties are alligned with theire counterparts
                 Client = viewModel.Client,
                 Name = viewModel.Name,
                 WorkOrder = viewModel.WorkOrder,
