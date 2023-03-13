@@ -1,5 +1,15 @@
-﻿@using Ticketsystem.ViewModels;
-@model TicketViewModel
+﻿@model TicketViewModel
+@{
+    @using System.Web
+    @inject UserManager<User> userManager;
+    @inject IServiceFactory serviceFactory;
+    var loggedInUser = await userManager.GetUserAsync(User);
+    if (!await serviceFactory.GetRolePermissionsService().HasPermissionAsync(loggedInUser, RolePermissions.CreateTickets))
+    {
+        Context.Response.Redirect("PermissionError");
+        return;
+    }
+}
 
 @{
     ViewData["Title"] = "Neues TicketViewModel";

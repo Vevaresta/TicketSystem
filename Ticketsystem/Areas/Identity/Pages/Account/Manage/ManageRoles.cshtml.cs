@@ -9,12 +9,12 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
     public class ManageRolesModel : PageModel
     {
         private readonly RoleManager<Role> _roleManager;
-        private readonly GetRolesToDisplayService _getRolesToDisplayService;
+        private IServiceFactory _serviceFactory;
 
-        public ManageRolesModel(RoleManager<Role> roleManager, GetRolesToDisplayService getRolesToDisplayService)
+        public ManageRolesModel(RoleManager<Role> roleManager, IServiceFactory serviceFactory)
         {
             _roleManager = roleManager;
-            _getRolesToDisplayService = getRolesToDisplayService;
+            _serviceFactory = serviceFactory;
             Roles = new List<string>();
         }
 
@@ -26,7 +26,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             Roles = (from role in _roleManager.Roles
                             select role.Name).ToList();
 
-            RolesToDisplay = _getRolesToDisplayService.GetList();
+            RolesToDisplay = _serviceFactory.GetRolesToDisplayService().GetList();
 
             return Page();
         }

@@ -4,11 +4,11 @@ using Ticketsystem.Models;
 
 namespace Ticketsystem.Services
 {
-    public class GetRolesToDisplayService
+    public class RolesToDisplayService
     {
         private readonly RoleManager<Role> _roleManager;
 
-        public GetRolesToDisplayService(RoleManager<Role> roleManager)
+        public RolesToDisplayService(RoleManager<Role> roleManager)
         {
             _roleManager = roleManager;
         }

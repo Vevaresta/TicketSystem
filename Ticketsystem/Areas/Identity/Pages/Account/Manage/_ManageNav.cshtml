@@ -1,32 +1,29 @@
 ﻿@{
-    @using Ticketsystem.Enums;
-    @using Ticketsystem.Models;
-    @using Ticketsystem.Services;
     @inject UserManager<User> userManager;
-    @inject CheckRolePermissionsService checkRolePermissionsService;
+    @inject IServiceFactory serviceFactory;
     var loggedInUser = await userManager.GetUserAsync(User);
 }
 
-@inject SignInManager<User> SignInManager
+@*@inject SignInManager<User> SignInManager
 @{
     bool hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
-}
+}*@
 <ul class="nav nav-pills flex-column">
     <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Persönliche Daten</a></li>
     <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email-Adresse</a></li>
     <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Passwort</a></li>
-    @if (hasExternalLogins)
+    @*    @if (hasExternalLogins)
     {
-        <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
-    }
+    <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
+    }*@
     @*<li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>*@
     @*<li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>*@
 
-    @if (await checkRolePermissionsService.HasPermissionAsync(loggedInUser, RolePermissions.ManageUsers))
+    @if (await serviceFactory.GetRolePermissionsService().HasPermissionAsync(loggedInUser, RolePermissions.ManageUsers))
     {
         <li class="nav-item"><a class="nav-link @ManageNavPages.ManageUsersNavClass(ViewContext)" id="manage-users" asp-page="./ManageUsers">Benutzer verwalten</a></li>
     }
-    @if (await checkRolePermissionsService.HasPermissionAsync(loggedInUser, RolePermissions.ManageRoles))
+    @if (await serviceFactory.GetRolePermissionsService().HasPermissionAsync(loggedInUser, RolePermissions.ManageRoles))
     {
         <li class="nav-item"><a class="nav-link @ManageNavPages.ManageRolesNavClass(ViewContext)" id="manage-roles" asp-page="./ManageRoles">Rollen verwalten</a></li>
     }

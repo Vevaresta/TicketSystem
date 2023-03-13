@@ -4,6 +4,17 @@
     ViewData["ActivePage"] = ManageNavPages.ConfirmRoleDeletion;
 }
 
+@{
+    @inject UserManager<User> userManager;
+    @inject IServiceFactory serviceFactory;
+    var loggedInUser = await userManager.GetUserAsync(User);
+    if (!await serviceFactory.GetRolePermissionsService().HasPermissionAsync(loggedInUser, RolePermissions.DeleteRoles))
+    {
+        Response.Redirect("PermissionError");
+        return;
+    }
+}
+
 <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 col-xxl-8">
     <h3>
         <span>Wollen Sie die Rolle</span>

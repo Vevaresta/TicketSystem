@@ -1,4 +1,10 @@
-﻿@model IEnumerable<Ticketsystem.Models.Ticket>
+﻿@{
+    @inject UserManager<User> userManager;
+    @inject IServiceFactory serviceFactory;
+    var loggedInUser = await userManager.GetUserAsync(User);
+}
+
+@model IEnumerable<Ticketsystem.Models.Ticket>
 
 @{
     ViewData["Title"] = "Index";
@@ -7,22 +13,28 @@
 
 <h1>Tickets</h1>
 
-<p> 
-<div class="row">
-     <div class="col-md-4">
-            <h5>Neues Ticket:</h5>
-            <div class="d-grid gap-2">
-                  <a class="btn btn-primary" asp-action="Create" type="button">Neues Ticket erstellen</a>
-            </div>
-      </div>
-         <div class="col-md-4">
+<p>
+    <div class="row">
+        @if (loggedInUser != null)
+        {
+            @if (await serviceFactory.GetRolePermissionsService().HasPermissionAsync(loggedInUser, RolePermissions.ViewTickets))
+            {
+                <div class="col-md-4">
+                    <h5>Neues Ticket:</h5>
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-primary" asp-action="Create" type="button">Neues Ticket erstellen</a>
+                    </div>
+                </div>
+            }
+        }
+        <div class="col-md-4">
             <h5>Ticket suchen:</h5>
-                <form class="d-flex">
-                    <input class="form-control me-sm-2" type="search" placeholder="Ticketnummer">
-                    <input class="form-control me-sm-2" type="search" placeholder="Nachname">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                </form>
-         </div>
+            <form class="d-flex">
+                <input class="form-control me-sm-2" type="search" placeholder="Ticketnummer">
+                <input class="form-control me-sm-2" type="search" placeholder="Nachname">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
     </div>
 </p>
 
@@ -64,35 +76,36 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.WorkOrder)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataBackupByClient)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataBackupByStaff)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataBackupDone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comments)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TicketType.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TicketStatus.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Bearbeiten</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Öffnen</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Löschen</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WorkOrder)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataBackupByClient)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataBackupByStaff)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataBackupDone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comments)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketType.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketStatus.Id)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Bearbeiten</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Öffnen</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Löschen</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

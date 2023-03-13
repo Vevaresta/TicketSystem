@@ -5,15 +5,15 @@ using Ticketsystem.Models;
 
 namespace Ticketsystem.Services
 {
-    public class GetRolesService
+    public class RolesService
     {
-        private readonly RoleManager<Role> _roleManager;
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
 
-        public GetRolesService(RoleManager<Role> roleManager, UserManager<User> userManager)
+        public RolesService(UserManager<User> userManager, RoleManager<Role> roleManager)
         {
-            _roleManager = roleManager;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public List<Role> GetAllRolesFromDb()

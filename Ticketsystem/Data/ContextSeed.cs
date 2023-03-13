@@ -12,22 +12,20 @@ namespace Ticketsystem.Data
         private readonly TicketsystemContext _ticketSystemContext;
         private readonly RoleManager<Role> _roleManager;
         private readonly UserManager<User> _userManager;
-        private readonly GetRolesService _getRolesService;
-        private readonly ChangeRolePermissionsService _changeRolePermissionsService;
+
+        private readonly IServiceFactory _serviceFactory;
 
         public ContextSeed(
             TicketsystemContext ticketsystemContext,
             RoleManager<Role> roleManager,
             UserManager<User> userManager,
-            GetRolesService getRolesService,
-            ChangeRolePermissionsService changeRolePermissionsService
+            IServiceFactory serviceFactory
             )
         {
             _ticketSystemContext = ticketsystemContext;
             _roleManager = roleManager;
             _userManager = userManager;
-            _getRolesService = getRolesService;
-            _changeRolePermissionsService = changeRolePermissionsService;
+            _serviceFactory = serviceFactory;
         }
 
         public async Task Seed()
@@ -112,15 +110,15 @@ namespace Ticketsystem.Data
 
         public async Task SeedRolePermissions()
         {
-            var administrator = await _getRolesService.GetRoleByNameAsync(DefaultRoles.Administrator.ToString());
-            var fallback = await _getRolesService.GetRoleByNameAsync(DefaultRoles.Fallback.ToString());
+            var administrator = await _serviceFactory.GetRolesService().GetRoleByNameAsync(DefaultRoles.Administrator.ToString());
+            var fallback = await _serviceFactory.GetRolesService().GetRoleByNameAsync(DefaultRoles.Fallback.ToString());
 
             foreach (var permission in Enum.GetValues<RolePermissions>())
             {
-                await _changeRolePermissionsService.AddPermissionToRole(administrator, permission);
+                await _serviceFactory.GetRolePermissionsService().AddPermissionToRole(administrator, permission);
             }
 
-            await _changeRolePermissionsService.RemoveAllPermissionsFromRole(fallback);
+            await _serviceFactory.GetRolePermissionsService().RemoveAllPermissionsFromRole(fallback);
         }
 
         public async Task SeedTicketTypes()
