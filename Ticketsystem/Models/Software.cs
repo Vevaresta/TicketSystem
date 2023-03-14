@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Ticketsystem.ViewModels;
 
 namespace Ticketsystem.Models;
 public class Software
@@ -18,4 +19,13 @@ public class Software
     public string Comments { get; set; }
 
     public Device Device { get; set; }
+
+    public static implicit operator SoftwareViewModel(Software software)
+    {
+        return new SoftwareViewModel()
+        {
+            Name = software.Name,
+            Comments = software.Comments,
+        };
+    }
 }

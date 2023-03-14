@@ -28,7 +28,7 @@ namespace Ticketsystem.Data
             _serviceFactory = serviceFactory;
         }
 
-        public async Task Seed()
+        public async Task Seed(bool doSeedTickets = false)
         {
             await SeedUserRoles();
             await SeedDefaultAdmin();
@@ -36,6 +36,102 @@ namespace Ticketsystem.Data
             await SeedRolePermissions();
             await SeedTicketStatuses();
             await SeedTicketTypes();
+
+            if (doSeedTickets)
+            {
+                if (await _ticketSystemContext.Tickets.FirstOrDefaultAsync(x => x.WorkOrder.Contains("WorkOrder_")) == null)
+                {
+                    await SeedTestTickets();
+                }
+            }
+        }
+
+        public async Task SeedTestTickets()
+        {
+            Random rnd = new Random();
+            Ticket[] tickets = new Ticket[251];
+
+            for (int i = 1; i < tickets.Length + 1; i++)
+            {
+                var randomStatusIndex = rnd.Next(0, Enum.GetNames<TicketStatuses>().Length);
+                var randomTypeIndex = rnd.Next(0, Enum.GetNames<TicketTypes>().Length);
+                var randomTimeDayOffset = rnd.Next(0, 265);
+                var randomTimeHourOffset = rnd.Next(0, 24);
+                var randomMinuteOffset = rnd.Next(0, 60);
+                var randomSecondOffset = rnd.Next(0, 60);
+
+                tickets[i - 1] = new Ticket
+                {
+                    Name = "Name_" + i.ToString(),
+                    OrderDate = DateTime.Now.AddDays(randomTimeDayOffset).AddHours(randomTimeHourOffset).AddMinutes(randomMinuteOffset).AddSeconds(randomSecondOffset),
+                    WorkOrder = "WorkOrder_" + i.ToString(),
+                    DataBackupByClient = true,
+                    TicketStatus = await _serviceFactory.GetTicketStatusesService().GetTicketStatusByName(Enum.GetValues<TicketStatuses>()[randomStatusIndex].ToString()),
+                    TicketType = await _serviceFactory.GetTicketTypesService().GetTicketTypeByName(Enum.GetValues<TicketTypes>()[randomTypeIndex].ToString()),
+                    Client = new Client
+                    {
+                        LastName = "LastName_" + i.ToString(),
+                        FirstName = "FirstName_" + i.ToString(),
+                        StreetAndHouseNumber = "StreetAndHouseNumber_" + i.ToString(),
+                        PostalCode = "12345",
+                        City = "City_" + i.ToString(),
+                        Email = "Email" + i.ToString(),
+                        Course = "Course_" + i.ToString(),
+                        ParticipantNumber = i,
+                        PhoneNumber = "12345678",
+                    },
+                    Devices = new List<Device>
+                    {
+                        new Device
+                        {
+                            Name = "Name_A" + i.ToString(),
+                            Comments = "Comments_A" + i.ToString(),
+                            DeviceType = "DeviceType_A" + i.ToString(),
+                            Manufacturer = "Manufacturer_A" + i.ToString(),
+                            SerialNumber = "SerialNumber_A" + i.ToString(),
+                            Accessories = "Accessories_A" + i.ToString(),
+                            Software = new List<Software>
+                            {
+                                new Software
+                                {
+                                    Name = "Name_A" + i.ToString(),
+                                    Comments = "Comments_A" + i.ToString()
+                                },
+                                new Software
+                                {
+                                    Name = "Name_B" + i.ToString(),
+                                    Comments = "Comments_B" + i.ToString()
+                                }
+                            }
+                        },
+                        new Device
+                        {
+                            Name = "Name_B" + i.ToString(),
+                            Comments = "Comments_B" + i.ToString(),
+                            DeviceType = "DeviceType_B" + i.ToString(),
+                            Manufacturer = "Manufacturer_B" + i.ToString(),
+                            SerialNumber = "SerialNumber_B" + i.ToString(),
+                            Accessories = "Accessories_B" + i.ToString(),
+                            Software = new List<Software>
+                            {
+                                new Software
+                                {
+                                    Name = "Name_A" + i.ToString(),
+                                    Comments = "Comments_A" + i.ToString()
+                                },
+                                new Software
+                                {
+                                    Name = "Name_B" + i.ToString(),
+                                    Comments = "Comments_B" + i.ToString()
+                                }
+                            }
+                        }
+                    }
+                };
+            };
+
+            await _ticketSystemContext.Tickets.AddRangeAsync(tickets);
+            await _ticketSystemContext.SaveChangesAsync();
         }
 
         public async Task SeedUserRoles()

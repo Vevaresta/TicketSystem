@@ -24,6 +24,7 @@ public class ClientViewModel
     public string StreetAndHouseNumber { get; set; }
 
     [RegularExpression(@"^\d{5}$|^\d{5}-\d{4}$", ErrorMessage = "00000 - 99999")]
+    [DisplayName("PLZ")]
     public string PostalCode { get; set; }
 
     [DisplayName("Wohnort")]

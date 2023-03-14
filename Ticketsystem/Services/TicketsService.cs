@@ -13,14 +13,52 @@ namespace Ticketsystem.Services
             _ticketsystemContext = ticketsystemContext;
         }
 
-        public IQueryable<Ticket> GetAllTickets()
+        public async Task<int> GetTicketsCount()
         {
-            return _ticketsystemContext.Tickets.Include(t => t.TicketStatus).Include(t => t.TicketType);
+            return await _ticketsystemContext.Tickets.CountAsync();
         }
+
+        public async Task<IList<Ticket>> GetAllTickets()
+        {
+            return await _ticketsystemContext.Tickets
+                .Include(t => t.Client)
+                .Include(t => t.Devices).ThenInclude(d => d.Software)
+                .Include(t => t.TicketStatus)
+                .Include(t => t.TicketType)
+                .AsSplitQuery().ToListAsync();
+        }
+
+        public async Task<IList<Ticket>> GetAllTickets(int take, int skip, string sortByAttribute, bool doReverse)
+        {
+            IQueryable<Ticket> query = _ticketsystemContext.Tickets
+                .Include(t => t.Client)
+                .Include(t => t.Devices).ThenInclude(d => d.Software)
+                .Include(t => t.TicketStatus)
+                .Include(t => t.TicketType);
+
+            query = sortByAttribute switch
+            {
+                "Name" => query.OrderBy(t => t.Name),
+                "OrderDate" => query.OrderBy(t => t.OrderDate),
+                "TicketType" => query.OrderBy(t => t.TicketType.Name),
+                "TicketStatus" => query.OrderBy(t => t.TicketStatus.Name),
+                _ => query.OrderBy(t => t.OrderDate),
+            };
+
+            if (doReverse)
+            {
+                query = query.Reverse();
+            }
+
+            return await query.Skip(skip).Take(take).AsSplitQuery().ToListAsync();
+        }
+
 
         public async Task<Ticket> GetTicketById(int id)
         {
             var ticket = await _ticketsystemContext.Tickets
+                .Include(t => t.Client)
+                .Include(t => t.Devices).ThenInclude(d => d.Software)
                 .Include(t => t.TicketStatus)
                 .Include(t => t.TicketType)
                 .FirstOrDefaultAsync(m => m.Id == id);

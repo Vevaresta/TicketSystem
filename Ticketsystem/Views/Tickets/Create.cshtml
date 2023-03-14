@@ -1,6 +1,5 @@
 ﻿@model TicketViewModel
 @{
-    @using System.Web
     @inject UserManager<User> userManager;
     @inject IServiceFactory serviceFactory;
     var loggedInUser = await userManager.GetUserAsync(User);

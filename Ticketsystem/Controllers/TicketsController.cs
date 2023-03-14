@@ -24,11 +24,23 @@ namespace Ticketsystem.Controllers
         }
 
         // GET: Tickets
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int take= 10, int offSet = 0, string sortBy = "OrderDate", bool doReverse = false)
         {
-            var tickets = _serviceFactory.GetTicketsService().GetAllTickets();
+            var tickets = await _serviceFactory.GetTicketsService().GetAllTickets(take, offSet, sortBy, doReverse);
+            List<TicketViewModel> ticketViewModels = new();
 
-            return View(await tickets.ToListAsync());
+            foreach (var ticket in tickets)
+            {
+                ticketViewModels.Add(ticket);
+            }
+
+            ViewBag.Take = take;
+            ViewBag.Offset = offSet;
+            ViewBag.SortBy = sortBy;
+            ViewBag.TicketsCount = await _serviceFactory.GetTicketsService().GetTicketsCount();
+            ViewBag.DoReverse = doReverse;
+
+            return View(ticketViewModels);
         }
 
         // GET: Tickets/Details/5

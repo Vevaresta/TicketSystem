@@ -1,10 +1,14 @@
-﻿@{
+﻿@model IEnumerable<TicketViewModel>
+@{
     @inject UserManager<User> userManager;
     @inject IServiceFactory serviceFactory;
     var loggedInUser = await userManager.GetUserAsync(User);
+    if (!await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ViewTickets))
+    {
+        Context.Response.Redirect("PermissionError");
+        return;
+    }
 }
-
-@model IEnumerable<Ticketsystem.Models.Ticket>
 
 @{
     ViewData["Title"] = "Index";
@@ -48,29 +52,40 @@
         <div class="progress-bar bg-success" role="progressbar" style="width: 55%;" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
 </div>
+
+@{
+    bool IsSameCategory(string category)
+    {
+        if (ViewBag.SortBy == category)
+        {
+            if (ViewBag.DoReverse)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.WorkOrder)
+                @Html.ActionLink("Name", "Index", new { Take = ViewBag.Take, OffSet = ViewBag.Offset, SortBy = "Name", DoReverse = IsSameCategory("Name") })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DataBackupByClient)
+                @Html.ActionLink("Auftragsdatum", "Index", new { Take = ViewBag.Take, OffSet = ViewBag.Offset, SortBy = "OrderDate", DoReverse = IsSameCategory("OrderDate") })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DataBackupByStaff)
+                @Html.ActionLink("Auftragsart", "Index", new { Take = ViewBag.Take, OffSet = ViewBag.Offset, SortBy = "TicketType", DoReverse = IsSameCategory("TicketType") })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DataBackupDone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comments)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TicketType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TicketStatus)
+                @Html.ActionLink("Status", "Index", new { Take = ViewBag.Take, OffSet = ViewBag.Offset, SortBy = "TicketStatus", DoReverse = IsSameCategory("TicketStatus") })
             </th>
             <th></th>
         </tr>
@@ -80,25 +95,16 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.WorkOrder)
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DataBackupByClient)
+                    @Html.DisplayFor(modelItem => item.OrderDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DataBackupByStaff)
+                    @Html.DisplayFor(modelItem => item.TicketType)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DataBackupDone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Comments)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketType.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketStatus.Id)
+                    @Html.DisplayFor(modelItem => item.TicketStatus)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Bearbeiten</a> |
@@ -109,3 +115,18 @@
         }
     </tbody>
 </table>
+
+<div class="row">
+    <div class="col-1">
+        @if (ViewBag.OffSet > 9)
+        {
+            @Html.ActionLink("10 zurück", "Index", new { Take = 10, OffSet = ViewBag.Offset - 10, SortBy = ViewBag.SortBy })
+        }
+    </div>
+    <div class="col-1">
+        @if (ViewBag.OffSet < ViewBag.TicketsCount - 10)
+        {
+            @Html.ActionLink("10 vor", "Index", new { Take = 10, OffSet = ViewBag.Offset + 10, SortBy = ViewBag.SortBy })
+        }
+    </div>
+</div>
