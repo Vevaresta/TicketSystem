@@ -54,8 +54,12 @@
 </div>
 
 @{
-    bool IsSameCategory(string category)
+    bool ToggleDoReverse(string category)
     {
+        if (ViewBag.OffSet != 0)
+        {
+            return false;
+        }
         if (ViewBag.SortBy == category)
         {
             if (ViewBag.DoReverse)
@@ -76,16 +80,16 @@
     <thead>
         <tr>
             <th>
-                @Html.ActionLink("Name", "Index", new { Take = ViewBag.Take, OffSet = ViewBag.Offset, SortBy = "Name", DoReverse = IsSameCategory("Name") })
+                @Html.ActionLink("Name", "Index", new { Take = ViewBag.Take, OffSet = 0, SortBy = "Name", DoReverse = ToggleDoReverse("Name") })
             </th>
             <th>
-                @Html.ActionLink("Auftragsdatum", "Index", new { Take = ViewBag.Take, OffSet = ViewBag.Offset, SortBy = "OrderDate", DoReverse = IsSameCategory("OrderDate") })
+                @Html.ActionLink("Auftragsdatum", "Index", new { Take = ViewBag.Take, OffSet = 0, SortBy = "OrderDate", DoReverse = ToggleDoReverse("OrderDate") })
             </th>
             <th>
-                @Html.ActionLink("Auftragsart", "Index", new { Take = ViewBag.Take, OffSet = ViewBag.Offset, SortBy = "TicketType", DoReverse = IsSameCategory("TicketType") })
+                @Html.ActionLink("Auftragsart", "Index", new { Take = ViewBag.Take, OffSet = 0, SortBy = "TicketType", DoReverse = ToggleDoReverse("TicketType") })
             </th>
             <th>
-                @Html.ActionLink("Status", "Index", new { Take = ViewBag.Take, OffSet = ViewBag.Offset, SortBy = "TicketStatus", DoReverse = IsSameCategory("TicketStatus") })
+                @Html.ActionLink("Status", "Index", new { Take = ViewBag.Take, OffSet = 0, SortBy = "TicketStatus", DoReverse = ToggleDoReverse("TicketStatus") })
             </th>
             <th></th>
         </tr>
@@ -118,15 +122,23 @@
 
 <div class="row">
     <div class="col-1">
-        @if (ViewBag.OffSet > 9)
+        @if (!ViewBag.DoReverse && ViewBag.OffSet > 9)
         {
-            @Html.ActionLink("10 zurück", "Index", new { Take = 10, OffSet = ViewBag.Offset - 10, SortBy = ViewBag.SortBy })
+            @Html.ActionLink("10 zurück", "Index", new { Take = 10, OffSet = ViewBag.Offset - 10, SortBy = ViewBag.SortBy, DoReverse = false})
+        }
+        else if (ViewBag.DoReverse && ViewBag.OffSet < ViewBag.TicketsCount - 10)
+        {
+            @Html.ActionLink("10 zurück", "Index", new { Take = 10, OffSet = ViewBag.Offset + 10, SortBy = ViewBag.SortBy, DoReverse = true})
         }
     </div>
     <div class="col-1">
-        @if (ViewBag.OffSet < ViewBag.TicketsCount - 10)
+        @if (!ViewBag.DoReverse && ViewBag.OffSet < ViewBag.TicketsCount - 10)
         {
-            @Html.ActionLink("10 vor", "Index", new { Take = 10, OffSet = ViewBag.Offset + 10, SortBy = ViewBag.SortBy })
+            @Html.ActionLink("10 vor", "Index", new { Take = 10, OffSet = ViewBag.Offset + 10, SortBy = ViewBag.SortBy, DoReverse = false})
+        }
+        else if (ViewBag.DoReverse && ViewBag.OffSet > 9)
+        {
+            @Html.ActionLink("10 vor", "Index", new { Take = 10, OffSet = ViewBag.Offset - 10, SortBy = ViewBag.SortBy, DoReverse = true})
         }
     </div>
 </div>
