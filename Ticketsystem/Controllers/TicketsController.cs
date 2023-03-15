@@ -190,9 +190,14 @@ namespace Ticketsystem.Controllers
             return View();
         }
 
+        public IActionResult Login()
+        {
+            return LocalRedirect("/Identity/Account/Login");
+        }
+
         public IActionResult PermissionError()
         {
-            return View();
+            return RedirectToAction("PermissionError", "Home");
         }
     }
 }

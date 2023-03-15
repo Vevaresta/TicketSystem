@@ -38,6 +38,7 @@ namespace Ticketsystem.Services
 
             query = sortByAttribute switch
             {
+                "Id" => query.OrderBy(t => t.Id),
                 "Name" => query.OrderBy(t => t.Name),
                 "OrderDate" => query.OrderBy(t => t.OrderDate),
                 "TicketType" => query.OrderBy(t => t.TicketType.Name),

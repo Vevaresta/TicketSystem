@@ -3,13 +3,19 @@
 @{
     ViewData["ActivePage"] = ManageNavPages.EditRolePermissions;
 }
+
 @{
     @inject UserManager<User> userManager;
     @inject IServiceFactory serviceFactory;
     var loggedInUser = await userManager.GetUserAsync(User);
-    if (!await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ChangeRolePermissions))
+
+    if (loggedInUser == null)
     {
-        Response.Redirect("PermissionError");
+        return;
+    }
+    else if (!await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ChangeRolePermissions))
+    {
+        Response.Redirect("/Home/PermissionError");
         return;
     }
 }

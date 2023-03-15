@@ -1,6 +1,23 @@
 ﻿@model Ticketsystem.Models.Ticket
 
 @{
+    @inject UserManager<User> userManager;
+    @inject IServiceFactory serviceFactory;
+
+    var loggedInUser = await userManager.GetUserAsync(User);
+    if (loggedInUser == null)
+    {
+        Context.Response.Redirect("Login");
+        return;
+    }
+    if (!await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.DeleteTickets))
+    {
+        Context.Response.Redirect("PermissionError");
+        return;
+    }
+}
+
+@{
     ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }

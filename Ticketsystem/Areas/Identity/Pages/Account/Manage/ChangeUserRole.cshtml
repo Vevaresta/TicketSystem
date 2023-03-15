@@ -8,17 +8,22 @@
 @{
     ViewData["ActivePage"] = ManageNavPages.ChangeUserRole;
 }
+
 @{
     @inject UserManager<User> userManager;
     @inject IServiceFactory serviceFactory;
     var loggedInUser = await userManager.GetUserAsync(User);
-    if (!await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ChangeUserRole))
+
+    if (loggedInUser == null)
     {
-        Response.Redirect("PermissionError");
+        return;
+    }
+    else if (!await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ChangeUserRole))
+    {
+        Response.Redirect("/Home/PermissionError");
         return;
     }
 }
-
 <div class="col-sm-12 col-md-12 col-lg-8 col-xl-6 col-xxl-6">
     <h3>
         <span>Rolle von Benutzer</span>

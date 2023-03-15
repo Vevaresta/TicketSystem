@@ -5,9 +5,15 @@
     @inject UserManager<User> userManager;
     @inject IServiceFactory serviceFactory;
     var loggedInUser = await userManager.GetUserAsync(User);
-    if (!await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ManageUsers))
+
+    if (loggedInUser == null)
     {
-        Response.Redirect("PermissionError");
+        Response.Redirect("Login");
+        return;
+    }
+    else if (!await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ManageUsers))
+    {
+        Response.Redirect("/Home/PermissionError");
         return;
     }
 }

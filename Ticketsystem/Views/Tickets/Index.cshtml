@@ -1,8 +1,15 @@
 ﻿@model IEnumerable<TicketViewModel>
+
 @{
     @inject UserManager<User> userManager;
     @inject IServiceFactory serviceFactory;
+
     var loggedInUser = await userManager.GetUserAsync(User);
+    if (loggedInUser == null)
+    {
+        Context.Response.Redirect("Login");
+        return;
+    }
     if (!await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ViewTickets))
     {
         Context.Response.Redirect("PermissionError");
@@ -80,6 +87,9 @@
     <thead>
         <tr>
             <th>
+                @Html.ActionLink("Nummer", "Index", new { Take = ViewBag.Take, OffSet = 0, SortBy = "Id", DoReverse = ToggleDoReverse("Id") })
+            </th>
+            <th>
                 @Html.ActionLink("Name", "Index", new { Take = ViewBag.Take, OffSet = 0, SortBy = "Name", DoReverse = ToggleDoReverse("Name") })
             </th>
             <th>
@@ -98,6 +108,9 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
