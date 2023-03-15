@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ticketsystem.Data;
 using Ticketsystem.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Ticketsystem.Services
 {
@@ -13,9 +14,24 @@ namespace Ticketsystem.Services
             _ticketsystemContext = ticketsystemContext;
         }
 
-        public async Task<int> GetTicketsCount()
+        public async Task<int> GetTicketsCount(string id = "", string lastName = "")
         {
-            return await _ticketsystemContext.Tickets.CountAsync();
+            IQueryable<Ticket> query = _ticketsystemContext.Tickets
+                .Include(t => t.Client)
+                .Include(t => t.Devices).ThenInclude(d => d.Software)
+                .Include(t => t.TicketStatus)
+                .Include(t => t.TicketType).AsSplitQuery();
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                query = query.Where(t => t.Id == int.Parse(id));
+            }
+            if (!string.IsNullOrEmpty(lastName))
+            {
+                query = query.Where(t => t.Client.LastName == lastName);
+            }
+
+            return (await query.ToListAsync()).Count();
         }
 
         public async Task<IList<Ticket>> GetAllTickets()
@@ -28,7 +44,7 @@ namespace Ticketsystem.Services
                 .AsSplitQuery().ToListAsync();
         }
 
-        public async Task<IList<Ticket>> GetAllTickets(int take, int skip, string sortByAttribute, bool doReverse)
+        public async Task<IList<Ticket>> GetAllTickets(string id, string lastName, int take, int skip, string sortByAttribute, bool doReverse)
         {
             IQueryable<Ticket> query = _ticketsystemContext.Tickets
                 .Include(t => t.Client)
@@ -36,10 +52,20 @@ namespace Ticketsystem.Services
                 .Include(t => t.TicketStatus)
                 .Include(t => t.TicketType);
 
+            if (!string.IsNullOrEmpty(id))
+            {
+                query = query.Where(t => t.Id == int.Parse(id));
+            }
+            if (!string.IsNullOrEmpty(lastName))
+            {
+                query = query.Where(t => t.Client.LastName == lastName);
+            }
+
             query = sortByAttribute switch
             {
                 "Id" => query.OrderBy(t => t.Id),
                 "Name" => query.OrderBy(t => t.Name),
+                "LastName" => query.OrderBy(t => t.Client.LastName),
                 "OrderDate" => query.OrderBy(t => t.OrderDate),
                 "TicketType" => query.OrderBy(t => t.TicketType.Name),
                 "TicketStatus" => query.OrderBy(t => t.TicketStatus.Name),

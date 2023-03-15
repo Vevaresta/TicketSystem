@@ -41,9 +41,9 @@
         <div class="col-md-4">
             <h5>Ticket suchen:</h5>
             <form class="d-flex">
-                <input class="form-control me-sm-2" type="search" placeholder="Ticketnummer">
-                <input class="form-control me-sm-2" type="search" placeholder="Nachname">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                <input class="form-control me-sm-2" type="search" placeholder="Ticketnummer" name="Id">
+                <input class="form-control me-sm-2" type="search" placeholder="Nachname" name="LastName">
+                <button class="btn btn-secondary my-2 my-sm-0" asp-action="Search" type="submit">Search</button>
             </form>
         </div>
     </div>
@@ -90,7 +90,10 @@
                 @Html.ActionLink("Nummer", "Index", new { Take = ViewBag.Take, OffSet = 0, SortBy = "Id", DoReverse = ToggleDoReverse("Id") })
             </th>
             <th>
-                @Html.ActionLink("Name", "Index", new { Take = ViewBag.Take, OffSet = 0, SortBy = "Name", DoReverse = ToggleDoReverse("Name") })
+                @Html.ActionLink("Ticketname", "Index", new { Take = ViewBag.Take, OffSet = 0, SortBy = "Name", DoReverse = ToggleDoReverse("Name") })
+            </th>
+            <th>
+                @Html.ActionLink("Auftraggeber", "Index", new { Take = ViewBag.Take, OffSet = 0, SortBy = "LastName", DoReverse = ToggleDoReverse("LastName") })
             </th>
             <th>
                 @Html.ActionLink("Auftragsdatum", "Index", new { Take = ViewBag.Take, OffSet = 0, SortBy = "OrderDate", DoReverse = ToggleDoReverse("OrderDate") })
@@ -113,6 +116,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Client.LastName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.OrderDate)

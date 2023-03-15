@@ -35,7 +35,7 @@
                             if (await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ViewTickets))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Tickets" asp-action="Index">Tickets</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Tickets" asp-action="Index" asp-route-id="" asp-route-lastName="">Tickets</a>
                                 </li>
                             }
                         }

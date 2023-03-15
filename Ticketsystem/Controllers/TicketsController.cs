@@ -24,9 +24,10 @@ namespace Ticketsystem.Controllers
         }
 
         // GET: Tickets
-        public async Task<IActionResult> Index(int take= 10, int offSet = 0, string sortBy = "OrderDate", bool doReverse = false)
+        public async Task<IActionResult> Index(int take = 10, int offSet = 0, string sortBy = "OrderDate", bool doReverse = false, string id = "", string lastName = "")
         {
-            var tickets = await _serviceFactory.GetTicketsService().GetAllTickets(take, offSet, sortBy, doReverse);
+            var tickets = await _serviceFactory.GetTicketsService().GetAllTickets(id, lastName, take, offSet, sortBy, doReverse);
+
             List<TicketViewModel> ticketViewModels = new();
 
             foreach (var ticket in tickets)
@@ -37,7 +38,7 @@ namespace Ticketsystem.Controllers
             ViewBag.Take = take;
             ViewBag.Offset = offSet;
             ViewBag.SortBy = sortBy;
-            ViewBag.TicketsCount = await _serviceFactory.GetTicketsService().GetTicketsCount();
+            ViewBag.TicketsCount = await _serviceFactory.GetTicketsService().GetTicketsCount(id, lastName);
             ViewBag.DoReverse = doReverse;
 
             return View(ticketViewModels);
@@ -101,6 +102,12 @@ namespace Ticketsystem.Controllers
             //ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticketViewModel.TicketStatusId);
             //ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticketViewModel.TicketTypeId);
             return View(ticketViewModel);
+        }
+
+        public async Task<IActionResult> Search(string id, string lastName)
+        {
+
+            return RedirectToAction(nameof(Index), new { Id = id, LastName = lastName });
         }
 
         // GET: Tickets/Edit/5
