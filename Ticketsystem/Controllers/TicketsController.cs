@@ -24,36 +24,9 @@ namespace Ticketsystem.Controllers
         }
 
         // GET: Tickets
-        public async Task<IActionResult> Index(
-            int take = 10,
-            int skip = 0,
-            string sortBy = "OrderDate",
-            bool doReverse = false,
-            string filterByTicketId = "",
-            string filterByTicketName = "",
-            string filterByTicketStatus = "",
-            string filterByClientName = "",
-            string filterByStartDate = "",
-            string filterByEndDate = "",
-            string filterByTicketType = ""
-            )
+        public async Task<IActionResult> Index(TicketData ticketData)
         {
-            TicketQuery queryModel = new TicketQuery
-            {
-                Take = take,
-                Skip = skip,
-                SortByAttribute = sortBy,
-                DoReverse = doReverse,
-                FilterByTicketId = filterByTicketId,
-                FilterByTicketName = filterByTicketName,
-                FilterByTicketStatus = filterByTicketStatus,
-                FilterByTicketType = filterByTicketType,
-                FilterByClientName = filterByClientName,
-                FilterByStartDate = filterByStartDate,
-                FilterByEndDate = filterByEndDate
-            };
-
-            var tickets = await _serviceFactory.GetTicketsService().GetAllTickets(queryModel);
+            var tickets = await _serviceFactory.GetTicketsService().GetAllTickets(ticketData);
 
             List<TicketViewModel> ticketViewModels = new();
 
@@ -62,18 +35,18 @@ namespace Ticketsystem.Controllers
                 ticketViewModels.Add(ticket);
             }
 
-            ViewBag.Take = take;
-            ViewBag.Skip = skip;
-            ViewBag.SortBy = sortBy;
-            ViewBag.TicketsCount = _serviceFactory.GetTicketsService().GetTicketsCount(queryModel);
-            ViewBag.DoReverse = doReverse;
-            ViewBag.FilterByTicketId = filterByTicketId;
-            ViewBag.FilterByTicketName = filterByTicketName;
-            ViewBag.FilterByTicketStatus = filterByTicketStatus;
-            ViewBag.FilterByClientName = filterByClientName;
-            ViewBag.FilterByStartDate = filterByStartDate;
-            ViewBag.FilterByEndDate = filterByEndDate;
-            ViewBag.FilterByTicketType = filterByTicketType;
+            ViewBag.Take = ticketData.Take;
+            ViewBag.Skip = ticketData.Skip;
+            ViewBag.SortBy = ticketData.SortByAttribute;
+            ViewBag.TicketsCount = _serviceFactory.GetTicketsService().GetTicketsCount(ticketData);
+            ViewBag.DoReverse = ticketData.DoReverse;
+            ViewBag.FilterByTicketId = ticketData.FilterByTicketId;
+            ViewBag.FilterByTicketName = ticketData.FilterByTicketName;
+            ViewBag.FilterByTicketStatus = ticketData.FilterByTicketStatus;
+            ViewBag.FilterByClientName = ticketData.FilterByClientName;
+            ViewBag.FilterByStartDate = ticketData.FilterByStartDate;
+            ViewBag.FilterByEndDate = ticketData.FilterByEndDate;
+            ViewBag.FilterByTicketType = ticketData.FilterByTicketType;
 
             return View(ticketViewModels);
         }

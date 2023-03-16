@@ -14,7 +14,7 @@ namespace Ticketsystem.Services
             _ticketsystemContext = ticketsystemContext;
         }
 
-        private IQueryable<Ticket> GetTicketsShared(TicketQuery queryModel)
+        private IQueryable<Ticket> GetTicketsShared(TicketData ticketData)
         {
             IQueryable<Ticket> query = _ticketsystemContext.Tickets
                 .Include(t => t.Client)
@@ -22,41 +22,41 @@ namespace Ticketsystem.Services
                 .Include(t => t.TicketStatus)
                 .Include(t => t.TicketType).AsSplitQuery();
 
-            if (!string.IsNullOrEmpty(queryModel.FilterByTicketId))
+            if (!string.IsNullOrEmpty(ticketData.FilterByTicketId))
             {
-                query = query.Where(t => t.Id == int.Parse(queryModel.FilterByTicketId));
+                query = query.Where(t => t.Id == int.Parse(ticketData.FilterByTicketId));
             }
-            if (!string.IsNullOrEmpty(queryModel.FilterByTicketName))
+            if (!string.IsNullOrEmpty(ticketData.FilterByTicketName))
             {
-                query = query.Where(t => t.Name == queryModel.FilterByTicketName);
+                query = query.Where(t => t.Name == ticketData.FilterByTicketName);
             }
-            if (!string.IsNullOrEmpty(queryModel.FilterByTicketStatus))
+            if (!string.IsNullOrEmpty(ticketData.FilterByTicketStatus))
             {
-                query = query.Where(t => t.TicketStatus.Name == queryModel.FilterByTicketStatus);
+                query = query.Where(t => t.TicketStatus.Name == ticketData.FilterByTicketStatus);
             }
-            if (!string.IsNullOrEmpty(queryModel.FilterByClientName))
+            if (!string.IsNullOrEmpty(ticketData.FilterByClientName))
             {
-                query = query.Where(t => t.Client.LastName == queryModel.FilterByClientName);
+                query = query.Where(t => t.Client.LastName == ticketData.FilterByClientName);
             }
-            if (!string.IsNullOrEmpty(queryModel.FilterByTicketType))
+            if (!string.IsNullOrEmpty(ticketData.FilterByTicketType))
             {
-                query = query.Where(t => t.TicketType.Name == queryModel.FilterByTicketType);
-            }
-
-            if (!string.IsNullOrEmpty(queryModel.FilterByStartDate) && string.IsNullOrEmpty(queryModel.FilterByEndDate))
-            {
-                queryModel.FilterByEndDate = queryModel.FilterByStartDate;
-            }
-            else if (string.IsNullOrEmpty(queryModel.FilterByStartDate) && !string.IsNullOrEmpty(queryModel.FilterByEndDate))
-            {
-                queryModel.FilterByStartDate = queryModel.FilterByEndDate;
+                query = query.Where(t => t.TicketType.Name == ticketData.FilterByTicketType);
             }
 
-            if (!string.IsNullOrEmpty(queryModel.FilterByStartDate) && !string.IsNullOrEmpty(queryModel.FilterByEndDate))
+            if (!string.IsNullOrEmpty(ticketData.FilterByStartDate) && string.IsNullOrEmpty(ticketData.FilterByEndDate))
+            {
+                ticketData.FilterByEndDate = ticketData.FilterByStartDate;
+            }
+            else if (string.IsNullOrEmpty(ticketData.FilterByStartDate) && !string.IsNullOrEmpty(ticketData.FilterByEndDate))
+            {
+                ticketData.FilterByStartDate = ticketData.FilterByEndDate;
+            }
+
+            if (!string.IsNullOrEmpty(ticketData.FilterByStartDate) && !string.IsNullOrEmpty(ticketData.FilterByEndDate))
             {
                 bool areDatesValid = true;
-                areDatesValid = DateTime.TryParse(queryModel.FilterByStartDate, out DateTime startDate);
-                areDatesValid = DateTime.TryParse(queryModel.FilterByEndDate, out DateTime endDate);
+                areDatesValid = DateTime.TryParse(ticketData.FilterByStartDate, out DateTime startDate);
+                areDatesValid = DateTime.TryParse(ticketData.FilterByEndDate, out DateTime endDate);
                 if (areDatesValid)
                 {
                     query = query.Where(t => t.OrderDate.Date >= startDate).Where(t => t.OrderDate.Date <= endDate);
@@ -66,16 +66,16 @@ namespace Ticketsystem.Services
             return query;
         }
 
-        public int GetTicketsCount(TicketQuery queryModel)
+        public int GetTicketsCount(TicketData ticketData)
         {
-            return GetTicketsShared(queryModel).Count();
+            return GetTicketsShared(ticketData).Count();
         }
 
-        public async Task<IList<Ticket>> GetAllTickets(TicketQuery queryModel)
+        public async Task<IList<Ticket>> GetAllTickets(TicketData ticketData)
         {
-            IQueryable<Ticket> query = GetTicketsShared(queryModel);
+            IQueryable<Ticket> query = GetTicketsShared(ticketData);
 
-            query = queryModel.SortByAttribute switch
+            query = ticketData.SortByAttribute switch
             {
                 "Id" => query.OrderBy(t => t.Id),
                 "Name" => query.OrderBy(t => t.Name),
@@ -86,12 +86,12 @@ namespace Ticketsystem.Services
                 _ => query.OrderBy(t => t.OrderDate),
             };
 
-            if (queryModel.DoReverse)
+            if (ticketData.DoReverse)
             {
                 query = query.Reverse();
             }
 
-            return await query.Skip(queryModel.Skip).Take(queryModel.Take).AsSplitQuery().ToListAsync();
+            return await query.Skip(ticketData.Skip).Take(ticketData.Take).AsSplitQuery().ToListAsync();
         }
 
 

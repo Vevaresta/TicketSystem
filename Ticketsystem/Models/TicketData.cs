@@ -1,11 +1,11 @@
 ﻿namespace Ticketsystem.Models
 {
-    public class TicketQuery
+    public class TicketData
     {
-        public int Take { get; set; }
-        public int Skip { get; set; }
-        public string SortByAttribute { get; set; }
-        public bool DoReverse { get; set; }
+        public int Take { get; set; } = 10;
+        public int Skip { get; set; } = 0;
+        public string SortByAttribute { get; set; } = "OrderDate";
+        public bool DoReverse { get; set; } = false;
         public string FilterByTicketId { get; set; }
         public string FilterByTicketName { get; set; }
         public string FilterByTicketStatus { get; set; }
