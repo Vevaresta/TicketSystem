@@ -26,7 +26,7 @@ namespace Ticketsystem.Controllers
         // GET: Tickets
         public async Task<IActionResult> Index(
             int take = 10,
-            int offSet = 0,
+            int skip = 0,
             string sortBy = "OrderDate",
             bool doReverse = false,
             string filterByTicketId = "",
@@ -38,19 +38,22 @@ namespace Ticketsystem.Controllers
             string filterByTicketType = ""
             )
         {
-            var tickets = await _serviceFactory.GetTicketsService().GetAllTickets(
-                take,
-                offSet,
-                sortBy,
-                doReverse,
-                filterByTicketId,
-                filterByTicketName,
-                filterByTicketStatus,
-                filterByClientName,
-                filterByStartDate,
-                filterByEndDate,
-                filterByTicketType
-                );
+            TicketQuery queryModel = new TicketQuery
+            {
+                Take = take,
+                Skip = skip,
+                SortByAttribute = sortBy,
+                DoReverse = doReverse,
+                FilterByTicketId = filterByTicketId,
+                FilterByTicketName = filterByTicketName,
+                FilterByTicketStatus = filterByTicketStatus,
+                FilterByTicketType = filterByTicketType,
+                FilterByClientName = filterByClientName,
+                FilterByStartDate = filterByStartDate,
+                FilterByEndDate = filterByEndDate
+            };
+
+            var tickets = await _serviceFactory.GetTicketsService().GetAllTickets(queryModel);
 
             List<TicketViewModel> ticketViewModels = new();
 
@@ -60,17 +63,9 @@ namespace Ticketsystem.Controllers
             }
 
             ViewBag.Take = take;
-            ViewBag.Offset = offSet;
+            ViewBag.Skip = skip;
             ViewBag.SortBy = sortBy;
-            ViewBag.TicketsCount = _serviceFactory.GetTicketsService().GetTicketsCount(
-                filterByTicketId,
-                filterByTicketName,
-                filterByTicketStatus,
-                filterByClientName,
-                filterByStartDate,
-                filterByEndDate,
-                filterByTicketType
-                );
+            ViewBag.TicketsCount = _serviceFactory.GetTicketsService().GetTicketsCount(queryModel);
             ViewBag.DoReverse = doReverse;
             ViewBag.FilterByTicketId = filterByTicketId;
             ViewBag.FilterByTicketName = filterByTicketName;

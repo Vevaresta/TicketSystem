@@ -104,7 +104,7 @@
 @{
     bool ToggleDoReverse(string category)
     {
-        if (ViewBag.Offset != 0)
+        if (ViewBag.Skip != 0)
         {
             return false;
         }
@@ -125,16 +125,16 @@
 }
 
 @{
-    object GetLinkData(string sortBy = "", int forceOffSet = -1, char forceReverse = ' ')
+    object GetLinkData(string sortBy = "", int forceSkip = -1, char forceReverse = ' ')
     {
         if (string.IsNullOrEmpty(sortBy))
         {
             sortBy = ViewBag.SortBy;
         }
 
-        if (forceOffSet == -1)
+        if (forceSkip == -1)
         {
-            forceOffSet = 0;
+            forceSkip = 0;
         }
 
         bool doReverse = ToggleDoReverse(sortBy);
@@ -151,7 +151,7 @@
         return new
         {
             Take = ViewBag.Take,
-            OffSet = forceOffSet,
+            Skip = forceSkip,
             SortBy = sortBy,
             DoReverse = doReverse,
             FilterByTicketId = ViewBag.FilterByTicketId,
@@ -176,13 +176,13 @@
                     @Html.ActionLink("Ticketname", "Index", GetLinkData("Name"))
                 </th>
                 <th>
-                    @Html.ActionLink("Auftragsart", "Index", GetLinkData("TicketType"))
+                    @Html.ActionLink("Auftragsart", "Index", GetLinkData("FilterByTicketType"))
                 </th>
                 <th>
                     @Html.ActionLink("Auftraggeber", "Index", GetLinkData("LastName"))
                 </th>
                 <th>
-                    @Html.ActionLink("Status", "Index", GetLinkData("TicketStatus"))
+                    @Html.ActionLink("Status", "Index", GetLinkData("FilterByTicketStatus"))
                 </th>
                 <th>
                     @Html.ActionLink("Auftragsdatum", "Index", GetLinkData("OrderDate"))
@@ -224,23 +224,23 @@
 
     <div class="row">
         <div class="col-1">
-            @if (!ViewBag.DoReverse && ViewBag.Offset > 9)
+            @if (!ViewBag.DoReverse && ViewBag.Skip > 9)
             {
-                @Html.ActionLink("10 zurück", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Offset - 10, 'F'))
+                @Html.ActionLink("10 zurück", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip - 10, 'F'))
             }
-            else if (ViewBag.DoReverse && ViewBag.Offset < ViewBag.TicketsCount - 10)
+            else if (ViewBag.DoReverse && ViewBag.Skip < ViewBag.TicketsCount - 10)
             {
-                @Html.ActionLink("10 zurück", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Offset + 10, 'T'))
+                @Html.ActionLink("10 zurück", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip + 10, 'T'))
             }
         </div>
         <div class="col-1">
-            @if (!ViewBag.DoReverse && ViewBag.Offset < ViewBag.TicketsCount - 10)
+            @if (!ViewBag.DoReverse && ViewBag.Skip < ViewBag.TicketsCount - 10)
             {
-                @Html.ActionLink("10 vor", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Offset + 10, 'F'))
+                @Html.ActionLink("10 vor", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip + 10, 'F'))
             }
-            else if (ViewBag.DoReverse && ViewBag.Offset > 9)
+            else if (ViewBag.DoReverse && ViewBag.Skip > 9)
             {
-                @Html.ActionLink("10 vor", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Offset - 10, 'T'))
+                @Html.ActionLink("10 vor", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip - 10, 'T'))
             }
         </div>
     </div>
