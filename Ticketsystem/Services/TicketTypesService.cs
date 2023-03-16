@@ -16,8 +16,8 @@ namespace Ticketsystem.Services
 
         public async Task<TicketType> GetTicketTypeByName(string ticketType)
         {
-            TicketTypes ticketTypeEnum = TicketTypeTexts.Texts.Keys.FirstOrDefault(k => TicketTypeTexts.Texts[k] == ticketType);
-            return await _ticketsystemContext.TicketTypes.FirstOrDefaultAsync(t => t.Name == ticketTypeEnum.ToString());
+            //TicketTypes ticketTypeEnum = TicketTypeTexts.Texts.Keys.FirstOrDefault(k => TicketTypeTexts.Texts[k] == ticketType);
+            return await _ticketsystemContext.TicketTypes.FirstOrDefaultAsync(t => t.Name == ticketType.ToString());
         }
     }
 }

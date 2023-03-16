@@ -1,5 +1,6 @@
 ﻿import Device from './models/device.js';
 import Software from './models/software.js';
+import TicketTypes from './models/tickettypes.js';
 
 // Ticketart als string (wird bei jedem Radiobutton-Klick geändert)
 var radioTicketTypeSelectedValue = $('input[name="ticket-type"]:checked').siblings('label').text();
@@ -33,34 +34,24 @@ $(document).ready(function () {
     // Umschalten der Ticketart durch Klick auf Radio-Button oder Label
     $(".ticket-type-container").on("click", function (event) {
         let id = event.target.id;
-        if (String(id).includes("repair")) {
-            radioTicketTypeSelectedValue = "Reparatur";
-            $("#radio-repair").prop("checked", true);
-        }
-        else if (String(id).includes("recovery")) {
-            radioTicketTypeSelectedValue = "Datenrettung";
-            $("#radio-recovery").prop("checked", true);
-        }
-        else if (String(id).includes("advice")) {
-            radioTicketTypeSelectedValue = "Beratung";
-            $("#radio-advice").prop("checked", true);
-        }
-        else if (String(id).includes("special")) {
-            radioTicketTypeSelectedValue = "Spezialauftrag";
-            $("#radio-special").prop("checked", true);
-        }
+        var label = $(event.target);
+        var radio = label.prev('input[type=radio]');
+
+        radioTicketTypeSelectedValue = radio.val();
+        radio.prop("checked", true);
+
         var einzelgeraet = $("#einzelgeraet");
         var geraetetab = $("#geraetetab");
         var backup = $("#backup")
 
-        if (radioTicketTypeSelectedValue == "Reparatur" || radioTicketTypeSelectedValue == "Datenrettung") {
+        if (radioTicketTypeSelectedValue == TicketTypes.Repair || radioTicketTypeSelectedValue == TicketTypes.DataRecovery) {
             $('#tabs a[href="#tab1"]').tab('show');
             einzelgeraet.show();
             geraetetab.hide();
             backup.show();
             $('#input-device-name').rules('add', 'required');
         }
-        else if (radioTicketTypeSelectedValue == "Beratung") {
+        else if (radioTicketTypeSelectedValue == TicketTypes.Consultation) {
             $('#tabs a[href="#tab1"]').tab('show');
             einzelgeraet.hide();
             geraetetab.hide();
@@ -344,7 +335,7 @@ $("#button-main-save-ticket").on("click", function (event) {
 
     $('#ticketTypeInput').val(ticketType);
 
-    if (radioTicketTypeSelectedValue == "Reparatur" || radioTicketTypeSelectedValue == "Datenrettung") {
+    if (radioTicketTypeSelectedValue == TicketTypes.Repair || radioTicketTypeSelectedValue == TicketTypes.DataRecovery) {
         if ($("#input-device-name").val() != "") {
             var newDevice = new Device();
             newDevice.Name = $("#input-device-name").val();

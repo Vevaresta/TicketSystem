@@ -28,19 +28,19 @@
             <fieldset class="form-group col-lg-5 mb-3">
                 <div class="row">
                     <div class="col-md-3 form-check ticket-type-container">
-                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-repair" checked>
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-repair" value="@TicketTypes.Repair.ToString()" checked>
                         <label class="form-check-label" id="radio-label-repair">@TicketTypeTexts.Texts[TicketTypes.Repair]</label>
                     </div>
                     <div class="col-md-3 form-check ticket-type-container">
-                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-recovery">
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-recovery" value="@TicketTypes.DataRecovery.ToString()">
                         <label class="form-check-label" id="radio-label-recovery">@TicketTypeTexts.Texts[TicketTypes.DataRecovery]</label>
                     </div>
                     <div class="col-md-3 form-check ticket-type-container">
-                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-advice">
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-advice" value="@TicketTypes.Consultation.ToString()">
                         <label class="form-check-label" id="radio-label-advice">@TicketTypeTexts.Texts[TicketTypes.Consultation]</label>
                     </div>
                     <div class="col-md-3 form-check ticket-type-container">
-                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-special">
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-special" value="@TicketTypes.Special.ToString()">
                         <label class="form-check-label" id="radio-label-special">@TicketTypeTexts.Texts[TicketTypes.Special]</label>
                     </div>
                 </div>
