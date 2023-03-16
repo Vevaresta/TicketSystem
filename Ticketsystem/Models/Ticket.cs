@@ -3,6 +3,8 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using Ticketsystem.Data;
+using Ticketsystem.Enums;
 using Ticketsystem.ViewModels;
 
 namespace Ticketsystem.Models;
@@ -58,8 +60,8 @@ public class Ticket
             DataBackupByClient = ticket.DataBackupByClient,
             DataBackupByStaff = ticket.DataBackupByStaff,
             DataBackupDone = ticket.DataBackupDone,
-            TicketType = ticket.TicketType.Name,
-            TicketStatus = ticket.TicketStatus.Name,
+            TicketType = TicketTypeTexts.Texts[Enum.GetValues<TicketTypes>().FirstOrDefault(tt => tt.ToString() == ticket.TicketType.Name)],
+            TicketStatus = TicketStatusTexts.Texts[Enum.GetValues<TicketStatuses>().FirstOrDefault(ts => ts.ToString() == ticket.TicketStatus.Name)],
             Devices = new List<DeviceViewModel>()
         };
 

@@ -3,6 +3,10 @@ namespace Ticketsystem.Enums;
 public enum TicketStatuses
 {
     Open,
-    Pending,
-    Closed
+    InProgress,
+    WaitingForResponse,
+    Resolved,
+    Closed,
+    Escalated,
+    OnHold,
 }

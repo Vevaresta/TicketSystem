@@ -4,7 +4,7 @@ namespace Ticketsystem.Data
 {
     public static class PermissionTexts
     {
-        public static Dictionary<RolePermissions, string> Texts { get; set; } = new Dictionary<RolePermissions, string>
+        public static Dictionary<RolePermissions, string> Texts { get; } = new Dictionary<RolePermissions, string>
         {
             [RolePermissions.ManageUsers] = "Benutzer verwalten",
             [RolePermissions.AddUsers] = "Neue Benutzer hinzufügen",

@@ -45,9 +45,9 @@ $(document).ready(function () {
             radioTicketTypeSelectedValue = "Beratung";
             $("#radio-advice").prop("checked", true);
         }
-        else if (String(id).includes("other")) {
-            radioTicketTypeSelectedValue = "Sonstiges";
-            $("#radio-other").prop("checked", true);
+        else if (String(id).includes("special")) {
+            radioTicketTypeSelectedValue = "Spezialauftrag";
+            $("#radio-special").prop("checked", true);
         }
         var einzelgeraet = $("#einzelgeraet");
         var geraetetab = $("#geraetetab");
