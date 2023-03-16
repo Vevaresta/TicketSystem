@@ -28,7 +28,6 @@ namespace Ticketsystem
             }
 
             builder.Services.AddScoped<ContextSeed>();
-
             builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<Role>()
                 .AddEntityFrameworkStores<TicketsystemContext>()
@@ -44,7 +43,8 @@ namespace Ticketsystem
             // add custom tables to the identity db and seed with default values:
             using IServiceScope scope = app.Services.CreateScope();
             ContextSeed contextSeed = scope.ServiceProvider.GetService<ContextSeed>();
-            contextSeed.Seed().Wait();
+            
+            contextSeed.Seed(true).Wait();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

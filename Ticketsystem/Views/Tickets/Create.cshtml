@@ -1,9 +1,14 @@
 ﻿@model TicketViewModel
 @{
-    @using System.Web
     @inject UserManager<User> userManager;
     @inject IServiceFactory serviceFactory;
+
     var loggedInUser = await userManager.GetUserAsync(User);
+    if (loggedInUser == null)
+    {
+        Context.Response.Redirect("Login");
+        return;
+    }
     if (!await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.CreateTickets))
     {
         Context.Response.Redirect("PermissionError");

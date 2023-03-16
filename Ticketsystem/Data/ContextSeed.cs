@@ -28,7 +28,7 @@ namespace Ticketsystem.Data
             _serviceFactory = serviceFactory;
         }
 
-        public async Task Seed()
+        public async Task Seed(bool doSeedTestData = false)
         {
             await SeedUserRoles();
             await SeedDefaultAdmin();
@@ -36,9 +36,156 @@ namespace Ticketsystem.Data
             await SeedRolePermissions();
             await SeedTicketStatuses();
             await SeedTicketTypes();
+
+            if (doSeedTestData)
+            {
+                await SeedTestUsers();
+                if (await _ticketSystemContext.Tickets.FirstOrDefaultAsync(x => x.WorkOrder.Contains("WorkOrder_")) == null)
+                {
+                    await SeedTestTickets();
+                }
+            }
         }
 
-        public async Task SeedUserRoles()
+        private async Task SeedTestUsers()
+        {
+            User mitarbeiter = new()
+            {
+                LastName = "Mitarbeiter",
+                FirstName = "Mitarbeiter",
+                UserName = "mitarbeiter",
+                Email = "mitarbeiter@localhost"
+            };
+
+            var mitarbeiterInDb = await _userManager.FindByNameAsync(mitarbeiter.UserName);
+            if (mitarbeiterInDb == null)
+            {
+                await _userManager.CreateAsync(mitarbeiter, "Service1234!");
+                await _userManager.AddToRoleAsync(mitarbeiter, DefaultRoles.Mitarbeiter.ToString());
+            }
+
+            User abteilungsleiter = new()
+            {
+                LastName = "Abteilungsleiter",
+                FirstName = "Abteilungsleiter",
+                UserName = "abteilungsleiter",
+                Email = "abteilungsleiter@localhost"
+            };
+
+            var abteilungsleiterInDb = await _userManager.FindByNameAsync(abteilungsleiter.UserName);
+            if (abteilungsleiterInDb == null)
+            {
+                await _userManager.CreateAsync(abteilungsleiter, "Service1234!");
+                await _userManager.AddToRoleAsync(abteilungsleiter, DefaultRoles.Abteilungsleiter.ToString());
+            }
+
+            User fallback = new()
+            {
+                LastName = "Fallback",
+                FirstName = "Fallback",
+                UserName = "fallback",
+                Email = "fallback@localhost"
+            };
+
+            var fallbackInDb = await _userManager.FindByNameAsync(fallback.UserName);
+            if (fallbackInDb == null)
+            {
+                await _userManager.CreateAsync(fallback, "Service1234!");
+                await _userManager.AddToRoleAsync(fallback, DefaultRoles.Fallback.ToString());
+            }
+
+            await _ticketSystemContext.SaveChangesAsync();
+        }
+
+        private async Task SeedTestTickets()
+        {
+            Random rnd = new();
+            Ticket[] tickets = new Ticket[250];
+
+            for (int i = 1; i < tickets.Length + 1; i++)
+            {
+                var randomStatusIndex = rnd.Next(0, Enum.GetNames<TicketStatuses>().Length);
+                var randomTypeIndex = rnd.Next(0, Enum.GetNames<TicketTypes>().Length);
+                var randomTimeDayOffset = rnd.Next(0, 265);
+                var randomTimeHourOffset = rnd.Next(0, 24);
+                var randomMinuteOffset = rnd.Next(0, 60);
+                var randomSecondOffset = rnd.Next(0, 60);
+
+                tickets[i - 1] = new Ticket
+                {
+                    Name = "Name_" + i.ToString(),
+                    OrderDate = DateTime.Now.AddDays(randomTimeDayOffset).AddHours(randomTimeHourOffset).AddMinutes(randomMinuteOffset).AddSeconds(randomSecondOffset),
+                    WorkOrder = "WorkOrder_" + i.ToString(),
+                    DataBackupByClient = true,
+                    TicketStatus = await _serviceFactory.GetTicketStatusesService().GetTicketStatusByName(Enum.GetValues<TicketStatuses>()[randomStatusIndex].ToString()),
+                    TicketType = await _serviceFactory.GetTicketTypesService().GetTicketTypeByName(Enum.GetValues<TicketTypes>()[randomTypeIndex].ToString()),
+                    Client = new Client
+                    {
+                        LastName = "LastName_" + i.ToString(),
+                        FirstName = "FirstName_" + i.ToString(),
+                        StreetAndHouseNumber = "StreetAndHouseNumber_" + i.ToString(),
+                        PostalCode = "12345",
+                        City = "City_" + i.ToString(),
+                        Email = "Email" + i.ToString(),
+                        Course = "Course_" + i.ToString(),
+                        ParticipantNumber = i,
+                        PhoneNumber = "12345678",
+                    },
+                    Devices = new List<Device>
+                    {
+                        new Device
+                        {
+                            Name = "Name_A" + i.ToString(),
+                            Comments = "Comments_A" + i.ToString(),
+                            DeviceType = "DeviceType_A" + i.ToString(),
+                            Manufacturer = "Manufacturer_A" + i.ToString(),
+                            SerialNumber = "SerialNumber_A" + i.ToString(),
+                            Accessories = "Accessories_A" + i.ToString(),
+                            Software = new List<Software>
+                            {
+                                new Software
+                                {
+                                    Name = "Name_A" + i.ToString(),
+                                    Comments = "Comments_A" + i.ToString()
+                                },
+                                new Software
+                                {
+                                    Name = "Name_B" + i.ToString(),
+                                    Comments = "Comments_B" + i.ToString()
+                                }
+                            }
+                        },
+                        new Device
+                        {
+                            Name = "Name_B" + i.ToString(),
+                            Comments = "Comments_B" + i.ToString(),
+                            DeviceType = "DeviceType_B" + i.ToString(),
+                            Manufacturer = "Manufacturer_B" + i.ToString(),
+                            SerialNumber = "SerialNumber_B" + i.ToString(),
+                            Accessories = "Accessories_B" + i.ToString(),
+                            Software = new List<Software>
+                            {
+                                new Software
+                                {
+                                    Name = "Name_A" + i.ToString(),
+                                    Comments = "Comments_A" + i.ToString()
+                                },
+                                new Software
+                                {
+                                    Name = "Name_B" + i.ToString(),
+                                    Comments = "Comments_B" + i.ToString()
+                                }
+                            }
+                        }
+                    }
+                };
+            };
+
+            await _ticketSystemContext.Tickets.AddRangeAsync(tickets);
+            await _ticketSystemContext.SaveChangesAsync();
+        }
+
+        private async Task SeedUserRoles()
         {
             var query = from role in _roleManager.Roles
                         select role.Name;
@@ -52,7 +199,7 @@ namespace Ticketsystem.Data
             }
         }
 
-        public async Task SeedDefaultAdmin()
+        private async Task SeedDefaultAdmin()
         {
             User admin = new()
             {
@@ -62,18 +209,17 @@ namespace Ticketsystem.Data
                 Email = "admin@localhost",
             };
 
-            if (_userManager.Users.All(user => user.Id != admin.Id))
+            var adminInDb = await _userManager.FindByNameAsync(admin.UserName);
+            if (adminInDb == null)
             {
-                var adminInDb = await _userManager.FindByNameAsync(admin.UserName);
-                if (adminInDb == null)
-                {
-                    await _userManager.CreateAsync(admin, "Service1234!");
-                    await _userManager.AddToRoleAsync(admin, DefaultRoles.Administrator.ToString());
-                }
+                await _userManager.CreateAsync(admin, "Service1234!");
+                await _userManager.AddToRoleAsync(admin, DefaultRoles.Administrator.ToString());
             }
+
+            await _ticketSystemContext.SaveChangesAsync();
         }
 
-        public async Task SeedPermissions()
+        private async Task SeedPermissions()
         {
             var permissionsEnumList = Enum.GetValues<RolePermissions>();
             List<string> permissions = new();
@@ -108,7 +254,7 @@ namespace Ticketsystem.Data
             await _ticketSystemContext.SaveChangesAsync();
         }
 
-        public async Task SeedRolePermissions()
+        private async Task SeedRolePermissions()
         {
             var administrator = await _serviceFactory.GetRolesService().GetRoleByName(DefaultRoles.Administrator.ToString());
             var fallback = await _serviceFactory.GetRolesService().GetRoleByName(DefaultRoles.Fallback.ToString());
@@ -121,7 +267,7 @@ namespace Ticketsystem.Data
             await _serviceFactory.GetRolePermissionsService().RemoveAllPermissionsFromRole(fallback);
         }
 
-        public async Task SeedTicketTypes()
+        private async Task SeedTicketTypes()
         {
             foreach (var type in Enum.GetValues<TicketTypes>())
             {
@@ -133,7 +279,7 @@ namespace Ticketsystem.Data
             await _ticketSystemContext.SaveChangesAsync();
         }
 
-        public async Task SeedTicketStatuses()
+        private async Task SeedTicketStatuses()
         {
             foreach (var status in Enum.GetValues(typeof(TicketStatuses)))
             {

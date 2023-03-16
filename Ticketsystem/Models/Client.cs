@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using Ticketsystem.ViewModels;
 
 namespace Ticketsystem.Models;
 
@@ -25,4 +26,20 @@ public class Client
     public string Course { get; set; }
 
     public IList<Ticket> Tickets { get; set; }
+
+    public static implicit operator ClientViewModel(Client client)
+    {
+        return new ClientViewModel()
+        {
+            LastName = client.LastName,
+            FirstName = client.FirstName,
+            Email = client.Email,
+            StreetAndHouseNumber = client.StreetAndHouseNumber,
+            PostalCode = client.PostalCode,
+            City = client.City,
+            PhoneNumber = client.PhoneNumber,
+            ParticipantNumber = client.ParticipantNumber,
+            Course = client.Course
+        };
+    }
 }

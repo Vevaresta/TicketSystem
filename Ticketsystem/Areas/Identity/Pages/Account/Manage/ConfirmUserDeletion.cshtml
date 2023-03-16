@@ -8,9 +8,14 @@
     @inject UserManager<User> userManager;
     @inject IServiceFactory serviceFactory;
     var loggedInUser = await userManager.GetUserAsync(User);
-    if (!await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.DeleteUsers))
+
+    if (loggedInUser == null)
     {
-        Response.Redirect("PermissionError");
+        return;
+    }
+    else if (!await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.DeleteUsers))
+    {
+        Response.Redirect("/Home/PermissionError");
         return;
     }
 }

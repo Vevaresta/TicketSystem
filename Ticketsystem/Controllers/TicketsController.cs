@@ -24,11 +24,63 @@ namespace Ticketsystem.Controllers
         }
 
         // GET: Tickets
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            int take = 10,
+            int offSet = 0,
+            string sortBy = "OrderDate",
+            bool doReverse = false,
+            string filterByTicketId = "",
+            string filterByTicketName = "",
+            string filterByTicketStatus = "",
+            string filterByClientName = "",
+            string filterByStartDate = "",
+            string filterByEndDate = "",
+            string filterByTicketType = ""
+            )
         {
-            var tickets = _serviceFactory.GetTicketsService().GetAllTickets();
+            var tickets = await _serviceFactory.GetTicketsService().GetAllTickets(
+                take,
+                offSet,
+                sortBy,
+                doReverse,
+                filterByTicketId,
+                filterByTicketName,
+                filterByTicketStatus,
+                filterByClientName,
+                filterByStartDate,
+                filterByEndDate,
+                filterByTicketType
+                );
 
-            return View(await tickets.ToListAsync());
+            List<TicketViewModel> ticketViewModels = new();
+
+            foreach (var ticket in tickets)
+            {
+                ticketViewModels.Add(ticket);
+            }
+
+            ViewBag.Take = take;
+            ViewBag.Offset = offSet;
+            ViewBag.SortBy = sortBy;
+            ViewBag.TicketsCount = _serviceFactory.GetTicketsService().GetTicketsCount(
+                filterByTicketId,
+                filterByTicketName,
+                filterByTicketStatus,
+                filterByClientName,
+                filterByStartDate,
+                filterByEndDate,
+                filterByTicketType
+                );
+            ViewBag.DoReverse = doReverse;
+            ViewBag.FilterByTicketId = filterByTicketId;
+            ViewBag.FilterByTicketName = filterByTicketName;
+            ViewBag.FilterByTicketStatus = filterByTicketStatus;
+            ViewBag.FilterByClientName = filterByClientName;
+            ViewBag.FilterByStartDate = filterByStartDate;
+            ViewBag.FilterByEndDate = filterByEndDate;
+            ViewBag.FilterByTicketType = filterByTicketType;
+
+            return View(ticketViewModels);
         }
 
         // GET: Tickets/Details/5
@@ -178,9 +230,14 @@ namespace Ticketsystem.Controllers
             return View();
         }
 
+        public IActionResult Login()
+        {
+            return LocalRedirect("/Identity/Account/Login");
+        }
+
         public IActionResult PermissionError()
         {
-            return View();
+            return RedirectToAction("PermissionError", "Home");
         }
     }
 }

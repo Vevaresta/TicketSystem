@@ -12,15 +12,13 @@
     @if (signInManager.IsSignedIn(User) && loggedInUser != null)
     {
         <li class="nav-item">
-            <span class="nav-link text-dark fw-bold">Hallo @loggedInUser.FirstName @loggedInUser.LastName</span>
+            <span class="nav-link text-dark fw-bold me-2">Hallo @loggedInUser.FirstName @loggedInUser.LastName</span>
         </li>
         <li class="nav-item">
-            <a id="manage" class="nav-link btn btn-info text-black me-2" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Einstellungen</a>
+            <a id="manage" class="nav-link text-dark me-1" asp-area="Identity" asp-page="/Account/Manage/Index">Einstellungen</a>
         </li>
         <li class="nav-item">
-            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button id="logout" type="submit" class="nav-link btn btn-danger text-black">Logout</button>
-            </form>
+            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
         </li>
     }
     else

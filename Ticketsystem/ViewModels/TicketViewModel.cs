@@ -6,16 +6,18 @@ namespace Ticketsystem.ViewModels
 {
     public class TicketViewModel
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Pflichtfeld")]
         [DisplayName("Ticketname")]
         public string Name { get; set; }
 
+        [DisplayName("Auftragsdatum")]
+        public DateTime OrderDate { get; set; }
+
         [Required(ErrorMessage = "Pflichtfeld")]
         [DisplayName("Arbeitsanweisung")]
         public string WorkOrder { get; set; }
-
-        [DisplayName("Notizen")]
-        public string Comments { get; set; }
 
         [Display(Name = "Bereits erledigt durch Auftraggeber")]
         public bool DataBackupByClient { get; set; }
@@ -27,7 +29,11 @@ namespace Ticketsystem.ViewModels
         public bool DataBackupDone { get; set; }
         public ClientViewModel Client { get; set; }
 
+        [DisplayName("Auftragsart")]
         public string TicketType { get; set; }
+
+        [DisplayName("Status")]
+        public string TicketStatus { get; set; }
 
         public IList<DeviceViewModel> Devices { get; set; }
 
@@ -37,10 +43,10 @@ namespace Ticketsystem.ViewModels
         {
             var ticket = new Ticket
             {
+                Id = viewModel.Id,
                 Client = viewModel.Client,
                 Name = viewModel.Name,
                 WorkOrder = viewModel.WorkOrder,
-                Comments = viewModel.Comments,
                 DataBackupByClient = viewModel.DataBackupByClient,
                 DataBackupByStaff = viewModel.DataBackupByStaff,
                 DataBackupDone = viewModel.DataBackupDone,
