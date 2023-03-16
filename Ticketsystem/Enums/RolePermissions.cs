@@ -13,6 +13,7 @@
         ChangeRolePermissions,
 
         ViewTickets,
+        SearchTickets,
         CreateTickets,
         UpdateTickets,
         DeleteTickets,

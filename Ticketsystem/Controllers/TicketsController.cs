@@ -24,9 +24,33 @@ namespace Ticketsystem.Controllers
         }
 
         // GET: Tickets
-        public async Task<IActionResult> Index(int take = 10, int offSet = 0, string sortBy = "OrderDate", bool doReverse = false, string id = "", string lastName = "")
+        public async Task<IActionResult> Index(
+            int take = 10,
+            int offSet = 0,
+            string sortBy = "OrderDate",
+            bool doReverse = false,
+            string filterByTicketId = "",
+            string filterByTicketName = "",
+            string filterByTicketStatus = "",
+            string filterByClientName = "",
+            string filterByStartDate = "",
+            string filterByEndDate = "",
+            string filterByTicketType = ""
+            )
         {
-            var tickets = await _serviceFactory.GetTicketsService().GetAllTickets(id, lastName, take, offSet, sortBy, doReverse);
+            var tickets = await _serviceFactory.GetTicketsService().GetAllTickets(
+                take,
+                offSet,
+                sortBy,
+                doReverse,
+                filterByTicketId,
+                filterByTicketName,
+                filterByTicketStatus,
+                filterByClientName,
+                filterByStartDate,
+                filterByEndDate,
+                filterByTicketType
+                );
 
             List<TicketViewModel> ticketViewModels = new();
 
@@ -38,8 +62,23 @@ namespace Ticketsystem.Controllers
             ViewBag.Take = take;
             ViewBag.Offset = offSet;
             ViewBag.SortBy = sortBy;
-            ViewBag.TicketsCount = await _serviceFactory.GetTicketsService().GetTicketsCount(id, lastName);
+            ViewBag.TicketsCount = _serviceFactory.GetTicketsService().GetTicketsCount(
+                filterByTicketId,
+                filterByTicketName,
+                filterByTicketStatus,
+                filterByClientName,
+                filterByStartDate,
+                filterByEndDate,
+                filterByTicketType
+                );
             ViewBag.DoReverse = doReverse;
+            ViewBag.FilterByTicketId = filterByTicketId;
+            ViewBag.FilterByTicketName = filterByTicketName;
+            ViewBag.FilterByTicketStatus = filterByTicketStatus;
+            ViewBag.FilterByClientName = filterByClientName;
+            ViewBag.FilterByStartDate = filterByStartDate;
+            ViewBag.FilterByEndDate = filterByEndDate;
+            ViewBag.FilterByTicketType = filterByTicketType;
 
             return View(ticketViewModels);
         }
@@ -102,12 +141,6 @@ namespace Ticketsystem.Controllers
             //ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticketViewModel.TicketStatusId);
             //ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticketViewModel.TicketTypeId);
             return View(ticketViewModel);
-        }
-
-        public async Task<IActionResult> Search(string id, string lastName)
-        {
-
-            return RedirectToAction(nameof(Index), new { Id = id, LastName = lastName });
         }
 
         // GET: Tickets/Edit/5

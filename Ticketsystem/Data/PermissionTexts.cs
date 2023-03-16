@@ -17,6 +17,7 @@ namespace Ticketsystem.Data
             [RolePermissions.ChangeRolePermissions] = "Berechtigungen von Rollen ändern",
 
             [RolePermissions.ViewTickets] = "Tickets anzeigen",
+            [RolePermissions.SearchTickets] = "Tickets suchen",
             [RolePermissions.CreateTickets] = "Neue Tickets erstellen",
             [RolePermissions.UpdateTickets] = "Tickets updaten",
             [RolePermissions.DeleteTickets] = "Tickets löschen",

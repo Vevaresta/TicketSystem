@@ -4,6 +4,5 @@ public enum TicketStatuses
 {
     Open,
     Pending,
-    NeedsCustomerConsultation,
     Closed
 }
