@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Ticketsystem.Data;
 using Ticketsystem.Models;
@@ -67,8 +65,9 @@ namespace Ticketsystem
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.MapRazorPages();
-            
+
             app.Run();
+
         }
     }
 }

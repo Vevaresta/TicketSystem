@@ -1,10 +1,8 @@
-﻿using Microsoft.CodeAnalysis.Editing;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
-using Ticketsystem.Data;
 using Ticketsystem.Enums;
+using Ticketsystem.Extensions;
 using Ticketsystem.ViewModels;
 
 namespace Ticketsystem.Models;
@@ -60,8 +58,8 @@ public class Ticket
             DataBackupByClient = ticket.DataBackupByClient,
             DataBackupByStaff = ticket.DataBackupByStaff,
             DataBackupDone = ticket.DataBackupDone,
-            TicketType = TicketTypeTexts.Texts[Enum.GetValues<TicketTypes>().FirstOrDefault(tt => tt.ToString() == ticket.TicketType.Name)],
-            TicketStatus = TicketStatusTexts.Texts[Enum.GetValues<TicketStatuses>().FirstOrDefault(ts => ts.ToString() == ticket.TicketStatus.Name)],
+            TicketType = Enum.GetValues<TicketTypes>().FirstOrDefault(tt => tt.ToString() == ticket.TicketType.Name).GetText(),
+            TicketStatus = Enum.GetValues<TicketStatuses>().FirstOrDefault(ts => ts.ToString() == ticket.TicketStatus.Name).GetText(),
             Devices = new List<DeviceViewModel>()
         };
 

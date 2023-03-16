@@ -52,23 +52,23 @@
                     <select class="form-control select-option-disabled-text" name="FilterByTicketStatus">
                         <option disabled selected value="">Status</option>
                         <option class="select-option-text" value="">Keiner</option>
-                        <option class="select-option-text" value="@TicketStatuses.Open.ToString()">@TicketStatusTexts.Texts[@TicketStatuses.Open]</option>
-                        <option class="select-option-text" value="@TicketStatuses.InProgress.ToString()">@TicketStatusTexts.Texts[@TicketStatuses.InProgress]</option>
-                        <option class="select-option-text" value="@TicketStatuses.WaitingForResponse.ToString()">@TicketStatusTexts.Texts[@TicketStatuses.WaitingForResponse]</option>
-                        <option class="select-option-text" value="@TicketStatuses.Resolved.ToString()">@TicketStatusTexts.Texts[@TicketStatuses.Resolved]</option>
-                        <option class="select-option-text" value="@TicketStatuses.Escalated.ToString()">@TicketStatusTexts.Texts[@TicketStatuses.Escalated]</option>
-                        <option class="select-option-text" value="@TicketStatuses.OnHold.ToString()">@TicketStatusTexts.Texts[@TicketStatuses.OnHold]</option>
-                        <option class="select-option-text" value="@TicketStatuses.Closed.ToString()">@TicketStatusTexts.Texts[@TicketStatuses.Closed]</option>
+                        <option class="select-option-text" value="@TicketStatuses.Open.ToString()">@TicketStatuses.Open.GetText()</option>
+                        <option class="select-option-text" value="@TicketStatuses.InProgress.ToString()">@TicketStatuses.InProgress.GetText()</option>
+                        <option class="select-option-text" value="@TicketStatuses.WaitingForResponse.ToString()">@TicketStatuses.WaitingForResponse.GetText()</option>
+                        <option class="select-option-text" value="@TicketStatuses.Resolved.ToString()">@TicketStatuses.Resolved.GetText()</option>
+                        <option class="select-option-text" value="@TicketStatuses.Escalated.ToString()">@TicketStatuses.Escalated.GetText()</option>
+                        <option class="select-option-text" value="@TicketStatuses.OnHold.ToString()">@TicketStatuses.OnHold.GetText()</option>
+                        <option class="select-option-text" value="@TicketStatuses.Closed.ToString()">@TicketStatuses.Closed.GetText()</option>
                     </select>
                 </td>
                 <td class="col-2">
                     <select class="form-control select-option-disabled-text" name="FilterByTicketType">
                         <option class="select-option-disabled" disabled selected value="">Ticketart</option>
                         <option class="select-option-text" value="">Keine</option>
-                        <option class="select-option-text" value="@TicketTypes.Repair.ToString()">@TicketTypeTexts.Texts[TicketTypes.Repair]</option>
-                        <option class="select-option-text" value="@TicketTypes.DataRecovery.ToString()">@TicketTypeTexts.Texts[TicketTypes.DataRecovery]</option>
-                        <option class="select-option-text" value="@TicketTypes.Consultation.ToString()">@TicketTypeTexts.Texts[TicketTypes.Consultation]</option>
-                        <option class="select-option-text" value="@TicketTypes.Special.ToString()">@TicketTypeTexts.Texts[TicketTypes.Special]</option>
+                        <option class="select-option-text" value="@TicketTypes.Repair.ToString()">@TicketTypes.Repair.GetText()</option>
+                        <option class="select-option-text" value="@TicketTypes.DataRecovery.ToString()">@TicketTypes.DataRecovery.GetText()</option>
+                        <option class="select-option-text" value="@TicketTypes.Consultation.ToString()">@TicketTypes.Consultation.GetText()</option>
+                        <option class="select-option-text" value="@TicketTypes.Special.ToString()">@TicketTypes.Special.GetText()</option>
                     </select>
                 </td>
             </tr>

@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ticketsystem.Data;
 using Ticketsystem.Models;
-using Ticketsystem.ViewModels;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Ticketsystem.Services
 {

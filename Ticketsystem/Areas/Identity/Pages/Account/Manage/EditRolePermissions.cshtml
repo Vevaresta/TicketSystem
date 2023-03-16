@@ -36,14 +36,14 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var permission in PermissionTexts.Texts.Keys)
+                @foreach (var permission in Enum.GetValues<RolePermissions>())
                 {
                     <tr class="align-middle">
                         <td>
                             <input type="checkbox" name="permissions" value="@permission.ToString()" @(Model.Permissions.Contains(permission.ToString()) ? "checked" : "") />
                         </td>
                         <td>
-                            @PermissionTexts.Texts[permission]
+                            @permission.GetText()
                         </td>
                     </tr>
                 }

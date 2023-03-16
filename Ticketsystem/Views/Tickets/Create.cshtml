@@ -29,19 +29,19 @@
                 <div class="row">
                     <div class="col-md-3 form-check ticket-type-container">
                         <input class="form-check-input" type="radio" name="ticket-type" id="radio-repair" value="@TicketTypes.Repair.ToString()" checked>
-                        <label class="form-check-label" id="radio-label-repair">@TicketTypeTexts.Texts[TicketTypes.Repair]</label>
+                        <label class="form-check-label" id="radio-label-repair">@TicketTypes.Repair.GetText()</label>
                     </div>
                     <div class="col-md-3 form-check ticket-type-container">
                         <input class="form-check-input" type="radio" name="ticket-type" id="radio-recovery" value="@TicketTypes.DataRecovery.ToString()">
-                        <label class="form-check-label" id="radio-label-recovery">@TicketTypeTexts.Texts[TicketTypes.DataRecovery]</label>
+                        <label class="form-check-label" id="radio-label-recovery">@TicketTypes.DataRecovery.GetText()</label>
                     </div>
                     <div class="col-md-3 form-check ticket-type-container">
                         <input class="form-check-input" type="radio" name="ticket-type" id="radio-advice" value="@TicketTypes.Consultation.ToString()">
-                        <label class="form-check-label" id="radio-label-advice">@TicketTypeTexts.Texts[TicketTypes.Consultation]</label>
+                        <label class="form-check-label" id="radio-label-advice">@TicketTypes.Consultation.GetText()</label>
                     </div>
                     <div class="col-md-3 form-check ticket-type-container">
                         <input class="form-check-input" type="radio" name="ticket-type" id="radio-special" value="@TicketTypes.Special.ToString()">
-                        <label class="form-check-label" id="radio-label-special">@TicketTypeTexts.Texts[TicketTypes.Special]</label>
+                        <label class="form-check-label" id="radio-label-special">@TicketTypes.Special.GetText()</label>
                     </div>
                 </div>
             </fieldset>
