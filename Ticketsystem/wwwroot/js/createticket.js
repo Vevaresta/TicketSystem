@@ -39,27 +39,27 @@ $(document).ready(function () {
         radioTicketTypeSelectedValue = radio.val();
         radio.prop("checked", true);
 
-        var einzelgeraet = $("#einzelgeraet");
-        var geraetetab = $("#geraetetab");
+        var singleDevice = $("#single-device");
+        var devicesTab = $("#devices-tab");
         var backup = $("#backup")
 
         if (radioTicketTypeSelectedValue == TicketTypes.Repair || radioTicketTypeSelectedValue == TicketTypes.DataRecovery) {
-            $('#tabs a[href="#tab1"]').tab('show');
-            einzelgeraet.show();
-            geraetetab.hide();
+            singleDevice.show();
+            devicesTab.hide();
             backup.show();
             $('#input-device-name').rules('add', 'required');
+            $('#tabs a[href="#tab1"]').tab('show');
         }
         else if (radioTicketTypeSelectedValue == TicketTypes.Consultation) {
-            $('#tabs a[href="#tab1"]').tab('show');
-            einzelgeraet.hide();
-            geraetetab.hide();
+            singleDevice.hide();
+            devicesTab.hide();
             backup.hide();
             $('#input-device-name').rules('remove', 'required');
+            $('#tabs a[href="#tab1"]').tab('show');
         }
         else {
-            einzelgeraet.hide();
-            geraetetab.show();
+            singleDevice.hide();
+            devicesTab.show();
             backup.show();
             $('#input-device-name').rules('remove', 'required');
         }
@@ -142,9 +142,7 @@ $("#button-edit-device").on("click", function () {
     for (let software of deviceList[deviceEditedIndex].Software) {
         var newItem = $('<button type="button" class="list-group-item list-group-item-action software-listbox-item">' + software.Name + '</button>');
         newItem.click(function () {
-            softwareListBoxSelectedIndex = $(this).index();
-            $("#button-edit-software").prop("disabled", false);
-            $("#button-delete-software").prop("disabled", false);
+            addSoftware($(this));
         });
 
         $('#software-listbox').append(newItem);
@@ -196,9 +194,7 @@ $("#button-devices-save").on("click", function () {
 
         var newItem = $('<button type="button" class="list-group-item list-group-item-action device-listbox-item">' + newDevice.Name + '</button>');
         newItem.click(function () {
-            deviceListBoxSelectedIndex = $(this).index();
-            $("#button-edit-device").prop("disabled", false);
-            $("#button-delete-device").prop("disabled", false);
+            addDevice($(this));
         });
 
         $('#device-listbox').append(newItem);
@@ -206,6 +202,36 @@ $("#button-devices-save").on("click", function () {
         $('#software-listbox').empty()
     }
 });
+
+function addDevice(newItem) {
+    deviceListBoxSelectedIndex = newItem.index();
+    $("#button-edit-device").prop("disabled", false);
+    $("#button-delete-device").prop("disabled", false);
+    newItem.focusout(function () {
+        setTimeout(function () {
+            var selectedItem = $('#device-listbox .device-listbox-item:focus');
+            if (selectedItem.length === 0) {
+                $("#button-edit-device").prop("disabled", true);
+                $("#button-delete-device").prop("disabled", true);
+            }
+        }, 350)
+    });
+}
+
+function addSoftware(newItem) {
+    deviceListBoxSelectedIndex = newItem.index();
+    $("#button-edit-software").prop("disabled", false);
+    $("#button-delete-software").prop("disabled", false);
+    newItem.focusout(function () {
+        setTimeout(function () {
+            var selectedItem = $('#software-listbox .software-listbox-item:focus');
+            if (selectedItem.length === 0) {
+                $("#button-edit-software").prop("disabled", true);
+                $("#button-delete-software").prop("disabled", true);
+            }
+        }, 350)
+    });
+}
 
 // Button "Gerät -> Ändern"
 $("#button-devices-edit").on("click", function () {
@@ -295,9 +321,7 @@ $("#button-software-save").on("click", function () {
 
         var newItem = $('<button type="button" class="list-group-item list-group-item-action software-listbox-item">' + newSoftware.Name + '</button>');
         newItem.click(function () {
-            softwareListBoxSelectedIndex = $(this).index();
-            $("#button-edit-software").prop("disabled", false);
-            $("#button-delete-software").prop("disabled", false);
+            addSoftware($(this));
         });
 
         $("#button-edit-software").prop("disabled", true);

@@ -76,10 +76,10 @@ $(document).ready(function () {
 $(function () {
     $('#tabs a').on('click', function (e) {
         e.preventDefault();
-        $(this).tab('show');
         $("#show-device").hide();
         $("#software-list").hide();
         $("#show-software").hide();
+        $(this).tab('show');
     });
 });
 
