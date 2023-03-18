@@ -51,18 +51,6 @@ namespace Ticketsystem.Controllers
             return View(ticketViewModels);
         }
 
-        // GET: Tickets/Details/5
-        public async Task<IActionResult> Details(int id)
-        {
-            var ticket = await _serviceFactory.GetTicketsService().GetTicketById(id);
-            if (ticket == null)
-            {
-                return NotFound();
-            }
-
-            return View(ticket);
-        }
-
         // GET: Tickets/Create
         public IActionResult Create()
         {
@@ -112,6 +100,23 @@ namespace Ticketsystem.Controllers
         }
 
         // GET: Tickets/Edit/5
+        public async Task<IActionResult> Details(int id)
+        {
+            var ticket = await _serviceFactory.GetTicketsService().GetTicketById(id);
+
+            if (ticket == null)
+            {
+                return NotFound();
+            }
+
+            TicketViewModel ticketViewModel = ticket;
+
+            //ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
+            //ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
+            return View(ticketViewModel);
+        }
+
+        // GET: Tickets/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
             var ticket = await _serviceFactory.GetTicketsService().GetTicketById(id);
@@ -121,9 +126,11 @@ namespace Ticketsystem.Controllers
                 return NotFound();
             }
 
+            TicketViewModel ticketViewModel = ticket;
+
             //ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
             //ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
-            return View(ticket);
+            return View(ticketViewModel);
         }
 
         // POST: Tickets/Edit/5
@@ -173,7 +180,8 @@ namespace Ticketsystem.Controllers
                 return NotFound();
             }
 
-            return View(ticket);
+            TicketViewModel ticketViewModel = ticket;
+            return View(ticketViewModel);
         }
 
         // POST: Tickets/Delete/5

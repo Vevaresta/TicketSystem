@@ -3,7 +3,7 @@ import Software from './models/software.js';
 import TicketTypes from './models/tickettypes.js';
 
 // Ticketart als string (wird bei jedem Radiobutton-Klick geändert)
-var radioTicketTypeSelectedValue = $('input[name="ticket-type"]:checked').siblings('label').text();
+var radioTicketTypeSelectedValue = $('input[name="ticket-type"]:checked').val();
 
 // Variable für Geräteliste
 var deviceList = [];
@@ -11,16 +11,16 @@ var deviceList = [];
 // Vaiable für temporäre Softwareliste
 var tempSoftwareList = [];
 
-// Listbox "Geräteliste" -> Index des ausgewählten items speichern 
+// Listbox "Geräteliste" -> Index des ausgewählten items speichern
 var deviceListBoxSelectedIndex = -1;
 
-// Listbox "Softwareliste" -> Index des ausgewählten items speichern 
+// Listbox "Softwareliste" -> Index des ausgewählten items speichern
 var softwareListBoxSelectedIndex = -1;
 
-// Listenindex des aktuell bearbeiteten Geräts bei Klick auf "Bearbeiten" 
+// Listenindex des aktuell bearbeiteten Geräts bei Klick auf "Bearbeiten"
 var deviceEditedIndex = -1;
 
-// Listenindex der aktuell bearbeiteten Software bei Klick auf "Bearbeiten" 
+// Listenindex der aktuell bearbeiteten Software bei Klick auf "Bearbeiten"
 var softwareEditedIndex = -1;
 
 // Wird beim Laden der Seite ausgeführt
@@ -33,7 +33,6 @@ $(document).ready(function () {
 
     // Umschalten der Ticketart durch Klick auf Radio-Button oder Label
     $(".ticket-type-container").on("click", function (event) {
-        let id = event.target.id;
         var label = $(event.target);
         var radio = label.prev('input[type=radio]');
 

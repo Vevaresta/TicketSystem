@@ -17,13 +17,13 @@
 }
 
 @{
-    ViewData["Title"] = "Neues TicketViewModel";
+    ViewData["Title"] = "Neues Ticket";
 }
 
 <div class="container">
     <form method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <h3>Neues Ticket</h3>
+        <h3>@ViewData["Title"]</h3>
         <div class="row ms-lg-2">
             <fieldset class="form-group col-lg-5 mb-3">
                 <div class="row">

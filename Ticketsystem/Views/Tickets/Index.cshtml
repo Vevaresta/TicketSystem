@@ -193,6 +193,8 @@
         <tbody>
             @foreach (var item in Model)
             {
+                string ticketType = item.TicketType.GetText();
+                string ticketStatus = item.TicketStatus.GetText();
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Id)
@@ -201,13 +203,13 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.TicketType)
+                        @Html.Raw(ticketType)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Client.LastName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.TicketStatus)
+                        @Html.Raw(ticketStatus)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.OrderDate)

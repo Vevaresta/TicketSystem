@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Ticketsystem.Enums;
 using Ticketsystem.Models;
 
 namespace Ticketsystem.ViewModels
@@ -30,10 +31,10 @@ namespace Ticketsystem.ViewModels
         public ClientViewModel Client { get; set; }
 
         [DisplayName("Auftragsart")]
-        public string TicketType { get; set; }
+        public TicketTypes TicketType { get; set; }
 
         [DisplayName("Status")]
-        public string TicketStatus { get; set; }
+        public TicketStatuses TicketStatus { get; set; }
 
         public IList<DeviceViewModel> Devices { get; set; }
 

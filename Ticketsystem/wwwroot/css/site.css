@@ -39,3 +39,7 @@ input[type="search"]::placeholder, .select-option-disabled-text {
 .select-option-text {
     color: black;
 }
+
+.bg-lightyellow {
+    background-color: lightyellow !important;
+}
