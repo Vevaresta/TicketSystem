@@ -1,6 +1,7 @@
 ﻿@{
     @inject UserManager<User> userManager;
     @inject IServiceFactory serviceFactory;
+    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
     var loggedInUser = await userManager.GetUserAsync(User);
 }
 
@@ -19,11 +20,11 @@
     @*<li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>*@
     @*<li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>*@
 
-    @if (await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ManageUsers))
+    @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.ManageUsers))
     {
         <li class="nav-item"><a class="nav-link @ManageNavPages.ManageUsersNavClass(ViewContext)" id="manage-users" asp-page="./ManageUsers">Benutzer verwalten</a></li>
     }
-    @if (await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ManageRoles))
+    @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.ManageRoles))
     {
         <li class="nav-item"><a class="nav-link @ManageNavPages.ManageRolesNavClass(ViewContext)" id="manage-roles" asp-page="./ManageRoles">Rollen verwalten</a></li>
     }

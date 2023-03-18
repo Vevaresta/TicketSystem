@@ -7,13 +7,13 @@
 @{
     @inject UserManager<User> userManager;
     @inject IServiceFactory serviceFactory;
+    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
     var loggedInUser = await userManager.GetUserAsync(User);
-
     if (loggedInUser == null)
     {
-        return;
+        Response.Redirect("/Identity/Account/Login");
     }
-    else if (!await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.DeleteRoles))
+    else if (!await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.DeleteRoles))
     {
         Response.Redirect("/Home/PermissionError");
         return;

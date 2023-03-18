@@ -1,55 +1,301 @@
-﻿@model Ticketsystem.Models.Ticket
-
+﻿@model TicketViewModel
 @{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    @inject UserManager<User> userManager;
+    @inject IServiceFactory serviceFactory;
+    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
+    var loggedInUser = await userManager.GetUserAsync(User);
+    if (loggedInUser == null)
+    {
+        Context.Response.Redirect("/Identity/Account/Login");
+        return;
+    }
+    if (!await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.UpdateTickets))
+    {
+        Context.Response.Redirect("/Home/PermissionError");
+        return;
+    }
 }
 
-<h1>Details</h1>
+@{
+    ViewData["Title"] = "Ticket Nr. " + Model.Id;
+}
 
-<div>
-    <h4>Ticket</h4>
+@{
+    @using Newtonsoft.Json;
+    string devicesJson = "";
+
+    if (Model.Devices != null)
+    {
+        devicesJson = JsonConvert.SerializeObject(Model.Devices);
+    }
+}
+
+<input type="hidden" id="hidden-devices" value="@devicesJson" />
+<input type="hidden" id="hidden-ticket-type" value="@Model.TicketType.ToString()" />
+
+<div class="container">
+    <h3>@ViewData["Title"]</h3>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.WorkOrder)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.WorkOrder)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataBackupByClient)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DataBackupByClient)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataBackupByStaff)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DataBackupByStaff)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataBackupDone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DataBackupDone)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TicketType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TicketType.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TicketStatus)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TicketStatus.Id)
-        </dd>
-    </dl>
+    <div class="container mb-2">
+        <div class="row">
+            <div class="col-xl-4">
+                <h5>Auftragsart: @Model.TicketType.GetText()</h5>
+            </div>
+            <div class="col">
+                <h5>Status: @Model.TicketStatus.GetText()</h5>
+            </div>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs" id="tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1"
+               aria-selected="true">Ticket</a>
+        </li>
+        <li class="nav-item" id="devices-tab" style="display: none;">
+            <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2"
+               aria-selected="false">Geräte</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+            <div class="row mt-2 mb-3">
+                <div class="col-md-4">
+                    <h5>Auftraggeber</h5>
+                    <div class="row mb-1">
+                        <div class="form-group">
+                            <label asp-for="Client.LastName" class="control-label"></label>
+                            <input asp-for="Client.LastName" class="form-control" readonly autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="form-group">
+                            <label asp-for="Client.FirstName" class="control-label"></label>
+                            <input asp-for="Client.FirstName" class="form-control" readonly autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Client.ParticipantNumber" class="control-label"></label>
+                                <input asp-for="Client.ParticipantNumber" class="form-control" readonly autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Client.Course" class="control-label"></label>
+                                <input asp-for="Client.Course" class="form-control" readonly autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="form-group">
+                            <label asp-for="Client.StreetAndHouseNumber" class="control-label"></label>
+                            <input asp-for="Client.StreetAndHouseNumber" class="form-control" readonly autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="Client.PostalCode" class="control-label"></label>
+                                <input asp-for="Client.PostalCode" type="number" class="form-control" readonly autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label asp-for="Client.City" class="control-label"></label>
+                                <input asp-for="Client.City" class="form-control" readonly autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="form-group">
+                            <label asp-for="Client.Email" class="control-label"></label>
+                            <input asp-for="Client.Email" type="email" class="form-control" readonly autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="form-group">
+                            <label asp-for="Client.PhoneNumber" class="control-label"></label>
+                            <input asp-for="Client.PhoneNumber" class="form-control" readonly autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h5>Aufgaben</h5>
+                    <div class="row mb-1">
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" readonly autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="form-group">
+                            <label asp-for="WorkOrder" class="control-label"></label>
+                            <textarea asp-for="WorkOrder" class="form-control" readonly rows="8" autocomplete="off"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mb-2" id="backup">
+                        <div class="d-flex align-items-center">
+                            <h5 class="me-4">Datensicherung?</h5>
+                            <div class="form-check form-switch pb-2">
+                                @{
+                                    string doBackupChecked = Model.DoBackup ? "checked" : "";
+                                }
+                                <input class="form-check-input" type="checkbox" disabled id="switch-backup" @doBackupChecked />
+                            </div>
+                        </div>
+                        @if (Model.DoBackup)
+                        {
+                            <div class="row" id="backup-choices">
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input class="form-check-input" id="radio-backup-client" type="radio" disabled asp-for="BackupChoices" value="@BackupChoices.BackupByClient.ToString()">
+                                        <label asp-for="DataBackupByClient" id="radio-label-backup-client" class="form-check-label label-backup-choice"></label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" id="radio-backup-staff" type="radio" disabled asp-for="BackupChoices" value="@BackupChoices.BackupByStaff.ToString()" checked>
+                                        <label asp-for="DataBackupByStaff" id="radio-label-backup-staff" class="form-check-label label-backup-choice"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row" id="single-device" style="display: none;">
+                        <h5>Gerät</h5>
+                        <div class="row">
+                            <div class="row mb-1">
+                                <div class="form-group">
+                                    <label asp-for="Device.Name" class="control-label"></label>
+                                    <input class="form-control" readonly id="input-device-name" name="device-name" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="form-group">
+                                    <label asp-for="Device.DeviceType" class="control-label"></label>
+                                    <input class="form-control" readonly id="input-device-type" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="form-group">
+                                    <label asp-for="Device.Manufacturer" class="control-label"></label>
+                                    <input class="form-control" readonly id="input-device-manufacturer" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="form-group">
+                                    <label asp-for="Device.SerialNumber" class="control-label"></label>
+                                    <input class="form-control" readonly id="input-device-serialnumber" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="form-group">
+                                    <label asp-for="Device.Accessories" class="control-label"></label>
+                                    <input class="form-control" readonly id="input-device-accessories" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label asp-for="Device.Comments" class="control-label"></label>
+                                    <textarea class="form-control" readonly id="input-device-comments" rows="3" autocomplete="off"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="ticketTypeInput" name="ticketType" />
+            <input type="hidden" id="deviceListInput" name="deviceList" />
+            <div class="row">
+                <div class="col-md-6">
+                    <div>
+                        <a asp-action="Index" id="link-main-back">Zurück zur Übersicht</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+            <div class="row mt-2">
+                <div class="col-md-4">
+                    <div class="row">
+                        <h5>Geräteliste</h5>
+                        <div class="row mb-4">
+                            <div class="list-group bg-light" id="device-listbox" style="height: 400px; overflow-y: scroll;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row" id="show-device" style="display: none;">
+                        <h5>Gerät</h5>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="Device.Name" class="control-label"></label>
+                                <input class="form-control" readonly id="input-devices-name" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="Device.DeviceType" class="control-label"></label>
+                                <input class="form-control" readonly id="input-devices-type" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="Device.Manufacturer" class="control-label"></label>
+                                <input class="form-control" readonly id="input-devices-manufacturer" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="Device.SerialNumber" class="control-label"></label>
+                                <input class="form-control" readonly id="input-devices-serialnumber" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="Device.Accessories" class="control-label"></label>
+                                <input class="form-control" readonly id="input-devices-accessories" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label asp-for="Device.Comments" class="control-label"></label>
+                                <textarea class="form-control" readonly id="input-devices-comments" rows="3" autocomplete="off"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row mb-4" id="software-list" style="display: none;">
+                        <h5>Softwareliste</h5>
+                        <div class="row">
+                            <div class="list-group bg-light" id="software-listbox" style="height: 130px; overflow-y: scroll;"></div>
+                        </div>
+                    </div>
+                    <div class="row" id="show-software" style="display: none;">
+                        <h5>Software</h5>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label class="control-label">Bezeichnung</label>
+                                <input class="form-control" readonly id="input-software-name" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="exampleTextarea" class="control-label">Notizen</label>
+                                <textarea class="form-control" readonly id="input-software-comments" rows="3" autocomplete="off"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script type="module" src="~/js/ticketdetails.js"></script>
+}

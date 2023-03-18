@@ -28,8 +28,11 @@ namespace Ticketsystem.Enums
         [Description("Berechtigungen von Rollen ändern")]
         ChangeRolePermissions,
 
-        [Description("Tickets anzeigen")]
+        [Description("Ticketliste anzeigen")]
         ViewTickets,
+
+        [Description("Ticketdetails anzeigen")]
+        ViewTicketDetails,
 
         [Description("Tickets suchen")]
         SearchTickets,

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using Ticketsystem.Data;
 using Ticketsystem.Models;
 
@@ -59,7 +58,7 @@ namespace Ticketsystem.Services
                 areDatesValid = DateTime.TryParse(ticketData.FilterByEndDate, out DateTime endDate);
                 if (areDatesValid)
                 {
-                    query = query.Where(t => t.OrderDate.Date >= startDate).Where(t => t.OrderDate.Date <= endDate);
+                    query = query.Where(t => t.OrderDate >= startDate).Where(t => t.OrderDate <= endDate);
                 }
             }
 
@@ -121,6 +120,17 @@ namespace Ticketsystem.Services
 
         public async Task DeleteTicket(Ticket ticket)
         {
+            if (ticket.Devices != null)
+            {
+                foreach (var device in ticket.Devices)
+                {
+                    if (device.Software != null)
+                    {
+                        _ticketsystemContext.Software.RemoveRange(device.Software);
+                    }
+                }
+            }
+
             if (ticket != null)
             {
                 _ticketsystemContext.Tickets.Remove(ticket);

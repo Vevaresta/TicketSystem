@@ -1,4 +1,5 @@
 ﻿@model TicketViewModel
+
 @{
     @inject UserManager<User> userManager;
     @inject IServiceFactory serviceFactory;
@@ -9,7 +10,7 @@
         Context.Response.Redirect("/Identity/Account/Login");
         return;
     }
-    if (!await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.CreateTickets))
+    if (!await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.UpdateTickets))
     {
         Context.Response.Redirect("/Home/PermissionError");
         return;
@@ -17,7 +18,7 @@
 }
 
 @{
-    ViewData["Title"] = "Neues Ticket";
+    ViewData["Title"] = "Ticket bearbeiten";
 }
 
 <div class="container">
@@ -50,7 +51,7 @@
             <li class="nav-item">
                 <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Ticket</a>
             </li>
-            <li class="nav-item" id="devices-tab" style="display: none;">
+            <li class="nav-item" id="geraetetab" style="display: none;">
                 <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Geräte</a>
             </li>
         </ul>
@@ -165,7 +166,7 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="row" id="single-device">
+                        <div class="row" id="einzelgeraet">
                             <h5>Gerät</h5>
                             <div class="row">
                                 <div class="row mb-1">

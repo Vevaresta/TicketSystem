@@ -55,11 +55,12 @@ public class Ticket
             WorkOrder = ticket.WorkOrder,
             OrderDate = ticket.OrderDate,
             Client = ticket.Client,
+            DoBackup = ticket.DataBackupByStaff,
             DataBackupByClient = ticket.DataBackupByClient,
             DataBackupByStaff = ticket.DataBackupByStaff,
             DataBackupDone = ticket.DataBackupDone,
-            TicketType = Enum.GetValues<TicketTypes>().FirstOrDefault(tt => tt.ToString() == ticket.TicketType.Name).GetText(),
-            TicketStatus = Enum.GetValues<TicketStatuses>().FirstOrDefault(ts => ts.ToString() == ticket.TicketStatus.Name).GetText(),
+            TicketType = Enum.GetValues<TicketTypes>().FirstOrDefault(tt => tt.ToString() == ticket.TicketType.Name),
+            TicketStatus = Enum.GetValues<TicketStatuses>().FirstOrDefault(ts => ts.ToString() == ticket.TicketStatus.Name),
             Devices = new List<DeviceViewModel>()
         };
 

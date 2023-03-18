@@ -5,7 +5,7 @@
         public int Take { get; set; } = 10;
         public int Skip { get; set; } = 0;
         public string SortByAttribute { get; set; } = "OrderDate";
-        public bool DoReverse { get; set; } = false;
+        public bool DoReverse { get; set; } = true;
         public string FilterByTicketId { get; set; }
         public string FilterByTicketName { get; set; }
         public string FilterByTicketStatus { get; set; }
