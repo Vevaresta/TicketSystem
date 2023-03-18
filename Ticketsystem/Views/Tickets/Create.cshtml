@@ -2,16 +2,16 @@
 @{
     @inject UserManager<User> userManager;
     @inject IServiceFactory serviceFactory;
-
+    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
     var loggedInUser = await userManager.GetUserAsync(User);
     if (loggedInUser == null)
     {
-        Context.Response.Redirect("Login");
+        Context.Response.Redirect("/Identity/Account/Login");
         return;
     }
-    if (!await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.CreateTickets))
+    if (!await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.CreateTickets))
     {
-        Context.Response.Redirect("PermissionError");
+        Context.Response.Redirect("/Home/PermissionError");
         return;
     }
 }

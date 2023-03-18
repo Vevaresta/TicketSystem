@@ -14,6 +14,7 @@ namespace Ticketsystem.Data
         private readonly UserManager<User> _userManager;
 
         private readonly IServiceFactory _serviceFactory;
+        private readonly RolePermissionsService _rolePermissionsService;
 
         public ContextSeed(
             TicketsystemContext ticketsystemContext,
@@ -26,6 +27,7 @@ namespace Ticketsystem.Data
             _roleManager = roleManager;
             _userManager = userManager;
             _serviceFactory = serviceFactory;
+            _rolePermissionsService = serviceFactory.GetRolePermissionsService();
         }
 
         public async Task Seed(bool doSeedTestData = false)
@@ -261,10 +263,10 @@ namespace Ticketsystem.Data
 
             foreach (var permission in Enum.GetValues<RolePermissions>())
             {
-                await _serviceFactory.GetRolePermissionsService().AddPermissionToRole(administrator, permission);
+                await _rolePermissionsService.AddPermissionToRole(administrator, permission);
             }
 
-            await _serviceFactory.GetRolePermissionsService().RemoveAllPermissionsFromRole(fallback);
+            await _rolePermissionsService.RemoveAllPermissionsFromRole(fallback);
         }
 
         private async Task SeedTicketTypes()

@@ -1,6 +1,7 @@
 ﻿@{
     @inject UserManager<User> userManager;
     @inject IServiceFactory serviceFactory;
+    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
     var loggedInUser = await userManager.GetUserAsync(User);
 }
 
@@ -32,7 +33,7 @@
 
                         @if (loggedInUser != null)
                         {
-                            if (await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ViewTickets))
+                            if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.ViewTickets))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Tickets" asp-action="Index">Tickets</a>

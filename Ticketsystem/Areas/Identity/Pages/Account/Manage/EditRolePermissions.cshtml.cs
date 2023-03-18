@@ -9,6 +9,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
     public class EditRolePermissionsModel : PageModel
     {
         private readonly IServiceFactory _serviceFactory;
+        private readonly RolePermissionsService _rolePermissionsService;
 
         public string RoleToEdit { get; set; }
         public List<string> Permissions;
@@ -16,6 +17,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
         public EditRolePermissionsModel(IServiceFactory serviceFactory)
         {
             _serviceFactory = serviceFactory;
+            _rolePermissionsService = serviceFactory.GetRolePermissionsService();
 
             Permissions = new List<string>();
         }
@@ -46,7 +48,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 
             Role roleInDb = await _serviceFactory.GetRolesService().GetRoleByName(role);
 
-            await _serviceFactory.GetRolePermissionsService().AddPermissionListToRole(roleInDb, permissionsEmumList);
+            await _rolePermissionsService.AddPermissionListToRole(roleInDb, permissionsEmumList);
 
             return RedirectToPage(nameof(ManageNavPages.ManageRoles));
         }

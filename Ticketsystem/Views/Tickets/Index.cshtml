@@ -3,16 +3,16 @@
 @{
     @inject UserManager<User> userManager;
     @inject IServiceFactory serviceFactory;
-
+    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
     var loggedInUser = await userManager.GetUserAsync(User);
     if (loggedInUser == null)
     {
-        Context.Response.Redirect("Login");
+        Context.Response.Redirect("/Identity/Account/Login");
         return;
     }
-    if (!await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ViewTickets))
+    if (!await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.ViewTickets))
     {
-        Context.Response.Redirect("PermissionError");
+        Context.Response.Redirect("/Home/PermissionError");
         return;
     }
 }
@@ -28,11 +28,11 @@
         @if (loggedInUser != null)
         {
             <div>
-                @if (await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.CreateTickets))
+                @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.CreateTickets))
                 {
                     <a class="btn btn-primary" asp-action="Create" type="button">Neues Ticket</a>
                 }
-                @if (await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.SearchTickets))
+                @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.SearchTickets))
                 {
                     <button class="btn btn-secondary" id="btn-search" type="button">Tickets suchen</button>
                 }

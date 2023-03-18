@@ -1,4 +1,5 @@
 ﻿@model TicketViewModel
+
 @{
     @inject UserManager<User> userManager;
     @inject IServiceFactory serviceFactory;
@@ -17,17 +18,35 @@
 }
 
 @{
-    ViewData["Title"] = "Ticket Nr. " + Model.Id + " bearbeiten";
+    ViewData["Title"] = "Ticket bearbeiten";
 }
-
-<input type="hidden" id="ticket-type" value="@Model.TicketType.GetText()" />
 
 <div class="container">
     <form method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <h3>@ViewData["Title"]</h3>
-        <hr />
-        <h5 class="mb-2">Auftragsart: @Model.TicketType.ToString()</h5>
+        <div class="row ms-lg-2">
+            <fieldset class="form-group col-lg-5 mb-3">
+                <div class="row">
+                    <div class="col-md-3 form-check ticket-type-container">
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-repair" value="@TicketTypes.Repair.ToString()" checked>
+                        <label class="form-check-label" id="radio-label-repair">@TicketTypes.Repair.GetText()</label>
+                    </div>
+                    <div class="col-md-3 form-check ticket-type-container">
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-recovery" value="@TicketTypes.DataRecovery.ToString()">
+                        <label class="form-check-label" id="radio-label-recovery">@TicketTypes.DataRecovery.GetText()</label>
+                    </div>
+                    <div class="col-md-3 form-check ticket-type-container">
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-advice" value="@TicketTypes.Consultation.ToString()">
+                        <label class="form-check-label" id="radio-label-advice">@TicketTypes.Consultation.GetText()</label>
+                    </div>
+                    <div class="col-md-3 form-check ticket-type-container">
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-special" value="@TicketTypes.Special.ToString()">
+                        <label class="form-check-label" id="radio-label-special">@TicketTypes.Special.GetText()</label>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
         <ul class="nav nav-tabs" id="tabs" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Ticket</a>
@@ -44,7 +63,7 @@
                         <div class="row mb-1">
                             <div class="form-group">
                                 <label asp-for="Client.LastName" class="control-label"></label>
-                                <input asp-for="Client.LastName" class="form-control" readonly autocomplete="off" />
+                                <input asp-for="Client.LastName" class="form-control" autocomplete="off" />
                                 <span asp-validation-for="Client.LastName" class="text-danger"></span>
                             </div>
                         </div>
@@ -316,5 +335,5 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script type="module" src="~/js/editticket.js"></script>
+    <script type="module" src="~/js/createticket.js"></script>
     }

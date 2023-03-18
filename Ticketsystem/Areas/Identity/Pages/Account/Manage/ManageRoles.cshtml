@@ -8,13 +8,13 @@
 @{
     @inject UserManager<User> userManager;
     @inject IServiceFactory serviceFactory;
+    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
     var loggedInUser = await userManager.GetUserAsync(User);
-
     if (loggedInUser == null)
     {
-        return;
+        Response.Redirect("/Identity/Account/Login");
     }
-    else if (!await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ManageRoles))
+    else if (!await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.ManageRoles))
     {
         Response.Redirect("/Home/PermissionError");
         return;
@@ -50,7 +50,7 @@
                             }
                             <td class="text-end text-nowrap">
                                 @if (
-                                    await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ChangeRolePermissions) && 
+                                    await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.ChangeRolePermissions) && 
                                     !(role == DefaultRoles.Administrator.ToString())
                                 )
                                 {
@@ -60,7 +60,7 @@
                                         </button>
                                     </span>
                                 }
-                                @if (await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.DeleteRoles))
+                                @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.DeleteRoles))
                                 {
                                     bool isDefaultRole = false;
                                     foreach (var defaultRole in Enum.GetValues<DefaultRoles>())
@@ -73,7 +73,7 @@
                                     }
                                     @if (!isDefaultRole)
                                     {
-                                        @if (await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.ChangeRolePermissions))
+                                        @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.ChangeRolePermissions))
                                         {
                                             <span class="me-2"></span>
                                         }
@@ -90,7 +90,7 @@
                 }
             </tbody>
         </table>
-        @if (await serviceFactory.GetRolePermissionsService().HasPermission(loggedInUser, RolePermissions.AddRoles))
+        @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.AddRoles))
         {
             <button type="submit" class="btn btn-info text-nowrap" asp-page-handler="Add">
                 Neue Rolle
