@@ -222,7 +222,7 @@
                     <td>
                         @if (canUpdate)
                         {
-                            <a asp-action="Edit" asp-route-id="@item.Id">Bearbeiten</a>
+                            <a asp-action="Update" asp-route-id="@item.Id">Bearbeiten</a>
                             @if (canViewDetails || canDelete)
                             {
                                 <span> |</span>
