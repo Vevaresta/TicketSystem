@@ -20,6 +20,8 @@ namespace Ticketsystem.ViewModels
         [DisplayName("Arbeitsanweisung")]
         public string WorkOrder { get; set; }
 
+        public bool DoBackup { get; set; }
+
         [Display(Name = "Bereits erledigt durch Auftraggeber")]
         public bool DataBackupByClient { get; set; }
 
@@ -48,15 +50,16 @@ namespace Ticketsystem.ViewModels
                 Client = viewModel.Client,
                 Name = viewModel.Name,
                 WorkOrder = viewModel.WorkOrder,
+                DoBackup = viewModel.DoBackup,
                 DataBackupByClient = viewModel.DataBackupByClient,
                 DataBackupByStaff = viewModel.DataBackupByStaff,
                 DataBackupDone = viewModel.DataBackupDone,
                 Devices = new List<Device>()
             };
 
-            if (viewModel.Devices != null )
+            if (viewModel.Devices != null)
             {
-                foreach ( var device in viewModel.Devices )
+                foreach (var device in viewModel.Devices)
                 {
                     ticket.Devices.Add(device);
                 }
@@ -66,6 +69,5 @@ namespace Ticketsystem.ViewModels
         }
 
         public string BackupChoices { get; set; }
-        public bool DoBackup { get; set; }
     }
 }

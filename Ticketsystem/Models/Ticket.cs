@@ -34,8 +34,9 @@ public class Ticket
     [DisplayName("Arbeitsanweisung")]
     public string WorkOrder { get; set; }
 
-    public bool DataBackupByClient { get; set; }
-    public bool DataBackupByStaff { get; set; }
+    public bool DoBackup { get; set; } = false;
+    public bool DataBackupByClient { get; set; } = false;
+    public bool DataBackupByStaff { get; set; } = false;
     public bool DataBackupDone { get; set; }
 
     public TicketType TicketType { get; set; }
@@ -55,7 +56,7 @@ public class Ticket
             WorkOrder = ticket.WorkOrder,
             OrderDate = ticket.OrderDate,
             Client = ticket.Client,
-            DoBackup = ticket.DataBackupByStaff,
+            DoBackup = ticket.DoBackup,
             DataBackupByClient = ticket.DataBackupByClient,
             DataBackupByStaff = ticket.DataBackupByStaff,
             DataBackupDone = ticket.DataBackupDone,
