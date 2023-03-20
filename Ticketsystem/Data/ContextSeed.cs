@@ -108,7 +108,7 @@ namespace Ticketsystem.Data
             {
                 var randomStatusIndex = rnd.Next(0, Enum.GetNames<TicketStatuses>().Length);
                 var randomTypeIndex = rnd.Next(0, Enum.GetNames<TicketTypes>().Length);
-                var randomTimeDayOffset = rnd.Next(0, 265);
+                var randomTimeDayOffset = rnd.Next(0, 364);
                 var randomTimeHourOffset = rnd.Next(0, 24);
                 var randomMinuteOffset = rnd.Next(0, 60);
                 var randomSecondOffset = rnd.Next(0, 60);
@@ -116,7 +116,7 @@ namespace Ticketsystem.Data
                 tickets[i - 1] = new Ticket
                 {
                     Name = "Name_" + i.ToString(),
-                    OrderDate = DateTime.Now.AddDays(randomTimeDayOffset).AddHours(randomTimeHourOffset).AddMinutes(randomMinuteOffset).AddSeconds(randomSecondOffset),
+                    OrderDate = DateTime.Today.AddYears(-1).AddDays(randomTimeDayOffset).AddHours(randomTimeHourOffset).AddMinutes(randomMinuteOffset).AddSeconds(randomSecondOffset),
                     WorkOrder = "WorkOrder_" + i.ToString(),
                     DataBackupByClient = true,
                     TicketStatus = await _serviceFactory.GetTicketStatusesService().GetTicketStatusByName(Enum.GetValues<TicketStatuses>()[randomStatusIndex].ToString()),
@@ -128,7 +128,7 @@ namespace Ticketsystem.Data
                         StreetAndHouseNumber = "StreetAndHouseNumber_" + i.ToString(),
                         PostalCode = "12345",
                         City = "City_" + i.ToString(),
-                        Email = "Email" + i.ToString(),
+                        Email = "Email" + i.ToString() + "@localhost",
                         Course = "Course_" + i.ToString(),
                         ParticipantNumber = i,
                         PhoneNumber = "12345678",
@@ -154,6 +154,11 @@ namespace Ticketsystem.Data
                                 {
                                     Name = "Name_B" + i.ToString(),
                                     Comments = "Comments_B" + i.ToString()
+                                },
+                                new Software
+                                {
+                                    Name = "Name_C" + i.ToString(),
+                                    Comments = "Comments_C" + i.ToString()
                                 }
                             }
                         },
@@ -176,6 +181,23 @@ namespace Ticketsystem.Data
                                 {
                                     Name = "Name_B" + i.ToString(),
                                     Comments = "Comments_B" + i.ToString()
+                                }
+                            }
+                        },
+                        new Device
+                        {
+                            Name = "Name_C" + i.ToString(),
+                            Comments = "Comments_C" + i.ToString(),
+                            DeviceType = "DeviceType_C" + i.ToString(),
+                            Manufacturer = "Manufacturer_C" + i.ToString(),
+                            SerialNumber = "SerialNumber_C" + i.ToString(),
+                            Accessories = "Accessories_C" + i.ToString(),
+                            Software = new List<Software>
+                            {
+                                new Software
+                                {
+                                    Name = "Name_A" + i.ToString(),
+                                    Comments = "Comments_A" + i.ToString()
                                 }
                             }
                         }

@@ -49,6 +49,7 @@ namespace Ticketsystem.ViewModels
             {
                 Client = viewModel.Client,
                 Name = viewModel.Name,
+                OrderDate = viewModel.OrderDate,
                 WorkOrder = viewModel.WorkOrder,
                 DoBackup = viewModel.DoBackup,
                 DataBackupByClient = viewModel.DataBackupByClient,
@@ -75,6 +76,7 @@ namespace Ticketsystem.ViewModels
                 Id = this.Id,
                 Client = this.Client.CopyForUpdate(),
                 Name = this.Name,
+                OrderDate = this.OrderDate,
                 WorkOrder = this.WorkOrder,
                 DoBackup = this.DoBackup,
                 DataBackupByClient = this.DataBackupByClient,
