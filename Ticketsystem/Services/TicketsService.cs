@@ -114,46 +114,12 @@ namespace Ticketsystem.Services
 
         public async Task UpdateTicket(Ticket ticket)
         {
+            var devices = ticket.Devices;
 
-            if (ticket.Devices != null)
+            if (devices != null)
             {
-                foreach (Device device in ticket.Devices)
+                foreach (Device device in devices)
                 {
-                    if (device.Software != null)
-                    {
-                        foreach (Software software in device.Software)
-                        {
-                            if (string.IsNullOrEmpty(software.Id))
-                            {
-                                software.Id = Guid.NewGuid().ToString();
-                                _ticketsystemContext.Add(software);
-                            }
-                        }
-                    }
-                    if (string.IsNullOrEmpty(device.Id))
-                    {
-                        device.Id = Guid.NewGuid().ToString();
-                        _ticketsystemContext.Add(device);
-                    }
-                }
-            }
-
-            _ticketsystemContext.Update(ticket);
-            await _ticketsystemContext.SaveChangesAsync();
-        }
-
-        public async Task UpdateTicket1(Ticket ticket)
-        {
-            if (ticket.Devices != null)
-            {
-                foreach (Device device in ticket.Devices)
-                {
-                    if (string.IsNullOrEmpty(device.Id))
-                    {
-                        device.Id = Guid.NewGuid().ToString();
-                        _ticketsystemContext.Add(device);
-                    }
-
                     if (device.Software != null)
                     {
                         foreach (Software software in device.Software)
@@ -165,41 +131,53 @@ namespace Ticketsystem.Services
                             }
                             else
                             {
-                                var existingSoftware = await _ticketsystemContext.Set<Software>().FindAsync(software.Id);
-                                if (existingSoftware != null)
-                                {
-                                    _ticketsystemContext.Entry(existingSoftware).CurrentValues.SetValues(software);
-                                }
-                                else
-                                {
-                                    _ticketsystemContext.Add(software);
-                                }
+                                _ticketsystemContext.Update(software);
                             }
+                        }
+                    }
+
+                    if (string.IsNullOrEmpty(device.Id))
+                    {
+                        device.Id = Guid.NewGuid().ToString();
+                        _ticketsystemContext.Add(device);
+                    }
+                    else
+                    {
+                        _ticketsystemContext.Update(device);
+                    }
+                }
+            }
+
+            List<Device> devicesInDb = await _ticketsystemContext.Devices.Where(d => d.TicketId == ticket.Id).AsNoTracking().ToListAsync();
+            foreach (var deviceInDb in devicesInDb)
+            {
+                if (!ticket.Devices.Any(d => d.Id == deviceInDb.Id))
+                {
+                    _ticketsystemContext.Remove(deviceInDb);
+                }
+            }
+
+            if (ticket.Devices != null)
+            {
+                foreach (var device in ticket.Devices)
+                {
+                    List<Software> softwarePerDeviceInDb = await _ticketsystemContext.Software.Where(s => s.DeviceId == device.Id).AsNoTracking().ToListAsync();
+                    foreach (var software in softwarePerDeviceInDb)
+                    {
+                        if (!device.Software.Any(s => s.Id == software.Id))
+                        {
+                            _ticketsystemContext.Remove(software);
                         }
                     }
                 }
             }
 
-            var ticketInDb = await GetTicketById(ticket.Id);
-            ticketInDb.Devices = ticket.Devices;
-            _ticketsystemContext.Update(ticketInDb);
+            _ticketsystemContext.Update(ticket);
             await _ticketsystemContext.SaveChangesAsync();
         }
 
-
         public async Task DeleteTicket(Ticket ticket)
         {
-            //if (ticket.Devices != null)
-            //{
-            //    foreach (var device in ticket.Devices)
-            //    {
-            //        if (device.Software != null)
-            //        {
-            //            _ticketsystemContext.Software.RemoveRange(device.Software);
-            //        }
-            //    }
-            //}
-
             if (ticket != null)
             {
                 _ticketsystemContext.Tickets.Remove(ticket);

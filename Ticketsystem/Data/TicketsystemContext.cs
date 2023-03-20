@@ -1,4 +1,4 @@
-﻿ using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Ticketsystem.Models;
@@ -38,14 +38,26 @@ public class TicketsystemContext : IdentityDbContext<User, Role, string>
         builder.Entity<User>().ToTable("Users");
         builder.Entity<Role>().ToTable("Roles");
 
-        builder.Entity<Device>()
-            .HasOne(d => d.Ticket)
-            .WithMany(t => t.Devices)
+        // builder.Entity<Device>()
+        //     .HasOne(d => d.Ticket)
+        //     .WithMany(t => t.Devices)
+        //     .OnDelete(DeleteBehavior.Cascade);
+
+        // builder.Entity<Software>()
+        //     .HasOne(s => s.Device)
+        //     .WithMany(d => d.Software)
+        //     .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<Ticket>()
+            .HasMany(t => t.Devices)
+            .WithOne(d => d.Ticket)
+            .HasForeignKey(d => d.TicketId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Entity<Software>()
-            .HasOne(s => s.Device)
-            .WithMany(d => d.Software)
+        builder.Entity<Device>()
+            .HasMany(d => d.Software)
+            .WithOne(s => s.Device)
+            .HasForeignKey(s => s.DeviceId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.Entity<Role>()

@@ -42,6 +42,7 @@ namespace Ticketsystem
             using IServiceScope scope = app.Services.CreateScope();
             ContextSeed contextSeed = scope.ServiceProvider.GetService<ContextSeed>();
 
+            // Auf true setzen, um die Datenbank mit 250 Zufallstickets zu füllen:
             contextSeed.Seed(false).Wait();
 
             // Configure the HTTP request pipeline.

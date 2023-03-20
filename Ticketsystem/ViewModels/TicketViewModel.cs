@@ -20,6 +20,7 @@ namespace Ticketsystem.ViewModels
         [DisplayName("Arbeitsanweisung")]
         public string WorkOrder { get; set; }
 
+        [Required(ErrorMessage = "Pflichtfeld")]
         public bool DoBackup { get; set; }
 
         [Display(Name = "Bereits erledigt durch Auftraggeber")]
