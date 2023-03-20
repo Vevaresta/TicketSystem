@@ -80,8 +80,8 @@ namespace Ticketsystem.Services
                 "Name" => query.OrderBy(t => t.Name),
                 "LastName" => query.OrderBy(t => t.Client.LastName),
                 "OrderDate" => query.OrderBy(t => t.OrderDate),
-                "FilterByTicketType" => query.OrderBy(t => t.TicketType.Name),
-                "FilterByTicketStatus" => query.OrderBy(t => t.TicketStatus.Name),
+                "TicketType" => query.OrderBy(t => t.TicketType.Name),
+                "TicketStatus" => query.OrderBy(t => t.TicketStatus.Name),
                 _ => query.OrderBy(t => t.OrderDate),
             };
 

@@ -22,7 +22,7 @@
 }
 
 <h2>@ViewData["Title"]</h2>
-
+<hr />
 <div class="row mb-2">
     <div class="col-sm-6">
         @if (loggedInUser != null)
@@ -176,13 +176,13 @@
                     @Html.ActionLink("Ticketname", "Index", GetLinkData("Name"))
                 </th>
                 <th>
-                    @Html.ActionLink("Auftragsart", "Index", GetLinkData("FilterByTicketType"))
+                    @Html.ActionLink("Auftragsart", "Index", GetLinkData("TicketType"))
                 </th>
                 <th>
                     @Html.ActionLink("Auftraggeber", "Index", GetLinkData("LastName"))
                 </th>
                 <th>
-                    @Html.ActionLink("Status", "Index", GetLinkData("FilterByTicketStatus"))
+                    @Html.ActionLink("Status", "Index", GetLinkData("TicketStatus"))
                 </th>
                 <th>
                     @Html.ActionLink("Auftragsdatum", "Index", GetLinkData("OrderDate"))
