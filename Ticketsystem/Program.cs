@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 using Ticketsystem.Data;
 using Ticketsystem.Models;
 using Ticketsystem.Services;
@@ -8,6 +9,8 @@ namespace Ticketsystem
 {
     public class Program
     {
+        //[RequiresUnreferencedCode()]
+        [UnconditionalSuppressMessage("Trimming", "IL2026:Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code", Justification = "<Pending>")]
         public static void Main(string[] args)
         {
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -17,12 +20,28 @@ namespace Ticketsystem
             if (dbms == "sqlite")
             {
                 string dbConnectionString = builder.Configuration.GetConnectionString("SQLiteContextConnection") ?? throw new InvalidOperationException("Connection string 'SQLiteContextConnection' not found.");
-                builder.Services.AddDbContext<TicketsystemContext>(options => options.UseSqlite(dbConnectionString));
+                builder.Services.AddDbContext<TicketsystemContext>(contextOptions =>
+                {
+                    contextOptions.UseSqlite(
+                        dbConnectionString,
+                        sqlOptions =>
+                        {
+                            sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                        });
+                });
             }
             else if (dbms == "postgres")
             {
                 string dbConnectionString = builder.Configuration.GetConnectionString("PostgreSQLContextConnection") ?? throw new InvalidOperationException("Connection string 'PostgreSQLContextConnection' not found.");
-                builder.Services.AddDbContext<TicketsystemContext>(options => options.UseNpgsql(dbConnectionString));
+                builder.Services.AddDbContext<TicketsystemContext>(contextOptions =>
+                {
+                    contextOptions.UseNpgsql(
+                        dbConnectionString,
+                        sqlOptions =>
+                        {
+                            sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                        });
+                });
             }
 
             builder.Services.AddScoped<ContextSeed>();

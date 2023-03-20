@@ -19,7 +19,7 @@ namespace Ticketsystem.Services
                 .Include(t => t.Client)
                 .Include(t => t.Devices).ThenInclude(d => d.Software)
                 .Include(t => t.TicketStatus)
-                .Include(t => t.TicketType).AsSplitQuery();
+                .Include(t => t.TicketType);
 
             if (!string.IsNullOrEmpty(ticketData.FilterByTicketId))
             {
@@ -90,7 +90,7 @@ namespace Ticketsystem.Services
                 query = query.Reverse();
             }
 
-            return await query.Skip(ticketData.Skip).Take(ticketData.Take).AsSplitQuery().ToListAsync();
+            return await query.Skip(ticketData.Skip).Take(ticketData.Take).ToListAsync();
         }
 
 
