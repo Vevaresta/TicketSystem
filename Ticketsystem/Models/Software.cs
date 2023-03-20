@@ -18,12 +18,13 @@ public class Software
     public string Name { get; set; }
     public string Comments { get; set; }
 
-    public Device Device { get; set; }
+    public virtual Device Device { get; set; }
 
     public static implicit operator SoftwareViewModel(Software software)
     {
         return new SoftwareViewModel()
         {
+            Id = software.Id,
             Name = software.Name,
             Comments = software.Comments,
         };

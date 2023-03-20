@@ -1,5 +1,6 @@
-// Datenklasse Device als JS-Entsprechung für das C#-ViewModel definieren
+// Datenklasse Device als JS-Entsprechung fï¿½r das C#-ViewModel definieren
 export default class Device {
+    Id;
     Name;
     DeviceType;
     Manufacturer;

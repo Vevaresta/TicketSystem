@@ -1,47 +1,17 @@
-﻿import Device from './models/device.js';
+import Device from './models/device.js';
 import Software from './models/software.js';
 import TicketTypes from './models/tickettypes.js';
 import cud from './cud.js'
 
-// Wird beim Laden der Seite ausgeführt
 $(document).ready(function () {
     cud.initTabs();
-    cud.setViewType("Create");
+    cud.setViewType("Update");
     cud.disableDeviceButtons();
-
-    // Umschalten der Ticketart durch Klick auf Radio-Button oder Label
-    $(".ticket-type-container").on("click", function (event) {
-        var label = $(event.target);
-        var radio = label.prev('input[type=radio]');
-
-        cud.radioTicketTypeSelectedValue = radio.val();
-        radio.prop("checked", true);
-
-        var singleDevice = $("#single-device");
-        var devicesTab = $("#devices-tab");
-        var backup = $("#backup")
-
-        if (cud.radioTicketTypeSelectedValue == TicketTypes.Repair || cud.radioTicketTypeSelectedValue == TicketTypes.DataRecovery) {
-            singleDevice.show();
-            devicesTab.hide();
-            backup.show();
-            $('#input-device-name').rules('add', 'required');
-            $('#tabs a[href="#tab1"]').tab('show');
-        }
-        else if (cud.radioTicketTypeSelectedValue == TicketTypes.Consultation) {
-            singleDevice.hide();
-            devicesTab.hide();
-            backup.hide();
-            $('#input-device-name').rules('remove', 'required');
-            $('#tabs a[href="#tab1"]').tab('show');
-        }
-        else {
-            singleDevice.hide();
-            devicesTab.show();
-            backup.show();
-            $('#input-device-name').rules('remove', 'required');
-        }
-    });
+    cud.initDevices();
+    let backupSwitch = $("#switch-backup");
+    if (backupSwitch.prop("checked")) {
+        $("#backup-choices").show();
+    }
 });
 
 // Switch für "Datensicherung?"
@@ -118,5 +88,3 @@ $("#button-software-cancel").on("click", function () {
 $("#button-main-save-ticket").on("click", function () {
     cud.onClickButtonMainSave();
 });
-
-

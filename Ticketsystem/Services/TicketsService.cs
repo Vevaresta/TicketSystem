@@ -74,7 +74,7 @@ namespace Ticketsystem.Services
         {
             IQueryable<Ticket> query = GetTicketsShared(ticketData);
 
-            query = ticketData.SortByAttribute switch
+            query = ticketData.SortBy switch
             {
                 "Id" => query.OrderBy(t => t.Id),
                 "Name" => query.OrderBy(t => t.Name),
@@ -114,23 +114,70 @@ namespace Ticketsystem.Services
 
         public async Task UpdateTicket(Ticket ticket)
         {
+            var devices = ticket.Devices;
+
+            if (devices != null)
+            {
+                foreach (Device device in devices)
+                {
+                    if (device.Software != null)
+                    {
+                        foreach (Software software in device.Software)
+                        {
+                            if (string.IsNullOrEmpty(software.Id))
+                            {
+                                software.Id = Guid.NewGuid().ToString();
+                                _ticketsystemContext.Add(software);
+                            }
+                            else
+                            {
+                                _ticketsystemContext.Update(software);
+                            }
+                        }
+                    }
+
+                    if (string.IsNullOrEmpty(device.Id))
+                    {
+                        device.Id = Guid.NewGuid().ToString();
+                        _ticketsystemContext.Add(device);
+                    }
+                    else
+                    {
+                        _ticketsystemContext.Update(device);
+                    }
+                }
+            }
+
+            List<Device> devicesInDb = await _ticketsystemContext.Devices.Where(d => d.TicketId == ticket.Id).AsNoTracking().ToListAsync();
+            foreach (var deviceInDb in devicesInDb)
+            {
+                if (!ticket.Devices.Any(d => d.Id == deviceInDb.Id))
+                {
+                    _ticketsystemContext.Remove(deviceInDb);
+                }
+            }
+
+            if (ticket.Devices != null)
+            {
+                foreach (var device in ticket.Devices)
+                {
+                    List<Software> softwarePerDeviceInDb = await _ticketsystemContext.Software.Where(s => s.DeviceId == device.Id).AsNoTracking().ToListAsync();
+                    foreach (var software in softwarePerDeviceInDb)
+                    {
+                        if (!device.Software.Any(s => s.Id == software.Id))
+                        {
+                            _ticketsystemContext.Remove(software);
+                        }
+                    }
+                }
+            }
+
             _ticketsystemContext.Update(ticket);
             await _ticketsystemContext.SaveChangesAsync();
         }
 
         public async Task DeleteTicket(Ticket ticket)
         {
-            if (ticket.Devices != null)
-            {
-                foreach (var device in ticket.Devices)
-                {
-                    if (device.Software != null)
-                    {
-                        _ticketsystemContext.Software.RemoveRange(device.Software);
-                    }
-                }
-            }
-
             if (ticket != null)
             {
                 _ticketsystemContext.Tickets.Remove(ticket);

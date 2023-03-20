@@ -9,6 +9,8 @@ namespace Ticketsystem.ViewModels;
 
 public class ClientViewModel
 {
+    public string Id { get; set; }
+
     [Required(ErrorMessage = "Pflichtfeld")]
     [DisplayName("Nachname")]
     public string LastName { get; set; }
@@ -53,5 +55,24 @@ public class ClientViewModel
             ParticipantNumber = viewModel.ParticipantNumber,
             Course = viewModel.Course,
         };
+    }
+
+    public Client CopyForUpdate()
+    {
+        var client = new Client
+        {
+            Id = this.Id,
+            LastName = this.LastName,
+            FirstName = this.FirstName,
+            Email = this.Email,
+            PhoneNumber = this.PhoneNumber,
+            StreetAndHouseNumber = this.StreetAndHouseNumber,
+            PostalCode = this.PostalCode,
+            City = this.City,
+            ParticipantNumber = this.ParticipantNumber,
+            Course = this.Course,
+        };
+
+        return client;
     }
 }

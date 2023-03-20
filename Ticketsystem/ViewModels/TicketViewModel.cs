@@ -20,6 +20,9 @@ namespace Ticketsystem.ViewModels
         [DisplayName("Arbeitsanweisung")]
         public string WorkOrder { get; set; }
 
+        [Required(ErrorMessage = "Pflichtfeld")]
+        public bool DoBackup { get; set; }
+
         [Display(Name = "Bereits erledigt durch Auftraggeber")]
         public bool DataBackupByClient { get; set; }
 
@@ -44,19 +47,19 @@ namespace Ticketsystem.ViewModels
         {
             var ticket = new Ticket
             {
-                Id = viewModel.Id,
                 Client = viewModel.Client,
                 Name = viewModel.Name,
                 WorkOrder = viewModel.WorkOrder,
+                DoBackup = viewModel.DoBackup,
                 DataBackupByClient = viewModel.DataBackupByClient,
                 DataBackupByStaff = viewModel.DataBackupByStaff,
                 DataBackupDone = viewModel.DataBackupDone,
                 Devices = new List<Device>()
             };
 
-            if (viewModel.Devices != null )
+            if (viewModel.Devices != null)
             {
-                foreach ( var device in viewModel.Devices )
+                foreach (var device in viewModel.Devices)
                 {
                     ticket.Devices.Add(device);
                 }
@@ -65,7 +68,33 @@ namespace Ticketsystem.ViewModels
             return ticket;
         }
 
+        public Ticket CopyForUpdate()
+        {
+            var ticket = new Ticket
+            {
+                Id = this.Id,
+                Client = this.Client.CopyForUpdate(),
+                Name = this.Name,
+                WorkOrder = this.WorkOrder,
+                DoBackup = this.DoBackup,
+                DataBackupByClient = this.DataBackupByClient,
+                DataBackupByStaff = this.DataBackupByStaff,
+                DataBackupDone = this.DataBackupDone,
+                Devices = new List<Device>()
+            };
+
+            if (this.Devices != null)
+            {
+                foreach (var deviceViewModel in this.Devices)
+                {
+                    Device device = deviceViewModel.CopyForUpdate();
+                    ticket.Devices.Add(device);
+                }
+            }
+
+            return ticket;
+        }
+
         public string BackupChoices { get; set; }
-        public bool DoBackup { get; set; }
     }
 }

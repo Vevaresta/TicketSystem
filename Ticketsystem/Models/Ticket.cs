@@ -13,6 +13,8 @@ public class Ticket
     {
     }
 
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     [ForeignKey(nameof(TicketType))]
@@ -34,13 +36,15 @@ public class Ticket
     [DisplayName("Arbeitsanweisung")]
     public string WorkOrder { get; set; }
 
-    public bool DataBackupByClient { get; set; }
-    public bool DataBackupByStaff { get; set; }
+    public bool DoBackup { get; set; } = false;
+    public bool DataBackupByClient { get; set; } = false;
+    public bool DataBackupByStaff { get; set; } = false;
     public bool DataBackupDone { get; set; }
 
-    public TicketType TicketType { get; set; }
-    public TicketStatus TicketStatus { get; set; }
-    public Client Client { get; set; }
+    public virtual TicketType TicketType { get; set; }
+    public virtual TicketStatus TicketStatus { get; set; }
+    public virtual Client Client { get; set; }
+
 
     public virtual IList<Device> Devices { get; set; }
     public virtual IList<TicketUsers> TicketUsers { get; set; }
@@ -55,13 +59,13 @@ public class Ticket
             WorkOrder = ticket.WorkOrder,
             OrderDate = ticket.OrderDate,
             Client = ticket.Client,
-            DoBackup = ticket.DataBackupByStaff,
+            DoBackup = ticket.DoBackup,
             DataBackupByClient = ticket.DataBackupByClient,
             DataBackupByStaff = ticket.DataBackupByStaff,
             DataBackupDone = ticket.DataBackupDone,
             TicketType = Enum.GetValues<TicketTypes>().FirstOrDefault(tt => tt.ToString() == ticket.TicketType.Name),
             TicketStatus = Enum.GetValues<TicketStatuses>().FirstOrDefault(ts => ts.ToString() == ticket.TicketStatus.Name),
-            Devices = new List<DeviceViewModel>()
+            Devices = new List<DeviceViewModel>(),
         };
 
         foreach (var device in ticket.Devices)

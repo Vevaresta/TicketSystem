@@ -1,8 +1,9 @@
 ﻿@model TicketViewModel
 @{
     @inject UserManager<User> userManager;
+
     @inject IServiceFactory serviceFactory;
-    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
+var rolePermissionsService = serviceFactory.GetRolePermissionsService();
     var loggedInUser = await userManager.GetUserAsync(User);
     if (loggedInUser == null)
     {
@@ -19,28 +20,35 @@
 @{
     ViewData["Title"] = "Neues Ticket";
 }
+<h3>@ViewData["Title"]</h3>
+<hr />
 
 <div class="container">
     <form method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <h3>@ViewData["Title"]</h3>
         <div class="row ms-lg-2">
             <fieldset class="form-group col-lg-5 mb-3">
                 <div class="row">
                     <div class="col-md-3 form-check ticket-type-container">
-                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-repair" value="@TicketTypes.Repair.ToString()" checked>
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-repair"
+                            value="@TicketTypes.Repair.ToString()" checked>
                         <label class="form-check-label" id="radio-label-repair">@TicketTypes.Repair.GetText()</label>
                     </div>
                     <div class="col-md-3 form-check ticket-type-container">
-                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-recovery" value="@TicketTypes.DataRecovery.ToString()">
-                        <label class="form-check-label" id="radio-label-recovery">@TicketTypes.DataRecovery.GetText()</label>
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-recovery"
+                            value="@TicketTypes.DataRecovery.ToString()">
+                        <label class="form-check-label"
+                            id="radio-label-recovery">@TicketTypes.DataRecovery.GetText()</label>
                     </div>
                     <div class="col-md-3 form-check ticket-type-container">
-                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-advice" value="@TicketTypes.Consultation.ToString()">
-                        <label class="form-check-label" id="radio-label-advice">@TicketTypes.Consultation.GetText()</label>
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-advice"
+                            value="@TicketTypes.Consultation.ToString()">
+                        <label class="form-check-label"
+                            id="radio-label-advice">@TicketTypes.Consultation.GetText()</label>
                     </div>
                     <div class="col-md-3 form-check ticket-type-container">
-                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-special" value="@TicketTypes.Special.ToString()">
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-special"
+                            value="@TicketTypes.Special.ToString()">
                         <label class="form-check-label" id="radio-label-special">@TicketTypes.Special.GetText()</label>
                     </div>
                 </div>
@@ -48,10 +56,12 @@
         </div>
         <ul class="nav nav-tabs" id="tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Ticket</a>
+                <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1"
+                    aria-selected="true">Ticket</a>
             </li>
             <li class="nav-item" id="devices-tab" style="display: none;">
-                <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Geräte</a>
+                <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2"
+                    aria-selected="false">Geräte</a>
             </li>
         </ul>
         <div class="tab-content">
@@ -100,7 +110,8 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label asp-for="Client.PostalCode" class="control-label"></label>
-                                    <input asp-for="Client.PostalCode" type="number" class="form-control" autocomplete="off" />
+                                    <input asp-for="Client.PostalCode" type="number" class="form-control"
+                                        autocomplete="off" />
                                     <span asp-validation-for="Client.PostalCode" class="text-danger"></span>
                                 </div>
                             </div>
@@ -139,7 +150,8 @@
                         <div class="row mb-4">
                             <div class="form-group">
                                 <label asp-for="WorkOrder" class="control-label"></label>
-                                <textarea asp-for="WorkOrder" class="form-control" id="exampleTextarea" rows="8" autocomplete="off"></textarea>
+                                <textarea asp-for="WorkOrder" class="form-control" id="exampleTextarea" rows="8"
+                                    autocomplete="off"></textarea>
                                 <span asp-validation-for="WorkOrder" class="text-danger"></span>
                             </div>
                         </div>
@@ -147,18 +159,24 @@
                             <div class="d-flex align-items-center">
                                 <h5 class="me-4">Datensicherung?</h5>
                                 <div class="form-check form-switch pb-2">
-                                    <input class="form-check-input" type="checkbox" id="switch-backup" asp-for="DoBackup">
+                                    <input class="form-check-input" type="checkbox" id="switch-backup"
+                                        asp-for="DoBackup">
                                 </div>
                             </div>
                             <div class="row" id="backup-choices" style="display: none;">
                                 <div class="form-group">
                                     <div class="form-check">
-                                        <input class="form-check-input" id="radio-backup-client" type="radio" asp-for="BackupChoices" value="@BackupChoices.BackupByClient.ToString()">
-                                        <label asp-for="DataBackupByClient" id="radio-label-backup-client" class="form-check-label label-backup-choice"></label>
+                                        <input class="form-check-input" id="radio-backup-client" type="radio"
+                                            asp-for="BackupChoices" value="@BackupChoices.BackupByClient.ToString()">
+                                        <label asp-for="DataBackupByClient" id="radio-label-backup-client"
+                                            class="form-check-label label-backup-choice"></label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" id="radio-backup-staff" type="radio" asp-for="BackupChoices" value="@BackupChoices.BackupByStaff.ToString()" checked>
-                                        <label asp-for="DataBackupByStaff" id="radio-label-backup-staff" class="form-check-label label-backup-choice"></label>
+                                        <input class="form-check-input" id="radio-backup-staff" type="radio"
+                                            asp-for="BackupChoices" value="@BackupChoices.BackupByStaff.ToString()"
+                                            checked>
+                                        <label asp-for="DataBackupByStaff" id="radio-label-backup-staff"
+                                            class="form-check-label label-backup-choice"></label>
                                     </div>
                                 </div>
                             </div>
@@ -171,8 +189,10 @@
                                 <div class="row mb-1">
                                     <div class="form-group">
                                         <label asp-for="Device.Name" class="control-label"></label>
-                                        <input class="form-control" id="input-device-name" data-val="true" data-val-required="Pflichtfeld" name="device-name" autocomplete="off" />
-                                        <span class="text-danger field-validation-valid" data-valmsg-for="device-name" data-valmsg-replace="true"></span>
+                                        <input class="form-control" id="input-device-name" data-val="true"
+                                            data-val-required="Pflichtfeld" name="device-name" autocomplete="off" />
+                                        <span class="text-danger field-validation-valid" data-valmsg-for="device-name"
+                                            data-valmsg-replace="true"></span>
                                     </div>
                                 </div>
                                 <div class="row mb-1">
@@ -202,7 +222,8 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <label asp-for="Device.Comments" class="control-label"></label>
-                                        <textarea class="form-control" id="input-device-comments" rows="3" autocomplete="off"></textarea>
+                                        <textarea class="form-control" id="input-device-comments" rows="3"
+                                            autocomplete="off"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -213,7 +234,8 @@
                 <input type="hidden" id="deviceListInput" name="deviceList" />
                 <div class="row">
                     <div class="col-md-6">
-                        <input type="submit" value="Speichern" class="btn btn-lg btn-primary mb-2" id="button-main-save-ticket" asp-action="Create" />
+                        <input type="submit" value="Speichern" class="btn btn-lg btn-primary mb-2"
+                            id="button-main-save-ticket" asp-action="Create" />
                         <div>
                             <a asp-action="Index" id="link-main-back">Zurück zur Übersicht</a>
                         </div>
@@ -226,14 +248,18 @@
                         <div class="row">
                             <h5>Geräteliste</h5>
                             <div class="row mb-4">
-                                <div class="list-group bg-light" id="device-listbox" style="height: 400px; overflow-y: scroll;">
+                                <div class="list-group bg-light" id="device-listbox"
+                                    style="height: 400px; overflow-y: scroll;">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 text-start">
-                                    <button type="button" class="btn btn-primary me-2" id="button-add-device">Hinzufügen</button>
-                                    <button type="button" class="btn btn-primary me-2" id="button-edit-device">Bearbeiten</button>
-                                    <button type="button" class="btn btn-primary" id="button-delete-device">Löschen</button>
+                                    <button type="button" class="btn btn-primary me-2"
+                                        id="button-add-device">Hinzufügen</button>
+                                    <button type="button" class="btn btn-primary me-2"
+                                        id="button-edit-device">Bearbeiten</button>
+                                    <button type="button" class="btn btn-primary"
+                                        id="button-delete-device">Löschen</button>
                                 </div>
                             </div>
                         </div>
@@ -245,7 +271,8 @@
                                 <div class="form-group">
                                     <label asp-for="Device.Name" class="control-label"></label>
                                     <input class="form-control" id="input-devices-name" autocomplete="off" />
-                                    <span class="text-danger field-validation-valid" id="validate-input-devices-name" data-valmsg-replace="true" style="display: none;">Plichtfeld</span>
+                                    <span class="text-danger field-validation-valid" id="validate-input-devices-name"
+                                        data-valmsg-replace="true" style="display: none;">Plichtfeld</span>
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -275,14 +302,18 @@
                             <div class="row mb-4">
                                 <div class="form-group">
                                     <label asp-for="Device.Comments" class="control-label"></label>
-                                    <textarea class="form-control" id="input-devices-comments" rows="3" autocomplete="off"></textarea>
+                                    <textarea class="form-control" id="input-devices-comments" rows="3"
+                                        autocomplete="off"></textarea>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 text-start">
-                                    <button type="button" class="btn btn-primary me-2" id="button-devices-save">Speichern</button>
-                                    <button type="button" class="btn btn-primary me-2 collapse" id="button-devices-edit">Ändern</button>
-                                    <button type="button" class="btn btn-primary me-2" id="button-devices-cancel">Abbrechen</button>
+                                    <button type="button" class="btn btn-primary me-2"
+                                        id="button-devices-save">Speichern</button>
+                                    <button type="button" class="btn btn-primary me-2 collapse"
+                                        id="button-devices-edit">Ändern</button>
+                                    <button type="button" class="btn btn-primary me-2"
+                                        id="button-devices-cancel">Abbrechen</button>
                                 </div>
                             </div>
                         </div>
@@ -291,14 +322,18 @@
                         <div class="row mb-4" id="software-list" style="display: none;">
                             <h5>Softwareliste</h5>
                             <div class="row mb-4">
-                                <div class="list-group bg-light" id="software-listbox" style="height: 130px; overflow-y: scroll;">
+                                <div class="list-group bg-light" id="software-listbox"
+                                    style="height: 130px; overflow-y: scroll;">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 text-start">
-                                    <button type="button" class="btn btn-primary me-2" id="button-add-software">Hinzufügen</button>
-                                    <button type="button" class="btn btn-primary me-2" id="button-edit-software">Bearbeiten</button>
-                                    <button type="button" class="btn btn-primary" id="button-delete-software">Löschen</button>
+                                    <button type="button" class="btn btn-primary me-2"
+                                        id="button-add-software">Hinzufügen</button>
+                                    <button type="button" class="btn btn-primary me-2"
+                                        id="button-edit-software">Bearbeiten</button>
+                                    <button type="button" class="btn btn-primary"
+                                        id="button-delete-software">Löschen</button>
                                 </div>
                             </div>
                         </div>
@@ -308,20 +343,25 @@
                                 <div class="form-group">
                                     <label class="control-label">Bezeichnung</label>
                                     <input class="form-control" id="input-software-name" autocomplete="off" />
-                                    <span class="text-danger field-validation-valid" id="validate-input-software-name" data-valmsg-replace="true" style="display: none;">Plichtfeld</span>
+                                    <span class="text-danger field-validation-valid" id="validate-input-software-name"
+                                        data-valmsg-replace="true" style="display: none;">Plichtfeld</span>
                                 </div>
                             </div>
                             <div class="row mb-4">
                                 <div class="form-group">
                                     <label for="exampleTextarea" class="control-label">Notizen</label>
-                                    <textarea class="form-control" id="input-software-comments" rows="3" autocomplete="off"></textarea>
+                                    <textarea class="form-control" id="input-software-comments" rows="3"
+                                        autocomplete="off"></textarea>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 text-start">
-                                    <button type="button" class="btn btn-primary me-2" id="button-software-save">Speichern</button>
-                                    <button type="button" class="btn btn-primary me-2 collapse" id="button-software-edit">Ändern</button>
-                                    <button type="button" class="btn btn-primary me-2" id="button-software-cancel">Abbrechen</button>
+                                    <button type="button" class="btn btn-primary me-2"
+                                        id="button-software-save">Speichern</button>
+                                    <button type="button" class="btn btn-primary me-2 collapse"
+                                        id="button-software-edit">Ändern</button>
+                                    <button type="button" class="btn btn-primary me-2"
+                                        id="button-software-cancel">Abbrechen</button>
                                 </div>
                             </div>
                         </div>
@@ -335,4 +375,4 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script type="module" src="~/js/createticket.js"></script>
-    }
+}

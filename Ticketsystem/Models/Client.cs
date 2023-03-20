@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using Ticketsystem.ViewModels;
@@ -25,12 +26,13 @@ public class Client
     public int? ParticipantNumber { get; set; }
     public string Course { get; set; }
 
-    public IList<Ticket> Tickets { get; set; }
+    public virtual IList<Ticket> Tickets { get; set; }
 
     public static implicit operator ClientViewModel(Client client)
     {
         return new ClientViewModel()
         {
+            Id = client.Id,
             LastName = client.LastName,
             FirstName = client.FirstName,
             Email = client.Email,

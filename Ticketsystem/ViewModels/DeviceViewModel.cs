@@ -7,6 +7,8 @@ namespace Ticketsystem.ViewModels;
 
 public class DeviceViewModel
 {
+    public string Id { get; set; }
+
     [DisplayName("Bezeichnung")]
     public string Name { get; set; }
 
@@ -45,6 +47,32 @@ public class DeviceViewModel
             foreach (var softwareViewModel in viewModel.Software)
             {
                 device.Software.Add(softwareViewModel);
+            }
+        }
+
+        return device;
+    }
+
+    public Device CopyForUpdate()
+    {
+        var device = new Device
+        {
+            Id = this.Id,
+            Name = this.Name,
+            DeviceType = this.DeviceType,
+            Manufacturer = this.Manufacturer,
+            SerialNumber = this.SerialNumber,
+            Accessories = this.Accessories,
+            Comments = this.Comments,
+            Software = new List<Software>()
+        };
+
+        if (this.Software != null)
+        {
+            foreach (var softwareViewModel in this.Software)
+            {
+                Software software = softwareViewModel.CopyForUpdate();
+                device.Software.Add(software);
             }
         }
 
