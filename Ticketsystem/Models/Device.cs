@@ -48,7 +48,4 @@ public class Device
 
         return deviceViewModel;
     }
-
-    [NotMapped]
-    public string DeviceId { get; set; }
 }

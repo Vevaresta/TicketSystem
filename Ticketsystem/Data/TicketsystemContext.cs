@@ -38,6 +38,16 @@ public class TicketsystemContext : IdentityDbContext<User, Role, string>
         builder.Entity<User>().ToTable("Users");
         builder.Entity<Role>().ToTable("Roles");
 
+        builder.Entity<Device>()
+            .HasOne(d => d.Ticket)
+            .WithMany(t => t.Devices)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<Software>()
+            .HasOne(s => s.Device)
+            .WithMany(d => d.Software)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.Entity<Role>()
             .HasMany(r => r.Permissions)
             .WithMany(p => p.Roles)

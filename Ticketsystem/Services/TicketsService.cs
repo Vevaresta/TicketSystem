@@ -112,32 +112,6 @@ namespace Ticketsystem.Services
             await _ticketsystemContext.SaveChangesAsync();
         }
 
-        // {
-        //     if (ticket.Devices != null)
-        //     {
-        //         foreach (Device device in ticket.Devices)
-        //         {
-        //             if (string.IsNullOrEmpty(device.Id))
-        //             {
-        //                 device.Id = Guid.NewGuid().ToString();
-        //                 _ticketsystemContext.Devices.Add(device);
-        //             }
-
-        //             if (device.Software != null)
-        //             {
-        //                 foreach (Software software in device.Software)
-        //                 {
-        //                     if (string.IsNullOrEmpty(device.Id))
-        //                         software.Id = Guid.NewGuid().ToString();
-        //                     _ticketsystemContext.Software.Add(software);
-        //                 }
-        //             }
-        //         }
-        //     }
-        //     _ticketsystemContext.Update(ticket);
-        //     await _ticketsystemContext.SaveChangesAsync();
-        // }
-
         public async Task UpdateTicket(Ticket ticket)
         {
 
@@ -161,22 +135,6 @@ namespace Ticketsystem.Services
                         device.Id = Guid.NewGuid().ToString();
                         _ticketsystemContext.Add(device);
                     }
-                }
-            }
-
-            _ticketsystemContext.Update(ticket);
-            await _ticketsystemContext.SaveChangesAsync();
-
-            var ticketInDb = await GetTicketById(ticket.Id);
-
-
-            foreach (var deviceInDb in ticketInDb.Devices.ToList())
-            {
-                if (!ticket.Devices.Any(d => d.Id == deviceInDb.Id))
-                {
-                    _ticketsystemContext.RemoveRange(deviceInDb.Software);
-                    _ticketsystemContext.Remove(deviceInDb);
-                    ticketInDb.Devices.Remove(deviceInDb);
                 }
             }
 
@@ -231,16 +189,16 @@ namespace Ticketsystem.Services
 
         public async Task DeleteTicket(Ticket ticket)
         {
-            if (ticket.Devices != null)
-            {
-                foreach (var device in ticket.Devices)
-                {
-                    if (device.Software != null)
-                    {
-                        _ticketsystemContext.Software.RemoveRange(device.Software);
-                    }
-                }
-            }
+            //if (ticket.Devices != null)
+            //{
+            //    foreach (var device in ticket.Devices)
+            //    {
+            //        if (device.Software != null)
+            //        {
+            //            _ticketsystemContext.Software.RemoveRange(device.Software);
+            //        }
+            //    }
+            //}
 
             if (ticket != null)
             {

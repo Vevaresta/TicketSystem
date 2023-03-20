@@ -42,7 +42,7 @@ namespace Ticketsystem
             using IServiceScope scope = app.Services.CreateScope();
             ContextSeed contextSeed = scope.ServiceProvider.GetService<ContextSeed>();
 
-            contextSeed.Seed(true).Wait();
+            contextSeed.Seed(false).Wait();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

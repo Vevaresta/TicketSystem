@@ -75,7 +75,4 @@ public class Ticket
 
         return viewModel;
     }
-
-    [NotMapped]
-    public int TicketId { get; set; }
 }

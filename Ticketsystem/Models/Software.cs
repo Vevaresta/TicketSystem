@@ -29,7 +29,4 @@ public class Software
             Comments = software.Comments,
         };
     }
-    
-    [NotMapped]
-    public string SoftwareId { get; set; }
 }

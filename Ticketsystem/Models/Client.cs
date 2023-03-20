@@ -44,7 +44,4 @@ public class Client
             Course = client.Course
         };
     }
-
-    [NotMapped]
-    public string ClientId { get; set; }
 }
