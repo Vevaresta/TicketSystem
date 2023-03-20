@@ -71,8 +71,9 @@ const cud = {
                         cud.onClickButtonDevicesListEdit();
                     }
                 });
-
                 $('#device-listbox').append(newItem);
+
+                var newItem = $('<button type="button" class="list-group-item list-group-item-action device-listbox-item">' + device.Name + '</button>');
             }
             singleDevice.hide();
             devicesTab.show();
@@ -92,6 +93,13 @@ const cud = {
         else {
             backup.show();
         }
+    },
+
+    disableDeviceButtons: function () {
+        $("#button-edit-device").prop("disabled", true);
+        $("#button-delete-device").prop("disabled", true);
+        $("#button-edit-software").prop("disabled", true);
+        $("#button-delete-software").prop("disabled", true);
     },
 
     onClickBackupSwitch: function () {
@@ -390,6 +398,38 @@ const cud = {
     onClickButtonSoftwareCancel: function () {
         $("#add-software").hide();
     },
+
+    onClickButtonMainSave: function () {
+        var ticketType;
+
+        if (this.viewName == "Update") {
+            ticketType = $("#hidden-ticket-type").val();
+        }
+        else {
+            ticketType = this.radioTicketTypeSelectedValue;
+        }
+
+        if (ticketType == TicketTypes.Repair || ticketType == TicketTypes.DataRecovery) {
+            if ($("#input-device-name").val() != "") {
+                var newDevice = new Device();
+                newDevice.Id = $("#hidden-device-id").val();
+                newDevice.Name = $("#input-device-name").val();
+                newDevice.DeviceType = $("#input-device-type").val();
+                newDevice.Manufacturer = $("#input-device-manufacturer").val();
+                newDevice.SerialNumber = $("#input-device-serialnumber").val();
+                newDevice.Accessories = $("#input-device-accessories").val();
+                newDevice.Comments = $("#input-device-comments").val();
+
+                newDevice.Software = [];
+                this.deviceList = [];
+
+                this.deviceList.push(newDevice);
+            }
+        }
+
+        $('#ticketTypeInput').val(ticketType);
+        $('#deviceListInput').val(JSON.stringify(this.deviceList));
+    }
 };
 
 export default cud;

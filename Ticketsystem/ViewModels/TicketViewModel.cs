@@ -46,7 +46,6 @@ namespace Ticketsystem.ViewModels
         {
             var ticket = new Ticket
             {
-                Id = viewModel.Id,
                 Client = viewModel.Client,
                 Name = viewModel.Name,
                 WorkOrder = viewModel.WorkOrder,
@@ -61,6 +60,33 @@ namespace Ticketsystem.ViewModels
             {
                 foreach (var device in viewModel.Devices)
                 {
+                    ticket.Devices.Add(device);
+                }
+            }
+
+            return ticket;
+        }
+
+        public Ticket CopyForUpdate()
+        {
+            var ticket = new Ticket
+            {
+                Id = this.Id,
+                Client = this.Client.CopyForUpdate(),
+                Name = this.Name,
+                WorkOrder = this.WorkOrder,
+                DoBackup = this.DoBackup,
+                DataBackupByClient = this.DataBackupByClient,
+                DataBackupByStaff = this.DataBackupByStaff,
+                DataBackupDone = this.DataBackupDone,
+                Devices = new List<Device>()
+            };
+
+            if (this.Devices != null)
+            {
+                foreach (var deviceViewModel in this.Devices)
+                {
+                    Device device = deviceViewModel.CopyForUpdate();
                     ticket.Devices.Add(device);
                 }
             }

@@ -7,11 +7,7 @@ import cud from './cud.js'
 $(document).ready(function () {
     cud.initTabs();
     cud.setViewType("Create");
-
-    $("#button-edit-device").prop("disabled", true);
-    $("#button-delete-device").prop("disabled", true);
-    $("#button-edit-software").prop("disabled", true);
-    $("#button-delete-software").prop("disabled", true);
+    cud.disableDeviceButtons();
 
     // Umschalten der Ticketart durch Klick auf Radio-Button oder Label
     $(".ticket-type-container").on("click", function (event) {
@@ -48,14 +44,14 @@ $(document).ready(function () {
     });
 });
 
-// Erlaube die Auswahl des Backup-Durchführenden durch Klick auf Label
-$(".label-backup-choice").on("click", function (event) {
-    cud.onClickBackupChoicesLabel();
-});
-
 // Switch für "Datensicherung?"
 $("#switch-backup").on('change', function () {
     cud.onClickBackupSwitch();
+});
+
+// Erlaube die Auswahl des Backup-Durchführenden durch Klick auf Label
+$(".label-backup-choice").on("click", function (event) {
+    cud.onClickBackupChoicesLabel();
 });
 
 // Button "Geräteliste -> Hinzufügen"
@@ -119,29 +115,8 @@ $("#button-software-cancel").on("click", function () {
 });
 
 // Button "Hauptseite -> Speichern"
-$("#button-main-save-ticket").on("click", function (event) {
-    var ticketType = cud.radioTicketTypeSelectedValue;
-
-    $('#ticketTypeInput').val(ticketType);
-
-    if (cud.radioTicketTypeSelectedValue == TicketTypes.Repair || cud.radioTicketTypeSelectedValue == TicketTypes.DataRecovery) {
-        if ($("#input-device-name").val() != "") {
-            var newDevice = new Device();
-            newDevice.Name = $("#input-device-name").val();
-            newDevice.DeviceType = $("#input-device-type").val();
-            newDevice.Manufacturer = $("#input-device-manufacturer").val();
-            newDevice.SerialNumber = $("#input-device-serialnumber").val();
-            newDevice.Accessories = $("#input-device-accessories").val();
-            newDevice.Comments = $("#input-device-comments").val();
-
-            newDevice.Software = [];
-            cud.deviceList = [];
-
-            cud.deviceList.push(newDevice);
-        }
-    }
-
-    $('#deviceListInput').val(JSON.stringify(cud.deviceList));
+$("#button-main-save-ticket").on("click", function () {
+    cud.onClickButtonMainSave();
 });
 
 

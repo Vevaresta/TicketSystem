@@ -6,6 +6,8 @@ using Ticketsystem.Models;
 namespace Ticketsystem.ViewModels;
 public class SoftwareViewModel
 {
+    public string Id { get; set; }
+
     [Required(ErrorMessage = "Pflichtfeld")]
     [DisplayName("Bezeichnung")]
     public string Name { get; set; }
@@ -20,5 +22,17 @@ public class SoftwareViewModel
             Name = viewModel.Name,
             Comments = viewModel.Comments,
         };
+    }
+
+    public Software CopyForUpdate()
+    {
+        var software = new Software
+        {
+            Id = this.Id,
+            Name = this.Name,
+            Comments = this.Comments,
+        };
+
+        return software;
     }
 }

@@ -23,7 +23,7 @@ public class Device
     public string Accessories { get; set; }
     public string Comments { get; set; }
 
-    public Ticket Ticket { get; set; }
+    public virtual Ticket Ticket { get; set; }
 
     public virtual IList<Software> Software { get; set; }
 
@@ -31,6 +31,7 @@ public class Device
     {
         DeviceViewModel deviceViewModel = new()
         {
+            Id = device.Id,
             Name = device.Name,
             DeviceType = device.DeviceType,
             Manufacturer = device.Manufacturer,
@@ -47,4 +48,7 @@ public class Device
 
         return deviceViewModel;
     }
+
+    [NotMapped]
+    public string DeviceId { get; set; }
 }

@@ -37,7 +37,7 @@ namespace Ticketsystem.Controllers
 
             ViewBag.Take = ticketData.Take;
             ViewBag.Skip = ticketData.Skip;
-            ViewBag.SortBy = ticketData.SortByAttribute;
+            ViewBag.SortBy = ticketData.SortBy;
             ViewBag.TicketsCount = _serviceFactory.GetTicketsService().GetTicketsCount(ticketData);
             ViewBag.DoReverse = ticketData.DoReverse;
             ViewBag.FilterByTicketId = ticketData.FilterByTicketId;
@@ -135,7 +135,7 @@ namespace Ticketsystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int id, TicketViewModel ticketViewModel)
+        public async Task<IActionResult> Update(int id, TicketViewModel ticketViewModel, string ticketType, string deviceList)
         {
             if (id != ticketViewModel.Id)
             {
@@ -144,14 +144,30 @@ namespace Ticketsystem.Controllers
 
             if (ModelState.IsValid)
             {
-                Ticket ticket = ticketViewModel;
+                ticketViewModel.Devices = JsonConvert.DeserializeObject<List<DeviceViewModel>>(deviceList);
+                Ticket ticket = ticketViewModel.CopyForUpdate();
+                ticket.TicketType = await _serviceFactory.GetTicketTypesService().GetTicketTypeByName(ticketType);
+                ticket.TicketStatus = await _serviceFactory.GetTicketStatusesService().GetTicketStatusByName(ticketViewModel.TicketStatus.ToString());
+
+                if (ticketViewModel.DoBackup)
+                {
+                    if (ticketViewModel.BackupChoices == BackupChoices.BackupByStaff.ToString())
+                    {
+                        ticket.DataBackupByStaff = true;
+                    }
+                    else if (ticketViewModel.BackupChoices == BackupChoices.BackupByClient.ToString())
+                    {
+                        ticket.DataBackupByClient = true;
+                        ticket.DataBackupDone = true;
+                    }
+                }
                 try
                 {
                     await _serviceFactory.GetTicketsService().UpdateTicket(ticket);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TicketExists(ticket.Id))
+                    if (!TicketExists(ticketViewModel.Id))
                     {
                         return NotFound();
                     }

@@ -13,6 +13,8 @@ public class Ticket
     {
     }
 
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     [ForeignKey(nameof(TicketType))]
@@ -39,9 +41,10 @@ public class Ticket
     public bool DataBackupByStaff { get; set; } = false;
     public bool DataBackupDone { get; set; }
 
-    public TicketType TicketType { get; set; }
-    public TicketStatus TicketStatus { get; set; }
-    public Client Client { get; set; }
+    public virtual TicketType TicketType { get; set; }
+    public virtual TicketStatus TicketStatus { get; set; }
+    public virtual Client Client { get; set; }
+
 
     public virtual IList<Device> Devices { get; set; }
     public virtual IList<TicketUsers> TicketUsers { get; set; }
@@ -62,7 +65,7 @@ public class Ticket
             DataBackupDone = ticket.DataBackupDone,
             TicketType = Enum.GetValues<TicketTypes>().FirstOrDefault(tt => tt.ToString() == ticket.TicketType.Name),
             TicketStatus = Enum.GetValues<TicketStatuses>().FirstOrDefault(ts => ts.ToString() == ticket.TicketStatus.Name),
-            Devices = new List<DeviceViewModel>()
+            Devices = new List<DeviceViewModel>(),
         };
 
         foreach (var device in ticket.Devices)
@@ -72,4 +75,7 @@ public class Ticket
 
         return viewModel;
     }
+
+    [NotMapped]
+    public int TicketId { get; set; }
 }
