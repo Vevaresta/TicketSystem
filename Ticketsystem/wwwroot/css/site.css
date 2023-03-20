@@ -17,29 +17,37 @@ body {
   margin-bottom: 60px;
 }
 
-table.table-striped > tbody > tr > td {
-    height: 50px !important;
+table.table-striped>tbody>tr>td {
+  height: 50px !important;
 }
 
 .padding-right-2 {
-    padding-right: 2px;
+  padding-right: 2px;
 }
 
 .padding-right-3 {
-    padding-right: 3px;
+  padding-right: 3px;
 }
 
 .padding-right-4 {
-    padding-right: 4px;
+  padding-right: 4px;
 }
 
-input[type="search"]::placeholder, .select-option-disabled-text {
-    color: #6c757d;
+input[type="search"]::placeholder,
+.select-option-disabled-text {
+  color: #6c757d;
 }
+
 .select-option-text {
-    color: black;
+  color: black;
 }
 
 .bg-lightyellow {
-    background-color: lightyellow !important;
+  background-color: lightyellow !important;
+}
+
+.table td.fit,
+.table th.fit {
+  white-space: nowrap;
+  width: 1%;
 }
