@@ -1,10 +1,10 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 namespace Ticketsystem.Enums
 {
     public enum RolePermissions
     {
-        [Description("Benutzer verwalten")]        
+        [Description("Benutzer verwalten")]
         ManageUsers,
 
         [Description("Neue Benutzer hinzufügen")]
