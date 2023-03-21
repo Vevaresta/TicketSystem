@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Text;
 using Ticketsystem.Data;
 using Ticketsystem.Models.Database;
 using Ticketsystem.Services;
@@ -16,6 +19,7 @@ namespace Ticketsystem
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
             string dbms = builder.Configuration.GetValue<string>("DBMS");
+            bool seedTestData = builder.Configuration.GetValue<bool>("SeedTestData");
 
             if (dbms == "sqlite")
             {
@@ -44,6 +48,15 @@ namespace Ticketsystem
                 });
             }
 
+            builder.Services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.DefaultRequestCulture = new RequestCulture("de-DE");
+                options.SupportedCultures = new List<CultureInfo> { new CultureInfo("de-DE") };
+                options.SupportedUICultures = new List<CultureInfo> { new CultureInfo("de-DE") };
+                options.FallBackToParentCultures = true;
+                options.FallBackToParentUICultures = true;
+            });
+
             builder.Services.AddScoped<ContextSeed>();
             builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<Role>()
@@ -62,7 +75,7 @@ namespace Ticketsystem
             ContextSeed contextSeed = scope.ServiceProvider.GetService<ContextSeed>();
 
             // Auf true setzen, um die Datenbank mit 250 Zufallstickets zu f�llen:
-            contextSeed.Seed(false).Wait();
+            contextSeed.Seed(seedTestData).Wait();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
