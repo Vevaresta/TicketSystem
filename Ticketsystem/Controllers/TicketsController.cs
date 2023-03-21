@@ -17,12 +17,15 @@ namespace Ticketsystem.Controllers
 {
     public class TicketsController : Controller
     {
-        private readonly IServiceFactory _serviceFactory;
         private readonly TicketsService _ticketsService;
+        private readonly TicketStatusesService _ticketStatusesService;
+        private readonly TicketTypesService _ticketTypesService;
 
         public TicketsController(IServiceFactory serviceFactory)
         {
             _ticketsService = serviceFactory.GetTicketsService();
+            _ticketStatusesService = serviceFactory.GetTicketStatusesService();
+            _ticketTypesService = serviceFactory.GetTicketTypesService();
         }
 
         // GET: Tickets
@@ -72,7 +75,7 @@ namespace Ticketsystem.Controllers
             {
                 ticketViewModel.Devices = JsonConvert.DeserializeObject<List<DeviceViewModel>>(deviceList);
                 Ticket ticket = ticketViewModel;
-                ticket.TicketType = await _serviceFactory.GetTicketTypesService().GetTicketTypeByName(ticketType);
+                ticket.TicketType = await _ticketTypesService.GetTicketTypeByName(ticketType);
 
                 if (ticketViewModel.DoBackup)
                 {
@@ -87,7 +90,7 @@ namespace Ticketsystem.Controllers
                     }
                 }
 
-                var ticketStatusOpen = await _serviceFactory.GetTicketStatusesService().GetTicketStatusByName(TicketStatuses.Open.ToString());
+                var ticketStatusOpen = await _ticketStatusesService.GetTicketStatusByName(TicketStatuses.Open.ToString());
 
                 ticket.TicketStatus = ticketStatusOpen;
                 ticket.OrderDate = DateTime.Now;
@@ -148,8 +151,8 @@ namespace Ticketsystem.Controllers
             {
                 ticketViewModel.Devices = JsonConvert.DeserializeObject<List<DeviceViewModel>>(deviceList);
                 Ticket ticket = ticketViewModel.CopyForUpdate();
-                ticket.TicketType = await _serviceFactory.GetTicketTypesService().GetTicketTypeByName(ticketType);
-                ticket.TicketStatus = await _serviceFactory.GetTicketStatusesService().GetTicketStatusByName(ticketViewModel.TicketStatus.ToString());
+                ticket.TicketType = await _ticketTypesService.GetTicketTypeByName(ticketType);
+                ticket.TicketStatus = await _ticketStatusesService.GetTicketStatusByName(ticketViewModel.TicketStatus.ToString());
 
                 if (ticketViewModel.DoBackup)
                 {
