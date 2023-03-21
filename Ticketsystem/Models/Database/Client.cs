@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using Ticketsystem.ViewModels;
 
-namespace Ticketsystem.Models;
+namespace Ticketsystem.Models.Database;
 
 public class Client
 {

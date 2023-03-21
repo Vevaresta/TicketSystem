@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Ticketsystem.ViewModels.ClientViewModel>
+
+@{
+    @inject UserManager<User> userManager;
+    @inject IServiceFactory serviceFactory;
+    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
+    var loggedInUser = await userManager.GetUserAsync(User);
+    if (loggedInUser == null)
+    {
+        Context.Response.Redirect("/Identity/Account/Login");
+        return;
+    }
+    if (!await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.ViewClients))
+    {
+        Context.Response.Redirect("/Home/PermissionError");
+        return;
+    }
+}
+
+@{
+    ViewData["Title"] = "Auftraggeber";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+@if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.CreateClients))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                @{
+                    bool canUpdate = await rolePermissionsService.HasPermission(loggedInUser,
+                    RolePermissions.UpdateClients);
+                    bool canViewDetails = await rolePermissionsService.HasPermission(loggedInUser,
+                    RolePermissions.ViewClientDetails);
+                    bool canDelete = await rolePermissionsService.HasPermission(loggedInUser,
+                    RolePermissions.DeleteClients);
+                }
+                <td class="text-end fit">
+                    <div class="d-flex flex-column flex-xl-row justify-content-sm-end">
+                        @if (canUpdate)
+                        {
+                            <a asp-action="Update" asp-route-id="@item.Id" class="me-xl-3">Bearbeiten</a>
+                        }
+                        @if (canViewDetails)
+                        {
+                            <a asp-action="Details" asp-route-id="@item.Id" class="me-xl-3">Details</a>
+                        }
+                        @if (canDelete)
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="me-xl-3">Löschen</a>
+                        }
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

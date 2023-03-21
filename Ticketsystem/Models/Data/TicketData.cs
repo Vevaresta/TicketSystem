@@ -1,4 +1,4 @@
-﻿namespace Ticketsystem.Models
+﻿namespace Ticketsystem.Models.Data
 {
     public class TicketData
     {

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Ticketsystem.ViewModels;
 
-namespace Ticketsystem.Models;
+namespace Ticketsystem.Models.Database;
 
 public class Device
 {

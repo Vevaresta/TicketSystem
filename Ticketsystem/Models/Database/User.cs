@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace Ticketsystem.Models
+namespace Ticketsystem.Models.Database
 {
     public class User : IdentityUser
     {

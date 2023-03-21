@@ -39,6 +39,12 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Tickets" asp-action="Index">Tickets</a>
                                 </li>
                             }
+                            if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.ViewClients))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="Index">Auftraggeber</a>
+                                </li>
+                            }
                         }
 
                     </ul>

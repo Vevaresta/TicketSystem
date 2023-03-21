@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Ticketsystem.Models
+namespace Ticketsystem.Models.Database
 {
     public class Role : IdentityRole
     {

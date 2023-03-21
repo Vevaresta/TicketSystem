@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
 using Ticketsystem.Data;
 using Ticketsystem.Enums;
-using Ticketsystem.Models;
+using Ticketsystem.Models.Database;
 
 namespace Ticketsystem.Services
 {

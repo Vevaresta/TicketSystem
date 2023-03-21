@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 using Ticketsystem.Data;
-using Ticketsystem.Models;
+using Ticketsystem.Models.Database;
 using Ticketsystem.Services;
 
 namespace Ticketsystem

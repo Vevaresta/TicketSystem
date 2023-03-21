@@ -2,9 +2,8 @@
 
 @{
     @inject UserManager<User> userManager;
-
     @inject IServiceFactory serviceFactory;
-var rolePermissionsService = serviceFactory.GetRolePermissionsService();
+    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
     var loggedInUser = await userManager.GetUserAsync(User);
     if (loggedInUser == null)
     {
@@ -54,19 +53,26 @@ var rolePermissionsService = serviceFactory.GetRolePermissionsService();
                         <option disabled selected value="">Status</option>
                         <option class="select-option-text" value="">Keiner</option>
                         <option class="select-option-text" value="@TicketStatuses.Open.ToString()">
-                            @TicketStatuses.Open.GetText()</option>
+                            @TicketStatuses.Open.GetText()
+                        </option>
                         <option class="select-option-text" value="@TicketStatuses.InProgress.ToString()">
-                            @TicketStatuses.InProgress.GetText()</option>
+                            @TicketStatuses.InProgress.GetText()
+                        </option>
                         <option class="select-option-text" value="@TicketStatuses.WaitingForResponse.ToString()">
-                            @TicketStatuses.WaitingForResponse.GetText()</option>
+                            @TicketStatuses.WaitingForResponse.GetText()
+                        </option>
                         <option class="select-option-text" value="@TicketStatuses.Resolved.ToString()">
-                            @TicketStatuses.Resolved.GetText()</option>
+                            @TicketStatuses.Resolved.GetText()
+                        </option>
                         <option class="select-option-text" value="@TicketStatuses.Escalated.ToString()">
-                            @TicketStatuses.Escalated.GetText()</option>
+                            @TicketStatuses.Escalated.GetText()
+                        </option>
                         <option class="select-option-text" value="@TicketStatuses.OnHold.ToString()">
-                            @TicketStatuses.OnHold.GetText()</option>
+                            @TicketStatuses.OnHold.GetText()
+                        </option>
                         <option class="select-option-text" value="@TicketStatuses.Closed.ToString()">
-                            @TicketStatuses.Closed.GetText()</option>
+                            @TicketStatuses.Closed.GetText()
+                        </option>
                     </select>
                 </td>
                 <td class="col-2">
@@ -74,20 +80,24 @@ var rolePermissionsService = serviceFactory.GetRolePermissionsService();
                         <option class="select-option-disabled" disabled selected value="">Ticketart</option>
                         <option class="select-option-text" value="">Keine</option>
                         <option class="select-option-text" value="@TicketTypes.Repair.ToString()">
-                            @TicketTypes.Repair.GetText()</option>
+                            @TicketTypes.Repair.GetText()
+                        </option>
                         <option class="select-option-text" value="@TicketTypes.DataRecovery.ToString()">
-                            @TicketTypes.DataRecovery.GetText()</option>
+                            @TicketTypes.DataRecovery.GetText()
+                        </option>
                         <option class="select-option-text" value="@TicketTypes.Consultation.ToString()">
-                            @TicketTypes.Consultation.GetText()</option>
+                            @TicketTypes.Consultation.GetText()
+                        </option>
                         <option class="select-option-text" value="@TicketTypes.Special.ToString()">
-                            @TicketTypes.Special.GetText()</option>
+                            @TicketTypes.Special.GetText()
+                        </option>
                     </select>
                 </td>
             </tr>
             <tr>
                 <td class="padding-right-3">
                     <input class="form-control" type="search" value="" placeholder="Startdatum"
-                        name="FilterByStartDate">
+                           name="FilterByStartDate">
                 </td>
                 <td class="padding-right-3">
                     <input class="form-control" type="search" value="" placeholder="Enddatum" name="FilterByEndDate">
@@ -97,7 +107,9 @@ var rolePermissionsService = serviceFactory.GetRolePermissionsService();
                 </td>
                 <td>
                     <button class="btn btn-primary w-100" type="submit"
-                        style="margin-top: 2px;margin-bottom: 2px;">Suchen</button>
+                            style="margin-top: 2px;margin-bottom: 2px;">
+                        Suchen
+                    </button>
                 </td>
             </tr>
         </table>

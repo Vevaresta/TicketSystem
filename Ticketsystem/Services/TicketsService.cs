@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ticketsystem.Data;
-using Ticketsystem.Models;
+using Ticketsystem.Models.Data;
+using Ticketsystem.Models.Database;
 
 namespace Ticketsystem.Services
 {
@@ -92,7 +93,6 @@ namespace Ticketsystem.Services
 
             return await query.Skip(ticketData.Skip).Take(ticketData.Take).ToListAsync();
         }
-
 
         public async Task<Ticket> GetTicketById(int id)
         {
