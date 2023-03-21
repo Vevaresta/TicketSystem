@@ -48,15 +48,6 @@ namespace Ticketsystem
                 });
             }
 
-            builder.Services.Configure<RequestLocalizationOptions>(options =>
-            {
-                options.DefaultRequestCulture = new RequestCulture("de-DE");
-                options.SupportedCultures = new List<CultureInfo> { new CultureInfo("de-DE") };
-                options.SupportedUICultures = new List<CultureInfo> { new CultureInfo("de-DE") };
-                options.FallBackToParentCultures = true;
-                options.FallBackToParentUICultures = true;
-            });
-
             builder.Services.AddScoped<ContextSeed>();
             builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<Role>()
@@ -99,6 +90,14 @@ namespace Ticketsystem
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.MapRazorPages();
+
+            RequestLocalizationOptions localizationOptions = new RequestLocalizationOptions
+            {
+                SupportedCultures = new List<CultureInfo> { new CultureInfo("de-DE") },
+                SupportedUICultures = new List<CultureInfo> { new CultureInfo("de-DE") },
+                DefaultRequestCulture = new RequestCulture("de-DE")
+            };
+            app.UseRequestLocalization(localizationOptions);
 
             app.Run();
 
