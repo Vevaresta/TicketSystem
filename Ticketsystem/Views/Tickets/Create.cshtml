@@ -1,9 +1,10 @@
 ﻿@model TicketViewModel
-@{
-    @inject UserManager<User> userManager;
 
-    @inject IServiceFactory serviceFactory;
-var rolePermissionsService = serviceFactory.GetRolePermissionsService();
+@inject UserManager<User> userManager;
+@inject IServiceFactory serviceFactory;
+
+@{
+    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
     var loggedInUser = await userManager.GetUserAsync(User);
     if (loggedInUser == null)
     {

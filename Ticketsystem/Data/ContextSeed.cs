@@ -38,6 +38,7 @@ namespace Ticketsystem.Data
             await SeedRolePermissions();
             await SeedTicketStatuses();
             await SeedTicketTypes();
+            await SeedFallbackClient();
 
             if (doSeedTestData)
             {
@@ -46,6 +47,31 @@ namespace Ticketsystem.Data
                 {
                     await SeedTestTickets();
                 }
+            }
+        }
+
+        private async Task SeedFallbackClient()
+        {
+            var fallbackClientInDb = await _ticketSystemContext.Clients.FirstOrDefaultAsync(c => c.Id == "Fallback");
+
+            if (fallbackClientInDb == null)
+            {
+                var fallbackClient = new Client
+                {
+                    Id = "Fallback",
+                    LastName = "<Client gelöscht>",
+                    FirstName = "<Client gelöscht>",
+                    Email = "<Client gelöscht>",
+                    StreetAndHouseNumber = "<Client gelöscht>",
+                    City = "<Client gelöscht>",
+                    PostalCode = "00000",
+                    Course = "<Client gelöscht>",
+                    ParticipantNumber = 0,
+                    PhoneNumber = "<Client gelöscht>",
+                };
+
+                await _ticketSystemContext.AddAsync(fallbackClient);
+                await _ticketSystemContext.SaveChangesAsync();
             }
         }
 

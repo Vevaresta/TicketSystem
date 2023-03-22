@@ -16,7 +16,8 @@ namespace Ticketsystem.Services
 
         private IQueryable<Client> GetClientsShared(ClientData clientData)
         {
-            IQueryable<Client> query = _ticketsystemContext.Clients;
+            IQueryable<Client> query = _ticketsystemContext.Clients
+            .Where(c => c.Id != "Fallback");
 
             if (!string.IsNullOrEmpty(clientData.FilterByLastName))
             {
@@ -70,6 +71,17 @@ namespace Ticketsystem.Services
             if (client != null)
             {
                 _ticketsystemContext.Clients.Remove(client);
+            }
+
+            var clientTickets = _ticketsystemContext.Tickets.Where(t => t.Client.Id == client.Id);
+
+            if (clientTickets != null)
+            {
+                var fallbackClient = await _ticketsystemContext.Clients.FirstOrDefaultAsync(c => c.Id == "Fallback");
+                foreach (var ticket in clientTickets)
+                {
+                    ticket.Client = fallbackClient;
+                }
             }
 
             await _ticketsystemContext.SaveChangesAsync();
