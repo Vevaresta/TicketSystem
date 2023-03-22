@@ -93,7 +93,7 @@ namespace Ticketsystem.Controllers
                 var ticketStatusOpen = await _ticketStatusesService.GetTicketStatusByName(TicketStatuses.Open.ToString());
 
                 ticket.TicketStatus = ticketStatusOpen;
-                ticket.OrderDate = DateTime.Now;
+                ticket.OrderDate = DateTime.Now.ToUniversalTime();
 
                 await _ticketsService.AddTicket(ticket);
 
