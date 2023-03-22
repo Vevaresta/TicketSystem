@@ -10,7 +10,7 @@ var rolePermissionsService = serviceFactory.GetRolePermissionsService();
         Context.Response.Redirect("/Identity/Account/Login");
         return;
     }
-    if (!await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.CreateTickets))
+    if (!await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.UpdateTickets))
     {
         Context.Response.Redirect("/Home/PermissionError");
         return;
