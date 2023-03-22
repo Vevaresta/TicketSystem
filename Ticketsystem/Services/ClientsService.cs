@@ -58,5 +58,21 @@ namespace Ticketsystem.Services
 
             return await query.Skip(clientData.Skip).Take(clientData.Take).ToListAsync();
         }
+
+        public async Task<Client> GetClientById(string id)
+        {
+            return await _ticketsystemContext.Clients.FirstOrDefaultAsync(m => m.Id == id);
+        }
+
+
+        public async Task DeleteClient(Client client)
+        {
+            if (client != null)
+            {
+                _ticketsystemContext.Clients.Remove(client);
+            }
+
+            await _ticketsystemContext.SaveChangesAsync();
+        }
     }
 }

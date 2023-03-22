@@ -136,42 +136,31 @@ namespace Ticketsystem.Controllers
         //    return View(client);
         //}
 
-        // GET: Clients/Delete/5
-        //public async Task<IActionResult> Delete(string id)
-        //{
-        //    if (id == null || _context.Clients == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Tickets/Delete/5
+        public async Task<IActionResult> Delete(string id)
+        {
+            var client = await _clientsService.GetClientById(id);
 
-        //    var client = await _context.Clients
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (client == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (client == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(client);
-        //}
+            ClientViewModel clientViewModel = client;
+            return View(clientViewModel);
+        }
 
-        // POST: Clients/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(string id)
-        //{
-        //    if (_context.Clients == null)
-        //    {
-        //        return Problem("Entity set 'TicketsystemContext.Clients'  is null.");
-        //    }
-        //    var client = await _context.Clients.FindAsync(id);
-        //    if (client != null)
-        //    {
-        //        _context.Clients.Remove(client);
-        //    }
+        // POST: Tickets/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var client = await _clientsService.GetClientById(id);
 
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+            await _clientsService.DeleteClient(client);
+
+            return RedirectToAction(nameof(Index));
+        }
 
         //private bool ClientExists(string id)
         //{
