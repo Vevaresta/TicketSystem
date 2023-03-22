@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Ticketsystem.Data;
+using Ticketsystem.Models.Data;
 using Ticketsystem.Models.Database;
 using Ticketsystem.Services;
 using Ticketsystem.ViewModels;
@@ -22,9 +23,9 @@ namespace Ticketsystem.Controllers
         }
 
         // GET: Clients
-        public IActionResult Index()
+        public async Task<IActionResult> Index(ClientData clientData)
         {
-            List<Client> clients = _clientsService.GetAllClients();
+            List<Client> clients = await _clientsService.GetAllClients(clientData);
             List<ClientViewModel> clientViewModels = new();
 
             foreach (var client in clients)
