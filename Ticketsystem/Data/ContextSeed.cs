@@ -116,7 +116,7 @@ namespace Ticketsystem.Data
                 tickets[i - 1] = new Ticket
                 {
                     Name = "Name_" + i.ToString(),
-                    OrderDate = DateTime.Today.AddYears(-1).AddDays(randomTimeDayOffset).AddHours(randomTimeHourOffset).AddMinutes(randomMinuteOffset).AddSeconds(randomSecondOffset),
+                    OrderDate = DateTime.Today.AddYears(-1).AddDays(randomTimeDayOffset).AddHours(randomTimeHourOffset).AddMinutes(randomMinuteOffset).AddSeconds(randomSecondOffset).ToUniversalTime(),
                     WorkOrder = "WorkOrder_" + i.ToString(),
                     DataBackupByClient = true,
                     TicketStatus = await _serviceFactory.GetTicketStatusesService().GetTicketStatusByName(Enum.GetValues<TicketStatuses>()[randomStatusIndex].ToString()),

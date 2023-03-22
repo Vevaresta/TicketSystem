@@ -76,7 +76,7 @@ namespace Ticketsystem.ViewModels
                 Id = this.Id,
                 Client = this.Client.CopyForUpdate(),
                 Name = this.Name,
-                OrderDate = this.OrderDate,
+                OrderDate = this.OrderDate.ToUniversalTime(),
                 WorkOrder = this.WorkOrder,
                 DoBackup = this.DoBackup,
                 DataBackupByClient = this.DataBackupByClient,
