@@ -19,7 +19,7 @@
 }
 
 @{
-    ViewData["Title"] = "Ticket bearbeiten";
+    ViewData["Title"] = "Ticket Nr. " + Model.Id + " bearbeiten";
 }
 
 @{
@@ -35,7 +35,7 @@
 <input type="hidden" id="hidden-devices" value="@devicesJson" />
 <input type="hidden" id="hidden-ticket-type" value="@Model.TicketType.ToString()" />
 
-<h3>@ViewData["Title"]</h3>
+<h3>Ticket Nr. @Model.Id</h3>
 <hr />
 <div class="container mb-2">
     <div class="row">
