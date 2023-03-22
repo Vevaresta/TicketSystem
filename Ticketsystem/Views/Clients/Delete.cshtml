@@ -1,4 +1,4 @@
-﻿@model TicketViewModel
+﻿@model ClientViewModel
 
 @inject UserManager<User> userManager;
 @inject IServiceFactory serviceFactory;
@@ -11,7 +11,7 @@
         Context.Response.Redirect("/Identity/Account/Login");
         return;
     }
-    if (!await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.DeleteTickets))
+    if (!await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.DeleteClients))
     {
         Context.Response.Redirect("/Home/PermissionError");
         return;
@@ -19,39 +19,33 @@
 }
 
 @{
-    ViewData["Title"] = "Ticket Nr. " + Model.Id.ToString() + " löschen";
+    ViewData["Title"] = "Auftraggeber löschen";
 }
 
 <div class="d-flex justify-content-center align-items-center">
-    <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
+    <div class="col-sm-12 col-md-10 col-lg-9 col-xl-8">
         <div class="container">
-            <h2>Wollen Sie dieses Ticket wirklich löschen?</h2>
+            <h2>Wollen Sie diesen Auftraggeber wirklich löschen?</h2>
             <hr />
 
             <dl class="row">
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Id)
+                    @Html.DisplayNameFor(model => model.LastName)
                 </dt>
                 <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Id)
+                    @Html.DisplayFor(model => model.LastName)
                 </dd>
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Name)
+                    @Html.DisplayNameFor(model => model.FirstName)
                 </dt>
                 <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Name)
+                    @Html.DisplayFor(model => model.FirstName)
                 </dd>
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.TicketType)
+                    @Html.DisplayNameFor(model => model.Email)
                 </dt>
                 <dd class="col-sm-10">
-                    @Html.Raw(Model.TicketType.GetText())
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.TicketStatus)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.Raw(Model.TicketStatus.GetText())
+                    @Html.DisplayFor(model => model.Email)
                 </dd>
             </dl>
 

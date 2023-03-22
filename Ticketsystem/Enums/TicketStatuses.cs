@@ -10,10 +10,10 @@ public enum TicketStatuses
     [Description("In Bearbeitung")]
     InProgress,
 
-    [Description("Warte auf Rückmeldung")]
+    [Description("Warte auf RÃ¼ckmeldung")]
     WaitingForResponse,
 
-    [Description("Gelöst")]
+    [Description("GelÃ¶st")]
     Resolved,
 
     [Description("Geschlossen")]
@@ -22,6 +22,6 @@ public enum TicketStatuses
     [Description("Eskaliert")]
     Escalated,
 
-    [Description("Zurückgestellt")]
+    [Description("ZurÃ¼ckgestellt")]
     OnHold
 }

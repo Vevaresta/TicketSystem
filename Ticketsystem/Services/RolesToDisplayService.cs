@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Ticketsystem.Enums;
-using Ticketsystem.Models;
+using Ticketsystem.Models.Database;
 
 namespace Ticketsystem.Services
 {

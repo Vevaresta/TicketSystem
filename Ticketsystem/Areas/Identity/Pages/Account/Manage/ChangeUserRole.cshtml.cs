@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Ticketsystem.Data;
 using Ticketsystem.Enums;
 using Ticketsystem.Services;
-using Ticketsystem.Models;
+using Ticketsystem.Models.Database;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {

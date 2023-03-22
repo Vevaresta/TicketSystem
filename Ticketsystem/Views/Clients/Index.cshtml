@@ -1,0 +1,222 @@
+﻿@model IEnumerable<Ticketsystem.ViewModels.ClientViewModel>
+@inject UserManager<User> userManager
+@inject IServiceFactory serviceFactory
+
+@{
+    ViewData["Title"] = "Auftraggeber";
+}
+
+@* ROLEPERMISSIONSSERVICE: *@
+@{
+    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
+    var loggedInUser = await userManager.GetUserAsync(User);
+    if (loggedInUser == null)
+    {
+        Context.Response.Redirect("/Identity/Account/Login");
+        return;
+    }
+    if (!await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.ViewTickets))
+    {
+        Context.Response.Redirect("/Home/PermissionError");
+        return;
+    }
+}
+
+@* FUNCTIONS: *@
+@{
+    bool ToggleDoReverse(string category)
+    {
+        if (ViewBag.Skip != 0)
+        {
+            return false;
+        }
+        if (ViewBag.SortBy == category)
+        {
+            if (ViewBag.DoReverse)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    object GetLinkData(string sortBy, int forceSkip = -1, char forceReverse = ' ')
+    {
+        if (string.IsNullOrEmpty(sortBy))
+        {
+            sortBy = ViewBag.SortBy;
+        }
+
+        if (forceSkip == -1)
+        {
+            forceSkip = 0;
+        }
+
+        bool doReverse = ToggleDoReverse(sortBy);
+
+        if (forceReverse == 'T')
+        {
+            doReverse = true;
+        }
+        else if (forceReverse == 'F')
+        {
+            doReverse = false;
+        }
+
+        return new
+        {
+            Take = ViewBag.Take,
+            Skip = forceSkip,
+            SortBy = sortBy,
+            DoReverse = doReverse,
+            FilterByLastName = ViewBag.FilterByLastName,
+            FilterByFirstName = ViewBag.FilterByFirstName,
+            FilterByEmail = ViewBag.FilterByEmail,
+        };
+    }
+}
+
+<div class="d-flex justify-content-center align-items-center">
+    <div class="col-sm-12 col-xl-8">
+        <div class="container">
+            <h2>@ViewData["Title"]</h2>
+            <hr />
+
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    @if (loggedInUser != null)
+                    {
+                        @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.SearchClients))
+                        {
+                            <button class="btn btn-secondary" style="width: 120px;" id="btn-search"
+                                type="button">Suchen</button>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="row mb-2 collapse" id="search-form">
+                <div class="col-lg-10">
+                    <form asp-action="Index" method="get">
+                        <table>
+                            <tr>
+                                <td class="col-4 padding-right-3">
+                                    <input class="form-control" type="search" placeholder="Nachname"
+                                        name="FilterByLastName">
+                                </td>
+                                <td class="col-4 padding-right-3">
+                                    <input class="form-control" type="search" placeholder="Vorname"
+                                        name="FilterByFirstName">
+                                </td>
+                                <td class="col-4 padding-right-3">
+                                    <input class="form-control" type="search" placeholder="Email" name="FilterByEmail">
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary" type="submit"
+                                        style="margin-top: 2px;margin-bottom: 2px;">
+                                        Suchen
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.ActionLink("Nachname", "Index", GetLinkData("LastName"))
+                            </th>
+                            <th>
+                                @Html.ActionLink("Vorname", "Index", GetLinkData("FirstName"))
+                            </th>
+                            <th>
+                                @Html.ActionLink("Email-Adresse", "Index", GetLinkData("Email"))
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LastName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FirstName)
+                                </td>
+                                <td class="fit">
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                @{
+                                    bool canUpdate = await rolePermissionsService.HasPermission(loggedInUser,
+                                    RolePermissions.UpdateClients);
+                                    bool canViewDetails = await rolePermissionsService.HasPermission(loggedInUser,
+                                    RolePermissions.ViewClientDetails);
+                                    bool canDelete = await rolePermissionsService.HasPermission(loggedInUser,
+                                    RolePermissions.DeleteClients);
+                                }
+                                <td class="text-end fit">
+                                    <div class="d-flex flex-column flex-xl-row justify-content-sm-end">
+                                        @if (canUpdate)
+                                        {
+                                            <a asp-action="Update" asp-route-id="@item.Id" class="me-xl-3">Bearbeiten</a>
+                                        }
+                                        @if (canViewDetails)
+                                        {
+                                            <a asp-action="Details" asp-route-id="@item.Id" class="me-xl-3">Details</a>
+                                        }
+                                        @if (canDelete)
+                                        {
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="me-xl-3">Löschen</a>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="d-flex flex-sm-row">
+                    @if (!ViewBag.DoReverse && ViewBag.Skip > 9)
+                    {
+                        @Html.ActionLink("10 zurück", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip - 10, 'F'), new {
+                    @class =
+                    "text-nowrap me-4" })
+                    }
+                    else if (ViewBag.DoReverse && ViewBag.Skip < ViewBag.ClientsCount - 10)
+                    {
+                        @Html.ActionLink("10 zurück", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip + 10, 'T'), new {
+                    @class =
+                    "text-nowrap me-4" })
+                    }
+                    @if (!ViewBag.DoReverse && ViewBag.Skip < ViewBag.ClientsCount - 10)
+                    {
+                        @Html.ActionLink("10 vor", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip + 10, 'F'), new {
+                    @class =
+                    "text-nowrap" })
+                    }
+                    else if (ViewBag.DoReverse && ViewBag.Skip > 9)
+                    {
+                        @Html.ActionLink("10 vor", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip - 10, 'T'), new {
+                    @class =
+                    "text-nowrap" })
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="module" src="~/js/viewclients.js"></script>
+}

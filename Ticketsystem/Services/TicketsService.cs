@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ticketsystem.Data;
-using Ticketsystem.Models;
+using Ticketsystem.Models.Data;
+using Ticketsystem.Models.Database;
 
 namespace Ticketsystem.Services
 {
@@ -27,15 +28,15 @@ namespace Ticketsystem.Services
             }
             if (!string.IsNullOrEmpty(ticketData.FilterByTicketName))
             {
-                query = query.Where(t => t.Name == ticketData.FilterByTicketName);
+                query = query.Where(t => t.Name.ToLower().Contains(ticketData.FilterByTicketName.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(ticketData.FilterByClientName))
+            {
+                query = query.Where(t => t.Client.LastName.ToLower().Contains(ticketData.FilterByClientName.ToLower()));
             }
             if (!string.IsNullOrEmpty(ticketData.FilterByTicketStatus))
             {
                 query = query.Where(t => t.TicketStatus.Name == ticketData.FilterByTicketStatus);
-            }
-            if (!string.IsNullOrEmpty(ticketData.FilterByClientName))
-            {
-                query = query.Where(t => t.Client.LastName == ticketData.FilterByClientName);
             }
             if (!string.IsNullOrEmpty(ticketData.FilterByTicketType))
             {
@@ -92,7 +93,6 @@ namespace Ticketsystem.Services
 
             return await query.Skip(ticketData.Skip).Take(ticketData.Take).ToListAsync();
         }
-
 
         public async Task<Ticket> GetTicketById(int id)
         {

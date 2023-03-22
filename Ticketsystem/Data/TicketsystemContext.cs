@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Ticketsystem.Models;
+using Ticketsystem.Models.Database;
 
 namespace Ticketsystem.Data;
 
@@ -37,16 +37,6 @@ public class TicketsystemContext : IdentityDbContext<User, Role, string>
         builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
         builder.Entity<User>().ToTable("Users");
         builder.Entity<Role>().ToTable("Roles");
-
-        // builder.Entity<Device>()
-        //     .HasOne(d => d.Ticket)
-        //     .WithMany(t => t.Devices)
-        //     .OnDelete(DeleteBehavior.Cascade);
-
-        // builder.Entity<Software>()
-        //     .HasOne(s => s.Device)
-        //     .WithMany(d => d.Software)
-        //     .OnDelete(DeleteBehavior.Cascade);
 
         builder.Entity<Ticket>()
             .HasMany(t => t.Devices)

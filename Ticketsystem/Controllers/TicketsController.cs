@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Ticketsystem.Data;
 using Ticketsystem.Enums;
-using Ticketsystem.Models;
+using Ticketsystem.Models.Data;
+using Ticketsystem.Models.Database;
 using Ticketsystem.Services;
 using Ticketsystem.ViewModels;
 
@@ -16,17 +17,21 @@ namespace Ticketsystem.Controllers
 {
     public class TicketsController : Controller
     {
-        private readonly IServiceFactory _serviceFactory;
+        private readonly TicketsService _ticketsService;
+        private readonly TicketStatusesService _ticketStatusesService;
+        private readonly TicketTypesService _ticketTypesService;
 
         public TicketsController(IServiceFactory serviceFactory)
         {
-            _serviceFactory = serviceFactory;
+            _ticketsService = serviceFactory.GetTicketsService();
+            _ticketStatusesService = serviceFactory.GetTicketStatusesService();
+            _ticketTypesService = serviceFactory.GetTicketTypesService();
         }
 
         // GET: Tickets
         public async Task<IActionResult> Index(TicketData ticketData)
         {
-            var tickets = await _serviceFactory.GetTicketsService().GetAllTickets(ticketData);
+            var tickets = await _ticketsService.GetAllTickets(ticketData);
 
             List<TicketViewModel> ticketViewModels = new();
 
@@ -38,7 +43,7 @@ namespace Ticketsystem.Controllers
             ViewBag.Take = ticketData.Take;
             ViewBag.Skip = ticketData.Skip;
             ViewBag.SortBy = ticketData.SortBy;
-            ViewBag.TicketsCount = _serviceFactory.GetTicketsService().GetTicketsCount(ticketData);
+            ViewBag.TicketsCount = _ticketsService.GetTicketsCount(ticketData);
             ViewBag.DoReverse = ticketData.DoReverse;
             ViewBag.FilterByTicketId = ticketData.FilterByTicketId;
             ViewBag.FilterByTicketName = ticketData.FilterByTicketName;
@@ -70,7 +75,7 @@ namespace Ticketsystem.Controllers
             {
                 ticketViewModel.Devices = JsonConvert.DeserializeObject<List<DeviceViewModel>>(deviceList);
                 Ticket ticket = ticketViewModel;
-                ticket.TicketType = await _serviceFactory.GetTicketTypesService().GetTicketTypeByName(ticketType);
+                ticket.TicketType = await _ticketTypesService.GetTicketTypeByName(ticketType);
 
                 if (ticketViewModel.DoBackup)
                 {
@@ -85,12 +90,12 @@ namespace Ticketsystem.Controllers
                     }
                 }
 
-                var ticketStatusOpen = await _serviceFactory.GetTicketStatusesService().GetTicketStatusByName(TicketStatuses.Open.ToString());
+                var ticketStatusOpen = await _ticketStatusesService.GetTicketStatusByName(TicketStatuses.Open.ToString());
 
                 ticket.TicketStatus = ticketStatusOpen;
-                ticket.OrderDate = DateTime.Now;
+                ticket.OrderDate = DateTime.Now.ToUniversalTime();
 
-                await _serviceFactory.GetTicketsService().AddTicket(ticket);
+                await _ticketsService.AddTicket(ticket);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -101,7 +106,7 @@ namespace Ticketsystem.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            var ticket = await _serviceFactory.GetTicketsService().GetTicketById(id);
+            var ticket = await _ticketsService.GetTicketById(id);
 
             if (ticket == null)
             {
@@ -117,7 +122,7 @@ namespace Ticketsystem.Controllers
 
         public async Task<IActionResult> Update(int id)
         {
-            var ticket = await _serviceFactory.GetTicketsService().GetTicketById(id);
+            var ticket = await _ticketsService.GetTicketById(id);
 
             if (ticket == null)
             {
@@ -146,8 +151,8 @@ namespace Ticketsystem.Controllers
             {
                 ticketViewModel.Devices = JsonConvert.DeserializeObject<List<DeviceViewModel>>(deviceList);
                 Ticket ticket = ticketViewModel.CopyForUpdate();
-                ticket.TicketType = await _serviceFactory.GetTicketTypesService().GetTicketTypeByName(ticketType);
-                ticket.TicketStatus = await _serviceFactory.GetTicketStatusesService().GetTicketStatusByName(ticketViewModel.TicketStatus.ToString());
+                ticket.TicketType = await _ticketTypesService.GetTicketTypeByName(ticketType);
+                ticket.TicketStatus = await _ticketStatusesService.GetTicketStatusByName(ticketViewModel.TicketStatus.ToString());
 
                 if (ticketViewModel.DoBackup)
                 {
@@ -163,7 +168,7 @@ namespace Ticketsystem.Controllers
                 }
                 try
                 {
-                    await _serviceFactory.GetTicketsService().UpdateTicket(ticket);
+                    await _ticketsService.UpdateTicket(ticket);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -187,7 +192,7 @@ namespace Ticketsystem.Controllers
         // GET: Tickets/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var ticket = await _serviceFactory.GetTicketsService().GetTicketById(id);
+            var ticket = await _ticketsService.GetTicketById(id);
 
             if (ticket == null)
             {
@@ -203,16 +208,16 @@ namespace Ticketsystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var ticket = await _serviceFactory.GetTicketsService().GetTicketById(id);
+            var ticket = await _ticketsService.GetTicketById(id);
 
-            await _serviceFactory.GetTicketsService().DeleteTicket(ticket);
+            await _ticketsService.DeleteTicket(ticket);
 
             return RedirectToAction(nameof(Index));
         }
 
         private bool TicketExists(int id)
         {
-            return _serviceFactory.GetTicketsService().GetTicketById(id) != null;
+            return _ticketsService.GetTicketById(id) != null;
         }
 
         public IActionResult TicketHistory()

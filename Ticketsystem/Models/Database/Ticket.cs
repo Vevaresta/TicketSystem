@@ -5,7 +5,7 @@ using Ticketsystem.Enums;
 using Ticketsystem.Extensions;
 using Ticketsystem.ViewModels;
 
-namespace Ticketsystem.Models;
+namespace Ticketsystem.Models.Database;
 
 public class Ticket
 {

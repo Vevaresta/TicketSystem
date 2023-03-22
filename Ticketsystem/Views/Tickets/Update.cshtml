@@ -1,16 +1,17 @@
 ﻿@model TicketViewModel
-@{
-    @inject UserManager<User> userManager;
 
-    @inject IServiceFactory serviceFactory;
-var rolePermissionsService = serviceFactory.GetRolePermissionsService();
+@inject UserManager<User> userManager;
+@inject IServiceFactory serviceFactory;
+
+@{
+    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
     var loggedInUser = await userManager.GetUserAsync(User);
     if (loggedInUser == null)
     {
         Context.Response.Redirect("/Identity/Account/Login");
         return;
     }
-    if (!await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.CreateTickets))
+    if (!await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.UpdateTickets))
     {
         Context.Response.Redirect("/Home/PermissionError");
         return;
@@ -18,7 +19,7 @@ var rolePermissionsService = serviceFactory.GetRolePermissionsService();
 }
 
 @{
-    ViewData["Title"] = "Ticket bearbeiten";
+    ViewData["Title"] = "Ticket Nr. " + Model.Id + " bearbeiten";
 }
 
 @{
@@ -34,7 +35,7 @@ var rolePermissionsService = serviceFactory.GetRolePermissionsService();
 <input type="hidden" id="hidden-devices" value="@devicesJson" />
 <input type="hidden" id="hidden-ticket-type" value="@Model.TicketType.ToString()" />
 
-<h3>@ViewData["Title"]</h3>
+<h3>Ticket Nr. @Model.Id</h3>
 <hr />
 <div class="container mb-2">
     <div class="row">
@@ -64,73 +65,88 @@ var rolePermissionsService = serviceFactory.GetRolePermissionsService();
                 <div class="row mt-2 mb-3">
                     <div class="col-md-4">
                         <h5>Auftraggeber</h5>
-                        <input type="hidden" asp-for="Client.Id" id="hidden-client-id" value="@Model.Client.Id" />
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label asp-for="Client.LastName" class="control-label"></label>
-                                <input asp-for="Client.LastName" class="form-control" autocomplete="off" />
-                                <span asp-validation-for="Client.LastName" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label asp-for="Client.FirstName" class="control-label"></label>
-                                <input asp-for="Client.FirstName" class="form-control" autocomplete="off" />
-                                <span asp-validation-for="Client.FirstName" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="col-md-6">
+
+                        @{
+                            bool wasClientDeleted = Model.Client.Id == "Fallback";
+                            string collapseClient = wasClientDeleted ? "collapse" : "";
+                            if (wasClientDeleted)
+                            {
+                                <div class="text-danger">Auftraggeber gelöscht!</div>
+                            }
+                        }
+
+                        <div class="row @collapseClient">
+                            <input type="hidden" asp-for="Client.Id" id="hidden-client-id" value="@Model.Client.Id" />
+                            <div class="row mb-1">
                                 <div class="form-group">
-                                    <label asp-for="Client.ParticipantNumber" class="control-label"></label>
-                                    <input asp-for="Client.ParticipantNumber" class="form-control" autocomplete="off" />
-                                    <span asp-validation-for="Client.ParticipantNumber" class="text-danger"></span>
+                                    <label asp-for="Client.LastName" class="control-label"></label>
+                                    <input asp-for="Client.LastName" class="form-control" autocomplete="off" />
+                                    <span asp-validation-for="Client.LastName" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="row mb-1">
                                 <div class="form-group">
-                                    <label asp-for="Client.Course" class="control-label"></label>
-                                    <input asp-for="Client.Course" class="form-control" autocomplete="off" />
-                                    <span asp-validation-for="Client.Course" class="text-danger"></span>
+                                    <label asp-for="Client.FirstName" class="control-label"></label>
+                                    <input asp-for="Client.FirstName" class="form-control" autocomplete="off" />
+                                    <span asp-validation-for="Client.FirstName" class="text-danger"></span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label asp-for="Client.StreetAndHouseNumber" class="control-label"></label>
-                                <input asp-for="Client.StreetAndHouseNumber" class="form-control" autocomplete="off" />
-                                <span asp-validation-for="Client.StreetAndHouseNumber" class="text-danger"></span>
+                            <div class="row mb-1">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Client.ParticipantNumber" class="control-label"></label>
+                                        <input asp-for="Client.ParticipantNumber" class="form-control"
+                                            autocomplete="off" />
+                                        <span asp-validation-for="Client.ParticipantNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Client.Course" class="control-label"></label>
+                                        <input asp-for="Client.Course" class="form-control" autocomplete="off" />
+                                        <span asp-validation-for="Client.Course" class="text-danger"></span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="col-md-4">
+                            <div class="row mb-1">
                                 <div class="form-group">
-                                    <label asp-for="Client.PostalCode" class="control-label"></label>
-                                    <input asp-for="Client.PostalCode" type="number" class="form-control"
+                                    <label asp-for="Client.StreetAndHouseNumber" class="control-label"></label>
+                                    <input asp-for="Client.StreetAndHouseNumber" class="form-control"
                                         autocomplete="off" />
-                                    <span asp-validation-for="Client.PostalCode" class="text-danger"></span>
+                                    <span asp-validation-for="Client.StreetAndHouseNumber" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="row mb-1">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="Client.PostalCode" class="control-label"></label>
+                                        <input asp-for="Client.PostalCode" type="number" class="form-control"
+                                            autocomplete="off" />
+                                        <span asp-validation-for="Client.PostalCode" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label asp-for="Client.City" class="control-label"></label>
+                                        <input asp-for="Client.City" class="form-control" autocomplete="off" />
+                                        <span asp-validation-for="Client.City" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
                                 <div class="form-group">
-                                    <label asp-for="Client.City" class="control-label"></label>
-                                    <input asp-for="Client.City" class="form-control" autocomplete="off" />
-                                    <span asp-validation-for="Client.City" class="text-danger"></span>
+                                    <label asp-for="Client.Email" class="control-label"></label>
+                                    <input asp-for="Client.Email" type="email" class="form-control"
+                                        autocomplete="off" />
+                                    <span asp-validation-for="Client.Email" class="text-danger"></span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label asp-for="Client.Email" class="control-label"></label>
-                                <input asp-for="Client.Email" type="email" class="form-control" autocomplete="off" />
-                                <span asp-validation-for="Client.Email" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label asp-for="Client.PhoneNumber" class="control-label"></label>
-                                <input asp-for="Client.PhoneNumber" class="form-control" autocomplete="off" />
-                                <span asp-validation-for="Client.PhoneNumber" class="text-danger"></span>
+                            <div class="row mb-1">
+                                <div class="form-group">
+                                    <label asp-for="Client.PhoneNumber" class="control-label"></label>
+                                    <input asp-for="Client.PhoneNumber" class="form-control" autocomplete="off" />
+                                    <span asp-validation-for="Client.PhoneNumber" class="text-danger"></span>
+                                </div>
                             </div>
                         </div>
                     </div>

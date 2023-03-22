@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Ticketsystem.Data;
 using Ticketsystem.Enums;
-using Ticketsystem.Models;
+using Ticketsystem.Models.Database;
 
 namespace Ticketsystem.Services
 {
@@ -29,5 +29,6 @@ namespace Ticketsystem.Services
         public TicketsService GetTicketsService() => new(_ticketsystemContext);
         public TicketTypesService GetTicketTypesService() => new(_ticketsystemContext);
         public TicketStatusesService GetTicketStatusesService() => new(_ticketsystemContext);
+        public ClientsService GetClientsService() => new(_ticketsystemContext);
     }
 }

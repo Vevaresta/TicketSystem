@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+$(document).ready(function () {
     $("#btn-search").on("click", function () {
         if ($("#search-form").hasClass("collapse")) {
             $("#search-form").removeClass("collapse");

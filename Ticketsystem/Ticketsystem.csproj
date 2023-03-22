@@ -9,8 +9,8 @@
   <PropertyGroup>
     <PublishSingleFile>true</PublishSingleFile>
     <SelfContained>true</SelfContained>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-    <PublishTrimmed>true</PublishTrimmed>
+    <RuntimeIdentifiers>linux-arm64;win-x64</RuntimeIdentifiers>
+    <PublishTrimmed>false</PublishTrimmed>
     <!--<TrimMode>Link</TrimMode>-->
   </PropertyGroup>
 

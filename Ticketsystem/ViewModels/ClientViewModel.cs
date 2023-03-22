@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
-using Ticketsystem.Models;
+using Ticketsystem.Models.Database;
 
 namespace Ticketsystem.ViewModels;
 

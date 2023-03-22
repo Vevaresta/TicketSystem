@@ -20,7 +20,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Ticketsystem.Enums;
-using Ticketsystem.Models;
+using Ticketsystem.Models.Database;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {
@@ -194,8 +194,8 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(Models.User)}'. " +
-                    $"Ensure that '{nameof(Models.User)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(Models.Database.User)}'. " +
+                    $"Ensure that '{nameof(Models.Database.User)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }

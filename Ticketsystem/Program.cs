@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Text;
 using Ticketsystem.Data;
-using Ticketsystem.Models;
+using Ticketsystem.Models.Database;
 using Ticketsystem.Services;
 
 namespace Ticketsystem
@@ -16,6 +19,7 @@ namespace Ticketsystem
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
             string dbms = builder.Configuration.GetValue<string>("DBMS");
+            bool seedTestData = builder.Configuration.GetValue<bool>("SeedTestData");
 
             if (dbms == "sqlite")
             {
@@ -62,7 +66,7 @@ namespace Ticketsystem
             ContextSeed contextSeed = scope.ServiceProvider.GetService<ContextSeed>();
 
             // Auf true setzen, um die Datenbank mit 250 Zufallstickets zu f�llen:
-            contextSeed.Seed(true).Wait();
+            contextSeed.Seed(seedTestData).Wait();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -86,6 +90,14 @@ namespace Ticketsystem
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.MapRazorPages();
+
+            RequestLocalizationOptions localizationOptions = new RequestLocalizationOptions
+            {
+                SupportedCultures = new List<CultureInfo> { new CultureInfo("de-DE") },
+                SupportedUICultures = new List<CultureInfo> { new CultureInfo("de-DE") },
+                DefaultRequestCulture = new RequestCulture("de-DE")
+            };
+            app.UseRequestLocalization(localizationOptions);
 
             app.Run();
 

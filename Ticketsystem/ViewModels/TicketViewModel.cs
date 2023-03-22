@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Ticketsystem.Enums;
-using Ticketsystem.Models;
+using Ticketsystem.Models.Database;
 
 namespace Ticketsystem.ViewModels
 {
@@ -49,7 +49,7 @@ namespace Ticketsystem.ViewModels
             {
                 Client = viewModel.Client,
                 Name = viewModel.Name,
-                OrderDate = viewModel.OrderDate,
+                OrderDate = viewModel.OrderDate.ToUniversalTime(),
                 WorkOrder = viewModel.WorkOrder,
                 DoBackup = viewModel.DoBackup,
                 DataBackupByClient = viewModel.DataBackupByClient,
@@ -76,7 +76,7 @@ namespace Ticketsystem.ViewModels
                 Id = this.Id,
                 Client = this.Client.CopyForUpdate(),
                 Name = this.Name,
-                OrderDate = this.OrderDate,
+                OrderDate = this.OrderDate.ToUniversalTime(),
                 WorkOrder = this.WorkOrder,
                 DoBackup = this.DoBackup,
                 DataBackupByClient = this.DataBackupByClient,
