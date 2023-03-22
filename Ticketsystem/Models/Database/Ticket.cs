@@ -57,7 +57,7 @@ public class Ticket
             Id = ticket.Id,
             Name = ticket.Name,
             WorkOrder = ticket.WorkOrder,
-            OrderDate = ticket.OrderDate.ToUniversalTime(),
+            OrderDate = ticket.OrderDate,
             Client = ticket.Client,
             DoBackup = ticket.DoBackup,
             DataBackupByClient = ticket.DataBackupByClient,

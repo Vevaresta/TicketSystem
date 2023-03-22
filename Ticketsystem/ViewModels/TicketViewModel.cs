@@ -49,7 +49,7 @@ namespace Ticketsystem.ViewModels
             {
                 Client = viewModel.Client,
                 Name = viewModel.Name,
-                OrderDate = viewModel.OrderDate,
+                OrderDate = viewModel.OrderDate.ToUniversalTime(),
                 WorkOrder = viewModel.WorkOrder,
                 DoBackup = viewModel.DoBackup,
                 DataBackupByClient = viewModel.DataBackupByClient,
