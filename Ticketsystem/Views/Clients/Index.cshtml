@@ -1,7 +1,12 @@
 ﻿@model IEnumerable<Ticketsystem.ViewModels.ClientViewModel>
-
 @inject UserManager<User> userManager
 @inject IServiceFactory serviceFactory
+
+@{
+    ViewData["Title"] = "Auftraggeber";
+}
+
+@* ROLEPERMISSIONSSERVICE: *@
 @{
     var rolePermissionsService = serviceFactory.GetRolePermissionsService();
     var loggedInUser = await userManager.GetUserAsync(User);
@@ -10,42 +15,121 @@
         Context.Response.Redirect("/Identity/Account/Login");
         return;
     }
-    if (!await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.ViewClients))
+    if (!await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.ViewTickets))
     {
         Context.Response.Redirect("/Home/PermissionError");
         return;
     }
 }
 
+@* FUNCTIONS: *@
 @{
-    ViewData["Title"] = "Auftraggeber";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    bool ToggleDoReverse(string category)
+    {
+        if (ViewBag.Skip != 0)
+        {
+            return false;
+        }
+        if (ViewBag.SortBy == category)
+        {
+            if (ViewBag.DoReverse)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    object GetLinkData(string sortBy, int forceSkip = -1, char forceReverse = ' ')
+    {
+        if (string.IsNullOrEmpty(sortBy))
+        {
+            sortBy = ViewBag.SortBy;
+        }
+
+        if (forceSkip == -1)
+        {
+            forceSkip = 0;
+        }
+
+        bool doReverse = ToggleDoReverse(sortBy);
+
+        if (forceReverse == 'T')
+        {
+            doReverse = true;
+        }
+        else if (forceReverse == 'F')
+        {
+            doReverse = false;
+        }
+
+        return new
+        {
+            Take = ViewBag.Take,
+            Skip = forceSkip,
+            SortBy = sortBy,
+            DoReverse = doReverse,
+            FilterByLastName = ViewBag.FilterByLastName,
+            FilterByFirstName = ViewBag.FilterByFirstName,
+            FilterByEmail = ViewBag.FilterByEmail,
+        };
+    }
 }
+
 <div class="d-flex justify-content-center align-items-center">
     <div class="col-sm-12 col-xl-8">
         <div class="container">
             <h2>@ViewData["Title"]</h2>
             <hr />
 
-            @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.CreateClients))
-            {
-                <p>
-                    <a asp-action="Create">Create New</a>
-                </p>
-            }
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    @if (loggedInUser != null)
+                    {
+                        @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.SearchClients))
+                        {
+                            <button class="btn btn-secondary" style="width: 120px;" id="btn-search" type="button">Suchen</button>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="row mb-2 collapse" id="search-form">
+                <form asp-action="Index" method="get">
+                    <table class="col-lg-8">
+                        <tr>
+                            <td class="col-2 padding-right-3">
+                                <input class="form-control" type="search" placeholder="Nachname"
+                                    name="FilterByLastName">
+                            </td>
+                            <td class="col-2 padding-right-3">
+                                <input class="form-control" type="search" placeholder="Vorname"
+                                    name="FilterByFirstName">
+                            </td>
+                            <td class="col-2 padding-right-3">
+                                <input class="form-control" type="search" placeholder="Email" name="FilterByEmail">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
 
             <div class="row">
                 <table class="table">
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.LastName)
+                                @Html.ActionLink("Nachname", "Index", GetLinkData("LastName"))
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.FirstName)
+                                @Html.ActionLink("Vorname", "Index", GetLinkData("FirstName"))
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Email)
+                                @Html.ActionLink("Email-Adresse", "Index", GetLinkData("Email"))
                             </th>
                             <th></th>
                         </tr>
@@ -92,6 +176,38 @@
                     </tbody>
                 </table>
             </div>
+            <div class="row">
+                <div class="d-flex flex-sm-row">
+                    @if (!ViewBag.DoReverse && ViewBag.Skip > 9)
+                    {
+                        @Html.ActionLink("10 zurück", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip - 10, 'F'), new {
+                    @class =
+                    "text-nowrap me-4" })
+                    }
+                    else if (ViewBag.DoReverse && ViewBag.Skip < ViewBag.ClientsCount - 10)
+                    {
+                        @Html.ActionLink("10 zurück", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip + 10, 'T'), new {
+                    @class =
+                    "text-nowrap me-4" })
+                    }
+                    @if (!ViewBag.DoReverse && ViewBag.Skip < ViewBag.ClientsCount - 10)
+                    {
+                        @Html.ActionLink("10 vor", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip + 10, 'F'), new {
+                    @class =
+                    "text-nowrap" })
+                    }
+                    else if (ViewBag.DoReverse && ViewBag.Skip > 9)
+                    {
+                        @Html.ActionLink("10 vor", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip - 10, 'T'), new {
+                    @class =
+                    "text-nowrap" })
+                    }
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script type="module" src="~/js/viewclients.js"></script>
+}

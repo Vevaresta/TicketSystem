@@ -52,8 +52,8 @@ namespace Ticketsystem.Enums
         [Description("Auftraggeberliste anzeigen")]
         ViewClients,
 
-        [Description("Neue Auftraggeber erstellen")]
-        CreateClients,
+        [Description("Auftraggeber suchen")]
+        SearchClients,
 
         [Description("Auftraggeberdetails anzeigen")]
         ViewClientDetails,

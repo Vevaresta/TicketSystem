@@ -33,6 +33,15 @@ namespace Ticketsystem.Controllers
                 clientViewModels.Add(client);
             }
 
+            ViewBag.Take = clientData.Take;
+            ViewBag.Skip = clientData.Skip;
+            ViewBag.SortBy = clientData.SortBy;
+            ViewBag.ClientsCount = _clientsService.GetClientsCount(clientData);
+            ViewBag.DoReverse = clientData.DoReverse;
+            ViewBag.FilterByLastName = clientData.FilterByLastName;
+            ViewBag.FilterByFirstName = clientData.FilterByFirstName;
+            ViewBag.FilterByEmail = clientData.FilterByEmail;
+
             return View(clientViewModels);
         }
 

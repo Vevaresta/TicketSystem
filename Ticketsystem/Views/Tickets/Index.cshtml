@@ -1,10 +1,14 @@
 ﻿@model IEnumerable<TicketViewModel>
+@inject UserManager<User> userManager;
+@inject IServiceFactory serviceFactory;
 
 @{
-    @inject UserManager<User> userManager;
+    ViewData["Title"] = "Tickets";
+}
 
-    @inject IServiceFactory serviceFactory;
-var rolePermissionsService = serviceFactory.GetRolePermissionsService();
+@* ROLEPERMISSIONSSERVICE: *@
+@{
+    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
     var loggedInUser = await userManager.GetUserAsync(User);
     if (loggedInUser == null)
     {
@@ -18,8 +22,67 @@ var rolePermissionsService = serviceFactory.GetRolePermissionsService();
     }
 }
 
+@* FUNCTIONS: *@
 @{
-    ViewData["Title"] = "Tickets";
+    bool ToggleDoReverse(string category)
+    {
+        if (ViewBag.Skip != 0)
+        {
+            return false;
+        }
+        if (ViewBag.SortBy == category)
+        {
+            if (ViewBag.DoReverse)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    object GetLinkData(string sortBy, int forceSkip = -1, char forceReverse = ' ')
+    {
+        if (string.IsNullOrEmpty(sortBy))
+        {
+            sortBy = ViewBag.SortBy;
+        }
+
+        if (forceSkip == -1)
+        {
+            forceSkip = 0;
+        }
+
+        bool doReverse = ToggleDoReverse(sortBy);
+
+        if (forceReverse == 'T')
+        {
+            doReverse = true;
+        }
+        else if (forceReverse == 'F')
+        {
+            doReverse = false;
+        }
+
+        return new
+        {
+            Take = ViewBag.Take,
+            Skip = forceSkip,
+            SortBy = sortBy,
+            DoReverse = doReverse,
+            FilterByTicketId = ViewBag.FilterByTicketId,
+            FilterByTicketStatus = ViewBag.FilterByTicketStatus,
+            FilterByTicketName = ViewBag.FilterByTicketName,
+            FilterByClientName = ViewBag.FilterByClientName,
+            FilterByTicketType = ViewBag.FilterByTicketType,
+            FilterByStartDate = ViewBag.FilterByStartDate,
+            FilterByEndDate = ViewBag.FilterByEndDate,
+        };
+    }
 }
 
 <div class="d-flex justify-content-center align-items-center">
@@ -37,7 +100,7 @@ var rolePermissionsService = serviceFactory.GetRolePermissionsService();
                         }
                         @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.SearchTickets))
                         {
-                            <button class="btn btn-secondary" id="btn-search" type="button">Tickets suchen</button>
+                            <button class="btn btn-secondary" style="width: 120px;" id="btn-search" type="button">Suchen</button>
                         }
                     }
                 </div>
@@ -140,71 +203,6 @@ var rolePermissionsService = serviceFactory.GetRolePermissionsService();
             aria-valuemax="100"></div>
             </div>
             </div>*@
-
-            @{
-                bool ToggleDoReverse(string category)
-                {
-                    if (ViewBag.Skip != 0)
-                    {
-                        return false;
-                    }
-                    if (ViewBag.SortBy == category)
-                    {
-                        if (ViewBag.DoReverse)
-                        {
-                            return false;
-                        }
-                        else
-                        {
-                            return true;
-                        }
-                    }
-
-                    return false;
-                }
-            }
-
-            @{
-                object GetLinkData(string sortBy, int forceSkip = -1, char forceReverse = ' ')
-                {
-                    if (string.IsNullOrEmpty(sortBy))
-                    {
-                        sortBy = ViewBag.SortBy;
-                    }
-
-                    if (forceSkip == -1)
-                    {
-                        forceSkip = 0;
-                    }
-
-                    bool doReverse = ToggleDoReverse(sortBy);
-
-                    if (forceReverse == 'T')
-                    {
-                        doReverse = true;
-                    }
-                    else if (forceReverse == 'F')
-                    {
-                        doReverse = false;
-                    }
-
-                    return new
-                    {
-                        Take = ViewBag.Take,
-                        Skip = forceSkip,
-                        SortBy = sortBy,
-                        DoReverse = doReverse,
-                        FilterByTicketId = ViewBag.FilterByTicketId,
-                        FilterByTicketStatus = ViewBag.FilterByTicketStatus,
-                        FilterByTicketName = ViewBag.FilterByTicketName,
-                        FilterByClientName = ViewBag.FilterByClientName,
-                        FilterByTicketType = ViewBag.FilterByTicketType,
-                        FilterByStartDate = ViewBag.FilterByStartDate,
-                        FilterByEndDate = ViewBag.FilterByEndDate,
-                    };
-                }
-            }
-
             <div class="row">
                 <table class="table">
                     <thead>
