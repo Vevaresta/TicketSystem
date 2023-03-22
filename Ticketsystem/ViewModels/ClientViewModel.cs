@@ -11,8 +11,8 @@ public class ClientViewModel
 {
     public string Id { get; set; }
 
-    [Required(ErrorMessage = "Pflichtfeld")]
     [DisplayName("Nachname")]
+    [Required(ErrorMessage = "Pflichtfeld")]
     public string LastName { get; set; }
 
     [DisplayName("Vorname")]
@@ -25,8 +25,8 @@ public class ClientViewModel
     [DisplayName("Straße und Hausnummer")]
     public string StreetAndHouseNumber { get; set; }
 
-    [RegularExpression(@"^\d{5}$|^\d{5}-\d{4}$", ErrorMessage = "00000 - 99999")]
     [DisplayName("PLZ")]
+    [RegularExpression(@"^\d{5}$|^\d{5}-\d{4}$", ErrorMessage = "00000 - 99999")]
     public string PostalCode { get; set; }
 
     [DisplayName("Wohnort")]
@@ -36,6 +36,7 @@ public class ClientViewModel
     public string PhoneNumber { get; set; }
 
     [DisplayName("Teilnehmernummer")]
+    [RegularExpression("([0-9]+)", ErrorMessage = "Üngültige Nummer")]
     public int? ParticipantNumber { get; set; }
 
     [DisplayName("Kurs")]

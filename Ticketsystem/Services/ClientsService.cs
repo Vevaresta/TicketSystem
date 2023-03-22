@@ -86,5 +86,11 @@ namespace Ticketsystem.Services
 
             await _ticketsystemContext.SaveChangesAsync();
         }
+
+        public async Task UpdateClient(Client client)
+        {
+            _ticketsystemContext.Update(client);
+            await _ticketsystemContext.SaveChangesAsync();
+        }
     }
 }
