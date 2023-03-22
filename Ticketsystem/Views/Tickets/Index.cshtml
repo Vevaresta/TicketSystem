@@ -85,241 +85,234 @@
     }
 }
 
-<div class="d-flex">
-    <div class="col-sm-12 col-xl-11">
-        <div class="container">
-            <h2>@ViewData["Title"]</h2>
-            <hr />
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    @if (loggedInUser != null)
+<div class="row">
+    <div class="col-sm-12 col-xl-12">
+        <h2>@ViewData["Title"]</h2>
+        <hr />
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                @if (loggedInUser != null)
+                {
+                    @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.CreateTickets))
                     {
-                        @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.CreateTickets))
-                        {
-                            <a class="btn btn-primary" asp-action="Create" type="button">Neues Ticket</a>
-                        }
-                        @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.SearchTickets))
-                        {
-                            <button class="btn btn-secondary" style="width: 120px;" id="btn-search"
-                                type="button">Suchen</button>
-                        }
+                        <a class="btn btn-primary" asp-action="Create" type="button">Neues Ticket</a>
+                    }
+                    @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.SearchTickets))
+                    {
+                        <button class="btn btn-secondary" style="width: 120px;" id="btn-search" type="button">Suchen</button>
+                    }
+                }
+            </div>
+        </div>
+        <div class="row mb-2 collapse" id="search-form">
+            <div class="col-lg-8">
+                <form asp-action="Index" method="get">
+                    <table>
+                        <tr>
+                            <td class="col-2 padding-right-3">
+                                <input class="form-control" type="search" placeholder="Nummer" name="FilterByTicketId">
+                            </td>
+                            <td class="col-2 padding-right-3">
+                                <input class="form-control" type="search" placeholder="Ticketname"
+                                    name="FilterByTicketName">
+                            </td>
+                            <td class="col-2 padding-right-3">
+                                <select class="form-control select-option-disabled-text" name="FilterByTicketStatus">
+                                    <option disabled selected value="">Status</option>
+                                    <option class="select-option-text" value="">Keiner</option>
+                                    <option class="select-option-text" value="@TicketStatuses.Open.ToString()">
+                                        @TicketStatuses.Open.GetText()
+                                    </option>
+                                    <option class="select-option-text" value="@TicketStatuses.InProgress.ToString()">
+                                        @TicketStatuses.InProgress.GetText()
+                                    </option>
+                                    <option class="select-option-text"
+                                        value="@TicketStatuses.WaitingForResponse.ToString()">
+                                        @TicketStatuses.WaitingForResponse.GetText()
+                                    </option>
+                                    <option class="select-option-text" value="@TicketStatuses.Resolved.ToString()">
+                                        @TicketStatuses.Resolved.GetText()
+                                    </option>
+                                    <option class="select-option-text" value="@TicketStatuses.Escalated.ToString()">
+                                        @TicketStatuses.Escalated.GetText()
+                                    </option>
+                                    <option class="select-option-text" value="@TicketStatuses.OnHold.ToString()">
+                                        @TicketStatuses.OnHold.GetText()
+                                    </option>
+                                    <option class="select-option-text" value="@TicketStatuses.Closed.ToString()">
+                                        @TicketStatuses.Closed.GetText()
+                                    </option>
+                                </select>
+                            </td>
+                            <td class="col-2">
+                                <select class="form-control select-option-disabled-text" name="FilterByTicketType">
+                                    <option class="select-option-disabled" disabled selected value="">Ticketart
+                                    </option>
+                                    <option class="select-option-text" value="">Keine</option>
+                                    <option class="select-option-text" value="@TicketTypes.Repair.ToString()">
+                                        @TicketTypes.Repair.GetText()
+                                    </option>
+                                    <option class="select-option-text" value="@TicketTypes.DataRecovery.ToString()">
+                                        @TicketTypes.DataRecovery.GetText()
+                                    </option>
+                                    <option class="select-option-text" value="@TicketTypes.Consultation.ToString()">
+                                        @TicketTypes.Consultation.GetText()
+                                    </option>
+                                    <option class="select-option-text" value="@TicketTypes.Special.ToString()">
+                                        @TicketTypes.Special.GetText()
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="padding-right-3">
+                                <input class="form-control" type="search" value="" placeholder="Startdatum"
+                                    name="FilterByStartDate">
+                            </td>
+                            <td class="padding-right-3">
+                                <input class="form-control" type="search" value="" placeholder="Enddatum"
+                                    name="FilterByEndDate">
+                            </td>
+                            <td class="padding-right-3">
+                                <input class="form-control" type="search" placeholder="Kunde" name="FilterByClientName">
+                            </td>
+                            <td>
+                                <button class="btn btn-primary w-100" type="submit"
+                                    style="margin-top: 2px;margin-bottom: 2px;">
+                                    Suchen
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+
+        @*<div style="margin-bottom: 20px">
+        <span class="badge bg-danger">Offen</span>
+        <span class="badge bg-primary">In Bearbeitung</span>
+        <span class="badge bg-success">Geschlossen</span>
+        <div class="progress">
+        <div class="progress-bar bg-danger" role="progressbar" style="width: 15%;" aria-valuenow="15"
+        aria-valuemin="0"
+        aria-valuemax="100"></div>
+        <div class="progress-bar bg-primary" role="progressbar" style="width: 30%;" aria-valuenow="30"
+        aria-valuemin="0"
+        aria-valuemax="100"></div>
+        <div class="progress-bar bg-success" role="progressbar" style="width: 55%;" aria-valuenow="55"
+        aria-valuemin="0"
+        aria-valuemax="100"></div>
+        </div>
+        </div>*@
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.ActionLink("Nummer", "Index", GetLinkData("Id"))
+                        </th>
+                        <th>
+                            @Html.ActionLink("Ticketname", "Index", GetLinkData("Name"))
+                        </th>
+                        <th>
+                            @Html.ActionLink("Auftragsart", "Index", GetLinkData("TicketType"))
+                        </th>
+                        <th>
+                            @Html.ActionLink("Kunde", "Index", GetLinkData("LastName"))
+                        </th>
+                        <th>
+                            @Html.ActionLink("Status", "Index", GetLinkData("TicketStatus"))
+                        </th>
+                        <th>
+                            @Html.ActionLink("Auftragsdatum", "Index", GetLinkData("OrderDate"))
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        string ticketType = item.TicketType.GetText();
+                        string ticketStatus = item.TicketStatus.GetText();
+                        <tr>
+                            <td class="fit">
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @ticketType
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Client.LastName)
+                            </td>
+                            <td class="fit">
+                                @ticketStatus
+                            </td>
+                            <td class="fit">
+                                @Html.DisplayFor(modelItem => item.OrderDate)
+                            </td>
+                            @{
+                                bool canUpdate = await rolePermissionsService.HasPermission(loggedInUser,
+                                RolePermissions.UpdateTickets);
+                                bool canViewDetails = await rolePermissionsService.HasPermission(loggedInUser,
+                                RolePermissions.ViewTicketDetails);
+                                bool canDelete = await rolePermissionsService.HasPermission(loggedInUser,
+                                RolePermissions.DeleteTickets);
+                            }
+                            <td class="text-end fit">
+                                <div class="d-flex flex-column flex-xl-row justify-content-sm-end">
+                                    @if (canUpdate)
+                                    {
+                                        <a asp-action="Update" asp-route-id="@item.Id" class="me-xl-3">Bearbeiten</a>
+                                    }
+                                    @if (canViewDetails)
+                                    {
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="me-xl-3">Details</a>
+                                    }
+                                    @if (canDelete)
+                                    {
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="me-xl-3">Löschen</a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div class="d-flex flex-sm-row">
+                <div style="width: 100px;">
+                    @if (!ViewBag.DoReverse && ViewBag.Skip > 9)
+                    {
+                        @Html.ActionLink("10 zurück", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip - 10, 'F'), new
+                    {
+                    @class =
+                    "text-nowrap" })
+                    }
+                    else if (ViewBag.DoReverse && ViewBag.Skip < ViewBag.TicketsCount - 10)
+                    {
+                        @Html.ActionLink("10 zurück", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip + 10, 'T'), new
+                    {
+                    @class =
+                    "text-nowrap" })
                     }
                 </div>
-            </div>
-            <div class="row mb-2 collapse" id="search-form">
-                <div class="col-lg-8">
-                    <form asp-action="Index" method="get">
-                        <table>
-                            <tr>
-                                <td class="col-2 padding-right-3">
-                                    <input class="form-control" type="search" placeholder="Nummer"
-                                        name="FilterByTicketId">
-                                </td>
-                                <td class="col-2 padding-right-3">
-                                    <input class="form-control" type="search" placeholder="Ticketname"
-                                        name="FilterByTicketName">
-                                </td>
-                                <td class="col-2 padding-right-3">
-                                    <select class="form-control select-option-disabled-text"
-                                        name="FilterByTicketStatus">
-                                        <option disabled selected value="">Status</option>
-                                        <option class="select-option-text" value="">Keiner</option>
-                                        <option class="select-option-text" value="@TicketStatuses.Open.ToString()">
-                                            @TicketStatuses.Open.GetText()
-                                        </option>
-                                        <option class="select-option-text"
-                                            value="@TicketStatuses.InProgress.ToString()">
-                                            @TicketStatuses.InProgress.GetText()
-                                        </option>
-                                        <option class="select-option-text"
-                                            value="@TicketStatuses.WaitingForResponse.ToString()">
-                                            @TicketStatuses.WaitingForResponse.GetText()
-                                        </option>
-                                        <option class="select-option-text" value="@TicketStatuses.Resolved.ToString()">
-                                            @TicketStatuses.Resolved.GetText()
-                                        </option>
-                                        <option class="select-option-text" value="@TicketStatuses.Escalated.ToString()">
-                                            @TicketStatuses.Escalated.GetText()
-                                        </option>
-                                        <option class="select-option-text" value="@TicketStatuses.OnHold.ToString()">
-                                            @TicketStatuses.OnHold.GetText()
-                                        </option>
-                                        <option class="select-option-text" value="@TicketStatuses.Closed.ToString()">
-                                            @TicketStatuses.Closed.GetText()
-                                        </option>
-                                    </select>
-                                </td>
-                                <td class="col-2">
-                                    <select class="form-control select-option-disabled-text" name="FilterByTicketType">
-                                        <option class="select-option-disabled" disabled selected value="">Ticketart
-                                        </option>
-                                        <option class="select-option-text" value="">Keine</option>
-                                        <option class="select-option-text" value="@TicketTypes.Repair.ToString()">
-                                            @TicketTypes.Repair.GetText()
-                                        </option>
-                                        <option class="select-option-text" value="@TicketTypes.DataRecovery.ToString()">
-                                            @TicketTypes.DataRecovery.GetText()
-                                        </option>
-                                        <option class="select-option-text" value="@TicketTypes.Consultation.ToString()">
-                                            @TicketTypes.Consultation.GetText()
-                                        </option>
-                                        <option class="select-option-text" value="@TicketTypes.Special.ToString()">
-                                            @TicketTypes.Special.GetText()
-                                        </option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="padding-right-3">
-                                    <input class="form-control" type="search" value="" placeholder="Startdatum"
-                                        name="FilterByStartDate">
-                                </td>
-                                <td class="padding-right-3">
-                                    <input class="form-control" type="search" value="" placeholder="Enddatum"
-                                        name="FilterByEndDate">
-                                </td>
-                                <td class="padding-right-3">
-                                    <input class="form-control" type="search" placeholder="Kunde"
-                                        name="FilterByClientName">
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary w-100" type="submit"
-                                        style="margin-top: 2px;margin-bottom: 2px;">
-                                        Suchen
-                                    </button>
-                                </td>
-                            </tr>
-                        </table>
-                    </form>
-                </div>
-            </div>
-
-            @*<div style="margin-bottom: 20px">
-            <span class="badge bg-danger">Offen</span>
-            <span class="badge bg-primary">In Bearbeitung</span>
-            <span class="badge bg-success">Geschlossen</span>
-            <div class="progress">
-            <div class="progress-bar bg-danger" role="progressbar" style="width: 15%;" aria-valuenow="15"
-            aria-valuemin="0"
-            aria-valuemax="100"></div>
-            <div class="progress-bar bg-primary" role="progressbar" style="width: 30%;" aria-valuenow="30"
-            aria-valuemin="0"
-            aria-valuemax="100"></div>
-            <div class="progress-bar bg-success" role="progressbar" style="width: 55%;" aria-valuenow="55"
-            aria-valuemin="0"
-            aria-valuemax="100"></div>
-            </div>
-            </div>*@
-            <div class="row">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.ActionLink("Nummer", "Index", GetLinkData("Id"))
-                            </th>
-                            <th>
-                                @Html.ActionLink("Ticketname", "Index", GetLinkData("Name"))
-                            </th>
-                            <th>
-                                @Html.ActionLink("Auftragsart", "Index", GetLinkData("TicketType"))
-                            </th>
-                            <th>
-                                @Html.ActionLink("Kunde", "Index", GetLinkData("LastName"))
-                            </th>
-                            <th>
-                                @Html.ActionLink("Status", "Index", GetLinkData("TicketStatus"))
-                            </th>
-                            <th>
-                                @Html.ActionLink("Auftragsdatum", "Index", GetLinkData("OrderDate"))
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            string ticketType = item.TicketType.GetText();
-                            string ticketStatus = item.TicketStatus.GetText();
-                            <tr>
-                                <td class="fit">
-                                    @Html.DisplayFor(modelItem => item.Id)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
-                                </td>
-                                <td>
-                                    @ticketType
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Client.LastName)
-                                </td>
-                                <td class="fit">
-                                    @ticketStatus
-                                </td>
-                                <td class="fit">
-                                    @Html.DisplayFor(modelItem => item.OrderDate)
-                                </td>
-                                @{
-                                    bool canUpdate = await rolePermissionsService.HasPermission(loggedInUser,
-                                    RolePermissions.UpdateTickets);
-                                    bool canViewDetails = await rolePermissionsService.HasPermission(loggedInUser,
-                                    RolePermissions.ViewTicketDetails);
-                                    bool canDelete = await rolePermissionsService.HasPermission(loggedInUser,
-                                    RolePermissions.DeleteTickets);
-                                }
-                                <td class="text-end fit">
-                                    <div class="d-flex flex-column flex-xl-row justify-content-sm-end">
-                                        @if (canUpdate)
-                                        {
-                                            <a asp-action="Update" asp-route-id="@item.Id" class="me-xl-3">Bearbeiten</a>
-                                        }
-                                        @if (canViewDetails)
-                                        {
-                                            <a asp-action="Details" asp-route-id="@item.Id" class="me-xl-3">Details</a>
-                                        }
-                                        @if (canDelete)
-                                        {
-                                            <a asp-action="Delete" asp-route-id="@item.Id" class="me-xl-3">Löschen</a>
-                                        }
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <div class="row">
-                <div class="d-flex flex-sm-row">
-                    <div style="width: 100px;">
-                        @if (!ViewBag.DoReverse && ViewBag.Skip > 9)
-                        {
-                            @Html.ActionLink("10 zurück", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip - 10, 'F'), new
-                        {
-                        @class =
-                        "text-nowrap" })
-                        }
-                        else if (ViewBag.DoReverse && ViewBag.Skip < ViewBag.TicketsCount - 10)
-                        {
-                            @Html.ActionLink("10 zurück", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip + 10, 'T'), new
-                        {
-                        @class =
-                        "text-nowrap" })
-                        }
-                    </div>
-                    <div style="width: 100px;">
-                        @if (!ViewBag.DoReverse && ViewBag.Skip < ViewBag.TicketsCount - 10)
-                        {
-                            @Html.ActionLink("10 vor", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip + 10, 'F'), new {
-                        @class =
-                        "text-nowrap" })
-                        }
-                        else if (ViewBag.DoReverse && ViewBag.Skip > 9)
-                        {
-                            @Html.ActionLink("10 vor", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip - 10, 'T'), new {
-                        @class =
-                        "text-nowrap" })
-                        }
-                    </div>
+                <div style="width: 100px;">
+                    @if (!ViewBag.DoReverse && ViewBag.Skip < ViewBag.TicketsCount - 10)
+                    {
+                        @Html.ActionLink("10 vor", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip + 10, 'F'), new {
+                    @class =
+                    "text-nowrap" })
+                    }
+                    else if (ViewBag.DoReverse && ViewBag.Skip > 9)
+                    {
+                        @Html.ActionLink("10 vor", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip - 10, 'T'), new {
+                    @class =
+                    "text-nowrap" })
+                    }
                 </div>
             </div>
         </div>

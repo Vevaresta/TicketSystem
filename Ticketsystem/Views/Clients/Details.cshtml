@@ -22,93 +22,90 @@
     ViewData["Title"] = "Kundendaten anzeigen";
 }
 
-<div class="d-flex justify-content-center align-items-center">
-    <div class="col-sm-12 col-lg-10 col-xl-8">
-        <div class="container">
-            @{
-                string clientNameFull = "";
-                if (!string.IsNullOrEmpty(Model.FirstName))
-                {
-                    clientNameFull += Model.FirstName + " ";
-                }
-
-                clientNameFull += Model.LastName;
+<div class="row">
+    <div class="col-sm-12 col-lg-10 col-xl-8 mx-auto">
+        @{
+            string clientNameFull = "";
+            if (!string.IsNullOrEmpty(Model.FirstName))
+            {
+                clientNameFull += Model.FirstName + " ";
             }
-            <h3>Kunde</h3>
-            <h4>@clientNameFull</h4>
-            <hr />
 
-            <div class="d-flex justify-content-start align-items-start">
-                <div class="col-sm-12 col-lg-10 col-xl-8">
-                    <div class="container">
-                        <div class="row mb-2">
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="LastName" class="control-label"></label>
-                                    <input asp-for="LastName" class="form-control" readonly autocomplete="off" />
-                                </div>
+            clientNameFull += Model.LastName;
+        }
+        <h3>Kunde</h3>
+        <h4>@clientNameFull</h4>
+        <hr />
+
+        <div class="d-flex justify-content-start align-items-start">
+            <div class="col-sm-12 col-lg-10 col-xl-8">
+                <div class="container">
+                    <div class="row mb-2">
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="LastName" class="control-label"></label>
+                                <input asp-for="LastName" class="form-control" readonly autocomplete="off" />
                             </div>
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="FirstName" class="control-label"></label>
-                                    <input asp-for="FirstName" class="form-control" readonly autocomplete="off" />
-                                </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="FirstName" class="control-label"></label>
+                                <input asp-for="FirstName" class="form-control" readonly autocomplete="off" />
                             </div>
-                            <div class="row mb-1">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="ParticipantNumber" class="control-label"></label>
-                                        <input asp-for="ParticipantNumber" class="form-control" readonly
-                                            autocomplete="off" />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Course" class="control-label"></label>
-                                        <input asp-for="Course" class="form-control" readonly autocomplete="off" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-1">
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label asp-for="StreetAndHouseNumber" class="control-label"></label>
-                                    <input asp-for="StreetAndHouseNumber" class="form-control" readonly
+                                    <label asp-for="ParticipantNumber" class="control-label"></label>
+                                    <input asp-for="ParticipantNumber" type="text" class="form-control" readonly
                                         autocomplete="off" />
                                 </div>
                             </div>
-                            <div class="row mb-1">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label asp-for="PostalCode" class="control-label"></label>
-                                        <input asp-for="PostalCode" type="number" class="form-control" readonly
-                                            autocomplete="off" />
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="form-group">
-                                        <label asp-for="City" class="control-label"></label>
-                                        <input asp-for="City" class="form-control" readonly autocomplete="off" />
-                                    </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Course" class="control-label"></label>
+                                    <input asp-for="Course" class="form-control" readonly autocomplete="off" />
                                 </div>
                             </div>
-                            <div class="row mb-1">
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="StreetAndHouseNumber" class="control-label"></label>
+                                <input asp-for="StreetAndHouseNumber" class="form-control" readonly
+                                    autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label asp-for="Email" class="control-label"></label>
-                                    <input asp-for="Email" type="email" class="form-control" readonly
+                                    <label asp-for="PostalCode" class="control-label"></label>
+                                    <input asp-for="PostalCode" type="text" class="form-control" readonly
                                         autocomplete="off" />
                                 </div>
                             </div>
-                            <div class="row mb-1">
+                            <div class="col-md-8">
                                 <div class="form-group">
-                                    <label asp-for="PhoneNumber" class="control-label"></label>
-                                    <input asp-for="PhoneNumber" class="form-control" readonly autocomplete="off" />
+                                    <label asp-for="City" class="control-label"></label>
+                                    <input asp-for="City" class="form-control" readonly autocomplete="off" />
                                 </div>
                             </div>
                         </div>
-
-                        <div>
-                            <a asp-action="Index">Zurück zur Übersicht</a>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="Email" class="control-label"></label>
+                                <input asp-for="Email" type="email" class="form-control" readonly autocomplete="off" />
+                            </div>
                         </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="PhoneNumber" class="control-label"></label>
+                                <input asp-for="PhoneNumber" class="form-control" readonly autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <a asp-action="Index">Zurück zur Übersicht</a>
                     </div>
                 </div>
             </div>

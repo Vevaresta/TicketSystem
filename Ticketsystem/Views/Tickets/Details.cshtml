@@ -91,7 +91,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label asp-for="Client.ParticipantNumber" class="control-label"></label>
-                                    <input asp-for="Client.ParticipantNumber" class="form-control" readonly
+                                    <input asp-for="Client.ParticipantNumber" type="text" class="form-control" readonly
                                         autocomplete="off" />
                                 </div>
                             </div>
@@ -113,7 +113,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label asp-for="Client.PostalCode" class="control-label"></label>
-                                    <input asp-for="Client.PostalCode" type="number" class="form-control" readonly
+                                    <input asp-for="Client.PostalCode" type="text" class="form-control" readonly
                                         autocomplete="off" />
                                 </div>
                             </div>
@@ -191,49 +191,46 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="row" id="single-device" style="display: none;">
+                    <div id="single-device" style="display: none;">
                         <h5>Gerät</h5>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="Device.Name" class="control-label"></label>
+                                <input class="form-control" readonly id="input-device-name" name="device-name"
+                                    autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="Device.DeviceType" class="control-label"></label>
+                                <input class="form-control" readonly id="input-device-type" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="Device.Manufacturer" class="control-label"></label>
+                                <input class="form-control" readonly id="input-device-manufacturer"
+                                    autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="Device.SerialNumber" class="control-label"></label>
+                                <input class="form-control" readonly id="input-device-serialnumber"
+                                    autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="Device.Accessories" class="control-label"></label>
+                                <input class="form-control" readonly id="input-device-accessories" autocomplete="off" />
+                            </div>
+                        </div>
                         <div class="row">
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Device.Name" class="control-label"></label>
-                                    <input class="form-control" readonly id="input-device-name" name="device-name"
-                                        autocomplete="off" />
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Device.DeviceType" class="control-label"></label>
-                                    <input class="form-control" readonly id="input-device-type" autocomplete="off" />
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Device.Manufacturer" class="control-label"></label>
-                                    <input class="form-control" readonly id="input-device-manufacturer"
-                                        autocomplete="off" />
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Device.SerialNumber" class="control-label"></label>
-                                    <input class="form-control" readonly id="input-device-serialnumber"
-                                        autocomplete="off" />
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Device.Accessories" class="control-label"></label>
-                                    <input class="form-control" readonly id="input-device-accessories"
-                                        autocomplete="off" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group">
-                                    <label asp-for="Device.Comments" class="control-label"></label>
-                                    <textarea class="form-control" readonly id="input-device-comments" rows="3"
-                                        autocomplete="off"></textarea>
-                                </div>
+                            <div class="form-group">
+                                <label asp-for="Device.Comments" class="control-label"></label>
+                                <textarea class="form-control" readonly id="input-device-comments" rows="3"
+                                    autocomplete="off"></textarea>
                             </div>
                         </div>
                     </div>
