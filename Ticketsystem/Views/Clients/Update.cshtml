@@ -19,7 +19,7 @@
 }
 
 @{
-    ViewData["Title"] = "Auftraggeber bearbeiten";
+    ViewData["Title"] = "Kunde bearbeiten";
 }
 
 <div class="d-flex justify-content-center align-items-center">
@@ -34,8 +34,8 @@
 
                 clientNameFull += Model.LastName;
             }
-            <h3>Auftraggeber</h2>
-            <h4>@clientNameFull</h2>
+            <h3>Kunde</h3>
+            <h4>@clientNameFull</h4>
             <hr />
 
             <div class="d-flex justify-content-start align-items-start">
@@ -43,7 +43,7 @@
                     <div class="container">
                         <form method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="row mb-2">
+                            <div class="row mb-4">
                                 <div class="row mb-1">
                                     <div class="form-group">
                                         <label asp-for="LastName" class="control-label"></label>
@@ -105,7 +105,7 @@
                                         <span asp-validation-for="Email" class="text-danger"></span>
                                     </div>
                                 </div>
-                                <div class="row mb-3">
+                                <div class="row">
                                     <div class="form-group">
                                         <label asp-for="PhoneNumber" class="control-label"></label>
                                         <input asp-for="PhoneNumber" class="form-control" autocomplete="off" />
@@ -113,13 +113,13 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary mb-2"
-                                            id="button-main-save-client" asp-action="Update">Speichern</button>
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="submit" value="Speichern" class="btn btn-lg btn-primary mb-2"
+                                        id="button-main-save-ticket" asp-action="Update" />
                                     <div>
-                                        <a asp-action="Index">Zurück zur Übersicht</a>
+                                        <a asp-action="Index" id="link-main-back">Zurück zur Übersicht</a>
                                     </div>
                                 </div>
                             </div>

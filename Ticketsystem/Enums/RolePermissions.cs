@@ -49,19 +49,19 @@ namespace Ticketsystem.Enums
         [Description("Ticketverlauf anzeigen")]
         ViewHistory,
 
-        [Description("Auftraggeberliste anzeigen")]
+        [Description("Kundenliste anzeigen")]
         ViewClients,
 
-        [Description("Auftraggeber suchen")]
+        [Description("Kunden suchen")]
         SearchClients,
 
-        [Description("Auftraggeberdetails anzeigen")]
+        [Description("Kundendaten anzeigen")]
         ViewClientDetails,
 
-        [Description("Auftraggeberdaten ändern")]
+        [Description("Kundendaten ändern")]
         UpdateClients,
 
-        [Description("Auftraggeber löschen")]
+        [Description("Kunden löschen")]
         DeleteClients
     }
 }
