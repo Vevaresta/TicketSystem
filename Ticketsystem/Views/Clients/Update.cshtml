@@ -1,75 +1,137 @@
-﻿@model Ticketsystem.Models.Database.Client
+﻿@model ClientViewModel
+
+@inject UserManager<User> userManager;
+@inject IServiceFactory serviceFactory;
 
 @{
-    ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
+    var loggedInUser = await userManager.GetUserAsync(User);
+    if (loggedInUser == null)
+    {
+        Context.Response.Redirect("/Identity/Account/Login");
+        return;
+    }
+    if (!await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.UpdateClients))
+    {
+        Context.Response.Redirect("/Home/PermissionError");
+        return;
+    }
 }
 
-<h1>Edit</h1>
+@{
+    ViewData["Title"] = "Auftraggeber bearbeiten";
+}
 
-<h4>Client</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+<div class="d-flex justify-content-center align-items-center">
+    <div class="col-sm-12 col-lg-10 col-xl-8">
+        <div class="container">
+            @{
+                string clientNameFull = "";
+                if (!string.IsNullOrEmpty(Model.FirstName))
+                {
+                    clientNameFull += Model.FirstName + " ";
+                }
+
+                clientNameFull += Model.LastName;
+            }
+            <h3>Auftraggeber</h2>
+            <h4>@clientNameFull</h2>
+            <hr />
+
+            <div class="d-flex justify-content-start align-items-start">
+                <div class="col-sm-12 col-lg-10 col-xl-8">
+                    <div class="container">
+                        <form method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row mb-2">
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="LastName" class="control-label"></label>
+                                        <input asp-for="LastName" class="form-control" autocomplete="off" />
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="FirstName" class="control-label"></label>
+                                        <input asp-for="FirstName" class="form-control" autocomplete="off" />
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="ParticipantNumber" class="control-label"></label>
+                                            <input asp-for="ParticipantNumber" type="text" class="form-control"
+                                                autocomplete="off" />
+                                            <span asp-validation-for="ParticipantNumber" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Course" class="control-label"></label>
+                                            <input asp-for="Course" class="form-control" autocomplete="off" />
+                                            <span asp-validation-for="Course" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="StreetAndHouseNumber" class="control-label"></label>
+                                        <input asp-for="StreetAndHouseNumber" class="form-control" autocomplete="off" />
+                                        <span asp-validation-for="StreetAndHouseNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label asp-for="PostalCode" class="control-label"></label>
+                                            <input asp-for="PostalCode" class="form-control" autocomplete="off" />
+                                            <span asp-validation-for="PostalCode" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label asp-for="City" class="control-label"></label>
+                                            <input asp-for="City" class="form-control" autocomplete="off" />
+                                            <span asp-validation-for="City" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="Email" class="control-label"></label>
+                                        <input asp-for="Email" type="email" class="form-control" autocomplete="off" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="form-group">
+                                        <label asp-for="PhoneNumber" class="control-label"></label>
+                                        <input asp-for="PhoneNumber" class="form-control" autocomplete="off" />
+                                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary mb-2"
+                                            id="button-main-save-client" asp-action="Update">Speichern</button>
+                                    </div>
+                                    <div>
+                                        <a asp-action="Index">Zurück zur Übersicht</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StreetAndHouseNumber" class="control-label"></label>
-                <input asp-for="StreetAndHouseNumber" class="form-control" />
-                <span asp-validation-for="StreetAndHouseNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PostalCode" class="control-label"></label>
-                <input asp-for="PostalCode" class="form-control" />
-                <span asp-validation-for="PostalCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ParticipantNumber" class="control-label"></label>
-                <input asp-for="ParticipantNumber" class="form-control" />
-                <span asp-validation-for="ParticipantNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Course" class="control-label"></label>
-                <input asp-for="Course" class="form-control" />
-                <span asp-validation-for="Course" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial" />
+    <script type="module" src="~/js/updateclient.js"></script>
 }

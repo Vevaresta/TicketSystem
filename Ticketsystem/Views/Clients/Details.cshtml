@@ -1,73 +1,121 @@
-﻿@model Ticketsystem.Models.Database.Client
+﻿@model ClientViewModel
+
+@inject UserManager<User> userManager;
+@inject IServiceFactory serviceFactory;
 
 @{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
+    var loggedInUser = await userManager.GetUserAsync(User);
+    if (loggedInUser == null)
+    {
+        Context.Response.Redirect("/Identity/Account/Login");
+        return;
+    }
+    if (!await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.ViewClientDetails))
+    {
+        Context.Response.Redirect("/Home/PermissionError");
+        return;
+    }
 }
 
-<h1>Details</h1>
+@{
+    ViewData["Title"] = "Auftraggeber anzeigen";
+}
 
-<div>
-    <h4>Client</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StreetAndHouseNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StreetAndHouseNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PostalCode)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PostalCode)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.City)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ParticipantNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ParticipantNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Course)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Course)
-        </dd>
-    </dl>
+<div class="d-flex justify-content-center align-items-center">
+    <div class="col-sm-12 col-lg-10 col-xl-8">
+        <div class="container">
+            @{
+                string clientNameFull = "";
+                if (!string.IsNullOrEmpty(Model.FirstName))
+                {
+                    clientNameFull += Model.FirstName + " ";
+                }
+
+                clientNameFull += Model.LastName;
+            }
+            <h2>Auftraggeber</h2>
+            <h2>@clientNameFull</h2>
+            <hr />
+
+            <div class="d-flex justify-content-start align-items-start">
+                <div class="col-sm-12 col-lg-10 col-xl-8">
+                    <div class="container">
+                        <div class="row mb-2">
+                            <div class="row mb-1">
+                                <div class="form-group">
+                                    <label asp-for="LastName" class="control-label"></label>
+                                    <input asp-for="LastName" class="form-control" readonly autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="form-group">
+                                    <label asp-for="FirstName" class="control-label"></label>
+                                    <input asp-for="FirstName" class="form-control" readonly autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="ParticipantNumber" class="control-label"></label>
+                                        <input asp-for="ParticipantNumber" class="form-control" readonly
+                                            autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Course" class="control-label"></label>
+                                        <input asp-for="Course" class="form-control" readonly autocomplete="off" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="form-group">
+                                    <label asp-for="StreetAndHouseNumber" class="control-label"></label>
+                                    <input asp-for="StreetAndHouseNumber" class="form-control" readonly
+                                        autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="PostalCode" class="control-label"></label>
+                                        <input asp-for="PostalCode" type="number" class="form-control" readonly
+                                            autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label asp-for="City" class="control-label"></label>
+                                        <input asp-for="City" class="form-control" readonly autocomplete="off" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="form-group">
+                                    <label asp-for="Email" class="control-label"></label>
+                                    <input asp-for="Email" type="email" class="form-control" readonly
+                                        autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="form-group">
+                                    <label asp-for="PhoneNumber" class="control-label"></label>
+                                    <input asp-for="PhoneNumber" class="form-control" readonly autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <a asp-action="Index">Zurück zur Übersicht</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+@section Scripts {
+    <script type="module" src="~/js/clientdetails.js"></script>
+}
