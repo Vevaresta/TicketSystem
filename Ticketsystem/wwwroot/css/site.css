@@ -55,3 +55,14 @@ input[type="search"]::placeholder,
   padding-right: 0;
   padding-left: 0;
 }
+
+.bg-image {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  background-image: url('/image/IT-Netz-transparent.png');
+  /* bottom: 1; */
+  background-repeat: no-repeat;
+  background-position: right;
+}

@@ -184,32 +184,39 @@
                 </tbody>
             </table>
         </div>
+
         <div class="row">
             <div class="d-flex flex-sm-row">
-                @if (!ViewBag.DoReverse && ViewBag.Skip > 9)
-                {
-                    @Html.ActionLink("10 zurück", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip - 10, 'F'), new {
-                @class =
-                "text-nowrap me-4" })
-                }
-                else if (ViewBag.DoReverse && ViewBag.Skip < ViewBag.ClientsCount - 10)
-                {
-                    @Html.ActionLink("10 zurück", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip + 10, 'T'), new {
-                @class =
-                "text-nowrap me-4" })
-                }
-                @if (!ViewBag.DoReverse && ViewBag.Skip < ViewBag.ClientsCount - 10)
-                {
-                    @Html.ActionLink("10 vor", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip + 10, 'F'), new {
-                @class =
-                "text-nowrap" })
-                }
-                else if (ViewBag.DoReverse && ViewBag.Skip > 9)
-                {
-                    @Html.ActionLink("10 vor", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip - 10, 'T'), new {
-                @class =
-                "text-nowrap" })
-                }
+                <div style="width: 100px;">
+                    @if (!ViewBag.DoReverse && ViewBag.Skip > 9)
+                    {
+                        @Html.ActionLink("10 zurück", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip - 10, 'F'), new
+                    {
+                    @class =
+                    "text-nowrap" })
+                    }
+                    else if (ViewBag.DoReverse && ViewBag.Skip < ViewBag.ClientsCount - 10)
+                    {
+                        @Html.ActionLink("10 zurück", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip + 10, 'T'), new
+                    {
+                    @class =
+                    "text-nowrap" })
+                    }
+                </div>
+                <div style="width: 100px;">
+                    @if (!ViewBag.DoReverse && ViewBag.Skip < ViewBag.ClientsCount - 10)
+                    {
+                        @Html.ActionLink("10 vor", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip + 10, 'F'), new {
+                    @class =
+                    "text-nowrap" })
+                    }
+                    else if (ViewBag.DoReverse && ViewBag.Skip > 9)
+                    {
+                        @Html.ActionLink("10 vor", "Index", GetLinkData(ViewBag.SortBy, ViewBag.Skip - 10, 'T'), new {
+                    @class =
+                    "text-nowrap" })
+                    }
+                </div>
             </div>
         </div>
     </div>

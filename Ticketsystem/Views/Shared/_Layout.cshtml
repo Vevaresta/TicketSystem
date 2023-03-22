@@ -1,12 +1,14 @@
 ﻿@{
     @inject UserManager<User> userManager;
+
     @inject IServiceFactory serviceFactory;
-    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
+var rolePermissionsService = serviceFactory.GetRolePermissionsService();
     var loggedInUser = await userManager.GetUserAsync(User);
 }
 
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,15 +16,18 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Ticketsystem.styles.css" asp-append-version="true" />
+    @RenderSection("head", required: false)
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <img src="~/image/BFW_Logo_IT_CAMPUS_42a.png" class="img-fluid" style="width:10%" alt="Responsive image" />
+                <img src="~/image/BFW_Logo_IT_CAMPUS_42a.png" class="img-fluid" style="width:10%"
+                    alt="Responsive image" />
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -36,13 +41,15 @@
                             if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.ViewTickets))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Tickets" asp-action="Index">Tickets</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Tickets"
+                                asp-action="Index">Tickets</a>
                                 </li>
                             }
                             if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.ViewClients))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="Index">Kunden</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Clients"
+                                asp-action="Index">Kunden</a>
                                 </li>
                             }
                         }
@@ -58,7 +65,6 @@
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - Ticketsystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -69,4 +75,5 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
