@@ -37,93 +37,91 @@
         <h4>@clientNameFull</h4>
         <hr />
 
-        <div class="d-flex justify-content-start align-items-start">
+        <div class="row">
             <div class="col-sm-12 col-lg-10 col-xl-8">
-                <div class="container">
-                    <form method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="row mb-4">
-                            <div class="row mb-1">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row mb-4">
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="LastName" class="control-label"></label>
+                                <input asp-for="LastName" class="form-control" autocomplete="off" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="FirstName" class="control-label"></label>
+                                <input asp-for="FirstName" class="form-control" autocomplete="off" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label asp-for="LastName" class="control-label"></label>
-                                    <input asp-for="LastName" class="form-control" autocomplete="off" />
-                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                    <label asp-for="ParticipantNumber" class="control-label"></label>
+                                    <input asp-for="ParticipantNumber" type="text" class="form-control"
+                                        autocomplete="off" />
+                                    <span asp-validation-for="ParticipantNumber" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="row mb-1">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label asp-for="FirstName" class="control-label"></label>
-                                    <input asp-for="FirstName" class="form-control" autocomplete="off" />
-                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    <label asp-for="Course" class="control-label"></label>
+                                    <input asp-for="Course" class="form-control" autocomplete="off" />
+                                    <span asp-validation-for="Course" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="row mb-1">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="ParticipantNumber" class="control-label"></label>
-                                        <input asp-for="ParticipantNumber" type="text" class="form-control"
-                                            autocomplete="off" />
-                                        <span asp-validation-for="ParticipantNumber" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Course" class="control-label"></label>
-                                        <input asp-for="Course" class="form-control" autocomplete="off" />
-                                        <span asp-validation-for="Course" class="text-danger"></span>
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="StreetAndHouseNumber" class="control-label"></label>
+                                <input asp-for="StreetAndHouseNumber" class="form-control" autocomplete="off" />
+                                <span asp-validation-for="StreetAndHouseNumber" class="text-danger"></span>
                             </div>
-                            <div class="row mb-1">
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label asp-for="StreetAndHouseNumber" class="control-label"></label>
-                                    <input asp-for="StreetAndHouseNumber" class="form-control" autocomplete="off" />
-                                    <span asp-validation-for="StreetAndHouseNumber" class="text-danger"></span>
+                                    <label asp-for="PostalCode" class="control-label"></label>
+                                    <input asp-for="PostalCode" class="form-control" autocomplete="off" />
+                                    <span asp-validation-for="PostalCode" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="row mb-1">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label asp-for="PostalCode" class="control-label"></label>
-                                        <input asp-for="PostalCode" class="form-control" autocomplete="off" />
-                                        <span asp-validation-for="PostalCode" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="form-group">
-                                        <label asp-for="City" class="control-label"></label>
-                                        <input asp-for="City" class="form-control" autocomplete="off" />
-                                        <span asp-validation-for="City" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-1">
+                            <div class="col-md-8">
                                 <div class="form-group">
-                                    <label asp-for="Email" class="control-label"></label>
-                                    <input asp-for="Email" type="email" class="form-control" autocomplete="off" />
-                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                    <label asp-for="City" class="control-label"></label>
+                                    <input asp-for="City" class="form-control" autocomplete="off" />
+                                    <span asp-validation-for="City" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group">
-                                    <label asp-for="PhoneNumber" class="control-label"></label>
-                                    <input asp-for="PhoneNumber" class="form-control" autocomplete="off" />
-                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                                </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label asp-for="Email" class="control-label"></label>
+                                <input asp-for="Email" type="email" class="form-control" autocomplete="off" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
-
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
-                                <input type="submit" value="Speichern" class="btn btn-lg btn-primary mb-2"
-                                    id="button-main-save-ticket" asp-action="Update" />
-                                <div>
-                                    <a asp-action="Index" id="link-main-back">Zurück zur Übersicht</a>
-                                </div>
+                            <div class="form-group">
+                                <label asp-for="PhoneNumber" class="control-label"></label>
+                                <input asp-for="PhoneNumber" class="form-control" autocomplete="off" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                             </div>
                         </div>
-                    </form>
-                </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="submit" value="Speichern" class="btn btn-lg btn-primary mb-2"
+                                id="button-main-save-ticket" asp-action="Update" />
+                            <div>
+                                <a asp-action="Index" id="link-main-back">Zurück zur Übersicht</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
