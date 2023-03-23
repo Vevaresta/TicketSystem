@@ -13,6 +13,11 @@ $(document).ready(function () {
     if (backupSwitch.prop("checked")) {
         $("#backup-choices").show();
     }
+
+    let isTicketChangeError = $("#hidden-ticket-change").val();
+    if (isTicketChangeError) {
+        $('#tabs a[href="#tab3"]').tab('show');
+    }
 });
 
 // Switch für "Datensicherung?"

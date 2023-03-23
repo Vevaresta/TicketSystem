@@ -40,8 +40,10 @@ namespace Ticketsystem.ViewModels
         public TicketStatuses TicketStatus { get; set; }
 
         public IList<DeviceViewModel> Devices { get; set; }
+        public IList<TicketChangeViewModel> TicketChanges { get; set; }
 
         public DeviceViewModel Device { get; set; }
+        public TicketChangeViewModel TicketChange { get; set; }
 
         public static implicit operator Ticket(TicketViewModel viewModel)
         {
@@ -55,7 +57,7 @@ namespace Ticketsystem.ViewModels
                 DataBackupByClient = viewModel.DataBackupByClient,
                 DataBackupByStaff = viewModel.DataBackupByStaff,
                 DataBackupDone = viewModel.DataBackupDone,
-                Devices = new List<Device>()
+                Devices = new List<Device>(),
             };
 
             if (viewModel.Devices != null)
@@ -82,7 +84,8 @@ namespace Ticketsystem.ViewModels
                 DataBackupByClient = this.DataBackupByClient,
                 DataBackupByStaff = this.DataBackupByStaff,
                 DataBackupDone = this.DataBackupDone,
-                Devices = new List<Device>()
+                Devices = new List<Device>(),
+                TicketChanges = new List<TicketChange>()
             };
 
             if (this.Devices != null)
@@ -91,6 +94,14 @@ namespace Ticketsystem.ViewModels
                 {
                     Device device = deviceViewModel.CopyForUpdate();
                     ticket.Devices.Add(device);
+                }
+            }
+
+            if (this.TicketChanges != null)
+            {
+                foreach (var ticketChange in this.TicketChanges)
+                {
+                    ticket.TicketChanges.Add(ticketChange);
                 }
             }
 

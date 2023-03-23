@@ -29,6 +29,7 @@ namespace Ticketsystem.Services
         public TicketsService GetTicketsService() => new(_ticketsystemContext);
         public TicketTypesService GetTicketTypesService() => new(_ticketsystemContext);
         public TicketStatusesService GetTicketStatusesService() => new(_ticketsystemContext);
+        public TicketChangesService GetTicketChangesService() => new(_ticketsystemContext);
         public ClientsService GetClientsService() => new(_ticketsystemContext);
     }
 }

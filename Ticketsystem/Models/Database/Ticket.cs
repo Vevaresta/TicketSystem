@@ -45,10 +45,8 @@ public class Ticket
     public virtual TicketStatus TicketStatus { get; set; }
     public virtual Client Client { get; set; }
 
-
     public virtual IList<Device> Devices { get; set; }
-    public virtual IList<TicketUsers> TicketUsers { get; set; }
-    public virtual IList<TicketChanges> TicketChanges { get; set; }
+    public virtual IList<TicketChange> TicketChanges { get; set; }
 
     public static implicit operator TicketViewModel(Ticket ticket)
     {

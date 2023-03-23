@@ -30,41 +30,58 @@
     {
         devicesJson = JsonConvert.SerializeObject(Model.Devices);
     }
+
+    string ticketChangeError = "";
+
+    var ticketChangeState = ViewData.ModelState.FirstOrDefault(ms => ms.Key == "TicketChange.Comment").Value;
+    if (ticketChangeState != null)
+    {
+        ticketChangeError = ticketChangeState.Errors.Any() ? "true" : "false";
+    }
 }
 
-<input type="hidden" id="hidden-devices" value="@devicesJson" />
-<input type="hidden" id="hidden-ticket-type" value="@Model.TicketType.ToString()" />
-
-<h3>Ticket Nr. @Model.Id</h3>
-<hr />
-<div class="container mb-2">
-    <div class="row">
-        <div class="col-xl-4">
-            <h5>Auftragsart: @Model.TicketType.GetText()</h5>
-        </div>
-        <div class="col">
-            <h5>Status: @Model.TicketStatus.GetText()</h5>
-        </div>
-    </div>
-</div>
-<div class="container">
-    <form method="post">
+<form method="post">
+    <div class="stretch-container">
         @Html.AntiForgeryToken()
+        <input type="hidden" id="hidden-ticket-change" value="@ticketChangeError" />
+        <input type="hidden" id="hidden-devices" value="@devicesJson" />
+        <input type="hidden" id="hidden-ticket-type" value="@Model.TicketType.ToString()" />
+        <div class="row mb-2">
+            <div class="col-4">
+                <h4>Ticket Nr. @Model.Id</h4>
+            </div>
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-md-4 col-xl-3">
+                        <h5>Auftragsart:</h5>
+                        <h5>Status:</h5>
+                    </div>
+                    <div class="col-sm-8 col-xl-4">
+                        <h5>@Model.TicketType.GetText()</h5>
+                        <h5>@Model.TicketStatus.GetText()</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <ul class="nav nav-tabs" id="tabs" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1"
-                    aria-selected="true">Ticket</a>
+                   aria-selected="true">Ticket</a>
             </li>
             <li class="nav-item" id="devices-tab" style="display: none;">
                 <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2"
-                    aria-selected="false">Geräte</a>
+                   aria-selected="false">Geräte</a>
+            </li>
+            <li class="nav-item" id="changes-tab">
+                <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3"
+                   aria-selected="false">Änderungen</a>
             </li>
         </ul>
-        <div class="tab-content">
+        <div class="tab-content flex-grow-1">
             <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
                 <div class="row mt-2 mb-3">
-                    <div class="col-md-4">
+                    <div class="col-lg-4">
                         <h5>Kunde</h5>
 
                         @{
@@ -97,7 +114,7 @@
                                     <div class="form-group">
                                         <label asp-for="Client.ParticipantNumber" class="control-label"></label>
                                         <input asp-for="Client.ParticipantNumber" class="form-control" type="text"
-                                            autocomplete="off" />
+                                               autocomplete="off" />
                                         <span asp-validation-for="Client.ParticipantNumber" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -113,7 +130,7 @@
                                 <div class="form-group">
                                     <label asp-for="Client.StreetAndHouseNumber" class="control-label"></label>
                                     <input asp-for="Client.StreetAndHouseNumber" class="form-control"
-                                        autocomplete="off" />
+                                           autocomplete="off" />
                                     <span asp-validation-for="Client.StreetAndHouseNumber" class="text-danger"></span>
                                 </div>
                             </div>
@@ -122,7 +139,7 @@
                                     <div class="form-group">
                                         <label asp-for="Client.PostalCode" class="control-label"></label>
                                         <input asp-for="Client.PostalCode" type="number" class="form-control"
-                                            autocomplete="off" />
+                                               autocomplete="off" />
                                         <span asp-validation-for="Client.PostalCode" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -138,7 +155,7 @@
                                 <div class="form-group">
                                     <label asp-for="Client.Email" class="control-label"></label>
                                     <input asp-for="Client.Email" type="email" class="form-control"
-                                        autocomplete="off" />
+                                           autocomplete="off" />
                                     <span asp-validation-for="Client.Email" class="text-danger"></span>
                                 </div>
                             </div>
@@ -151,7 +168,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-lg-4">
                         <h5>Aufgaben</h5>
                         <div class="row mb-1">
                             <div class="form-group">
@@ -164,7 +181,7 @@
                             <div class="form-group">
                                 <label asp-for="WorkOrder" class="control-label"></label>
                                 <textarea asp-for="WorkOrder" class="form-control" id="exampleTextarea" rows="8"
-                                    autocomplete="off"></textarea>
+                                          autocomplete="off"></textarea>
                                 <span asp-validation-for="WorkOrder" class="text-danger"></span>
                             </div>
                         </div>
@@ -176,7 +193,7 @@
                                 <h5 class="me-4">Datensicherung?</h5>
                                 <div class="form-check form-switch pb-2">
                                     <input class="form-check-input" type="checkbox" id="switch-backup"
-                                        asp-for="DoBackup" />
+                                           asp-for="DoBackup" />
                                 </div>
                             </div>
                             @{
@@ -191,38 +208,38 @@
                                 <div class="form-group">
                                     <div class="form-check">
                                         <input class="form-check-input" id="radio-backup-client" type="radio"
-                                            name="BackupChoices" value="@BackupChoices.BackupByClient.ToString()"
+                                               name="BackupChoices" value="@BackupChoices.BackupByClient.ToString()"
                                         @backupByClient />
                                         <label asp-for="DataBackupByClient" id="radio-label-backup-client"
-                                            class="form-check-label label-backup-choice"></label>
+                                               class="form-check-label label-backup-choice"></label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" id="radio-backup-staff" type="radio"
-                                            name="BackupChoices" value="@BackupChoices.BackupByStaff.ToString()"
+                                               name="BackupChoices" value="@BackupChoices.BackupByStaff.ToString()"
                                         @backupByStaff />
                                         <label asp-for="DataBackupByStaff" id="radio-label-backup-staff"
-                                            class="form-check-label label-backup-choice"></label>
+                                               class="form-check-label label-backup-choice"></label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-lg-4">
                         <div id="single-device">
                             <h5>Gerät</h5>
                             @if (Model.TicketType == TicketTypes.Repair || Model.TicketType ==
                             TicketTypes.DataRecovery)
                             {
                                 <input type="hidden" asp-for="@Model.Devices[0].Id" id="hidden-device-id"
-                                value="@Model.Devices[0].Id" />
+                                   value="@Model.Devices[0].Id" />
                             }
                             <div class="row mb-1">
                                 <div class="form-group">
                                     <label asp-for="Device.Name" class="control-label"></label>
                                     <input class="form-control" id="input-device-name" data-val="true"
-                                        data-val-required="Pflichtfeld" name="device-name" autocomplete="off" />
+                                           data-val-required="Pflichtfeld" name="device-name" autocomplete="off" />
                                     <span class="text-danger field-validation-valid" data-valmsg-for="device-name"
-                                        data-valmsg-replace="true"></span>
+                                          data-valmsg-replace="true"></span>
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -253,24 +270,16 @@
                                 <div class="form-group">
                                     <label asp-for="Device.Comments" class="control-label"></label>
                                     <textarea class="form-control" id="input-device-comments" rows="3"
-                                        autocomplete="off"></textarea>
+                                              autocomplete="off"></textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <input type="hidden" asp-for="@Model.OrderDate" />
+                <input type="hidden" name="loggedInUserId" value="@loggedInUser.Id" />
                 <input type="hidden" id="ticketTypeInput" name="ticketType" />
                 <input type="hidden" id="deviceListInput" name="deviceList" />
-                <div class="row">
-                    <div class="col-md-6">
-                        <input type="submit" value="Speichern" class="btn btn-lg btn-primary mb-2"
-                            id="button-main-save-ticket" asp-action="Update" />
-                        <div>
-                            <a asp-action="Index" id="link-main-back">Zurück zur Übersicht</a>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
                 <div class="row mt-2">
@@ -279,7 +288,7 @@
                             <h5>Geräteliste</h5>
                             <div class="row mb-4">
                                 <div class="list-group bg-light" id="device-listbox"
-                                    style="height: 400px; overflow-y: scroll;">
+                                     style="height: 400px; overflow-y: scroll;">
                                 </div>
                             </div>
                             <div class="row">
@@ -305,7 +314,7 @@
                                     <label asp-for="Device.Name" class="control-label"></label>
                                     <input class="form-control" id="input-devices-name" autocomplete="off" />
                                     <span class="text-danger field-validation-valid" id="validate-input-devices-name"
-                                        data-valmsg-replace="true" style="display: none;">Plichtfeld</span>
+                                          data-valmsg-replace="true" style="display: none;">Plichtfeld</span>
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -336,7 +345,7 @@
                                 <div class="form-group">
                                     <label asp-for="Device.Comments" class="control-label"></label>
                                     <textarea class="form-control" id="input-devices-comments" rows="3"
-                                        autocomplete="off"></textarea>
+                                              autocomplete="off"></textarea>
                                 </div>
                             </div>
                             <div class="row">
@@ -345,7 +354,7 @@
                                         Speichern
                                     </button>
                                     <button type="button" class="btn btn-primary me-2 collapse"
-                                        id="button-devices-edit">
+                                            id="button-devices-edit">
                                         Ändern
                                     </button>
                                     <button type="button" class="btn btn-primary me-2" id="button-devices-cancel">
@@ -360,7 +369,7 @@
                             <h5>Softwareliste</h5>
                             <div class="row mb-4">
                                 <div class="list-group bg-light" id="software-listbox"
-                                    style="height: 130px; overflow-y: scroll;">
+                                     style="height: 130px; overflow-y: scroll;">
                                 </div>
                             </div>
                             <div class="row">
@@ -384,14 +393,14 @@
                                     <label class="control-label">Bezeichnung</label>
                                     <input class="form-control" id="input-software-name" autocomplete="off" />
                                     <span class="text-danger field-validation-valid" id="validate-input-software-name"
-                                        data-valmsg-replace="true" style="display: none;">Plichtfeld</span>
+                                          data-valmsg-replace="true" style="display: none;">Plichtfeld</span>
                                 </div>
                             </div>
                             <div class="row mb-4">
                                 <div class="form-group">
                                     <label for="exampleTextarea" class="control-label">Notizen</label>
                                     <textarea class="form-control" id="input-software-comments" rows="3"
-                                        autocomplete="off"></textarea>
+                                              autocomplete="off"></textarea>
                                 </div>
                             </div>
                             <div class="row">
@@ -400,7 +409,7 @@
                                         Speichern
                                     </button>
                                     <button type="button" class="btn btn-primary me-2 collapse"
-                                        id="button-software-edit">
+                                            id="button-software-edit">
                                         Ändern
                                     </button>
                                     <button type="button" class="btn btn-primary me-2" id="button-software-cancel">
@@ -412,11 +421,45 @@
                     </div>
                 </div>
             </div>
+            <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+                <div class="row mt-2">
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="row mb-1">
+                                <div class="form-group">
+                                    <h5>Meine Änderungen:</h5>
+                                    <textarea asp-for="TicketChange.Comment" class="form-control" rows="6" autocomplete="off"></textarea>
+                                    <span asp-validation-for="TicketChange.Comment" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <h5>Alte Änderungen:</h5>
+                            <div class="row mb-1">
+                                <div class="list-group bg-light" id="changes-listbox" style="height: 300px; overflow-y: scroll;">
+                                    @foreach (var ticketChange in Model.TicketChanges)
+                                    {
+                                        <button type="button" class="list-group-item list-group-item-action device-listbox-item">@ticketChange.ChangeDate.ToString("dd.MM.yyyy - HH:mm 'Uhr'")</button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </form>
-</div>
+        <div class="row">
+            <div class="col-md-6">
+                <input type="submit" value="Speichern" class="btn btn-lg btn-primary mb-2"
+                       id="button-main-save-ticket" asp-action="Update" />
+            </div>
+        </div>
+    </div>
+</form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script type="module" src="~/js/updateticket.js"></script>
-}
+    }

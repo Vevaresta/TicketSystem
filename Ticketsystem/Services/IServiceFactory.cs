@@ -11,6 +11,7 @@ namespace Ticketsystem.Services
         public TicketsService GetTicketsService();
         public TicketTypesService GetTicketTypesService();
         public TicketStatusesService GetTicketStatusesService();
+        public TicketChangesService GetTicketChangesService();
         public ClientsService GetClientsService();
     }
 }

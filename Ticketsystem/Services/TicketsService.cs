@@ -101,6 +101,7 @@ namespace Ticketsystem.Services
                 .Include(t => t.Devices).ThenInclude(d => d.Software)
                 .Include(t => t.TicketStatus)
                 .Include(t => t.TicketType)
+                .Include(t => t.TicketChanges).ThenInclude(tc => tc.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             return ticket;

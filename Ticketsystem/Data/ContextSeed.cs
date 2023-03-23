@@ -109,6 +109,7 @@ namespace Ticketsystem.Data
 
             User fallback = new()
             {
+                Id = "Fallback",
                 LastName = "Fallback",
                 FirstName = "Fallback",
                 UserName = "fallback",
@@ -227,7 +228,9 @@ namespace Ticketsystem.Data
                                 }
                             }
                         }
-                    }
+                    },
+
+                    TicketChanges = new List<TicketChange>()
                 };
             };
 
