@@ -70,7 +70,7 @@
     <div class="tab-content">
         <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
             <div class="row mt-2 mb-3">
-                <div class="col-md-4">
+                <div class="col-lg-4">
                     <h5>Kunde</h5>
 
                     @{
@@ -82,7 +82,7 @@
                         }
                     }
 
-                    <div class="row @collapseClient">
+                    <div class="container @collapseClient" style="padding: 0; margin: 0;">
                         <div class="row mb-1">
                             <div class="form-group">
                                 <label asp-for="Client.LastName" class="control-label"></label>
@@ -147,7 +147,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-lg-4">
                     <h5>Aufgaben</h5>
                     <div class="row mb-1">
                         <div class="form-group">
@@ -198,7 +198,7 @@
                         }
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-lg-4">
                     <div id="single-device" style="display: none;">
                         <h5>Gerät</h5>
                         <div class="row mb-1">

@@ -41,9 +41,9 @@
 }
 
 <form method="post">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="stretch-container">
-        @Html.AntiForgeryToken()
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" id="hidden-ticket-change" value="@ticketChangeError" />
         <input type="hidden" id="hidden-devices" value="@devicesJson" />
         <input type="hidden" id="hidden-ticket-type" value="@Model.TicketType.ToString()" />
@@ -93,7 +93,7 @@
                             }
                         }
 
-                        <div class="row @collapseClient">
+                        <div class="container @collapseClient" style="padding: 0; margin: 0;">
                             <input type="hidden" asp-for="Client.Id" id="hidden-client-id" value="@Model.Client.Id" />
                             <div class="row mb-1">
                                 <div class="form-group">
