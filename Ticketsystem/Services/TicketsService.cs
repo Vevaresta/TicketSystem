@@ -59,7 +59,7 @@ namespace Ticketsystem.Services
                 areDatesValid = DateTime.TryParse(ticketData.FilterByEndDate, out DateTime endDate);
                 if (areDatesValid)
                 {
-                    query = query.Where(t => t.OrderDate >= startDate).Where(t => t.OrderDate <= endDate);
+                    query = query.Where(t => t.OrderDate >= startDate.ToUniversalTime()).Where(t => t.OrderDate <= endDate.ToUniversalTime());
                 }
             }
 
