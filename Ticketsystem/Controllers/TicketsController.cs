@@ -167,7 +167,7 @@ namespace Ticketsystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int id, TicketViewModel ticketViewModel, string ticketType, string deviceList, string loggedInUserId)
+        public async Task<IActionResult> Update(int id, TicketViewModel ticketViewModel, string ticketType, string deviceList, string loggedInUserId, string ticketStatusChange)
         {
             if (id != ticketViewModel.Id)
             {
@@ -191,7 +191,7 @@ namespace Ticketsystem.Controllers
                 await _ticketChangesService.AddTicketChange(ticketChange);
 
                 ticket.TicketType = await _ticketTypesService.GetTicketTypeByName(ticketType);
-                ticket.TicketStatus = await _ticketStatusesService.GetTicketStatusByName(ticketViewModel.TicketStatus.ToString());
+                ticket.TicketStatus = await _ticketStatusesService.GetTicketStatusByName(ticketStatusChange);
 
                 if (ticketViewModel.DoBackup)
                 {
@@ -232,6 +232,7 @@ namespace Ticketsystem.Controllers
             }
 
             ticketViewModel = t;
+            ticketViewModel.TicketStatus = Enum.GetValues<TicketStatuses>().FirstOrDefault(ts => ts.ToString() == ticketStatusChange);
             ticketViewModel.TicketChanges = new List<TicketChangeViewModel>();
 
             foreach (var ticketChange in t.TicketChanges)
