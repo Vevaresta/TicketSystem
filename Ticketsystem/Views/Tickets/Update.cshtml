@@ -74,7 +74,7 @@
                    aria-selected="false">Geräte</a>
             </li>
             <li class="nav-item" id="changes-tab">
-                <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3"
+                <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3"
                    aria-selected="false">Änderungen</a>
             </li>
         </ul>
@@ -423,27 +423,49 @@
             </div>
             <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
                 <div class="row mt-2">
-                    <div class="col-md-5">
-                        <div class="row">
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <h5>Meine Änderungen:</h5>
-                                    <textarea asp-for="TicketChange.Comment" class="form-control" rows="6" autocomplete="off"></textarea>
-                                    <span asp-validation-for="TicketChange.Comment" class="text-danger"></span>
-                                </div>
+                    <div class="col-xl-4">
+                        <h5>Meine Änderungen:</h5>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <textarea asp-for="TicketChange.Comment" class="form-control" rows="12" autocomplete="off"></textarea>
+                                <span asp-validation-for="TicketChange.Comment" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="row">
-                            <h5>Alte Änderungen:</h5>
-                            <div class="row mb-1">
-                                <div class="list-group bg-light" id="changes-listbox" style="height: 300px; overflow-y: scroll;">
-                                    @foreach (var ticketChange in Model.TicketChanges)
+                    <div class="col-xl-3">
+                        <h5>Alte Änderungen:</h5>
+                        <div class="row mb-1">
+                            <div class="list-group bg-light" id="changes-listbox" style="height: 300px; overflow-y: scroll;">
+                                @foreach (var ticketChange in Model.TicketChanges)
+                                {
+                                    var item = new
                                     {
-                                        <button type="button" class="list-group-item list-group-item-action device-listbox-item">@ticketChange.ChangeDate.ToString("dd.MM.yyyy - HH:mm 'Uhr'")</button>
-                                    }
-                                </div>
+                                        UserName = ticketChange.User.UserName,
+                                        Email = ticketChange.User.Email,
+                                        Comment = ticketChange.Comment
+                                    };
+                                    <button type="button" value="@JsonConvert.SerializeObject(item)" class="list-group-item list-group-item-action changes-listbox-item text-nowrap">@ticketChange.ChangeDate.ToString("dd.MM.yyyy - HH:mm 'Uhr'")</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4" id="changes-changes-per-date" style="display: none;">
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label class="control-label">Username</label>
+                                <input id="changes-input-username" class="form-control bg-lightyellow" readonly autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label lass="control-label">Email</label>
+                                <input id="changes-input-email" class="form-control bg-lightyellow" readonly autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="form-group">
+                                <label class="control-label">Änderung</label>
+                                <textarea class="form-control bg-lightyellow" id="changes-input-comment" readonly rows="10"></textarea>
                             </div>
                         </div>
                     </div>

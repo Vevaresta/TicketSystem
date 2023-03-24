@@ -119,6 +119,12 @@ namespace Ticketsystem.Controllers
             }
 
             TicketViewModel ticketViewModel = ticket;
+            ticketViewModel.TicketChanges = new List<TicketChangeViewModel>();
+
+            foreach (var ticketChange in ticket.TicketChanges)
+            {
+                ticketViewModel.TicketChanges.Add(ticketChange);
+            }
 
             //ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
             //ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);

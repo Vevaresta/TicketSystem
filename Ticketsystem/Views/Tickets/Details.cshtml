@@ -51,11 +51,15 @@
     <ul class="nav nav-tabs" id="tabs" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1"
-                aria-selected="true">Ticket</a>
+               aria-selected="true">Ticket</a>
         </li>
         <li class="nav-item" id="devices-tab" style="display: none;">
             <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2"
-                aria-selected="false">Geräte</a>
+               aria-selected="false">Geräte</a>
+        </li>
+        <li class="nav-item" id="changes-tab">
+            <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3"
+               aria-selected="false">Änderungen</a>
         </li>
     </ul>
     <div class="tab-content">
@@ -91,7 +95,7 @@
                                 <div class="form-group">
                                     <label asp-for="Client.ParticipantNumber" class="control-label"></label>
                                     <input asp-for="Client.ParticipantNumber" type="text" class="form-control" readonly
-                                        autocomplete="off" />
+                                           autocomplete="off" />
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -105,7 +109,7 @@
                             <div class="form-group">
                                 <label asp-for="Client.StreetAndHouseNumber" class="control-label"></label>
                                 <input asp-for="Client.StreetAndHouseNumber" class="form-control" readonly
-                                    autocomplete="off" />
+                                       autocomplete="off" />
                             </div>
                         </div>
                         <div class="row mb-1">
@@ -113,7 +117,7 @@
                                 <div class="form-group">
                                     <label asp-for="Client.PostalCode" class="control-label"></label>
                                     <input asp-for="Client.PostalCode" type="text" class="form-control" readonly
-                                        autocomplete="off" />
+                                           autocomplete="off" />
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -127,7 +131,7 @@
                             <div class="form-group">
                                 <label asp-for="Client.Email" class="control-label"></label>
                                 <input asp-for="Client.Email" type="email" class="form-control" readonly
-                                    autocomplete="off" />
+                                       autocomplete="off" />
                             </div>
                         </div>
                         <div class="row mb-1">
@@ -150,7 +154,7 @@
                         <div class="form-group">
                             <label asp-for="WorkOrder" class="control-label"></label>
                             <textarea asp-for="WorkOrder" class="form-control" readonly rows="8"
-                                autocomplete="off"></textarea>
+                                      autocomplete="off"></textarea>
                         </div>
                     </div>
                     <div class="row mb-2" id="backup">
@@ -172,17 +176,17 @@
                                 <div class="form-group">
                                     <div class="form-check">
                                         <input class="form-check-input" id="radio-backup-client" type="radio" disabled
-                                            name="BackupChoices" value="@BackupChoices.BackupByClient.ToString()"
+                                               name="BackupChoices" value="@BackupChoices.BackupByClient.ToString()"
                                         @backupByClient />
                                         <label asp-for="DataBackupByClient" id="radio-label-backup-client"
-                                            class="form-check-label label-backup-choice"></label>
+                                               class="form-check-label label-backup-choice"></label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" id="radio-backup-staff" type="radio" disabled
-                                            name="BackupChoices" value="@BackupChoices.BackupByStaff.ToString()"
+                                               name="BackupChoices" value="@BackupChoices.BackupByStaff.ToString()"
                                         @backupByStaff />
                                         <label asp-for="DataBackupByStaff" id="radio-label-backup-staff"
-                                            class="form-check-label label-backup-choice"></label>
+                                               class="form-check-label label-backup-choice"></label>
                                     </div>
                                 </div>
                             </div>
@@ -196,7 +200,7 @@
                             <div class="form-group">
                                 <label asp-for="Device.Name" class="control-label"></label>
                                 <input class="form-control" readonly id="input-device-name" name="device-name"
-                                    autocomplete="off" />
+                                       autocomplete="off" />
                             </div>
                         </div>
                         <div class="row mb-1">
@@ -209,14 +213,14 @@
                             <div class="form-group">
                                 <label asp-for="Device.Manufacturer" class="control-label"></label>
                                 <input class="form-control" readonly id="input-device-manufacturer"
-                                    autocomplete="off" />
+                                       autocomplete="off" />
                             </div>
                         </div>
                         <div class="row mb-1">
                             <div class="form-group">
                                 <label asp-for="Device.SerialNumber" class="control-label"></label>
                                 <input class="form-control" readonly id="input-device-serialnumber"
-                                    autocomplete="off" />
+                                       autocomplete="off" />
                             </div>
                         </div>
                         <div class="row mb-1">
@@ -229,7 +233,7 @@
                             <div class="form-group">
                                 <label asp-for="Device.Comments" class="control-label"></label>
                                 <textarea class="form-control" readonly id="input-device-comments" rows="3"
-                                    autocomplete="off"></textarea>
+                                          autocomplete="off"></textarea>
                             </div>
                         </div>
                     </div>
@@ -252,7 +256,7 @@
                         <h5>Geräteliste</h5>
                         <div class="row mb-4">
                             <div class="list-group bg-light" id="device-listbox"
-                                style="height: 400px; overflow-y: scroll;"></div>
+                                 style="height: 400px; overflow-y: scroll;"></div>
                         </div>
                     </div>
                 </div>
@@ -275,28 +279,28 @@
                             <div class="form-group">
                                 <label asp-for="Device.Manufacturer" class="control-label"></label>
                                 <input class="form-control" readonly id="input-devices-manufacturer"
-                                    autocomplete="off" />
+                                       autocomplete="off" />
                             </div>
                         </div>
                         <div class="row mb-1">
                             <div class="form-group">
                                 <label asp-for="Device.SerialNumber" class="control-label"></label>
                                 <input class="form-control" readonly id="input-devices-serialnumber"
-                                    autocomplete="off" />
+                                       autocomplete="off" />
                             </div>
                         </div>
                         <div class="row mb-1">
                             <div class="form-group">
                                 <label asp-for="Device.Accessories" class="control-label"></label>
                                 <input class="form-control" readonly id="input-devices-accessories"
-                                    autocomplete="off" />
+                                       autocomplete="off" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group">
                                 <label asp-for="Device.Comments" class="control-label"></label>
                                 <textarea class="form-control" readonly id="input-devices-comments" rows="3"
-                                    autocomplete="off"></textarea>
+                                          autocomplete="off"></textarea>
                             </div>
                         </div>
                     </div>
@@ -306,7 +310,7 @@
                         <h5>Softwareliste</h5>
                         <div class="row">
                             <div class="list-group bg-light" id="software-listbox"
-                                style="height: 130px; overflow-y: scroll;"></div>
+                                 style="height: 130px; overflow-y: scroll;"></div>
                         </div>
                     </div>
                     <div class="row" id="show-software" style="display: none;">
@@ -321,8 +325,48 @@
                             <div class="form-group">
                                 <label for="exampleTextarea" class="control-label">Notizen</label>
                                 <textarea class="form-control" readonly id="input-software-comments" rows="3"
-                                    autocomplete="off"></textarea>
+                                          autocomplete="off"></textarea>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+            <div class="row mt-2">
+                <div class="col-xl-3">
+                    <div class="row mb-1">
+                        <div class="list-group bg-light" id="changes-listbox" style="height: 400px; overflow-y: scroll;">
+                            @foreach (var ticketChange in Model.TicketChanges)
+                            {
+                                var item = new
+                                {
+                                    UserName = ticketChange.User.UserName,
+                                    Email = ticketChange.User.Email,
+                                    Comment = ticketChange.Comment
+                                };
+                                <button type="button" value="@JsonConvert.SerializeObject(item)" class="list-group-item list-group-item-action changes-listbox-item text-nowrap">@ticketChange.ChangeDate.ToString("dd.MM.yyyy - HH:mm 'Uhr'")</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4" id="changes-changes-per-date" style="display: none;">
+                    <div class="row mb-1">
+                        <div class="form-group">
+                            <label class="control-label">Username</label>
+                            <input id="changes-input-username" class="form-control bg-lightyellow" readonly autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="form-group">
+                            <label lass="control-label">Email</label>
+                            <input id="changes-input-email" class="form-control bg-lightyellow" readonly autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="form-group">
+                            <label class="control-label">Änderung</label>
+                            <textarea class="form-control bg-lightyellow" id="changes-input-comment" readonly rows="10"></textarea>
                         </div>
                     </div>
                 </div>
