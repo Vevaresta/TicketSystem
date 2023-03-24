@@ -1,3 +1,5 @@
+using ElmahCore;
+using ElmahCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
@@ -59,6 +61,18 @@ namespace Ticketsystem
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            // Add Elmah Core
+            builder.Services.AddElmah(options =>
+            {
+                options.OnPermissionCheck = context => context.User.IsInRole("Administrator");
+                options.Path = "/logging";
+            });
+
+            builder.Services.AddElmah<XmlFileErrorLog>(options =>
+            {
+                options.LogPath = "~/log"; 
+            });
+
             WebApplication app = builder.Build();
 
             // add custom tables to the identity db and seed with default values:
@@ -71,9 +85,10 @@ namespace Ticketsystem
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
-                app.UseExceptionHandler("/Home/Error");
+                // app.UseExceptionHandler("/Home/Error");
+                app.UseElmahExceptionPage();
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                app.UseHsts();                           
             }
 
             // app.UseHttpsRedirection();
@@ -98,6 +113,10 @@ namespace Ticketsystem
                 DefaultRequestCulture = new RequestCulture("de-DE")
             };
             app.UseRequestLocalization(localizationOptions);
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseElmah();
 
             app.Run();
 
