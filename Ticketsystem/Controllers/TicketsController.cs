@@ -74,7 +74,7 @@ namespace Ticketsystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(TicketViewModel ticketViewModel, string ticketType, string deviceList)
+        public async Task<IActionResult> Create(TicketViewModel ticketViewModel, string ticketType, string deviceList, string loggedInUserId)
         {
             if (ModelState.IsValid)
             {
@@ -101,6 +101,16 @@ namespace Ticketsystem.Controllers
                 ticket.OrderDate = DateTime.Now.ToUniversalTime();
 
                 await _ticketsService.AddTicket(ticket);
+
+                TicketChange ticketChange = new()
+                {
+                    TicketId = ticket.Id,
+                    UserId = loggedInUserId,
+                    ChangeDate = DateTime.Now.ToUniversalTime(),
+                    Comment = "Ticket erstellt"
+                };
+
+                await _ticketChangesService.AddTicketChange(ticketChange);
 
                 return RedirectToAction(nameof(Index));
             }

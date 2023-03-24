@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Linq;
 using Ticketsystem.Enums;
 using Ticketsystem.Models.Database;
 using Ticketsystem.Services;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Ticketsystem.Data
 {
@@ -14,7 +16,7 @@ namespace Ticketsystem.Data
         private readonly UserManager<User> _userManager;
 
         private readonly IServiceFactory _serviceFactory;
-        private readonly RolePermissionsService _rolePermissionsService;
+        private readonly RolesService _rolesService;
 
         public ContextSeed(
             TicketsystemContext ticketsystemContext,
@@ -27,7 +29,7 @@ namespace Ticketsystem.Data
             _roleManager = roleManager;
             _userManager = userManager;
             _serviceFactory = serviceFactory;
-            _rolePermissionsService = serviceFactory.GetRolePermissionsService();
+            _rolesService = serviceFactory.GetRolesService();
         }
 
         public async Task Seed(bool doSeedTestData = false)
@@ -43,6 +45,7 @@ namespace Ticketsystem.Data
             if (doSeedTestData)
             {
                 await SeedTestUsers();
+                await SeedGuest();
                 if (await _ticketSystemContext.Tickets.FirstOrDefaultAsync(x => x.WorkOrder.Contains("WorkOrder_")) == null)
                 {
                     await SeedTestTickets();
@@ -272,6 +275,43 @@ namespace Ticketsystem.Data
             await _ticketSystemContext.SaveChangesAsync();
         }
 
+        private async Task SeedGuest()
+        {
+            var rolesInDb = from role in _roleManager.Roles
+                            select role.Name;
+
+            if (!rolesInDb.Contains("Gast"))
+            {
+                await _roleManager.CreateAsync(new Role { Name = "Gast", Permissions = new List<Permission>() } );
+            }
+
+            User guest = new()
+            {
+                UserName = "gast",
+                FirstName = "Gast",
+                LastName = "Benutzer",
+                Email = "guest@localhost",
+            };
+
+            var guestInDb = await _userManager.FindByNameAsync(guest.UserName);
+            if (guestInDb == null)
+            {
+                await _userManager.CreateAsync(guest, "Gast1234!");
+                await _userManager.AddToRoleAsync(guest, "Gast");
+            }
+
+            var roleInDb = await _serviceFactory.GetRolesService().GetRoleByName("Gast");
+            foreach (var permission in Enum.GetValues<RolePermissions>())
+            {
+                if (permission.ToString().Contains("Ticket") || permission.ToString().Contains("Client"))
+                {
+                    await _serviceFactory.GetRolePermissionsService().AddPermissionToRole(roleInDb, permission);
+                }
+            }
+
+            await _ticketSystemContext.SaveChangesAsync();
+        }
+
         private async Task SeedPermissions()
         {
             var permissionsEnumList = Enum.GetValues<RolePermissions>();
@@ -314,10 +354,10 @@ namespace Ticketsystem.Data
 
             foreach (var permission in Enum.GetValues<RolePermissions>())
             {
-                await _rolePermissionsService.AddPermissionToRole(administrator, permission);
+                await _serviceFactory.GetRolePermissionsService().AddPermissionToRole(administrator, permission);
             }
 
-            await _rolePermissionsService.RemoveAllPermissionsFromRole(fallback);
+            await _serviceFactory.GetRolePermissionsService().RemoveAllPermissionsFromRole(fallback);
         }
 
         private async Task SeedTicketTypes()
