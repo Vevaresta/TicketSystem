@@ -46,8 +46,8 @@ namespace Ticketsystem.Enums
         [Description("Tickets löschen")]
         DeleteTickets,
 
-        [Description("Ticketverlauf anzeigen")]
-        ViewHistory,
+        [Description("Ticketänderungen anzeigen")]
+        ViewTicketChanges,
 
         [Description("Kundenliste anzeigen")]
         ViewClients,
