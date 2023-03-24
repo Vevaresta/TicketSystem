@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,12 +21,16 @@ namespace Ticketsystem.Controllers
         private readonly TicketsService _ticketsService;
         private readonly TicketStatusesService _ticketStatusesService;
         private readonly TicketTypesService _ticketTypesService;
+        private readonly TicketChangesService _ticketChangesService;
+        private readonly UserManager<User> _userManager;
 
-        public TicketsController(IServiceFactory serviceFactory)
+        public TicketsController(IServiceFactory serviceFactory, UserManager<User> userManager)
         {
             _ticketsService = serviceFactory.GetTicketsService();
             _ticketStatusesService = serviceFactory.GetTicketStatusesService();
             _ticketTypesService = serviceFactory.GetTicketTypesService();
+            _ticketChangesService = serviceFactory.GetTicketChangesService();
+            _userManager = userManager;
         }
 
         // GET: Tickets
@@ -114,6 +119,12 @@ namespace Ticketsystem.Controllers
             }
 
             TicketViewModel ticketViewModel = ticket;
+            ticketViewModel.TicketChanges = new List<TicketChangeViewModel>();
+
+            foreach (var ticketChange in ticket.TicketChanges)
+            {
+                ticketViewModel.TicketChanges.Add(ticketChange);
+            }
 
             //ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
             //ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
@@ -130,6 +141,12 @@ namespace Ticketsystem.Controllers
             }
 
             TicketViewModel ticketViewModel = ticket;
+            ticketViewModel.TicketChanges = new List<TicketChangeViewModel>();
+
+            foreach (var ticketChange in ticket.TicketChanges)
+            {
+                ticketViewModel.TicketChanges.Add(ticketChange);
+            }
 
             //ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
             //ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
@@ -140,17 +157,29 @@ namespace Ticketsystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int id, TicketViewModel ticketViewModel, string ticketType, string deviceList)
+        public async Task<IActionResult> Update(int id, TicketViewModel ticketViewModel, string ticketType, string deviceList, string loggedInUserId)
         {
             if (id != ticketViewModel.Id)
             {
                 return NotFound();
             }
 
+            ticketViewModel.Devices = JsonConvert.DeserializeObject<List<DeviceViewModel>>(deviceList);
+
             if (ModelState.IsValid)
             {
-                ticketViewModel.Devices = JsonConvert.DeserializeObject<List<DeviceViewModel>>(deviceList);
                 Ticket ticket = ticketViewModel.CopyForUpdate();
+
+                TicketChange ticketChange = new()
+                {
+                    TicketId = ticket.Id,
+                    UserId = loggedInUserId,
+                    ChangeDate = DateTime.Now.ToUniversalTime(),
+                    Comment = ticketViewModel.TicketChange.Comment
+                };
+
+                await _ticketChangesService.AddTicketChange(ticketChange);
+
                 ticket.TicketType = await _ticketTypesService.GetTicketTypeByName(ticketType);
                 ticket.TicketStatus = await _ticketStatusesService.GetTicketStatusByName(ticketViewModel.TicketStatus.ToString());
 
@@ -182,6 +211,22 @@ namespace Ticketsystem.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
+            }
+
+
+            var t = await _ticketsService.GetTicketById(id);
+
+            if (t == null)
+            {
+                return NotFound();
+            }
+
+            ticketViewModel = t;
+            ticketViewModel.TicketChanges = new List<TicketChangeViewModel>();
+
+            foreach (var ticketChange in t.TicketChanges)
+            {
+                ticketViewModel.TicketChanges.Add(ticketChange);
             }
 
             //ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);

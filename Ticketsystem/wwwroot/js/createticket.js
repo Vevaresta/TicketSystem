@@ -51,7 +51,7 @@ $("#switch-backup").on('change', function () {
 
 // Erlaube die Auswahl des Backup-Durchführenden durch Klick auf Label
 $(".label-backup-choice").on("click", function (event) {
-    cud.onClickBackupChoicesLabel();
+    cud.onClickBackupChoicesLabel(event);
 });
 
 // Button "Geräteliste -> Hinzufügen"

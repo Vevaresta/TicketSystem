@@ -1,68 +1,68 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    height: 100%;
+    margin-bottom: 60px;
 }
 
-table.table-striped>tbody>tr>td {
-  height: 50px !important;
+table.table-striped > tbody > tr > td {
+    height: 50px !important;
 }
 
 .padding-right-2 {
-  padding-right: 2px;
+    padding-right: 2px;
 }
 
 .padding-right-3 {
-  padding-right: 3px;
+    padding-right: 3px;
 }
 
 .padding-right-4 {
-  padding-right: 4px;
+    padding-right: 4px;
 }
 
 input[type="search"]::placeholder,
 .select-option-disabled-text {
-  color: #6c757d;
+    color: #6c757d;
 }
 
 .select-option-text {
-  color: black;
+    color: black;
 }
 
 .bg-lightyellow {
-  background-color: lightyellow !important;
+    background-color: lightyellow !important;
 }
 
 .fit {
-  white-space: nowrap;
-  width: 1%;
+    white-space: nowrap;
+    width: 1%;
 }
 
 .padding-0 {
-  padding-right: 0;
-  padding-left: 0;
+    padding-right: 0;
+    padding-left: 0;
 }
 
-.bg-image {
-  position: fixed;
-  left: 0;
-  right: 0;
-  z-index: -1;
-  background-image: url('/image/IT-Netz-transparent.png');
-  /* bottom: 1; */
-  background-repeat: no-repeat;
-  background-position: right;
+.stretch-container {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 155px);
+}
+
+.hide {
+    display: none;
 }

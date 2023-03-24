@@ -112,7 +112,7 @@ const cud = {
         }
     },
 
-    onClickBackupChoicesLabel: function () {
+    onClickBackupChoicesLabel: function (event) {
         let id = event.target.id;
         if (String(id).includes("client")) {
             $("#radio-backup-client").prop("checked", true);
@@ -429,6 +429,26 @@ const cud = {
 
         $('#ticketTypeInput').val(ticketType);
         $('#deviceListInput').val(JSON.stringify(this.deviceList));
+    },
+
+    onClickChangesListBoxItem(event) {
+        let button = $(event.target);
+
+        button.focusout(function () {
+            setTimeout(function () {
+                var selectedItem = $('#changes-listbox .changes-listbox-item:focus');
+                if (selectedItem.length === 0) {
+                    $("#changes-changes-per-date").hide();
+                }
+            }, 350)
+        });
+
+        let jsonString = $(event.target).val();
+        let item = JSON.parse(jsonString);
+        $("#changes-input-username").val(item.UserName);
+        $("#changes-input-email").val(item.Email);
+        $("#changes-input-comment").val(item.Comment);
+        $("#changes-changes-per-date").show();
     }
 };
 

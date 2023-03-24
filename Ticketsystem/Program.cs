@@ -91,7 +91,7 @@ namespace Ticketsystem
 
             app.MapRazorPages();
 
-            RequestLocalizationOptions localizationOptions = new RequestLocalizationOptions
+            RequestLocalizationOptions localizationOptions = new()
             {
                 SupportedCultures = new List<CultureInfo> { new CultureInfo("de-DE") },
                 SupportedUICultures = new List<CultureInfo> { new CultureInfo("de-DE") },

@@ -19,9 +19,7 @@ public class TicketsystemContext : IdentityDbContext<User, Role, string>
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<TicketStatus> TicketStatuses { get; set; }
     public DbSet<TicketType> TicketTypes { get; set; }
-    public DbSet<TicketUsers> TicketUsers { get; set; }
-    public DbSet<TicketChanges> TicketChanges { get; set; }
-    public DbSet<PermissionsTriggered> PermissionsTriggered { get; set; }
+    public DbSet<TicketChange> TicketChanges { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -50,18 +48,21 @@ public class TicketsystemContext : IdentityDbContext<User, Role, string>
             .HasForeignKey(s => s.DeviceId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder.Entity<Ticket>()
+            .HasMany(t => t.TicketChanges)
+            .WithOne(tc => tc.Ticket)
+            .HasForeignKey(tc => tc.TicketId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<User>()
+            .HasMany(t => t.TicketChanges)
+            .WithOne(tc => tc.User)
+            .HasForeignKey(tc => tc.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.Entity<Role>()
             .HasMany(r => r.Permissions)
             .WithMany(p => p.Roles)
             .UsingEntity(j => j.ToTable("RolePermissions"));
-
-        builder.Entity<TicketUsers>()
-            .HasKey(tu => new { tu.UserId, tu.TicketId });
-
-        builder.Entity<TicketChanges>()
-            .HasKey(ut => new { ut.UserId, ut.TicketId });
-
-        builder.Entity<PermissionsTriggered>()
-            .HasKey(up => new { up.UserId, up.PermissionId });
     }
 }

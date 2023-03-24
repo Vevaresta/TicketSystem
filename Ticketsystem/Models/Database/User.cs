@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Ticketsystem.ViewModels;
 
 namespace Ticketsystem.Models.Database
 {
@@ -11,8 +12,18 @@ namespace Ticketsystem.Models.Database
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public virtual IList<TicketUsers> TicketUsers { get; set; }
-        public virtual IList<TicketChanges> TicketChanges { get; set; }
-        public virtual IList<PermissionsTriggered> PermissionsTriggered { get; set; }
+        public virtual IList<TicketChange> TicketChanges { get; set; }
+
+        public static implicit operator UserViewModel(User user)
+        {
+            return new()
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                UserName = user.UserName,
+            };
+        }
     }
 }

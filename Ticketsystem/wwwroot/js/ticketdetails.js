@@ -11,3 +11,8 @@ $(document).ready(function () {
     });
     $(".form-control").addClass("bg-lightyellow");
 });
+
+// Changes-Listbox-Item Click
+$(".changes-listbox-item").on("click", function (event) {
+    cud.onClickChangesListBoxItem(event);
+});

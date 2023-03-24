@@ -13,6 +13,16 @@ $(document).ready(function () {
     if (backupSwitch.prop("checked")) {
         $("#backup-choices").show();
     }
+
+    let isTicketChangeError = $("#hidden-ticket-change").val();
+    if (isTicketChangeError) {
+        $('#tabs a[href="#tab3"]').tab('show');
+    }
+});
+
+// Changes-Listbox-Item Click
+$(".changes-listbox-item").on("click", function (event) {
+    cud.onClickChangesListBoxItem(event);
 });
 
 // Switch für "Datensicherung?"
@@ -22,7 +32,7 @@ $("#switch-backup").on('change', function () {
 
 // Erlaube die Auswahl des Backup-Durchführenden durch Klick auf Label
 $(".label-backup-choice").on("click", function (event) {
-    cud.onClickBackupChoicesLabel();
+    cud.onClickBackupChoicesLabel(event);
 });
 
 // Button "Geräteliste -> Hinzufügen"

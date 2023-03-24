@@ -11,6 +11,5 @@
         public string Name { get; set; }
 
         public virtual IList<Role> Roles { get; set; }
-        public virtual IList<PermissionsTriggered> PermissionsTriggered { get; set; }
     }
 }
