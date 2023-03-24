@@ -1,8 +1,8 @@
-﻿@{
-    @inject UserManager<User> userManager;
+﻿@inject UserManager<User> userManager
+@inject IServiceFactory serviceFactory
 
-    @inject IServiceFactory serviceFactory;
-var rolePermissionsService = serviceFactory.GetRolePermissionsService();
+@{
+    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
     var loggedInUser = await userManager.GetUserAsync(User);
 }
 
@@ -24,10 +24,10 @@ var rolePermissionsService = serviceFactory.GetRolePermissionsService();
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <img src="~/image/BFW_Logo_IT_CAMPUS_42a.png" class="img-fluid" style="width:10%"
-                    alt="Responsive image" />
+                     alt="Responsive image" />
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -42,18 +42,17 @@ var rolePermissionsService = serviceFactory.GetRolePermissionsService();
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Tickets"
-                                asp-action="Index">Tickets</a>
+                                       asp-action="Index">Tickets</a>
                                 </li>
                             }
                             if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.ViewClients))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Clients"
-                                asp-action="Index">Kunden</a>
+                                       asp-action="Index">Kunden</a>
                                 </li>
                             }
                         }
-
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
