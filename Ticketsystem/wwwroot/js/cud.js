@@ -432,17 +432,6 @@ const cud = {
     },
 
     onClickChangesListBoxItem(event) {
-        let button = $(event.target);
-
-        button.focusout(function () {
-            setTimeout(function () {
-                var selectedItem = $('#changes-listbox .changes-listbox-item:focus');
-                if (selectedItem.length === 0) {
-                    $("#changes-changes-per-date").hide();
-                }
-            }, 350)
-        });
-
         let jsonString = $(event.target).val();
         let item = JSON.parse(jsonString);
         $("#changes-input-username").val(item.UserName);
