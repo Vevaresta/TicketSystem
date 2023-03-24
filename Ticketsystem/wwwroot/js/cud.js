@@ -123,7 +123,7 @@ const cud = {
     },
 
     onClickDevice: function (newItem) {
-        this.deviceListBoxSelectedIndex = $(newItem).index();
+        cud.deviceListBoxSelectedIndex = $(newItem).index();
         $("#button-edit-device").prop("disabled", false);
         $("#button-delete-device").prop("disabled", false);
         $(newItem).focusout(function () {
@@ -138,7 +138,7 @@ const cud = {
     },
 
     onClickSoftware: function (newItem) {
-        this.softwareListBoxSelectedIndex = $(newItem).index();
+        cud.softwareListBoxSelectedIndex = $(newItem).index();
         $("#button-edit-software").prop("disabled", false);
         $("#button-delete-software").prop("disabled", false);
         $(newItem).focusout(function () {
