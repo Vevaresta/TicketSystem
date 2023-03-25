@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Ticketsystem.Models.Database;
 
-namespace Ticketsystem.Services
+namespace Ticketsystem.DbAccess
 {
-    public class RolesService
+    public class RolesDbAccess
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
 
-        public RolesService(UserManager<User> userManager, RoleManager<Role> roleManager)
+        public RolesDbAccess(UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;

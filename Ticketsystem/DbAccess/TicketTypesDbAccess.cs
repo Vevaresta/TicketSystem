@@ -3,13 +3,13 @@ using Ticketsystem.Data;
 using Ticketsystem.Enums;
 using Ticketsystem.Models.Database;
 
-namespace Ticketsystem.Services
+namespace Ticketsystem.DbAccess
 {
-    public class TicketTypesService
+    public class TicketTypesDbAccess
     {
         private readonly TicketsystemContext _ticketsystemContext;
 
-        public TicketTypesService(TicketsystemContext ticketsystemContext)
+        public TicketTypesDbAccess(TicketsystemContext ticketsystemContext)
         {
             _ticketsystemContext = ticketsystemContext;
         }

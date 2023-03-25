@@ -6,15 +6,15 @@ using Ticketsystem.Data;
 using Ticketsystem.Enums;
 using Ticketsystem.Models.Database;
 
-namespace Ticketsystem.Services
+namespace Ticketsystem.DbAccess
 {
-    public class RolePermissionsService
+    public class RolePermissionsDbAccess
     {
         private readonly TicketsystemContext _ticketsystemContext;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
 
-        public RolePermissionsService(TicketsystemContext ticketsystemContext, UserManager<User> userManager, RoleManager<Role> roleManager)
+        public RolePermissionsDbAccess(TicketsystemContext ticketsystemContext, UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             _ticketsystemContext = ticketsystemContext;
             _userManager = userManager;
@@ -23,7 +23,7 @@ namespace Ticketsystem.Services
 
         public async Task<bool> HasPermission(User loggedInUser, RolePermissions permission)
         {
-            RolesService getRolesService = new(_userManager, _roleManager);
+            RolesDbAccess getRolesService = new(_userManager, _roleManager);
 
             var userRole = await getRolesService.GetUserRole(loggedInUser);
 

@@ -2,13 +2,13 @@
 using Ticketsystem.Data;
 using Ticketsystem.Models.Database;
 
-namespace Ticketsystem.Services
+namespace Ticketsystem.DbAccess
 {
-    public class TicketStatusesService
+    public class TicketStatusesDbAccess
     {
         private readonly TicketsystemContext _ticketsystemContext;
 
-        public TicketStatusesService(TicketsystemContext ticketsystemContext)
+        public TicketStatusesDbAccess(TicketsystemContext ticketsystemContext)
         {
             _ticketsystemContext = ticketsystemContext;
         }

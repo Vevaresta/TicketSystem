@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using Ticketsystem.Enums;
 using Ticketsystem.Models.Database;
-using Ticketsystem.Services;
+using Ticketsystem.DbAccess;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Ticketsystem.Data
@@ -15,21 +15,21 @@ namespace Ticketsystem.Data
         private readonly RoleManager<Role> _roleManager;
         private readonly UserManager<User> _userManager;
 
-        private readonly IServiceFactory _serviceFactory;
-        private readonly RolesService _rolesService;
+        private readonly IDbAccessFactory _serviceFactory;
+        private readonly RolesDbAccess _rolesService;
 
         public ContextSeed(
             TicketsystemContext ticketsystemContext,
             RoleManager<Role> roleManager,
             UserManager<User> userManager,
-            IServiceFactory serviceFactory
+            IDbAccessFactory serviceFactory
             )
         {
             _ticketSystemContext = ticketsystemContext;
             _roleManager = roleManager;
             _userManager = userManager;
             _serviceFactory = serviceFactory;
-            _rolesService = serviceFactory.GetRolesService();
+            _rolesService = serviceFactory.RolesDbAccess;
         }
 
         public async Task Seed(bool doSeedTestData = false)
@@ -151,8 +151,8 @@ namespace Ticketsystem.Data
                     OrderDate = orderDate,
                     WorkOrder = "WorkOrder_" + i.ToString(),
                     DataBackupByClient = true,
-                    TicketStatus = await _serviceFactory.GetTicketStatusesService().GetTicketStatusByName(Enum.GetValues<TicketStatuses>()[randomStatusIndex].ToString()),
-                    TicketType = await _serviceFactory.GetTicketTypesService().GetTicketTypeByName(Enum.GetValues<TicketTypes>()[randomTypeIndex].ToString()),
+                    TicketStatus = await _serviceFactory.TicketStatusesDbAccess.GetTicketStatusByName(Enum.GetValues<TicketStatuses>()[randomStatusIndex].ToString()),
+                    TicketType = await _serviceFactory.TicketTypesDbAccess.GetTicketTypeByName(Enum.GetValues<TicketTypes>()[randomTypeIndex].ToString()),
                     Client = new Client
                     {
                         LastName = "LastName_" + i.ToString(),
@@ -249,7 +249,7 @@ namespace Ticketsystem.Data
                     TicketId = ticket.Id,
                     UserId = (await _userManager.FindByNameAsync("admin")).Id,
                     ChangeDate = ticket.OrderDate,
-                    OldTicketStatus = await _serviceFactory.GetTicketStatusesService().GetTicketStatusByName("Open"),
+                    OldTicketStatus = await _serviceFactory.TicketStatusesDbAccess.GetTicketStatusByName("Open"),
                     Comment = "Ticket erstellt"
                 };
 
@@ -318,12 +318,12 @@ namespace Ticketsystem.Data
                 await _userManager.AddToRoleAsync(guest, "Gast");
             }
 
-            var roleInDb = await _serviceFactory.GetRolesService().GetRoleByName("Gast");
+            var roleInDb = await _serviceFactory.RolesDbAccess.GetRoleByName("Gast");
             foreach (var permission in Enum.GetValues<RolePermissions>())
             {
                 if (permission.ToString().Contains("Ticket") || permission.ToString().Contains("Client"))
                 {
-                    await _serviceFactory.GetRolePermissionsService().AddPermissionToRole(roleInDb, permission);
+                    await _serviceFactory.RolePermissionsDbAccess.AddPermissionToRole(roleInDb, permission);
                 }
             }
 
@@ -367,15 +367,15 @@ namespace Ticketsystem.Data
 
         private async Task SeedRolePermissions()
         {
-            var administrator = await _serviceFactory.GetRolesService().GetRoleByName(DefaultRoles.Administrator.ToString());
-            var fallback = await _serviceFactory.GetRolesService().GetRoleByName(DefaultRoles.Fallback.ToString());
+            var administrator = await _serviceFactory.RolesDbAccess.GetRoleByName(DefaultRoles.Administrator.ToString());
+            var fallback = await _serviceFactory.RolesDbAccess.GetRoleByName(DefaultRoles.Fallback.ToString());
 
             foreach (var permission in Enum.GetValues<RolePermissions>())
             {
-                await _serviceFactory.GetRolePermissionsService().AddPermissionToRole(administrator, permission);
+                await _serviceFactory.RolePermissionsDbAccess.AddPermissionToRole(administrator, permission);
             }
 
-            await _serviceFactory.GetRolePermissionsService().RemoveAllPermissionsFromRole(fallback);
+            await _serviceFactory.RolePermissionsDbAccess.RemoveAllPermissionsFromRole(fallback);
         }
 
         private async Task SeedTicketTypes()

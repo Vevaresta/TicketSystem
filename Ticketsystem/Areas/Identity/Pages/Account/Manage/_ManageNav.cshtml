@@ -1,7 +1,7 @@
 ﻿@{
     @inject UserManager<User> userManager;
-    @inject IServiceFactory serviceFactory;
-    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
+    @inject IDbAccessFactory serviceFactory;
+    var rolePermissionsService = serviceFactory.RolePermissionsDbAccess;
     var loggedInUser = await userManager.GetUserAsync(User);
 }
 

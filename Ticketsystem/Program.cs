@@ -8,7 +8,7 @@ using System.Globalization;
 using System.Text;
 using Ticketsystem.Data;
 using Ticketsystem.Models.Database;
-using Ticketsystem.Services;
+using Ticketsystem.DbAccess;
 
 namespace Ticketsystem
 {
@@ -56,7 +56,7 @@ namespace Ticketsystem
                 .AddEntityFrameworkStores<TicketsystemContext>()
                 .AddDefaultTokenProviders();
 
-            builder.Services.AddScoped<IServiceFactory, ServiceFactory>();
+            builder.Services.AddScoped<IDbAccessFactory, DbAccessFactory>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

@@ -2,16 +2,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Ticketsystem.Models.Database;
-using Ticketsystem.Services;
+using Ticketsystem.DbAccess;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {
     public class ManageRolesModel : PageModel
     {
         private readonly RoleManager<Role> _roleManager;
-        private IServiceFactory _serviceFactory;
+        private IDbAccessFactory _serviceFactory;
 
-        public ManageRolesModel(RoleManager<Role> roleManager, IServiceFactory serviceFactory)
+        public ManageRolesModel(RoleManager<Role> roleManager, IDbAccessFactory serviceFactory)
         {
             _roleManager = roleManager;
             _serviceFactory = serviceFactory;
@@ -26,7 +26,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             Roles = (from role in _roleManager.Roles
                             select role.Name).ToList();
 
-            RolesToDisplay = _serviceFactory.GetRolesToDisplayService().GetList();
+            RolesToDisplay = _serviceFactory.RolesToDisplayDbAccess.GetList();
 
             return Page();
         }

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ClientViewModel>
 
 @inject UserManager<User> userManager
-@inject IServiceFactory serviceFactory
+@inject IDbAccessFactory serviceFactory
 
 @{
     ViewData["Title"] = "Kundenliste";
@@ -9,7 +9,7 @@
 
 @* ROLEPERMISSIONSSERVICE: *@
 @{
-    var rolePermissionsService = serviceFactory.GetRolePermissionsService();
+    var rolePermissionsService = serviceFactory.RolePermissionsDbAccess;
     var loggedInUser = await userManager.GetUserAsync(User);
     if (loggedInUser == null)
     {

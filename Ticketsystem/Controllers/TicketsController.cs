@@ -11,25 +11,25 @@ using Ticketsystem.Data;
 using Ticketsystem.Enums;
 using Ticketsystem.Models.Data;
 using Ticketsystem.Models.Database;
-using Ticketsystem.Services;
+using Ticketsystem.DbAccess;
 using Ticketsystem.ViewModels;
 
 namespace Ticketsystem.Controllers
 {
     public class TicketsController : Controller
     {
-        private readonly TicketsService _ticketsService;
-        private readonly TicketStatusesService _ticketStatusesService;
-        private readonly TicketTypesService _ticketTypesService;
-        private readonly TicketChangesService _ticketChangesService;
+        private readonly TicketsDbAccess _ticketsService;
+        private readonly TicketStatusesDbAccess _ticketStatusesService;
+        private readonly TicketTypesDbAccess _ticketTypesService;
+        private readonly TicketChangesDbAccess _ticketChangesService;
         private readonly UserManager<User> _userManager;
 
-        public TicketsController(IServiceFactory serviceFactory, UserManager<User> userManager)
+        public TicketsController(IDbAccessFactory serviceFactory, UserManager<User> userManager)
         {
-            _ticketsService = serviceFactory.GetTicketsService();
-            _ticketStatusesService = serviceFactory.GetTicketStatusesService();
-            _ticketTypesService = serviceFactory.GetTicketTypesService();
-            _ticketChangesService = serviceFactory.GetTicketChangesService();
+            _ticketsService = serviceFactory.TicketsDbAccess;
+            _ticketStatusesService = serviceFactory.TicketStatusesDbAccess;
+            _ticketTypesService = serviceFactory.TicketTypesDbAccess;
+            _ticketChangesService = serviceFactory.TicketChangesDbAccess;
             _userManager = userManager;
         }
 

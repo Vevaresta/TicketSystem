@@ -8,18 +8,18 @@ using Microsoft.EntityFrameworkCore;
 using Ticketsystem.Data;
 using Ticketsystem.Models.Data;
 using Ticketsystem.Models.Database;
-using Ticketsystem.Services;
+using Ticketsystem.DbAccess;
 using Ticketsystem.ViewModels;
 
 namespace Ticketsystem.Controllers
 {
     public class ClientsController : Controller
     {
-        private readonly ClientsService _clientsService;
+        private readonly ClientsDbAccess _clientsService;
 
-        public ClientsController(IServiceFactory serviceFactory)
+        public ClientsController(IDbAccessFactory serviceFactory)
         {
-            _clientsService = serviceFactory.GetClientsService();
+            _clientsService = serviceFactory.ClientsDbAccess;
         }
 
         // GET: Clients

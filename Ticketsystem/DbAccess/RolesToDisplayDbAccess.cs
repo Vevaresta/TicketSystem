@@ -2,13 +2,13 @@
 using Ticketsystem.Enums;
 using Ticketsystem.Models.Database;
 
-namespace Ticketsystem.Services
+namespace Ticketsystem.DbAccess
 {
-    public class RolesToDisplayService
+    public class RolesToDisplayDbAccess
     {
         private readonly RoleManager<Role> _roleManager;
 
-        public RolesToDisplayService(RoleManager<Role> roleManager)
+        public RolesToDisplayDbAccess(RoleManager<Role> roleManager)
         {
             _roleManager = roleManager;
         }

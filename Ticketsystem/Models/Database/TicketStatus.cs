@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Ticketsystem.Enums;
 using Ticketsystem.Extensions;
 
@@ -15,6 +16,7 @@ public class TicketStatus
 
     public string Name { get; set; }
 
+    [NotMapped]
     public TicketStatuses AsEnum
     {
         get

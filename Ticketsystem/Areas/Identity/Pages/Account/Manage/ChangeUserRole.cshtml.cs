@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Ticketsystem.Data;
 using Ticketsystem.Enums;
-using Ticketsystem.Services;
+using Ticketsystem.DbAccess;
 using Ticketsystem.Models.Database;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
@@ -11,7 +11,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
     public class ChangeUserRoleModel : PageModel
     {
         private readonly UserManager<User> _userManager;
-        private readonly IServiceFactory _serviceFactory;
+        private readonly IDbAccessFactory _serviceFactory;
 
         public User UserToEdit { get; set; }
         public List<string> RolesToDisplay { get; set; }
@@ -19,7 +19,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public string Role { get; set; }
 
-        public ChangeUserRoleModel(UserManager<User> userManager, IServiceFactory serviceFactory)
+        public ChangeUserRoleModel(UserManager<User> userManager, IDbAccessFactory serviceFactory)
         {
             _userManager = userManager;
             UserToEdit = new User();
@@ -44,7 +44,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             Role = userRoles.FirstOrDefault();
             UserToEdit = user;
 
-            RolesToDisplay = _serviceFactory.GetRolesToDisplayService().GetList();
+            RolesToDisplay = _serviceFactory.RolesToDisplayDbAccess.GetList();
 
             return Page();
         }

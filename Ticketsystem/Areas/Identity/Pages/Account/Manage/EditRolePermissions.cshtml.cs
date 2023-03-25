@@ -2,22 +2,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Ticketsystem.Enums;
 using Ticketsystem.Models.Database;
-using Ticketsystem.Services;
+using Ticketsystem.DbAccess;
 
 namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 {
     public class EditRolePermissionsModel : PageModel
     {
-        private readonly IServiceFactory _serviceFactory;
-        private readonly RolePermissionsService _rolePermissionsService;
+        private readonly IDbAccessFactory _serviceFactory;
+        private readonly RolePermissionsDbAccess _rolePermissionsService;
 
         public string RoleToEdit { get; set; }
         public List<string> Permissions;
 
-        public EditRolePermissionsModel(IServiceFactory serviceFactory)
+        public EditRolePermissionsModel(IDbAccessFactory serviceFactory)
         {
             _serviceFactory = serviceFactory;
-            _rolePermissionsService = serviceFactory.GetRolePermissionsService();
+            _rolePermissionsService = serviceFactory.RolePermissionsDbAccess;
 
             Permissions = new List<string>();
         }
@@ -26,7 +26,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
         {
             RoleToEdit = role;
 
-            Role roleInDb = await _serviceFactory.GetRolesService().GetRoleByName(role);
+            Role roleInDb = await _serviceFactory.RolesDbAccess.GetRoleByName(role);
 
             foreach (Permission permission in roleInDb.Permissions)
             {
@@ -46,7 +46,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
                 permissionsEmumList.Add(permissionEnum);
             }
 
-            Role roleInDb = await _serviceFactory.GetRolesService().GetRoleByName(role);
+            Role roleInDb = await _serviceFactory.RolesDbAccess.GetRoleByName(role);
 
             await _rolePermissionsService.AddPermissionListToRole(roleInDb, permissionsEmumList);
 
