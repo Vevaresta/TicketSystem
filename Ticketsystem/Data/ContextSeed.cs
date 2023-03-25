@@ -143,10 +143,13 @@ namespace Ticketsystem.Data
                 var randomMinuteOffset = rnd.Next(0, 60);
                 var randomSecondOffset = rnd.Next(0, 60);
 
+                var orderDate = DateTime.Today.AddYears(-1).AddDays(randomTimeDayOffset).AddHours(randomTimeHourOffset).AddMinutes(randomMinuteOffset).AddSeconds(randomSecondOffset).ToUniversalTime();
+
                 tickets[i - 1] = new Ticket
                 {
+                    Id = i,
                     Name = "Name_" + i.ToString(),
-                    OrderDate = DateTime.Today.AddYears(-1).AddDays(randomTimeDayOffset).AddHours(randomTimeHourOffset).AddMinutes(randomMinuteOffset).AddSeconds(randomSecondOffset).ToUniversalTime(),
+                    OrderDate = orderDate,
                     WorkOrder = "WorkOrder_" + i.ToString(),
                     DataBackupByClient = true,
                     TicketStatus = await _serviceFactory.GetTicketStatusesService().GetTicketStatusByName(Enum.GetValues<TicketStatuses>()[randomStatusIndex].ToString()),
@@ -233,7 +236,17 @@ namespace Ticketsystem.Data
                         }
                     },
 
-                    TicketChanges = new List<TicketChange>()
+                    TicketChanges = new List<TicketChange>
+                    {
+                        new TicketChange
+                        {
+                            ChangeDate = orderDate,
+                            OldTicketStatus = await _serviceFactory.GetTicketStatusesService().GetTicketStatusByName("Open"),
+                            Comment = "Ticket erstellt",
+                            User = await _userManager.FindByNameAsync("admin"),
+                            TicketId = i
+                        }
+                    }
                 };
             };
 

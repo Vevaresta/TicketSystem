@@ -40,7 +40,7 @@ namespace Ticketsystem.Models.Database
             return new TicketChangeViewModel
             {
                 Id = ticketChange.Id,
-                ChangeDate = ticketChange.ChangeDate,
+                ChangeDate = ticketChange.ChangeDate.ToLocalTime(),
                 Comment = ticketChange.Comment,
                 User = ticketChange.User,
                 Ticket = ticketChange.Ticket,

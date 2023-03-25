@@ -55,7 +55,7 @@ public class Ticket
             Id = ticket.Id,
             Name = ticket.Name,
             WorkOrder = ticket.WorkOrder,
-            OrderDate = ticket.OrderDate,
+            OrderDate = ticket.OrderDate.ToLocalTime(),
             Client = ticket.Client,
             DoBackup = ticket.DoBackup,
             DataBackupByClient = ticket.DataBackupByClient,
