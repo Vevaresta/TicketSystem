@@ -147,7 +147,6 @@ namespace Ticketsystem.Data
 
                 tickets[i - 1] = new Ticket
                 {
-                    Id = i,
                     Name = "Name_" + i.ToString(),
                     OrderDate = orderDate,
                     WorkOrder = "WorkOrder_" + i.ToString(),
@@ -235,22 +234,28 @@ namespace Ticketsystem.Data
                             }
                         }
                     },
-
-                    TicketChanges = new List<TicketChange>
-                    {
-                        new TicketChange
-                        {
-                            ChangeDate = orderDate,
-                            OldTicketStatus = await _serviceFactory.GetTicketStatusesService().GetTicketStatusByName("Open"),
-                            Comment = "Ticket erstellt",
-                            User = await _userManager.FindByNameAsync("admin"),
-                        }
-                    }
                 };
-                tickets[i - 1].TicketChanges[0].Ticket = tickets[i - 1];
             };
 
             await _ticketSystemContext.Tickets.AddRangeAsync(tickets);
+
+            await _ticketSystemContext.SaveChangesAsync();
+
+            var ticketsInDb = _ticketSystemContext.Tickets.Include(t => t.TicketChanges).ToList();
+            foreach (Ticket ticket in ticketsInDb)
+            {
+                TicketChange initialChange = new()
+                {
+                    TicketId = ticket.Id,
+                    UserId = (await _userManager.FindByNameAsync("admin")).Id,
+                    ChangeDate = ticket.OrderDate,
+                    OldTicketStatus = await _serviceFactory.GetTicketStatusesService().GetTicketStatusByName("Open"),
+                    Comment = "Ticket erstellt"
+                };
+
+                _ticketSystemContext.Add(initialChange);
+            }
+
             await _ticketSystemContext.SaveChangesAsync();
         }
 
