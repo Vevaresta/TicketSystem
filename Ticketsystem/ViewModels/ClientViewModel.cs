@@ -62,16 +62,16 @@ public class ClientViewModel
     {
         var client = new Client
         {
-            Id = this.Id,
-            LastName = this.LastName,
-            FirstName = this.FirstName,
-            Email = this.Email,
-            PhoneNumber = this.PhoneNumber,
-            StreetAndHouseNumber = this.StreetAndHouseNumber,
-            PostalCode = this.PostalCode,
-            City = this.City,
-            ParticipantNumber = this.ParticipantNumber,
-            Course = this.Course,
+            Id = Id,
+            LastName = LastName,
+            FirstName = FirstName,
+            Email = Email,
+            PhoneNumber = PhoneNumber,
+            StreetAndHouseNumber = StreetAndHouseNumber,
+            PostalCode = PostalCode,
+            City = City,
+            ParticipantNumber = ParticipantNumber,
+            Course = Course,
         };
 
         return client;

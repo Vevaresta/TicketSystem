@@ -1,15 +1,11 @@
 ﻿using IronPdf;
 
-namespace Ticketsystem.Services
+namespace Ticketsystem.Utilities
 {
-    public class PdfService
+    public class PdfUtility
     {
-
-        public void SaveToPdf()
+        public static void SaveToPdf()
         {
-
-
-
             PdfDocument doc = PdfDocument.FromFile(@"C:\Users\BFW\Desktop\Freitagsprojekt\Kundenauftrag.pdf");
 
             var form = doc.Form;
@@ -24,10 +20,7 @@ namespace Ticketsystem.Services
             form.Fields[9].Value = "03.06.2023";
             form.Fields[10].Value = "PC";
 
-
             form.Fields[16].Value = "On";
-
-
 
             form.Fields[19].Value = "Es gibt große Fehler ";
 

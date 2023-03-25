@@ -16,6 +16,8 @@ namespace Ticketsystem.ViewModels
 
         public virtual UserViewModel User { get; set; }
         public virtual TicketViewModel Ticket { get; set; }
+        public virtual TicketStatus OldTicketStatus { get; set; }
+        public virtual TicketStatus NewTicketStatus { get; set; }
 
         public static implicit operator TicketChange(TicketChangeViewModel viewModel)
         {
@@ -25,6 +27,8 @@ namespace Ticketsystem.ViewModels
                 UserId = viewModel.User.Id,
                 TicketId = viewModel.Ticket.Id,
                 ChangeDate = viewModel.ChangeDate,
+                OldTicketStatus = viewModel.OldTicketStatus,
+                NewTicketStatus = viewModel.NewTicketStatus
             };
         }
     }

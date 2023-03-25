@@ -107,6 +107,7 @@ namespace Ticketsystem.Controllers
                     TicketId = ticket.Id,
                     UserId = loggedInUserId,
                     ChangeDate = DateTime.Now.ToUniversalTime(),
+                    OldTicketStatus = ticketStatusOpen,
                     Comment = "Ticket erstellt"
                 };
 
@@ -187,6 +188,13 @@ namespace Ticketsystem.Controllers
                     ChangeDate = DateTime.Now.ToUniversalTime(),
                     Comment = ticketViewModel.TicketChange.Comment
                 };
+
+                ticketChange.OldTicketStatus = await _ticketStatusesService.GetTicketStatusByName(ticketViewModel.TicketStatus.ToString());
+
+                if (ticketStatusChange != ticketViewModel.TicketStatus.ToString())
+                {
+                    ticketChange.NewTicketStatus = await _ticketStatusesService.GetTicketStatusByName(ticketStatusChange);
+                }
 
                 await _ticketChangesService.AddTicketChange(ticketChange);
 

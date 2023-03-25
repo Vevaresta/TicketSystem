@@ -433,11 +433,27 @@ const cud = {
 
     onClickChangesListBoxItem(event) {
         let jsonString = $(event.target).val();
-        let item = JSON.parse(jsonString);
-        $("#changes-input-username").val(item.UserName);
-        $("#changes-input-email").val(item.Email);
-        $("#changes-input-comment").val(item.Comment);
-        $("#changes-changes-per-date").show();
+        let ticketChange = JSON.parse(jsonString);
+
+        if (ticketChange.NewStatus != "") {
+            $("#changes-input-oldstatus").val(ticketChange.OldStatus);
+            $("#changes-input-newstatus").val(ticketChange.NewStatus);
+            $("#changes-status-changed").removeClass("collapse");
+            $("#changes-status-unchanged").addClass("collapse");
+        }
+        else {
+            $("#changes-input-unchanged").val(ticketChange.OldStatus);
+            $("#changes-status-changed").addClass("collapse");
+            $("#changes-status-unchanged").removeClass("collapse");
+        }
+        let button = $(event.target);
+        let date = button.text();
+        $("#changes-per-date-header").text(date);
+        $("#changes-input-username").val(ticketChange.UserName);
+        $("#changes-input-email").val(ticketChange.Email);
+        $("#changes-input-comment").val(ticketChange.Comment);
+        $("#changes-per-date").show();
+
     }
 };
 

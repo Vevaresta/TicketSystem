@@ -5,6 +5,7 @@
 
 @{
     var rolePermissionsService = serviceFactory.GetRolePermissionsService();
+    var ticketStatusesService = serviceFactory.GetTicketStatusesService();
     var loggedInUser = await userManager.GetUserAsync(User);
     if (loggedInUser == null)
     {
@@ -317,6 +318,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="container">
+                            <div class="row mt-3">
+                                <div class="col-sm-12">
+                                    <div class="d-flex">
+                                        <button type="button" class="btn btn-primary" id="button-devices-close">
+                                            Schließen
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -346,45 +358,100 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="container">
+                            <div class="row mt-3">
+                                <div class="col-sm-12">
+                                    <div class="d-flex">
+                                        <button type="button" class="btn btn-primary" id="button-software-close">
+                                            Schließen
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
-            <div class="row mt-2 mb-2">
-                <div class="col-xl-3">
+            <div class="row mt-2">
+                <div class="col-lg-3">
                     <div class="row mb-5">
-                        <div class="list-group bg-light" id="changes-listbox" style="height: 400px; overflow-y: scroll;">
-                            @foreach (var ticketChange in Model.TicketChanges)
-                            {
-                                var item = new
+                        <div class="container">
+                            <h5>Alte Änderungen:</h5>
+                            <div class="list-group bg-light" id="changes-listbox" style="height: 400px; overflow-y: scroll;">
+                                @foreach (var ticketChange in Model.TicketChanges)
                                 {
-                                    UserName = ticketChange.User.UserName,
-                                    Email = ticketChange.User.Email,
-                                    Comment = ticketChange.Comment
+                                    string currentDate = @ticketChange.ChangeDate.ToString("dd.MM.yyyy - HH:mm 'Uhr'");
+                                    string oldStatus = EnumUtility.GetTicketStatusByName(ticketChange.OldTicketStatus.Name).GetText();
+                                    string newStatus = "";
+                                    if (ticketChange.NewTicketStatus != null)
+                                    {
+                                        newStatus = EnumUtility.GetTicketStatusByName(ticketChange.NewTicketStatus.Name).GetText();
+                                    }
+                                    var item = new
+                                    {
+                                        UserName = ticketChange.User.UserName,
+                                        Email = ticketChange.User.Email,
+                                        Comment = ticketChange.Comment,
+                                        OldStatus = oldStatus,
+                                        NewStatus = newStatus
                                 };
-                                <button type="button" value="@JsonConvert.SerializeObject(item)" class="list-group-item list-group-item-action changes-listbox-item text-nowrap">@ticketChange.ChangeDate.ToString("dd.MM.yyyy - HH:mm 'Uhr'")</button>
-                            }
+                                    <button type="button" value="@JsonConvert.SerializeObject(item)" class="list-group-item list-group-item-action changes-listbox-item text-nowrap">@currentDate</button>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-4" id="changes-changes-per-date" style="display: none;">
-                    <div class="row mb-1">
-                        <div class="form-group">
-                            <label class="control-label">Username</label>
-                            <input id="changes-input-username" class="form-control bg-lightyellow" readonly autocomplete="off" />
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="form-group">
-                            <label lass="control-label">Email</label>
-                            <input id="changes-input-email" class="form-control bg-lightyellow" readonly autocomplete="off" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label class="control-label">Änderung</label>
-                            <textarea class="form-control bg-lightyellow" id="changes-input-comment" readonly rows="10"></textarea>
+                <div class="col-lg-4" id="changes-per-date" style="display: none;">
+                    <div class="row mb-3">
+                        <div class="container">
+                            <h5 id="changes-per-date-header"></h5>
+                            <div class="row mb-1">
+                                <div class="form-group">
+                                    <label class="control-label">Username</label>
+                                    <input id="changes-input-username" class="form-control bg-lightyellow" readonly autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="form-group">
+                                    <label lass="control-label">Email</label>
+                                    <input id="changes-input-email" class="form-control bg-lightyellow" readonly autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="control-label">Änderung</label>
+                                    <textarea class="form-control bg-lightyellow" id="changes-input-comment" readonly rows="8"></textarea>
+                                </div>
+                            </div>
+                            <div class="row collapse" id="changes-status-unchanged">
+                                <div class="col-6 form-group">
+                                    <label class="control-label">Status</label>
+                                    <input id="changes-input-unchanged" class="form-control bg-lightyellow" readonly autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="row collapse" id="changes-status-changed">
+                                <div class="col-6 form-group">
+                                    <label class="control-label">Alter Status</label>
+                                    <input id="changes-input-oldstatus" class="form-control bg-lightyellow" readonly autocomplete="off" />
+                                </div>
+                                <div class="col-6 form-group">
+                                    <label class="control-label">Neuer Status</label>
+                                    <input id="changes-input-newstatus" class="form-control bg-lightyellow" readonly autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="container">
+                                <div class="row mt-3">
+                                    <div class="col-sm-12">
+                                        <div class="d-flex">
+                                            <button type="button" class="btn btn-primary" id="button-changes-close">
+                                                Schließen
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

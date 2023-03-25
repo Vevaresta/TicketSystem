@@ -99,3 +99,8 @@ $("#button-software-cancel").on("click", function () {
 $("#button-main-save-ticket").on("click", function () {
     cud.onClickButtonMainSave();
 });
+
+// Button "Änderungen -> Schließen"
+$("#button-changes-close").on("click", function () {
+    $("#changes-per-date").hide();
+});
