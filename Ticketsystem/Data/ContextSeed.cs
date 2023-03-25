@@ -244,10 +244,10 @@ namespace Ticketsystem.Data
                             OldTicketStatus = await _serviceFactory.GetTicketStatusesService().GetTicketStatusByName("Open"),
                             Comment = "Ticket erstellt",
                             User = await _userManager.FindByNameAsync("admin"),
-                            TicketId = i
                         }
                     }
                 };
+                tickets[i - 1].TicketChanges[0].Ticket = tickets[i - 1];
             };
 
             await _ticketSystemContext.Tickets.AddRangeAsync(tickets);
