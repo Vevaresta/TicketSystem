@@ -116,7 +116,6 @@
                             }
                             <div class="container @collapseClient">
                                 <h5>Kunde</h5>
-
                                 <input type="hidden" asp-for="Client.Id" id="hidden-client-id" value="@Model.Client.Id" />
                                 <div class="row mb-1">
                                     <div class="form-group">
@@ -481,7 +480,7 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
-                <div class="row mt-2 mb-5">
+                <div class="row mt-2 mb-2">
                     <div class="col-xl-4">
                         <h5>Meine Änderungen:</h5>
                         <div class="row mb-5">
@@ -495,7 +494,7 @@
                     {
                         <div class="col-xl-3">
                             <h5>Alte Änderungen:</h5>
-                            <div class="row mb-1">
+                            <div class="row mb-5">
                                 <div class="list-group bg-light" id="changes-listbox" style="height: 300px; overflow-y: scroll;">
                                     @foreach (var ticketChange in Model.TicketChanges)
                                     {
@@ -523,7 +522,7 @@
                                     <input id="changes-input-email" class="form-control bg-lightyellow" readonly autocomplete="off" />
                                 </div>
                             </div>
-                            <div class="row mb-1">
+                            <div class="row">
                                 <div class="form-group">
                                     <label class="control-label">Änderung</label>
                                     <textarea class="form-control bg-lightyellow" id="changes-input-comment" readonly rows="10"></textarea>
