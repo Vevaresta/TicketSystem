@@ -107,7 +107,8 @@ namespace Ticketsystem.Services
                 .Where(tc => tc.TicketId == id)
                 .Include(tc => tc.User)
                 .Include(tc => tc.OldTicketStatus)
-                .Include(tc => tc.NewTicketStatus);
+                .Include(tc => tc.NewTicketStatus)
+                .OrderBy(tc => tc.ChangeDate).Reverse();
 
             ticket.TicketChanges = await ticketChanges.ToListAsync();
 
