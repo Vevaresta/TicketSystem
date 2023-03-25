@@ -11,7 +11,7 @@ $(document).ready(function () {
     cud.initBackup();
     let backupSwitch = $("#switch-backup");
     if (backupSwitch.prop("checked")) {
-        $("#backup-choices").show();
+        $("#backup-choices").removeClass("collapse");
     }
 
     let isTicketChangeError = $("#hidden-ticket-change").val();
