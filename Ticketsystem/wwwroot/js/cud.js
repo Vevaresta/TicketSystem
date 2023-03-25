@@ -105,10 +105,10 @@ const cud = {
     onClickBackupSwitch: function () {
         var state = $("#switch-backup").prop("checked");
         if (state == true) {
-            $("#backup-choices").show();
+            $("#backup-choices").removeClass("collapse");
         }
         else {
-            $("#backup-choices").hide();
+            $("#backup-choices").addClass("collapse");
         }
     },
 

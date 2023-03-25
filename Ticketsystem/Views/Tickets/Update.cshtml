@@ -103,197 +103,210 @@
         </ul>
         <div class="tab-content flex-grow-1">
             <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
-                <div class="row mt-2 mb-3">
+                <div class="row mt-2">
                     <div class="col-lg-4">
-                        <h5>Kunde</h5>
-
-                        @{
-                            bool wasClientDeleted = Model.Client.Id == "Fallback";
-                            string collapseClient = wasClientDeleted ? "collapse" : "";
-                            if (wasClientDeleted)
-                            {
-                                <div class="text-danger">Kunde gelöscht!</div>
-                            }
-                        }
-
-                        <div class="container @collapseClient" style="padding: 0; margin: 0;">
-                            <input type="hidden" asp-for="Client.Id" id="hidden-client-id" value="@Model.Client.Id" />
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Client.LastName" class="control-label"></label>
-                                    <input asp-for="Client.LastName" class="form-control" autocomplete="off" />
-                                    <span asp-validation-for="Client.LastName" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Client.FirstName" class="control-label"></label>
-                                    <input asp-for="Client.FirstName" class="form-control" autocomplete="off" />
-                                    <span asp-validation-for="Client.FirstName" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Client.ParticipantNumber" class="control-label"></label>
-                                        <input asp-for="Client.ParticipantNumber" class="form-control" type="text"
-                                               autocomplete="off" />
-                                        <span asp-validation-for="Client.ParticipantNumber" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Client.Course" class="control-label"></label>
-                                        <input asp-for="Client.Course" class="form-control" autocomplete="off" />
-                                        <span asp-validation-for="Client.Course" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Client.StreetAndHouseNumber" class="control-label"></label>
-                                    <input asp-for="Client.StreetAndHouseNumber" class="form-control"
-                                           autocomplete="off" />
-                                    <span asp-validation-for="Client.StreetAndHouseNumber" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label asp-for="Client.PostalCode" class="control-label"></label>
-                                        <input asp-for="Client.PostalCode" type="text" class="form-control"
-                                               autocomplete="off" />
-                                        <span asp-validation-for="Client.PostalCode" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="form-group">
-                                        <label asp-for="Client.City" class="control-label"></label>
-                                        <input asp-for="Client.City" class="form-control" autocomplete="off" />
-                                        <span asp-validation-for="Client.City" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Client.Email" class="control-label"></label>
-                                    <input asp-for="Client.Email" type="email" class="form-control"
-                                           autocomplete="off" />
-                                    <span asp-validation-for="Client.Email" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Client.PhoneNumber" class="control-label"></label>
-                                    <input asp-for="Client.PhoneNumber" class="form-control" autocomplete="off" />
-                                    <span asp-validation-for="Client.PhoneNumber" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <h5>Aufgaben</h5>
-                        <div class="row mb-1">
-                            <div class="form-group">
-                                <label asp-for="Name" class="control-label"></label>
-                                <input asp-for="Name" class="form-control" autocomplete="off" />
-                                <span asp-validation-for="Name" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <div class="form-group">
-                                <label asp-for="WorkOrder" class="control-label"></label>
-                                <textarea asp-for="WorkOrder" class="form-control" id="exampleTextarea" rows="8"
-                                          autocomplete="off"></textarea>
-                                <span asp-validation-for="WorkOrder" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="row mb-2" id="backup">
+                        <div class="row mb-5">
                             @{
-                                string doBackupChecked = Model.DoBackup ? "checked" : "";
-                            }
-                            <div class="d-flex align-items-center">
-                                <h5 class="me-4">Datensicherung?</h5>
-                                <div class="form-check form-switch pb-2">
-                                    <input class="form-check-input" type="checkbox" id="switch-backup"
-                                           asp-for="DoBackup" />
-                                </div>
-                            </div>
-                            @{
-                                string backupByClient = Model.DataBackupByClient ? "checked" : "";
-                                string backupByStaff = Model.DataBackupByStaff ? "checked" : "";
-                                if (backupByClient == "" && backupByStaff == "")
+                                bool wasClientDeleted = Model.Client.Id == "Fallback";
+                                string collapseClient = wasClientDeleted ? "collapse" : "";
+                                if (wasClientDeleted)
                                 {
-                                    backupByStaff = "checked";
+                                    <div class="text-danger">Kunde gelöscht!</div>
                                 }
                             }
-                            <div class="row" id="backup-choices" style="display: none;">
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="radio-backup-client" type="radio"
-                                               name="BackupChoices" value="@BackupChoices.BackupByClient.ToString()"
-                                        @backupByClient />
-                                        <label asp-for="DataBackupByClient" id="radio-label-backup-client"
-                                               class="form-check-label label-backup-choice"></label>
+                            <div class="container @collapseClient">
+                                <h5>Kunde</h5>
+
+                                <input type="hidden" asp-for="Client.Id" id="hidden-client-id" value="@Model.Client.Id" />
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="Client.LastName" class="control-label"></label>
+                                        <input asp-for="Client.LastName" class="form-control" autocomplete="off" />
+                                        <span asp-validation-for="Client.LastName" class="text-danger"></span>
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="radio-backup-staff" type="radio"
-                                               name="BackupChoices" value="@BackupChoices.BackupByStaff.ToString()"
-                                        @backupByStaff />
-                                        <label asp-for="DataBackupByStaff" id="radio-label-backup-staff"
-                                               class="form-check-label label-backup-choice"></label>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="Client.FirstName" class="control-label"></label>
+                                        <input asp-for="Client.FirstName" class="form-control" autocomplete="off" />
+                                        <span asp-validation-for="Client.FirstName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Client.ParticipantNumber" class="control-label"></label>
+                                            <input asp-for="Client.ParticipantNumber" class="form-control" type="text"
+                                                   autocomplete="off" />
+                                            <span asp-validation-for="Client.ParticipantNumber" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Client.Course" class="control-label"></label>
+                                            <input asp-for="Client.Course" class="form-control" autocomplete="off" />
+                                            <span asp-validation-for="Client.Course" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="Client.StreetAndHouseNumber" class="control-label"></label>
+                                        <input asp-for="Client.StreetAndHouseNumber" class="form-control"
+                                               autocomplete="off" />
+                                        <span asp-validation-for="Client.StreetAndHouseNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label asp-for="Client.PostalCode" class="control-label"></label>
+                                            <input asp-for="Client.PostalCode" type="text" class="form-control"
+                                                   autocomplete="off" />
+                                            <span asp-validation-for="Client.PostalCode" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label asp-for="Client.City" class="control-label"></label>
+                                            <input asp-for="Client.City" class="form-control" autocomplete="off" />
+                                            <span asp-validation-for="Client.City" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="Client.Email" class="control-label"></label>
+                                        <input asp-for="Client.Email" type="email" class="form-control"
+                                               autocomplete="off" />
+                                        <span asp-validation-for="Client.Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label asp-for="Client.PhoneNumber" class="control-label"></label>
+                                        <input asp-for="Client.PhoneNumber" class="form-control" autocomplete="off" />
+                                        <span asp-validation-for="Client.PhoneNumber" class="text-danger"></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div id="single-device">
-                            <h5>Gerät</h5>
-                            @if (Model.TicketType == TicketTypes.Repair || Model.TicketType ==
-                            TicketTypes.DataRecovery)
-                            {
-                                <input type="hidden" asp-for="@Model.Devices[0].Id" id="hidden-device-id"
-                                   value="@Model.Devices[0].Id" />
-                            }
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Device.Name" class="control-label"></label>
-                                    <input class="form-control" id="input-device-name" data-val="true"
-                                           data-val-required="Pflichtfeld" name="device-name" autocomplete="off" />
-                                    <span class="text-danger field-validation-valid" data-valmsg-for="device-name"
-                                          data-valmsg-replace="true"></span>
+                        <div class="row mb-3">
+                            <div class="container">
+                                <h5>Aufgaben</h5>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="Name" class="control-label"></label>
+                                        <input asp-for="Name" class="form-control" autocomplete="off" />
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label asp-for="WorkOrder" class="control-label"></label>
+                                        <textarea asp-for="WorkOrder" class="form-control" id="exampleTextarea" rows="8"
+                                                  autocomplete="off"></textarea>
+                                        <span asp-validation-for="WorkOrder" class="text-danger"></span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Device.DeviceType" class="control-label"></label>
-                                    <input class="form-control" id="input-device-type" autocomplete="off" />
+                        </div>
+                        <div class="row mb-5">
+                            <div class="container">
+                                <div class="row" id="backup">
+                                    @{
+                                        string doBackupChecked = Model.DoBackup ? "checked" : "";
+                                    }
+                                    <div class="d-flex align-items-center">
+                                        <h5 class="me-4">Datensicherung?</h5>
+                                        <div class="form-check form-switch pb-2">
+                                            <input class="form-check-input" type="checkbox" id="switch-backup"
+                                                   asp-for="DoBackup" />
+                                        </div>
+                                    </div>
+                                    @{
+                                        string backupByClient = Model.DataBackupByClient ? "checked" : "";
+                                        string backupByStaff = Model.DataBackupByStaff ? "checked" : "";
+                                        if (backupByClient == "" && backupByStaff == "")
+                                        {
+                                            backupByStaff = "checked";
+                                        }
+                                    }
+                                </div>
+                                <div class="row">
+                                    <div class="row collapse" id="backup-choices">
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                                <input class="form-check-input" id="radio-backup-client" type="radio"
+                                                       name="BackupChoices" value="@BackupChoices.BackupByClient.ToString()"
+                                                @backupByClient />
+                                                <label asp-for="DataBackupByClient" id="radio-label-backup-client"
+                                                       class="form-check-label label-backup-choice"></label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" id="radio-backup-staff" type="radio"
+                                                       name="BackupChoices" value="@BackupChoices.BackupByStaff.ToString()"
+                                                @backupByStaff />
+                                                <label asp-for="DataBackupByStaff" id="radio-label-backup-staff"
+                                                       class="form-check-label label-backup-choice"></label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Device.Manufacturer" class="control-label"></label>
-                                    <input class="form-control" id="input-device-manufacturer" autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="row mb-5" id="single-device">
+                            <div class="container">
+                                <h5>Gerät</h5>
+                                @if (Model.TicketType == TicketTypes.Repair || Model.TicketType ==
+                                TicketTypes.DataRecovery)
+                                {
+                                    <input type="hidden" asp-for="@Model.Devices[0].Id" id="hidden-device-id"
+                                       value="@Model.Devices[0].Id" />
+                                }
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="Device.Name" class="control-label"></label>
+                                        <input class="form-control" id="input-device-name" data-val="true"
+                                               data-val-required="Pflichtfeld" name="device-name" autocomplete="off" />
+                                        <span class="text-danger field-validation-valid" data-valmsg-for="device-name"
+                                              data-valmsg-replace="true"></span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Device.SerialNumber" class="control-label"></label>
-                                    <input class="form-control" id="input-device-serialnumber" autocomplete="off" />
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="Device.DeviceType" class="control-label"></label>
+                                        <input class="form-control" id="input-device-type" autocomplete="off" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Device.Accessories" class="control-label"></label>
-                                    <input class="form-control" id="input-device-accessories" autocomplete="off" />
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="Device.Manufacturer" class="control-label"></label>
+                                        <input class="form-control" id="input-device-manufacturer" autocomplete="off" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group">
-                                    <label asp-for="Device.Comments" class="control-label"></label>
-                                    <textarea class="form-control" id="input-device-comments" rows="3"
-                                              autocomplete="off"></textarea>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="Device.SerialNumber" class="control-label"></label>
+                                        <input class="form-control" id="input-device-serialnumber" autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="Device.Accessories" class="control-label"></label>
+                                        <input class="form-control" id="input-device-accessories" autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label asp-for="Device.Comments" class="control-label"></label>
+                                        <textarea class="form-control" id="input-device-comments" rows="3"
+                                                  autocomplete="off"></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -306,138 +319,146 @@
             </div>
             <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
                 <div class="row mt-2">
-                    <div class="col-md-4">
-                        <div class="row">
-                            <h5>Geräteliste</h5>
-                            <div class="row mb-4">
-                                <div class="list-group bg-light" id="device-listbox"
-                                     style="height: 400px; overflow-y: scroll;">
+                    <div class="col-lg-4">
+                        <div class="row mb-5">
+                            <div class="container">
+                                <h5>Geräteliste</h5>
+                                <div class="row mb-4">
+                                    <div class="list-group bg-light" id="device-listbox"
+                                         style="height: 400px; overflow-y: scroll;">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 text-start">
-                                    <button type="button" class="btn btn-primary me-2" id="button-add-device">
-                                        Hinzufügen
-                                    </button>
-                                    <button type="button" class="btn btn-primary me-2" id="button-edit-device">
-                                        Bearbeiten
-                                    </button>
-                                    <button type="button" class="btn btn-primary" id="button-delete-device">
-                                        Löschen
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="row" id="add-device" style="display: none;">
-                            <h5>Gerät</h5>
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Device.Name" class="control-label"></label>
-                                    <input class="form-control" id="input-devices-name" autocomplete="off" />
-                                    <span class="text-danger field-validation-valid" id="validate-input-devices-name"
-                                          data-valmsg-replace="true" style="display: none;">Plichtfeld</span>
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Device.DeviceType" class="control-label"></label>
-                                    <input class="form-control" id="input-devices-type" autocomplete="off" />
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Device.Manufacturer" class="control-label"></label>
-                                    <input class="form-control" id="input-devices-manufacturer" autocomplete="off" />
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Device.SerialNumber" class="control-label"></label>
-                                    <input class="form-control" id="input-devices-serialnumber" autocomplete="off" />
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label asp-for="Device.Accessories" class="control-label"></label>
-                                    <input class="form-control" id="input-devices-accessories" autocomplete="off" />
-                                </div>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="form-group">
-                                    <label asp-for="Device.Comments" class="control-label"></label>
-                                    <textarea class="form-control" id="input-devices-comments" rows="3"
-                                              autocomplete="off"></textarea>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 text-start">
-                                    <button type="button" class="btn btn-primary me-2" id="button-devices-save">
-                                        Speichern
-                                    </button>
-                                    <button type="button" class="btn btn-primary me-2 collapse"
-                                            id="button-devices-edit">
-                                        Ändern
-                                    </button>
-                                    <button type="button" class="btn btn-primary me-2" id="button-devices-cancel">
-                                        Abbrechen
-                                    </button>
+                                <div class="row">
+                                    <div class="col-sm-12 text-start">
+                                        <button type="button" class="btn btn-primary me-2" id="button-add-device">
+                                            Hinzufügen
+                                        </button>
+                                        <button type="button" class="btn btn-primary me-2" id="button-edit-device">
+                                            Bearbeiten
+                                        </button>
+                                        <button type="button" class="btn btn-primary" id="button-delete-device">
+                                            Löschen
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="row mb-4" id="software-list" style="display: none;">
-                            <h5>Softwareliste</h5>
-                            <div class="row mb-4">
-                                <div class="list-group bg-light" id="software-listbox"
-                                     style="height: 130px; overflow-y: scroll;">
+                    <div class="col-lg-4">
+                        <div class="row mb-5" id="add-device" style="display: none;">
+                            <div class="container">
+                                <h5>Gerät</h5>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="Device.Name" class="control-label"></label>
+                                        <input class="form-control" id="input-devices-name" autocomplete="off" />
+                                        <span class="text-danger field-validation-valid" id="validate-input-devices-name"
+                                              data-valmsg-replace="true" style="display: none;">Plichtfeld</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 text-start">
-                                    <button type="button" class="btn btn-primary me-2" id="button-add-software">
-                                        Hinzufügen
-                                    </button>
-                                    <button type="button" class="btn btn-primary me-2" id="button-edit-software">
-                                        Bearbeiten
-                                    </button>
-                                    <button type="button" class="btn btn-primary" id="button-delete-software">
-                                        Löschen
-                                    </button>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="Device.DeviceType" class="control-label"></label>
+                                        <input class="form-control" id="input-devices-type" autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="Device.Manufacturer" class="control-label"></label>
+                                        <input class="form-control" id="input-devices-manufacturer" autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="Device.SerialNumber" class="control-label"></label>
+                                        <input class="form-control" id="input-devices-serialnumber" autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="Device.Accessories" class="control-label"></label>
+                                        <input class="form-control" id="input-devices-accessories" autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="form-group">
+                                        <label asp-for="Device.Comments" class="control-label"></label>
+                                        <textarea class="form-control" id="input-devices-comments" rows="3"
+                                                  autocomplete="off"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 text-start">
+                                        <button type="button" class="btn btn-primary me-2" id="button-devices-save">
+                                            Speichern
+                                        </button>
+                                        <button type="button" class="btn btn-primary me-2 collapse"
+                                                id="button-devices-edit">
+                                            Ändern
+                                        </button>
+                                        <button type="button" class="btn btn-primary me-2" id="button-devices-cancel">
+                                            Abbrechen
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row" id="add-software" style="display: none;">
-                            <h5>Software</h5>
-                            <div class="row mb-1">
-                                <div class="form-group">
-                                    <label class="control-label">Bezeichnung</label>
-                                    <input class="form-control" id="input-software-name" autocomplete="off" />
-                                    <span class="text-danger field-validation-valid" id="validate-input-software-name"
-                                          data-valmsg-replace="true" style="display: none;">Plichtfeld</span>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="row mb-5" id="software-list" style="display: none;">
+                            <div class="container">
+                                <h5>Softwareliste</h5>
+                                <div class="row mb-4">
+                                    <div class="list-group bg-light" id="software-listbox"
+                                         style="height: 130px; overflow-y: scroll;">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 text-start">
+                                        <button type="button" class="btn btn-primary me-2" id="button-add-software">
+                                            Hinzufügen
+                                        </button>
+                                        <button type="button" class="btn btn-primary me-2" id="button-edit-software">
+                                            Bearbeiten
+                                        </button>
+                                        <button type="button" class="btn btn-primary" id="button-delete-software">
+                                            Löschen
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row mb-4">
-                                <div class="form-group">
-                                    <label for="exampleTextarea" class="control-label">Notizen</label>
-                                    <textarea class="form-control" id="input-software-comments" rows="3"
-                                              autocomplete="off"></textarea>
+                        </div>
+                        <div class="row mb-5" id="add-software" style="display: none;">
+                            <div class="container">
+                                <h5>Software</h5>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Bezeichnung</label>
+                                        <input class="form-control" id="input-software-name" autocomplete="off" />
+                                        <span class="text-danger field-validation-valid" id="validate-input-software-name"
+                                              data-valmsg-replace="true" style="display: none;">Plichtfeld</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 text-start">
-                                    <button type="button" class="btn btn-primary me-2" id="button-software-save">
-                                        Speichern
-                                    </button>
-                                    <button type="button" class="btn btn-primary me-2 collapse"
-                                            id="button-software-edit">
-                                        Ändern
-                                    </button>
-                                    <button type="button" class="btn btn-primary me-2" id="button-software-cancel">
-                                        Abbrechen
-                                    </button>
+                                <div class="row mb-4">
+                                    <div class="form-group">
+                                        <label for="exampleTextarea" class="control-label">Notizen</label>
+                                        <textarea class="form-control" id="input-software-comments" rows="3"
+                                                  autocomplete="off"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 text-start">
+                                        <button type="button" class="btn btn-primary me-2" id="button-software-save">
+                                            Speichern
+                                        </button>
+                                        <button type="button" class="btn btn-primary me-2 collapse"
+                                                id="button-software-edit">
+                                            Ändern
+                                        </button>
+                                        <button type="button" class="btn btn-primary me-2" id="button-software-cancel">
+                                            Abbrechen
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -445,10 +466,10 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
-                <div class="row mt-2">
+                <div class="row mt-2 mb-5">
                     <div class="col-xl-4">
                         <h5>Meine Änderungen:</h5>
-                        <div class="row mb-1">
+                        <div class="row mb-5">
                             <div class="form-group">
                                 <textarea asp-for="TicketChange.Comment" class="form-control" rows="12" autocomplete="off"></textarea>
                                 <span asp-validation-for="TicketChange.Comment" class="text-danger"></span>
@@ -500,7 +521,7 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <input type="submit" value="Speichern" class="btn btn-lg btn-primary mb-2"
+                <input type="submit" value="Ticket Speichern" class="btn btn-lg btn-primary mb-2"
                        id="button-main-save-ticket" asp-action="Update" />
             </div>
         </div>
