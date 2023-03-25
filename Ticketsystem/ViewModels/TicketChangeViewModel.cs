@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Ticketsystem.Enums;
 using Ticketsystem.Models.Database;
 
 namespace Ticketsystem.ViewModels

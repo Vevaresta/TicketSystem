@@ -324,22 +324,24 @@
                             <div class="container">
                                 <h5>Geräteliste</h5>
                                 <div class="row">
-                                    <div class="list-group bg-light" id="device-listbox"
-                                         style="height: 400px; overflow-y: scroll;">
-                                    </div>
                                     <div class="container">
-                                        <div class="row mt-3">
-                                            <div class="col-sm-12">
-                                                <div class="d-flex flex-wrap">
-                                                    <button type="button" class="btn btn-primary me-2" id="button-add-device">
-                                                        Hinzufügen
-                                                    </button>
-                                                    <button type="button" class="btn btn-primary me-2" id="button-edit-device">
-                                                        Bearbeiten
-                                                    </button>
-                                                    <button type="button" class="btn btn-primary mt-0 mt-sm-0 mt-lg-2 mt-xl-0" id="button-delete-device">
-                                                        Löschen
-                                                    </button>
+                                        <div class="list-group bg-light" id="device-listbox"
+                                             style="height: 400px; overflow-y: scroll;">
+                                        </div>
+                                        <div class="container-0">
+                                            <div class="row mt-3">
+                                                <div class="col-sm-12">
+                                                    <div class="d-flex flex-wrap">
+                                                        <button type="button" class="btn btn-primary me-2" id="button-add-device">
+                                                            Hinzufügen
+                                                        </button>
+                                                        <button type="button" class="btn btn-primary me-2" id="button-edit-device">
+                                                            Bearbeiten
+                                                        </button>
+                                                        <button type="button" class="btn btn-primary mt-0 mt-sm-0 mt-lg-2 mt-xl-0" id="button-delete-device">
+                                                            Löschen
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -391,7 +393,7 @@
                                                   autocomplete="off"></textarea>
                                     </div>
                                 </div>
-                                <div class="container">
+                                <div class="container-0">
                                     <div class="row mt-3">
                                         <div class="col-sm-12">
                                             <div class="d-flex flex-wrap">
@@ -412,26 +414,28 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="row mb-5" id="software-list" style="display: none;">
+                        <div class="row mb-5 mb-sm-5 mb-lg-3" id="software-list" style="display: none;">
                             <div class="container">
                                 <h5>Softwareliste</h5>
-                                <div class="row mb-4">
-                                    <div class="list-group bg-light" id="software-listbox"
-                                         style="height: 130px; overflow-y: scroll;">
-                                    </div>
+                                <div class="row">
                                     <div class="container">
-                                        <div class="row mt-3">
-                                            <div class="col-sm-12">
-                                                <div class="d-flex flex-wrap">
-                                                    <button type="button" class="btn btn-primary me-2" id="button-add-software">
-                                                        Hinzufügen
-                                                    </button>
-                                                    <button type="button" class="btn btn-primary me-2" id="button-edit-software">
-                                                        Bearbeiten
-                                                    </button>
-                                                    <button type="button" class="btn btn-primary mt-0 mt-sm-0 mt-lg-2 mt-xl-0" id="button-delete-software">
-                                                        Löschen
-                                                    </button>
+                                        <div class="list-group bg-light" id="software-listbox"
+                                             style="height: 130px; overflow-y: scroll;">
+                                        </div>
+                                        <div class="container-0">
+                                            <div class="row mt-3">
+                                                <div class="col-sm-12">
+                                                    <div class="d-flex flex-wrap">
+                                                        <button type="button" class="btn btn-primary me-2" id="button-add-software">
+                                                            Hinzufügen
+                                                        </button>
+                                                        <button type="button" class="btn btn-primary me-2" id="button-edit-software">
+                                                            Bearbeiten
+                                                        </button>
+                                                        <button type="button" class="btn btn-primary mt-0 mt-sm-0 mt-lg-2 mt-xl-0" id="button-delete-software">
+                                                            Löschen
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -457,7 +461,7 @@
                                                   autocomplete="off"></textarea>
                                     </div>
                                 </div>
-                                <div class="container">
+                                <div class="container-0">
                                     <div class="row mt-3">
                                         <div class="col-sm-12">
                                             <div class="d-flex flex-wrap">
@@ -503,11 +507,11 @@
                                         @foreach (var ticketChange in Model.TicketChanges)
                                         {
                                             string currentDate = @ticketChange.ChangeDate.ToString("dd.MM.yyyy - HH:mm 'Uhr'");
-                                            string oldStatus = EnumUtility.GetTicketStatusByName(ticketChange.OldTicketStatus.Name).GetText();
+                                            string oldStatus = ticketChange.OldTicketStatus.AsEnum.GetText();
                                             string newStatus = "";
                                             if (ticketChange.NewTicketStatus != null)
                                             {
-                                                newStatus = EnumUtility.GetTicketStatusByName(ticketChange.NewTicketStatus.Name).GetText();
+                                                newStatus = ticketChange.NewTicketStatus.AsEnum.GetText();
                                             }
                                             var item = new
                                             {
@@ -524,7 +528,7 @@
                             </div>
                         </div>
                         <div class="col-lg-4" id="changes-per-date" style="display: none;">
-                            <div class="row mb-3">
+                            <div class="row mb-5 mb-sm-5 mb-lg-3">
                                 <div class="container">
                                     <h5 id="changes-per-date-header"></h5>
                                     <div class="row mb-1">
@@ -561,7 +565,7 @@
                                             <input id="changes-input-newstatus" class="form-control bg-lightyellow" readonly autocomplete="off" />
                                         </div>
                                     </div>
-                                    <div class="container">
+                                    <div class="container-0">
                                         <div class="row mt-3">
                                             <div class="col-sm-12">
                                                 <div class="d-flex">

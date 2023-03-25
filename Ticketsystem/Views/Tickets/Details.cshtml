@@ -176,8 +176,7 @@
                                 <div class="d-flex align-items-center">
                                     <h5 class="me-4">Datensicherung?</h5>
                                     <div class="form-check form-switch pb-2">
-                                        <input class="form-check-input" type="checkbox" disabled id="switch-backup"
-                                        @doBackupChecked />
+                                        <input class="form-check-input" type="checkbox" disabled id="switch-backup" @doBackupChecked />
                                     </div>
                                 </div>
                             </div>
@@ -266,9 +265,11 @@
                     <div class="row mb-5">
                         <div class="container">
                             <h5>Geräteliste</h5>
-                            <div class="row">
-                                <div class="list-group bg-light" id="device-listbox"
-                                     style="height: 400px; overflow-y: scroll;"></div>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="list-group bg-light" id="device-listbox"
+                                         style="height: 400px; overflow-y: scroll;"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -336,8 +337,10 @@
                         <div class="container">
                             <h5>Softwareliste</h5>
                             <div class="row">
-                                <div class="list-group bg-light" id="software-listbox"
-                                     style="height: 130px; overflow-y: scroll;"></div>
+                                <div class="container">
+                                    <div class="list-group bg-light" id="software-listbox"
+                                         style="height: 130px; overflow-y: scroll;"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -383,11 +386,11 @@
                                 @foreach (var ticketChange in Model.TicketChanges)
                                 {
                                     string currentDate = @ticketChange.ChangeDate.ToString("dd.MM.yyyy - HH:mm 'Uhr'");
-                                    string oldStatus = EnumUtility.GetTicketStatusByName(ticketChange.OldTicketStatus.Name).GetText();
+                                    string oldStatus = ticketChange.OldTicketStatus.AsEnum.GetText();
                                     string newStatus = "";
                                     if (ticketChange.NewTicketStatus != null)
                                     {
-                                        newStatus = EnumUtility.GetTicketStatusByName(ticketChange.NewTicketStatus.Name).GetText();
+                                        newStatus = ticketChange.NewTicketStatus.AsEnum.GetText();
                                     }
                                     var item = new
                                     {
@@ -396,7 +399,7 @@
                                         Comment = ticketChange.Comment,
                                         OldStatus = oldStatus,
                                         NewStatus = newStatus
-                                };
+                                    };
                                     <button type="button" value="@JsonConvert.SerializeObject(item)" class="list-group-item list-group-item-action changes-listbox-item text-nowrap">@currentDate</button>
                                 }
                             </div>
@@ -441,7 +444,7 @@
                                     <input id="changes-input-newstatus" class="form-control bg-lightyellow" readonly autocomplete="off" />
                                 </div>
                             </div>
-                            <div class="container">
+                            <div class="container-0">
                                 <div class="row mt-3">
                                     <div class="col-sm-12">
                                         <div class="d-flex">
