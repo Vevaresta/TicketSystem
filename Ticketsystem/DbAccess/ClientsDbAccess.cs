@@ -12,11 +12,16 @@ namespace Ticketsystem.DbAccess
     {
         private readonly TicketsystemContext _ticketsystemContext;
         private readonly IDistributedCache _cache;
+        private readonly Globals _globals;
 
-        public ClientsDbAccess(TicketsystemContext ticketsystemContext, IDistributedCache cache)
+        public ClientsDbAccess(
+            TicketsystemContext ticketsystemContext,
+            IDistributedCache cache,
+            Globals globals)
         {
             _ticketsystemContext = ticketsystemContext;
             _cache = cache;
+            _globals = globals;
         }
 
         private IQueryable<Client> GetClientsShared(ClientData clientData)
@@ -47,11 +52,15 @@ namespace Ticketsystem.DbAccess
 
         public async Task<List<Client>> GetAllClients(ClientData clientData)
         {
-            string cacheKey = $"tickets_{clientData.FilterByFirstName}_{clientData.FilterByLastName}_{clientData.FilterByEmail}_{clientData.SortBy}_{clientData.Take}_{clientData.Skip}_{clientData.DoReverse}";
-            var cachedClients = await _cache.GetAsync(cacheKey);
-            if (cachedClients != null)
+            string cacheKey = "";
+            if (_globals.EnableRedisCache)
             {
-                return JsonConvert.DeserializeObject<List<Client>>(Encoding.UTF8.GetString(cachedClients));
+                cacheKey = $"tickets_{clientData.FilterByFirstName}_{clientData.FilterByLastName}_{clientData.FilterByEmail}_{clientData.SortBy}_{clientData.Take}_{clientData.Skip}_{clientData.DoReverse}";
+                var cachedClients = await _cache.GetAsync(cacheKey);
+                if (cachedClients != null)
+                {
+                    return JsonConvert.DeserializeObject<List<Client>>(Encoding.UTF8.GetString(cachedClients));
+                }
             }
 
             IQueryable<Client> query = GetClientsShared(clientData);
@@ -73,10 +82,13 @@ namespace Ticketsystem.DbAccess
 
             var clients = await query.ToListAsync();
 
-            await _cache.SetAsync(cacheKey, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(clients)), new DistributedCacheEntryOptions
+            if (_globals.EnableRedisCache)
             {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
-            });
+                await _cache.SetAsync(cacheKey, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(clients)), new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
+                });
+            }
 
             return clients;
         }

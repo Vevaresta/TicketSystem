@@ -9,6 +9,7 @@ using System.Text;
 using Ticketsystem.Data;
 using Ticketsystem.Models.Database;
 using Ticketsystem.DbAccess;
+using Ticketsystem.Models.Data;
 
 namespace Ticketsystem
 {
@@ -22,6 +23,7 @@ namespace Ticketsystem
 
             string dbms = builder.Configuration.GetValue<string>("DBMS");
             bool seedTestData = builder.Configuration.GetValue<bool>("SeedTestData");
+            bool enableRedisCache = builder.Configuration.GetValue<bool>("EnableRedisCache");
 
             if (dbms == "sqlite")
             {
@@ -56,6 +58,10 @@ namespace Ticketsystem
                 .AddEntityFrameworkStores<TicketsystemContext>()
                 .AddDefaultTokenProviders();
 
+            builder.Services.AddSingleton<Globals>(new Globals()
+            {
+                EnableRedisCache = enableRedisCache
+            });
             builder.Services.AddScoped<IDbAccessFactory, DbAccessFactory>();
 
             // Add services to the container.

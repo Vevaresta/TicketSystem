@@ -12,11 +12,16 @@ namespace Ticketsystem.DbAccess
     {
         private readonly TicketsystemContext _ticketsystemContext;
         private readonly IDistributedCache _cache;
+        private readonly Globals _globals;
 
-        public TicketsDbAccess(TicketsystemContext ticketsystemContext, IDistributedCache cache)
+        public TicketsDbAccess(
+            TicketsystemContext ticketsystemContext,
+            IDistributedCache cache,
+            Globals globals)
         {
             _ticketsystemContext = ticketsystemContext;
             _cache = cache;
+            _globals = globals;
         }
 
         private IQueryable<Ticket> GetTicketsShared(TicketData ticketData)
@@ -77,11 +82,15 @@ namespace Ticketsystem.DbAccess
         }
         public async Task<IList<Ticket>> GetAllTickets(TicketData ticketData)
         {
-            string cacheKey = $"tickets_{ticketData.FilterByTicketId}_{ticketData.FilterByTicketName}_{ticketData.FilterByClientName}_{ticketData.FilterByTicketStatus}_{ticketData.FilterByTicketType}_{ticketData.FilterByStartDate}_{ticketData.FilterByEndDate}_{ticketData.SortBy}_{ticketData.DoReverse}_{ticketData.Skip}_{ticketData.Take}";
-            var cachedTickets = await _cache.GetAsync(cacheKey);
-            if (cachedTickets != null)
+            string cacheKey = "";
+            if (_globals.EnableRedisCache)
             {
-                return JsonConvert.DeserializeObject<List<Ticket>>(Encoding.UTF8.GetString(cachedTickets));
+                cacheKey = $"tickets_{ticketData.FilterByTicketId}_{ticketData.FilterByTicketName}_{ticketData.FilterByClientName}_{ticketData.FilterByTicketStatus}_{ticketData.FilterByTicketType}_{ticketData.FilterByStartDate}_{ticketData.FilterByEndDate}_{ticketData.SortBy}_{ticketData.DoReverse}_{ticketData.Skip}_{ticketData.Take}";
+                var cachedTickets = await _cache.GetAsync(cacheKey);
+                if (cachedTickets != null)
+                {
+                    return JsonConvert.DeserializeObject<List<Ticket>>(Encoding.UTF8.GetString(cachedTickets));
+                }
             }
 
             var query = GetTicketsShared(ticketData);
@@ -106,10 +115,13 @@ namespace Ticketsystem.DbAccess
 
             var tickets = await query.ToListAsync();
 
-            await _cache.SetAsync(cacheKey, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(tickets)), new DistributedCacheEntryOptions
+            if (_globals.EnableRedisCache)
             {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
-            });
+                await _cache.SetAsync(cacheKey, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(tickets)), new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
+                });
+            }
 
             return tickets;
         }
