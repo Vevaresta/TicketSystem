@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TicketViewModel>
+﻿@model IEnumerable<TicketIndexViewModel>
 @inject UserManager<User> userManager;
 @inject IDbAccessFactory serviceFactory;
 
@@ -241,8 +241,6 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        string ticketType = item.TicketType.GetText();
-                        string ticketStatus = item.TicketStatus.GetText();
                         <tr>
                             <td class="fit">
                                 @Html.DisplayFor(modelItem => item.Id)
@@ -251,13 +249,13 @@
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
                             <td>
-                                @ticketType
+                                @item.TicketType
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Client.LastName)
+                                @Html.DisplayFor(modelItem => item.ClientLastName)
                             </td>
                             <td class="fit">
-                                @ticketStatus
+                                @item.TicketStatus
                             </td>
                             <td class="fit">
                                 @Html.DisplayFor(modelItem => item.OrderDate)

@@ -13,6 +13,7 @@ using Ticketsystem.Models.Data;
 using Ticketsystem.Models.Database;
 using Ticketsystem.DbAccess;
 using Ticketsystem.ViewModels;
+using Ticketsystem.Extensions;
 
 namespace Ticketsystem.Controllers
 {
@@ -38,13 +39,6 @@ namespace Ticketsystem.Controllers
         {
             var tickets = await _ticketsService.GetAllTickets(ticketData);
 
-            List<TicketViewModel> ticketViewModels = new();
-
-            foreach (var ticket in tickets)
-            {
-                ticketViewModels.Add(ticket);
-            }
-
             ViewBag.Take = ticketData.Take;
             ViewBag.Skip = ticketData.Skip;
             ViewBag.SortBy = ticketData.SortBy;
@@ -58,7 +52,7 @@ namespace Ticketsystem.Controllers
             ViewBag.FilterByEndDate = ticketData.FilterByEndDate;
             ViewBag.FilterByTicketType = ticketData.FilterByTicketType;
 
-            return View(ticketViewModels);
+            return View(tickets);
         }
 
         // GET: Tickets/Create

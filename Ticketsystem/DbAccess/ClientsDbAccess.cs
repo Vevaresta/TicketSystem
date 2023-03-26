@@ -5,6 +5,7 @@ using Ticketsystem.Models.Database;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Text;
+using Ticketsystem.ViewModels;
 
 namespace Ticketsystem.DbAccess
 {
@@ -50,7 +51,7 @@ namespace Ticketsystem.DbAccess
             return GetClientsShared(clientData).Count();
         }
 
-        public async Task<List<Client>> GetAllClients(ClientData clientData)
+        public async Task<List<ClientIndexViewModel>> GetAllClients(ClientData clientData)
         {
             string cacheKey = "";
             if (_globals.EnableRedisCache)
@@ -59,7 +60,7 @@ namespace Ticketsystem.DbAccess
                 var cachedClients = await _cache.GetAsync(cacheKey);
                 if (cachedClients != null)
                 {
-                    return JsonConvert.DeserializeObject<List<Client>>(Encoding.UTF8.GetString(cachedClients));
+                    return JsonConvert.DeserializeObject<List<ClientIndexViewModel>>(Encoding.UTF8.GetString(cachedClients));
                 }
             }
 
@@ -82,15 +83,28 @@ namespace Ticketsystem.DbAccess
 
             var clients = await query.ToListAsync();
 
+            List<ClientIndexViewModel> list = new();
+
+            foreach (var client in clients)
+            {
+                list.Add(new ClientIndexViewModel
+                {
+                    Id = client.Id,
+                    LastName = client.LastName,
+                    FirstName = client.FirstName,
+                    Email = client.Email
+                });
+            }
+
             if (_globals.EnableRedisCache)
             {
-                await _cache.SetAsync(cacheKey, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(clients)), new DistributedCacheEntryOptions
+                await _cache.SetAsync(cacheKey, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(list)), new DistributedCacheEntryOptions
                 {
                     AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
                 });
             }
 
-            return clients;
+            return list;
         }
 
         public async Task<Client> GetClientById(string id)

@@ -5,6 +5,9 @@ using Ticketsystem.Data;
 using Ticketsystem.Models.Data;
 using Ticketsystem.Models.Database;
 using Newtonsoft.Json;
+using Ticketsystem.ViewModels;
+using Ticketsystem.Enums;
+using Ticketsystem.Extensions;
 
 namespace Ticketsystem.DbAccess
 {
@@ -27,9 +30,20 @@ namespace Ticketsystem.DbAccess
         private IQueryable<Ticket> GetTicketsShared(TicketData ticketData)
         {
             IQueryable<Ticket> query = _ticketsystemContext.Tickets
-                .Include(t => t.Client)
                 .Include(t => t.TicketStatus)
-                .Include(t => t.TicketType);
+                .Include(t => t.TicketType)
+                .Select(t => new Ticket
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    OrderDate = t.OrderDate,
+                    TicketStatus = t.TicketStatus,
+                    TicketType = t.TicketType,
+                    Client = new Client
+                    {
+                        LastName = t.Client.LastName,
+                    }
+                });
 
             if (!string.IsNullOrEmpty(ticketData.FilterByTicketId))
             {
@@ -79,7 +93,7 @@ namespace Ticketsystem.DbAccess
         {
             return GetTicketsShared(ticketData).Count();
         }
-        public async Task<IList<Ticket>> GetAllTickets(TicketData ticketData)
+        public async Task<IList<TicketIndexViewModel>> GetAllTickets(TicketData ticketData)
         {
             string cacheKey = "";
             if (_globals.EnableRedisCache)
@@ -89,7 +103,7 @@ namespace Ticketsystem.DbAccess
                 if (cachedTickets != null)
                 {
                     await Console.Out.WriteLineAsync("Got Tickets from Cache");
-                    return JsonConvert.DeserializeObject<List<Ticket>>(Encoding.UTF8.GetString(cachedTickets));
+                    return JsonConvert.DeserializeObject<List<TicketIndexViewModel>>(Encoding.UTF8.GetString(cachedTickets));
                 }
             }
 
@@ -115,15 +129,30 @@ namespace Ticketsystem.DbAccess
 
             var tickets = await query.ToListAsync();
 
+            List<TicketIndexViewModel> list = new();
+
+            foreach (var ticket in tickets)
+            {
+                list.Add(new TicketIndexViewModel
+                {
+                    Id = ticket.Id,
+                    Name = ticket.Name,
+                    OrderDate = ticket.OrderDate,
+                    TicketType = Enum.GetValues<TicketTypes>().FirstOrDefault(tt => tt.ToString() == ticket.TicketType.Name).GetText(),
+                    TicketStatus = Enum.GetValues<TicketStatuses>().FirstOrDefault(tt => tt.ToString() == ticket.TicketStatus.Name).GetText(),
+                    ClientLastName = ticket.Client.LastName,
+                });
+            }
+
             if (_globals.EnableRedisCache)
             {
-                await _cache.SetAsync(cacheKey, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(tickets)), new DistributedCacheEntryOptions
+                await _cache.SetAsync(cacheKey, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(list)), new DistributedCacheEntryOptions
                 {
                     AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
                 });
             }
 
-            return tickets;
+            return list;
         }
 
 

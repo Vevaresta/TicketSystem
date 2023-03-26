@@ -25,13 +25,7 @@ namespace Ticketsystem.Controllers
         // GET: Clients
         public async Task<IActionResult> Index(ClientData clientData)
         {
-            List<Client> clients = await _clientsService.GetAllClients(clientData);
-            List<ClientViewModel> clientViewModels = new();
-
-            foreach (var client in clients)
-            {
-                clientViewModels.Add(client);
-            }
+            List<ClientIndexViewModel> clients = await _clientsService.GetAllClients(clientData);
 
             ViewBag.Take = clientData.Take;
             ViewBag.Skip = clientData.Skip;
@@ -42,7 +36,7 @@ namespace Ticketsystem.Controllers
             ViewBag.FilterByFirstName = clientData.FilterByFirstName;
             ViewBag.FilterByEmail = clientData.FilterByEmail;
 
-            return View(clientViewModels);
+            return View(clients);
         }
 
         // GET: Clients/Details/5
