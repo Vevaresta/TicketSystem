@@ -38,6 +38,7 @@
 
     string displayForSingleDevice = Model.TicketType == TicketTypes.Repair || Model.TicketType == TicketTypes.DataRecovery ? "block" : "none";
     string displayForSpecial = Model.TicketType == TicketTypes.Special ? "block" : "none";
+    string displayBackup = Model.TicketType == TicketTypes.Repair || Model.TicketType == TicketTypes.DataRecovery || Model.TicketType == TicketTypes.Special ? "block" : "none";
 }
 
 <form method="post">
@@ -215,7 +216,7 @@
                         </div>
                         <div class="row mb-5">
                             <div class="container">
-                                <div class="row" id="backup" style="display: @displayForSingleDevice;">
+                                <div class="row" id="backup" style="display: @displayBackup;">
                                     @{
                                         string doBackupChecked = Model.DoBackup ? "checked" : "";
                                     }
