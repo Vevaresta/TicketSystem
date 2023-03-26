@@ -146,6 +146,7 @@ const cud = {
         $("#button-devices-save").removeClass("collapse");
         $("#button-devices-edit").addClass("collapse");
 
+        $("#add-software").hide();
         $("#add-device").show();
         $("#software-list").show();
         $("#validate-input-devices-name").hide();
