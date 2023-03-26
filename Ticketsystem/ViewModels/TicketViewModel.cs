@@ -75,31 +75,31 @@ namespace Ticketsystem.ViewModels
         {
             var ticket = new Ticket
             {
-                Id = this.Id,
-                Client = this.Client.CopyForUpdate(),
-                Name = this.Name,
-                OrderDate = this.OrderDate.ToUniversalTime(),
-                WorkOrder = this.WorkOrder,
-                DoBackup = this.DoBackup,
-                DataBackupByClient = this.DataBackupByClient,
-                DataBackupByStaff = this.DataBackupByStaff,
-                DataBackupDone = this.DataBackupDone,
+                Id = Id,
+                Client = Client.CopyForUpdate(),
+                Name = Name,
+                OrderDate = OrderDate.ToUniversalTime(),
+                WorkOrder = WorkOrder,
+                DoBackup = DoBackup,
+                DataBackupByClient = DataBackupByClient,
+                DataBackupByStaff = DataBackupByStaff,
+                DataBackupDone = DataBackupDone,
                 Devices = new List<Device>(),
                 TicketChanges = new List<TicketChange>()
             };
 
-            if (this.Devices != null)
+            if (Devices != null)
             {
-                foreach (var deviceViewModel in this.Devices)
+                foreach (var deviceViewModel in Devices)
                 {
                     Device device = deviceViewModel.CopyForUpdate();
                     ticket.Devices.Add(device);
                 }
             }
 
-            if (this.TicketChanges != null)
+            if (TicketChanges != null)
             {
-                foreach (var ticketChange in this.TicketChanges)
+                foreach (var ticketChange in TicketChanges)
                 {
                     ticket.TicketChanges.Add(ticketChange);
                 }

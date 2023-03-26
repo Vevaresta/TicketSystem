@@ -21,16 +21,15 @@
 
 @{
     ViewData["Title"] = "Ticket Nr. " + Model.Id;
-}
 
-@{
-    @using Newtonsoft.Json;
     string devicesJson = "";
 
     if (Model.Devices != null)
     {
         devicesJson = JsonConvert.SerializeObject(Model.Devices);
     }
+
+    string displayForSingleDevice = Model.TicketType == TicketTypes.Repair || Model.TicketType == TicketTypes.DataRecovery ? "block" : "none";
 }
 
 <input type="hidden" id="hidden-devices" value="@devicesJson" />
@@ -169,7 +168,7 @@
                     </div>
                     <div class="row mb-5">
                         <div class="container">
-                            <div class="row" id="backup">
+                            <div class="row" id="backup" style="display: @displayForSingleDevice;">
                                 @{
                                     string doBackupChecked = Model.DoBackup ? "checked" : "";
                                 }
@@ -209,7 +208,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="row mb-2" id="single-device">
+                    <div class="row mb-2" id="single-device" style="display: @displayForSingleDevice;">
                         <div class="container">
                             <h5>Gerät</h5>
                             <div class="row mb-1">

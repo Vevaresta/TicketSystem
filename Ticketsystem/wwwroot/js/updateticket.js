@@ -5,7 +5,6 @@ $(document).ready(function () {
     cud.setViewType("Update");
     cud.disableDeviceButtons();
     cud.initDevices();
-    cud.initBackup();
     let backupSwitch = $("#switch-backup");
     if (backupSwitch.prop("checked")) {
         $("#backup-choices").removeClass("collapse");

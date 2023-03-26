@@ -28,9 +28,9 @@ public class SoftwareViewModel
     {
         var software = new Software
         {
-            Id = this.Id,
-            Name = this.Name,
-            Comments = this.Comments,
+            Id = Id,
+            Name = Name,
+            Comments = Comments,
         };
 
         return software;

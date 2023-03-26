@@ -3,7 +3,6 @@ import cud from './cud.js'
 $(document).ready(function () {
     cud.initTabs();
     cud.setViewType("Details");
-    cud.initBackup();
     cud.initDevices();
 
     $(".bg-lightyellow").focus(function () {

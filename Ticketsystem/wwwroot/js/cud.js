@@ -53,12 +53,10 @@ const cud = {
             $("#input-device-accessories").val(this.deviceList[0].Accessories);
             $("#input-device-comments").val(this.deviceList[0].Comments);
 
-            singleDevice.show();
             devicesTab.hide();
         }
         else if (ticketType == TicketTypes.Consultation) {
             $('#tabs a[href="#tab1"]').tab('show');
-            singleDevice.hide();
             devicesTab.hide();
         }
         else {
@@ -75,23 +73,7 @@ const cud = {
 
                 var newItem = $('<button type="button" class="list-group-item list-group-item-action device-listbox-item">' + device.Name + '</button>');
             }
-            singleDevice.hide();
             devicesTab.show();
-        }
-    },
-
-    initBackup: function () {
-        var ticketType = $("#hidden-ticket-type").val();
-        var backup = $("#backup")
-
-        if (ticketType == TicketTypes.Repair || ticketType == TicketTypes.DataRecovery) {
-            backup.show();
-        }
-        else if (ticketType == TicketTypes.Consultation) {
-            backup.hide();
-        }
-        else {
-            backup.show();
         }
     },
 

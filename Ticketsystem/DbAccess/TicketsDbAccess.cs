@@ -73,7 +73,7 @@ namespace Ticketsystem.DbAccess
 
         public async Task<IList<Ticket>> GetAllTickets(TicketData ticketData)
         {
-            IQueryable<Ticket> query = GetTicketsShared(ticketData);
+            var query = GetTicketsShared(ticketData);
 
             query = ticketData.SortBy switch
             {
@@ -91,7 +91,9 @@ namespace Ticketsystem.DbAccess
                 query = query.Reverse();
             }
 
-            return await query.Skip(ticketData.Skip).Take(ticketData.Take).ToListAsync();
+            query = query.Skip(ticketData.Skip).Take(ticketData.Take);
+
+            return await query.ToListAsync();
         }
 
         public async Task<Ticket> GetTicketById(int id)

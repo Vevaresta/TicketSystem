@@ -57,19 +57,19 @@ public class DeviceViewModel
     {
         var device = new Device
         {
-            Id = this.Id,
-            Name = this.Name,
-            DeviceType = this.DeviceType,
-            Manufacturer = this.Manufacturer,
-            SerialNumber = this.SerialNumber,
-            Accessories = this.Accessories,
-            Comments = this.Comments,
+            Id = Id,
+            Name = Name,
+            DeviceType = DeviceType,
+            Manufacturer = Manufacturer,
+            SerialNumber = SerialNumber,
+            Accessories = Accessories,
+            Comments = Comments,
             Software = new List<Software>()
         };
 
-        if (this.Software != null)
+        if (Software != null)
         {
-            foreach (var softwareViewModel in this.Software)
+            foreach (var softwareViewModel in Software)
             {
                 Software software = softwareViewModel.CopyForUpdate();
                 device.Software.Add(software);
