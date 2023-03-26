@@ -28,7 +28,6 @@ namespace Ticketsystem.DbAccess
         {
             IQueryable<Ticket> query = _ticketsystemContext.Tickets
                 .Include(t => t.Client)
-                .Include(t => t.Devices).ThenInclude(d => d.Software)
                 .Include(t => t.TicketStatus)
                 .Include(t => t.TicketType);
 
@@ -89,6 +88,7 @@ namespace Ticketsystem.DbAccess
                 var cachedTickets = await _cache.GetAsync(cacheKey);
                 if (cachedTickets != null)
                 {
+                    await Console.Out.WriteLineAsync("Got Tickets from Cache");
                     return JsonConvert.DeserializeObject<List<Ticket>>(Encoding.UTF8.GetString(cachedTickets));
                 }
             }
