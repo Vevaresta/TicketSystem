@@ -23,6 +23,15 @@
     }
 }
 
+@{
+    bool canUpdate = await rolePermissionsService.HasPermission(loggedInUser,
+    RolePermissions.UpdateClients);
+    bool canViewDetails = await rolePermissionsService.HasPermission(loggedInUser,
+    RolePermissions.ViewClientDetails);
+    bool canDelete = await rolePermissionsService.HasPermission(loggedInUser,
+    RolePermissions.DeleteClients);
+}
+
 @* FUNCTIONS: *@
 @{
     bool ToggleDoReverse(string category)
@@ -155,14 +164,6 @@
                             <td class="fit">
                                 @Html.DisplayFor(modelItem => item.Email)
                             </td>
-                            @{
-                                bool canUpdate = await rolePermissionsService.HasPermission(loggedInUser,
-                                RolePermissions.UpdateClients);
-                                bool canViewDetails = await rolePermissionsService.HasPermission(loggedInUser,
-                                RolePermissions.ViewClientDetails);
-                                bool canDelete = await rolePermissionsService.HasPermission(loggedInUser,
-                                RolePermissions.DeleteClients);
-                            }
                             <td class="text-end fit">
                                 <div class="d-flex flex-column flex-xl-row justify-content-sm-end">
                                     @if (canUpdate)
