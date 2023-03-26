@@ -41,8 +41,6 @@ const cud = {
         }
 
         var ticketType = $("#hidden-ticket-type").val();
-        var singleDevice = $("#single-device");
-        var devicesTab = $("#devices-tab");
 
         if (ticketType == TicketTypes.Repair || ticketType == TicketTypes.DataRecovery) {
             $('#tabs a[href="#tab1"]').tab('show');
@@ -52,12 +50,9 @@ const cud = {
             $("#input-device-serialnumber").val(this.deviceList[0].SerialNumber);
             $("#input-device-accessories").val(this.deviceList[0].Accessories);
             $("#input-device-comments").val(this.deviceList[0].Comments);
-
-            devicesTab.hide();
         }
         else if (ticketType == TicketTypes.Consultation) {
             $('#tabs a[href="#tab1"]').tab('show');
-            devicesTab.hide();
         }
         else {
             let cud = this;
@@ -65,22 +60,17 @@ const cud = {
                 var newItem = $('<button type="button" class="list-group-item list-group-item-action device-listbox-item">' + device.Name + '</button>');
                 newItem.click(function () {
                     cud.onClickDevice(this);
-                    if (cud.viewName == "Details") {
-                        cud.onClickButtonDevicesListEdit();
-                    }
+                    cud.onClickButtonDevicesListEdit();
                 });
                 $('#device-listbox').append(newItem);
 
                 var newItem = $('<button type="button" class="list-group-item list-group-item-action device-listbox-item">' + device.Name + '</button>');
             }
-            devicesTab.show();
         }
     },
 
     disableDeviceButtons: function () {
-        $("#button-edit-device").prop("disabled", true);
         $("#button-delete-device").prop("disabled", true);
-        $("#button-edit-software").prop("disabled", true);
         $("#button-delete-software").prop("disabled", true);
     },
 
@@ -106,13 +96,11 @@ const cud = {
 
     onClickDevice: function (newItem) {
         cud.deviceListBoxSelectedIndex = $(newItem).index();
-        $("#button-edit-device").prop("disabled", false);
         $("#button-delete-device").prop("disabled", false);
         $(newItem).focusout(function () {
             setTimeout(function () {
                 var selectedItem = $('#device-listbox .device-listbox-item:focus');
                 if (selectedItem.length === 0) {
-                    $("#button-edit-device").prop("disabled", true);
                     $("#button-delete-device").prop("disabled", true);
                 }
             }, 350)
@@ -121,13 +109,11 @@ const cud = {
 
     onClickSoftware: function (newItem) {
         cud.softwareListBoxSelectedIndex = $(newItem).index();
-        $("#button-edit-software").prop("disabled", false);
         $("#button-delete-software").prop("disabled", false);
         $(newItem).focusout(function () {
             setTimeout(function () {
                 var selectedItem = $('#software-listbox .software-listbox-item:focus');
                 if (selectedItem.length === 0) {
-                    $("#button-edit-software").prop("disabled", true);
                     $("#button-delete-software").prop("disabled", true);
                 }
             }, 350)
@@ -193,9 +179,7 @@ const cud = {
                 var newItem = $('<button type="button" class="list-group-item list-group-item-action software-listbox-item">' + software.Name + '</button>');
                 newItem.click(function () {
                     cud.onClickSoftware(this);
-                    if (cud.viewName == "Details") {
-                        cud.onClickButtonSoftwareListEdit();
-                    }
+                    cud.onClickButtonSoftwareListEdit();
                 });
 
                 $('#software-listbox').append(newItem);
@@ -203,8 +187,6 @@ const cud = {
         }
 
         if (this.viewName != "Details") {
-            $("#button-edit-device").prop("disabled", true);
-            $("#button-delete-device").prop("disabled", true);
             $("#add-device").show();
             $("#add-software").hide();
         }
@@ -224,7 +206,6 @@ const cud = {
         $("#software-list").hide();
         $("#add-software").hide();
 
-        $("#button-edit-device").prop("disabled", true);
         $("#button-delete-device").prop("disabled", true);
     },
 
@@ -252,9 +233,7 @@ const cud = {
             var newItem = $('<button type="button" class="list-group-item list-group-item-action device-listbox-item">' + newDevice.Name + '</button>');
             newItem.click(function () {
                 cud.onClickDevice(this);
-                if (cud.viewName == "Details") {
-                    cud.onClickButtonDevicesListEdit();
-                }
+                cud.onClickButtonDevicesListEdit();
             });
 
             $('#device-listbox').append(newItem);
@@ -315,8 +294,6 @@ const cud = {
             $("#validate-input-software-name").hide();
             $("#button-software-save").addClass("collapse");
             $("#button-software-edit").removeClass("collapse");
-            $("#button-edit-software").prop("disabled", true);
-            $("#button-delete-software").prop("disabled", true);
             $("#add-software").show();
         }
         else {
@@ -329,7 +306,6 @@ const cud = {
         $("#add-software").hide();
         this.tempSoftwareList.splice(this.softwareListBoxSelectedIndex, 1);
 
-        $("#button-edit-software").prop("disabled", true);
         $("#button-delete-software").prop("disabled", true);
     },
 
@@ -350,12 +326,9 @@ const cud = {
             var newItem = $('<button type="button" class="list-group-item list-group-item-action software-listbox-item">' + newSoftware.Name + '</button>');
             newItem.click(function () {
                 cud.onClickSoftware(this);
-                if (cud.viewName == "Details") {
-                    cud.onClickButtonSoftwareListEdit();
-                }
+                cud.onClickButtonSoftwareListEdit();
             });
 
-            $("#button-edit-software").prop("disabled", true);
             $("#button-delete-software").prop("disabled", true);
 
             $('#software-listbox').append(newItem);

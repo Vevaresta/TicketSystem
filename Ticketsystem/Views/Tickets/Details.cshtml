@@ -30,6 +30,7 @@
     }
 
     string displayForSingleDevice = Model.TicketType == TicketTypes.Repair || Model.TicketType == TicketTypes.DataRecovery ? "block" : "none";
+    string displayForSpecial = Model.TicketType == TicketTypes.Special ? "block" : "none";
 }
 
 <input type="hidden" id="hidden-devices" value="@devicesJson" />
@@ -53,7 +54,7 @@
             <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1"
                aria-selected="true">Ticket</a>
         </li>
-        <li class="nav-item" id="devices-tab" style="display: none;">
+        <li class="nav-item" id="devices-tab" style="display: @displayForSpecial;">
             <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2"
                aria-selected="false">Geräte</a>
         </li>
@@ -274,7 +275,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="row mb-5" id="show-device" style="display: none;">
+                    <div class="row mb-5 mb-lg-0" id="show-device" style="display: none;">
                         <div class="container">
                             <h5>Gerät</h5>
                             <div class="row mb-1">
@@ -343,7 +344,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mb-2" id="show-software" style="display: none;">
+                    <div class="row mb-2 mb-lg-0" id="show-software" style="display: none;">
                         <div class="container">
                             <h5>Software</h5>
                             <div class="row mb-1">

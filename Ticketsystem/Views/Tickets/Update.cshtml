@@ -37,6 +37,7 @@
     }
 
     string displayForSingleDevice = Model.TicketType == TicketTypes.Repair || Model.TicketType == TicketTypes.DataRecovery ? "block" : "none";
+    string displayForSpecial = Model.TicketType == TicketTypes.Special ? "block" : "none";
 }
 
 <form method="post">
@@ -92,7 +93,7 @@
                 <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1"
                    aria-selected="true">Ticket</a>
             </li>
-            <li class="nav-item" id="devices-tab" style="display: none;">
+            <li class="nav-item" id="devices-tab" style="display: @displayForSpecial;">
                 <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2"
                    aria-selected="false">Geräte</a>
             </li>
@@ -334,10 +335,7 @@
                                                         <button type="button" class="btn btn-primary me-2" id="button-add-device">
                                                             Hinzufügen
                                                         </button>
-                                                        <button type="button" class="btn btn-primary me-2" id="button-edit-device">
-                                                            Bearbeiten
-                                                        </button>
-                                                        <button type="button" class="btn btn-primary mt-0 mt-sm-0 mt-lg-2 mt-xl-0" id="button-delete-device">
+                                                        <button type="button" class="btn btn-primary" id="button-delete-device">
                                                             Löschen
                                                         </button>
                                                     </div>
@@ -350,7 +348,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="row mb-5" id="add-device" style="display: none;">
+                        <div class="row mb-5 mb-lg-0" id="add-device" style="display: none;">
                             <div class="container">
                                 <h5>Gerät</h5>
                                 <div class="row mb-1">
@@ -402,7 +400,7 @@
                                                 <button type="button" class="btn btn-primary me-2 collapse" id="button-devices-edit">
                                                     Ändern
                                                 </button>
-                                                <button type="button" class="btn btn-primary me-2" id="button-devices-cancel">
+                                                <button type="button" class="btn btn-primary" id="button-devices-cancel">
                                                     Abbrechen
                                                 </button>
                                             </div>
@@ -428,10 +426,7 @@
                                                         <button type="button" class="btn btn-primary me-2" id="button-add-software">
                                                             Hinzufügen
                                                         </button>
-                                                        <button type="button" class="btn btn-primary me-2" id="button-edit-software">
-                                                            Bearbeiten
-                                                        </button>
-                                                        <button type="button" class="btn btn-primary mt-0 mt-sm-0 mt-lg-2 mt-xl-0" id="button-delete-software">
+                                                        <button type="button" class="btn btn-primary" id="button-delete-software">
                                                             Löschen
                                                         </button>
                                                     </div>
@@ -442,7 +437,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-5" id="add-software" style="display: none;">
+                        <div class="row mb-5 mb-lg-0" id="add-software" style="display: none;">
                             <div class="container">
                                 <h5>Software</h5>
                                 <div class="row mb-1">
@@ -471,7 +466,7 @@
                                                         id="button-software-edit">
                                                     Ändern
                                                 </button>
-                                                <button type="button" class="btn btn-primary me-2" id="button-software-cancel">
+                                                <button type="button" class="btn btn-primary" id="button-software-cancel">
                                                     Abbrechen
                                                 </button>
                                             </div>
