@@ -20,6 +20,27 @@ public class TicketsystemContext : IdentityDbContext<User, Role, string>
     public DbSet<TicketStatus> TicketStatuses { get; set; }
     public DbSet<TicketType> TicketTypes { get; set; }
     public DbSet<TicketChange> TicketChanges { get; set; }
+    public virtual DbSet<TicketView> MyView { get; set; }
+
+    public virtual DbSet<TicketView> TicketViewQuery(string selectColumns, int limit, int offset, string orderByColumn, string orderByDirection)
+    {
+        var query = @"
+            CREATE OR REPLACE VIEW my_view AS
+              SELECT {0} -- the columns to be selected will be replaced here
+              FROM (
+                SELECT t.""Id"", t.""ClientId"", t.""DataBackupByClient"", t.""DataBackupByStaff"", t.""DataBackupDone"", t.""DoBackup"", t.""Name"", t.""OrderDate"", t.""TicketStatusId"", t.""TicketTypeId"", t.""WorkOrder""
+                FROM ""Tickets"" AS t
+                ORDER BY t.""OrderDate"" DESC
+                LIMIT {1} OFFSET {2}
+              ) AS t0
+              LEFT JOIN ""Clients"" AS c ON t0.""ClientId"" = c.""Id""
+              LEFT JOIN ""TicketStatuses"" AS t1 ON t0.""TicketStatusId"" = t1.""Id""
+              LEFT JOIN ""TicketTypes"" AS t2 ON t0.""TicketTypeId"" = t2.""Id""
+              ORDER BY {3} {4}, t0.""Id"", c.""Id"", t1.""Id"", t2.""Id""";
+
+        var sql = string.Format(query, selectColumns, limit, offset, orderByColumn, orderByDirection);
+        return (DbSet<TicketView>)Set<TicketView>().FromSqlRaw(sql);
+    }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

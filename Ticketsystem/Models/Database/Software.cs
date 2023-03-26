@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Ticketsystem.ViewModels;
 
@@ -18,6 +19,7 @@ public class Software
     public string Name { get; set; }
     public string Comments { get; set; }
 
+    [JsonIgnore]
     public virtual Device Device { get; set; }
 
     public static implicit operator SoftwareViewModel(Software software)

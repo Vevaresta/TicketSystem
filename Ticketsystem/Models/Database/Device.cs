@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Ticketsystem.ViewModels;
 
@@ -23,6 +24,7 @@ public class Device
     public string Accessories { get; set; }
     public string Comments { get; set; }
 
+    [JsonIgnore]
     public virtual Ticket Ticket { get; set; }
 
     public virtual IList<Software> Software { get; set; }

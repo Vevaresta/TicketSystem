@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Newtonsoft.Json;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
@@ -26,6 +27,7 @@ public class Client
     public int? ParticipantNumber { get; set; }
     public string Course { get; set; }
 
+    [JsonIgnore]
     public virtual IList<Ticket> Tickets { get; set; }
 
     public static implicit operator ClientViewModel(Client client)

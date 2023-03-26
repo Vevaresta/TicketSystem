@@ -1,17 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using System.Text;
 using Ticketsystem.Data;
 using Ticketsystem.Models.Data;
 using Ticketsystem.Models.Database;
+using Newtonsoft.Json;
 
 namespace Ticketsystem.DbAccess
 {
     public class TicketsDbAccess
     {
         private readonly TicketsystemContext _ticketsystemContext;
+        private readonly IDistributedCache _cache;
 
-        public TicketsDbAccess(TicketsystemContext ticketsystemContext)
+        public TicketsDbAccess(TicketsystemContext ticketsystemContext, IDistributedCache cache)
         {
             _ticketsystemContext = ticketsystemContext;
+            _cache = cache;
         }
 
         private IQueryable<Ticket> GetTicketsShared(TicketData ticketData)
@@ -70,9 +75,15 @@ namespace Ticketsystem.DbAccess
         {
             return GetTicketsShared(ticketData).Count();
         }
-
         public async Task<IList<Ticket>> GetAllTickets(TicketData ticketData)
         {
+            string cacheKey = $"tickets_{ticketData.FilterByTicketId}_{ticketData.FilterByTicketName}_{ticketData.FilterByClientName}_{ticketData.FilterByTicketStatus}_{ticketData.FilterByTicketType}_{ticketData.FilterByStartDate}_{ticketData.FilterByEndDate}_{ticketData.SortBy}_{ticketData.DoReverse}_{ticketData.Skip}_{ticketData.Take}";
+            var cachedTickets = await _cache.GetAsync(cacheKey);
+            if (cachedTickets != null)
+            {
+                return JsonConvert.DeserializeObject<List<Ticket>>(Encoding.UTF8.GetString(cachedTickets));
+            }
+
             var query = GetTicketsShared(ticketData);
 
             query = ticketData.SortBy switch
@@ -93,8 +104,16 @@ namespace Ticketsystem.DbAccess
 
             query = query.Skip(ticketData.Skip).Take(ticketData.Take);
 
-            return await query.ToListAsync();
+            var tickets = await query.ToListAsync();
+
+            await _cache.SetAsync(cacheKey, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(tickets)), new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
+            });
+
+            return tickets;
         }
+
 
         public async Task<Ticket> GetTicketById(int id)
         {

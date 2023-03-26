@@ -104,7 +104,7 @@
                 {
                     @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.CreateTickets))
                     {
-                        <a class="btn btn-primary" asp-action="Create" type="button">Neues Ticket</a>
+                        <a class="btn btn-primary" asp-action="Create">Neues Ticket</a>
                     }
                     @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.SearchTickets))
                     {

@@ -2,16 +2,21 @@
 using Ticketsystem.Data;
 using Ticketsystem.Models.Data;
 using Ticketsystem.Models.Database;
+using Newtonsoft.Json;
+using Microsoft.Extensions.Caching.Distributed;
+using System.Text;
 
 namespace Ticketsystem.DbAccess
 {
     public class ClientsDbAccess
     {
-        private TicketsystemContext _ticketsystemContext;
+        private readonly TicketsystemContext _ticketsystemContext;
+        private readonly IDistributedCache _cache;
 
-        public ClientsDbAccess(TicketsystemContext ticketsystemContext)
+        public ClientsDbAccess(TicketsystemContext ticketsystemContext, IDistributedCache cache)
         {
             _ticketsystemContext = ticketsystemContext;
+            _cache = cache;
         }
 
         private IQueryable<Client> GetClientsShared(ClientData clientData)
@@ -42,6 +47,13 @@ namespace Ticketsystem.DbAccess
 
         public async Task<List<Client>> GetAllClients(ClientData clientData)
         {
+            string cacheKey = $"tickets_{clientData.FilterByFirstName}_{clientData.FilterByLastName}_{clientData.FilterByEmail}_{clientData.SortBy}_{clientData.Take}_{clientData.Skip}_{clientData.DoReverse}";
+            var cachedClients = await _cache.GetAsync(cacheKey);
+            if (cachedClients != null)
+            {
+                return JsonConvert.DeserializeObject<List<Client>>(Encoding.UTF8.GetString(cachedClients));
+            }
+
             IQueryable<Client> query = GetClientsShared(clientData);
 
             query = clientData.SortBy switch
@@ -57,7 +69,16 @@ namespace Ticketsystem.DbAccess
                 query = query.Reverse();
             }
 
-            return await query.Skip(clientData.Skip).Take(clientData.Take).ToListAsync();
+            query = query.Skip(clientData.Skip).Take(clientData.Take);
+
+            var clients = await query.ToListAsync();
+
+            await _cache.SetAsync(cacheKey, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(clients)), new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
+            });
+
+            return clients;
         }
 
         public async Task<Client> GetClientById(string id)

@@ -73,6 +73,12 @@ namespace Ticketsystem
                 options.LogPath = "~/log"; 
             });
 
+            builder.Services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = builder.Configuration.GetSection("RedisCacheOptions:Configuration").Value;
+                options.InstanceName = builder.Configuration.GetSection("RedisCacheOptions:InstanceName").Value;
+            });
+
             WebApplication app = builder.Build();
 
             // add custom tables to the identity db and seed with default values:
