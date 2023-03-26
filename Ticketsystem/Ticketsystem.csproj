@@ -7,13 +7,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PublishSingleFile>true</PublishSingleFile>
-    <SelfContained>false</SelfContained>
     <RuntimeIdentifiers>linux-arm64;win-x64</RuntimeIdentifiers>
-    <PublishTrimmed>false</PublishTrimmed>
-    <!--<TrimMode>Link</TrimMode>-->
   </PropertyGroup>
-
 
   <ItemGroup>
 	  <PackageReference Include="IronPdf" Version="2023.3.2" />

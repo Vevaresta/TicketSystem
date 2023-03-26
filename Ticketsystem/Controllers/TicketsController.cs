@@ -239,7 +239,7 @@ namespace Ticketsystem.Controllers
                 return NotFound();
             }
 
-            ticketViewModel = t;
+            //ticketViewModel = t;
             ticketViewModel.TicketStatus = Enum.GetValues<TicketStatuses>().FirstOrDefault(ts => ts.ToString() == ticketStatusChange);
             ticketViewModel.TicketChanges = new List<TicketChangeViewModel>();
 
