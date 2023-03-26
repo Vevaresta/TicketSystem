@@ -66,9 +66,12 @@ public class Ticket
             Devices = new List<DeviceViewModel>(),
         };
 
-        foreach (var device in ticket.Devices)
+        if (ticket.Devices != null )
         {
-            viewModel.Devices.Add(device);
+            foreach (var device in ticket.Devices)
+            {
+                viewModel.Devices.Add(device);
+            }
         }
 
         return viewModel;
