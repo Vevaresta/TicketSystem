@@ -102,7 +102,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "Dies ist keine gültige E-Mail-Adresse")]
             [Display(Name = "Email-Adresse")]
             public string Email { get; set; }
 
