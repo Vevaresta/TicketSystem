@@ -44,11 +44,11 @@
 <form method="post">
     @Html.AntiForgeryToken()
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="@Model.TicketStatus" />
+    <input type="hidden" id="hidden-ticket-change" value="@ticketChangeError" />
+    <input type="hidden" id="hidden-devices" value="@devicesJson" />
+    <input type="hidden" id="hidden-ticket-type" value="@Model.TicketType.ToString()" />
     <div class="stretch-container">
-        <input type="hidden" asp-for="@Model.TicketStatus" />
-        <input type="hidden" id="hidden-ticket-change" value="@ticketChangeError" />
-        <input type="hidden" id="hidden-devices" value="@devicesJson" />
-        <input type="hidden" id="hidden-ticket-type" value="@Model.TicketType.ToString()" />
         <div class="row mb-2">
             <div class="col-sm-5 col-md-4">
                 <h4>Ticket Nr. @Model.Id</h4>

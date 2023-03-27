@@ -20,9 +20,23 @@
 
 @{
     ViewData["Title"] = "Neues Ticket";
+
+    string devicesJson = "";
+    string ticketType = "";
+
+    if (Model != null)
+    {
+        if (Model.Devices != null)
+        {
+            devicesJson = JsonConvert.SerializeObject(Model.Devices);
+        }
+        ticketType = Model.TicketType.ToString();
+    }
 }
 
 <form method="post">
+    <input type="hidden" id="hidden-devices" value="@devicesJson" />
+    <input type="hidden" id="hidden-ticket-type" value="@ticketType" />
     @Html.AntiForgeryToken()
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="stretch-container">

@@ -7,49 +7,58 @@ import cud from './cud.js'
 $(document).ready(function () {
     cud.initTabs();
     cud.setViewType("Create");
+    cud.initDevices();
     cud.disableDeviceButtons();
 
-    // Umschalten der Ticketart durch Klick auf Radio-Button oder Label
-    $(".ticket-type-container").on("click", function (event) {
-        var label = $(event.target);
-        var radio = label.prev('input[type=radio]');
-
-        cud.radioTicketTypeSelectedValue = radio.val();
-        radio.prop("checked", true);
-
-        var singleDevice = $("#single-device");
-        var devicesTab = $("#devices-tab");
-        var backup = $("#backup")
-
-        if (cud.radioTicketTypeSelectedValue == TicketTypes.Repair || cud.radioTicketTypeSelectedValue == TicketTypes.DataRecovery) {
-            singleDevice.show();
-            devicesTab.hide();
-            backup.show();
-            if ($('#switch-backup').prop('checked')) {
-                $("#backup-choices").removeClass("collapse");
-            }
-            $('#input-device-name').rules('add', 'required');
-            $('#tabs a[href="#tab1"]').tab('show');
-        }
-        else if (cud.radioTicketTypeSelectedValue == TicketTypes.Consultation) {
-            singleDevice.hide();
-            devicesTab.hide();
-            backup.hide();
-            $("#backup-choices").addClass("collapse");
-            $('#input-device-name').rules('remove', 'required');
-            $('#tabs a[href="#tab1"]').tab('show');
-        }
-        else {
-            if ($('#switch-backup').prop('checked')) {
-                $("#backup-choices").removeClass("collapse");
-            }
-            singleDevice.hide();
-            devicesTab.show();
-            backup.show();
-            $('#input-device-name').rules('remove', 'required');
-        }
-    });
+    let ticketType = $("#hidden-ticket-type").val();
+    if (ticketType == "Special") {
+        changeTicketType($("#radio-special"));
+    }
 });
+
+// Umschalten der Ticketart durch Klick auf Radio-Button oder Label
+$(".ticket-type-container").on("click", function (event) {
+    var label = $(event.target);
+    var radio = label.prev('input[type=radio]');
+    changeTicketType(radio);
+});
+
+function changeTicketType(radio) {
+    cud.radioTicketTypeSelectedValue = radio.val();
+    radio.prop("checked", true);
+
+    var singleDevice = $("#single-device");
+    var devicesTab = $("#devices-tab");
+    var backup = $("#backup")
+
+    if (cud.radioTicketTypeSelectedValue == TicketTypes.Repair || cud.radioTicketTypeSelectedValue == TicketTypes.DataRecovery) {
+        singleDevice.show();
+        devicesTab.hide();
+        backup.show();
+        if ($('#switch-backup').prop('checked')) {
+            $("#backup-choices").removeClass("collapse");
+        }
+        $('#input-device-name').rules('add', 'required');
+        $('#tabs a[href="#tab1"]').tab('show');
+    }
+    else if (cud.radioTicketTypeSelectedValue == TicketTypes.Consultation) {
+        singleDevice.hide();
+        devicesTab.hide();
+        backup.hide();
+        $("#backup-choices").addClass("collapse");
+        $('#input-device-name').rules('remove', 'required');
+        $('#tabs a[href="#tab1"]').tab('show');
+    }
+    else {
+        if ($('#switch-backup').prop('checked')) {
+            $("#backup-choices").removeClass("collapse");
+        }
+        singleDevice.hide();
+        devicesTab.show();
+        backup.show();
+        $('#input-device-name').rules('remove', 'required');
+    }
+}
 
 // Switch für "Datensicherung?"
 $("#switch-backup").on('change', function () {

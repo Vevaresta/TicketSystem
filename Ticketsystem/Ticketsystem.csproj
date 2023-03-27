@@ -13,6 +13,7 @@
   <ItemGroup>
 	  <PackageReference Include="IronPdf" Version="2023.3.2" />
 	  <PackageReference Include="ElmahCore" Version="2.1.2" />
+	  <PackageReference Include="iTextSharp.LGPLv2.Core" Version="3.3.3" />
 	  <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.4" />

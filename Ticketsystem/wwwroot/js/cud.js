@@ -30,41 +30,44 @@ const cud = {
             $("#show-software").hide();
             $(this).tab('show');
         });
+
     },
 
     initDevices: function () {
         var devicesJson = $("#hidden-devices").val();
-        this.deviceList = JSON.parse(devicesJson)
+        if (devicesJson != "") {
+            this.deviceList = JSON.parse(devicesJson)
 
-        if (this.deviceList.length > 0) {
-            this.deviceList.sort(this.sortListByNames);
-        }
+            if (this.deviceList.length > 0) {
+                this.deviceList.sort(this.sortListByNames);
+            }
 
-        var ticketType = $("#hidden-ticket-type").val();
+            var ticketType = $("#hidden-ticket-type").val();
 
-        if (ticketType == TicketTypes.Repair || ticketType == TicketTypes.DataRecovery) {
-            $('#tabs a[href="#tab1"]').tab('show');
-            $("#input-device-name").val(this.deviceList[0].Name);
-            $("#input-device-type").val(this.deviceList[0].DeviceType);
-            $("#input-device-manufacturer").val(this.deviceList[0].Manufacturer);
-            $("#input-device-serialnumber").val(this.deviceList[0].SerialNumber);
-            $("#input-device-accessories").val(this.deviceList[0].Accessories);
-            $("#input-device-comments").val(this.deviceList[0].Comments);
-        }
-        else if (ticketType == TicketTypes.Consultation) {
-            $('#tabs a[href="#tab1"]').tab('show');
-        }
-        else {
-            let cud = this;
-            for (let device of this.deviceList) {
-                var newItem = $('<button type="button" class="list-group-item list-group-item-action device-listbox-item">' + device.Name + '</button>');
-                newItem.click(function () {
-                    cud.onClickDevice(this);
-                    cud.onClickButtonDevicesListEdit();
-                });
-                $('#device-listbox').append(newItem);
+            if (ticketType == TicketTypes.Repair || ticketType == TicketTypes.DataRecovery) {
+                $('#tabs a[href="#tab1"]').tab('show');
+                $("#input-device-name").val(this.deviceList[0].Name);
+                $("#input-device-type").val(this.deviceList[0].DeviceType);
+                $("#input-device-manufacturer").val(this.deviceList[0].Manufacturer);
+                $("#input-device-serialnumber").val(this.deviceList[0].SerialNumber);
+                $("#input-device-accessories").val(this.deviceList[0].Accessories);
+                $("#input-device-comments").val(this.deviceList[0].Comments);
+            }
+            else if (ticketType == TicketTypes.Consultation) {
+                $('#tabs a[href="#tab1"]').tab('show');
+            }
+            else {
+                let cud = this;
+                for (let device of this.deviceList) {
+                    var newItem = $('<button type="button" class="list-group-item list-group-item-action device-listbox-item">' + device.Name + '</button>');
+                    newItem.click(function () {
+                        cud.onClickDevice(this);
+                        cud.onClickButtonDevicesListEdit();
+                    });
+                    $('#device-listbox').append(newItem);
 
-                var newItem = $('<button type="button" class="list-group-item list-group-item-action device-listbox-item">' + device.Name + '</button>');
+                    var newItem = $('<button type="button" class="list-group-item list-group-item-action device-listbox-item">' + device.Name + '</button>');
+                }
             }
         }
     },

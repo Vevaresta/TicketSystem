@@ -70,9 +70,10 @@ namespace Ticketsystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TicketViewModel ticketViewModel, string ticketType, string deviceList, string loggedInUserId)
         {
+            ticketViewModel.Devices = JsonConvert.DeserializeObject<List<DeviceViewModel>>(deviceList);
+
             if (ModelState.IsValid)
             {
-                ticketViewModel.Devices = JsonConvert.DeserializeObject<List<DeviceViewModel>>(deviceList);
                 Ticket ticket = ticketViewModel;
                 ticket.TicketType = await _ticketTypesService.GetTicketTypeByName(ticketType);
 
@@ -180,10 +181,9 @@ namespace Ticketsystem.Controllers
                     TicketId = ticket.Id,
                     UserId = loggedInUserId,
                     ChangeDate = DateTime.Now.ToUniversalTime(),
-                    Comment = ticketViewModel.TicketChange.Comment
+                    Comment = ticketViewModel.TicketChange.Comment,
+                    OldTicketStatus = await _ticketStatusesService.GetTicketStatusByName(ticketViewModel.TicketStatus.ToString())
                 };
-
-                ticketChange.OldTicketStatus = await _ticketStatusesService.GetTicketStatusByName(ticketViewModel.TicketStatus.ToString());
 
                 if (ticketStatusChange != ticketViewModel.TicketStatus.ToString())
                 {
