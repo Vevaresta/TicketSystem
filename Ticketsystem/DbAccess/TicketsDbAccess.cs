@@ -137,7 +137,7 @@ namespace Ticketsystem.DbAccess
                 {
                     Id = ticket.Id,
                     Name = ticket.Name,
-                    OrderDate = ticket.OrderDate,
+                    OrderDate = ticket.OrderDate.ToLocalTime(),
                     TicketType = Enum.GetValues<TicketTypes>().FirstOrDefault(tt => tt.ToString() == ticket.TicketType.Name).GetText(),
                     TicketStatus = Enum.GetValues<TicketStatuses>().FirstOrDefault(tt => tt.ToString() == ticket.TicketStatus.Name).GetText(),
                     ClientLastName = ticket.Client.LastName,
