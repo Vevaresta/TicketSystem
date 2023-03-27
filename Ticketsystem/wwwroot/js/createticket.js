@@ -25,6 +25,9 @@ $(document).ready(function () {
             singleDevice.show();
             devicesTab.hide();
             backup.show();
+            if ($('#switch-backup').prop('checked')) {
+                $("#backup-choices").removeClass("collapse");
+            }
             $('#input-device-name').rules('add', 'required');
             $('#tabs a[href="#tab1"]').tab('show');
         }
@@ -32,6 +35,7 @@ $(document).ready(function () {
             singleDevice.hide();
             devicesTab.hide();
             backup.hide();
+            $("#backup-choices").addClass("collapse");
             $('#input-device-name').rules('remove', 'required');
             $('#tabs a[href="#tab1"]').tab('show');
         }
