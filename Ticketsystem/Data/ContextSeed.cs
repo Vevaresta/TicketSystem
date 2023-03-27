@@ -62,15 +62,15 @@ namespace Ticketsystem.Data
                 var fallbackClient = new Client
                 {
                     Id = "Fallback",
-                    LastName = "<Client gelöscht>",
-                    FirstName = "<Client gelöscht>",
-                    Email = "<Client gelöscht>",
-                    StreetAndHouseNumber = "<Client gelöscht>",
-                    City = "<Client gelöscht>",
+                    LastName = "<Kunde gelöscht>",
+                    FirstName = "<Kunde gelöscht>",
+                    Email = "<Kunde gelöscht>",
+                    StreetAndHouseNumber = "<Kunde gelöscht>",
+                    City = "<Kunde gelöscht>",
                     PostalCode = "00000",
-                    Course = "<Client gelöscht>",
+                    Course = "<Kunde gelöscht>",
                     ParticipantNumber = 0,
-                    PhoneNumber = "<Client gelöscht>",
+                    PhoneNumber = "<Kunde gelöscht>",
                 };
 
                 await _ticketSystemContext.AddAsync(fallbackClient);
