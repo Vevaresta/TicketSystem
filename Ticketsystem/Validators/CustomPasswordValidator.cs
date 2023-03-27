@@ -10,6 +10,11 @@ public class CustomPasswordValidator : IPasswordValidator<User>
     {
         var errors = new List<IdentityError>();
 
+        if (!password.Any(char.IsNumber))
+        {
+            errors.Add(new IdentityError { Description = "Das Passwort muss mindestens eine Zahl enthalten ('a'-'z')." });
+        }
+
         if (!password.Any(char.IsLower))
         {
             errors.Add(new IdentityError { Description = "Das Passwort muss mindestens einen Kleinbuchstaben enthalten ('a'-'z')." });
@@ -22,7 +27,7 @@ public class CustomPasswordValidator : IPasswordValidator<User>
 
         if (!password.Any(char.IsSymbol) && !password.Any(char.IsPunctuation))
         {
-            errors.Add(new IdentityError { Description = "Das Passwort muss mindestens ein Sonderzeichen enthalten" });
+            errors.Add(new IdentityError { Description = "Das Passwort muss mindestens ein Sonderzeichen enthalten." });
         }
 
         if (errors.Count > 0)
