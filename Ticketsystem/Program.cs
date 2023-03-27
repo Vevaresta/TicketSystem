@@ -11,6 +11,7 @@ using Ticketsystem.Models.Database;
 using Ticketsystem.DbAccess;
 using Ticketsystem.Models.Data;
 using Ticketsystem.Utilities;
+using Ticketsystem.Validators;
 
 namespace Ticketsystem
 {
@@ -56,10 +57,17 @@ namespace Ticketsystem
             }
 
             builder.Services.AddScoped<ContextSeed>();
-            builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+            builder.Services.AddDefaultIdentity<User>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+            })
                 .AddRoles<Role>()
                 .AddEntityFrameworkStores<TicketsystemContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+        .AddPasswordValidator<CustomPasswordValidator>(); ;
 
             builder.Services.AddSingleton<Globals>(new Globals()
             {

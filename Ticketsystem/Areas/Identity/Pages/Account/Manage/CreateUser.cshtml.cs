@@ -77,7 +77,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Pflichtfeld")]
             [Display(Name = "Benutzername")]
             public string UserName { get; set; }
 
@@ -85,7 +85,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Pflichtfeld")]
             [Display(Name = "Vorname")]
             public string FirstName { get; set; }
 
@@ -93,7 +93,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Pflichtfeld")]
             [Display(Name = "Nachname")]
             public string LastName { get; set; }
 
@@ -101,7 +101,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Pflichtfeld")]
             [EmailAddress(ErrorMessage = "Dies ist keine gültige E-Mail-Adresse")]
             [Display(Name = "Email-Adresse")]
             public string Email { get; set; }
@@ -110,7 +110,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Pflichtfeld")]
             [StringLength(100, ErrorMessage = "Das Passwort muss mindestens 6 und höchstens 100 Zeichen lang sein.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Passwort")]

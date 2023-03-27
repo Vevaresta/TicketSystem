@@ -53,7 +53,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Pflichtfeld")]
             [DataType(DataType.Password)]
             [Display(Name = "Aktuelles Passwort")]
             public string OldPassword { get; set; }
@@ -62,7 +62,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Pflichtfeld")]
             [StringLength(100, ErrorMessage = "Das Passwort muss mindestens 6 und höchstens 100 Zeichen lang sein.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Neues Passwort")]
