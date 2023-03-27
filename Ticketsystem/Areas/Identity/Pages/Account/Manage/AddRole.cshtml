@@ -24,11 +24,15 @@
     <h3>@ViewData["Title"]</h3>
     <hr />
     <form method="post">
-        <div class="form-floating mb-4">
-            <input asp-for="RoleName" class="form-control" autocomplete="on" aria-required="true" />
-            <label asp-for="RoleName"></label>
-            <span asp-validation-for="RoleName" class="text-danger"></span>
+
+        <div class="row mb-4">
+            <div class="form-group">
+                <label asp-for="RoleName" class="control-label"></label>
+                <input asp-for="RoleName" class="form-control" autocomplete="off" />
+                <span asp-validation-for="RoleName" class="text-danger"></span>
+            </div>
         </div>
+
         <button type="submit" class="w-25 btn btn-lg btn-primary" asp-page-handler="Add">OK</button>
     </form>
 </div>
