@@ -41,30 +41,30 @@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="stretch-container">
         <h3>@ViewData["Title"]</h3>
-        <div class="d-flex col-md-8 col-xl-6 mb-2">
-            <div class="form-check form-check-inline ticket-type-container me-auto">
-                <input class="form-check-input" type="radio" name="ticket-type" id="radio-repair"
-                       value="@TicketTypes.Repair.ToString()" checked>
-                <label class="form-check-label" id="radio-label-repair">@TicketTypes.Repair.GetText()</label>
+
+        <div class="d-flex col-lg-8 mb-3" >
+            <div class="d-inline-block">
+                <div class="form-check form-check-inline ticket-type-container me-lg-5">
+                    <input class="form-check-input" type="radio" name="ticket-type" id="radio-repair" value="@TicketTypes.Repair.ToString()" checked>
+                    <label class="form-check-label" for="radio-repair">@TicketTypes.Repair.GetText()</label>
+                </div>
+                <div class="form-check form-check-inline ticket-type-container me-lg-4">
+                    <input class="form-check-input" type="radio" name="ticket-type" id="radio-recovery" value="@TicketTypes.DataRecovery.ToString()">
+                    <label class="form-check-label" for="radio-recovery">@TicketTypes.DataRecovery.GetText()</label>
+                </div>
             </div>
-            <div class="form-check form-check-inline ticket-type-container me-auto">
-                <input class="form-check-input" type="radio" name="ticket-type" id="radio-recovery"
-                       value="@TicketTypes.DataRecovery.ToString()">
-                <label class="form-check-label"
-                       id="radio-label-recovery">@TicketTypes.DataRecovery.GetText()</label>
-            </div>
-            <div class="form-check form-check-inline ticket-type-container me-auto">
-                <input class="form-check-input" type="radio" name="ticket-type" id="radio-advice"
-                       value="@TicketTypes.Consultation.ToString()">
-                <label class="form-check-label"
-                       id="radio-label-advice">@TicketTypes.Consultation.GetText()</label>
-            </div>
-            <div class="form-check form-check-inline ticket-type-container">
-                <input class="form-check-input" type="radio" name="ticket-type" id="radio-special"
-                       value="@TicketTypes.Special.ToString()">
-                <label class="form-check-label" id="radio-label-special">@TicketTypes.Special.GetText()</label>
+            <div class="d-inline-block">
+                <div class="form-check form-check-inline ticket-type-container me-lg-5">
+                    <input class="form-check-input" type="radio" name="ticket-type" id="radio-advice" value="@TicketTypes.Consultation.ToString()">
+                    <label class="form-check-label" for="radio-advice">@TicketTypes.Consultation.GetText()</label>
+                </div>
+                <div class="form-check form-check-inline ticket-type-container">
+                    <input class="form-check-input" type="radio" name="ticket-type" id="radio-special" value="@TicketTypes.Special.ToString()">
+                    <label class="form-check-label" for="radio-special">@TicketTypes.Special.GetText()</label>
+                </div>
             </div>
         </div>
+
         <ul class="nav nav-tabs" id="tabs" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1"

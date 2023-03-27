@@ -68,14 +68,15 @@ namespace Ticketsystem
                 .AddRoles<Role>()
                 .AddEntityFrameworkStores<TicketsystemContext>()
                 .AddDefaultTokenProviders()
-        .AddPasswordValidator<CustomPasswordValidator>(); ;
+                .AddPasswordValidator<CustomPasswordValidator>(); ;
 
-            builder.Services.AddSingleton<Globals>(new Globals()
+            builder.Services.AddSingleton(new Globals()
             {
                 EnableRedisCache = enableRedisCache,
                 RedisServer = redisServer,
                 RedisTicketsCache = redisTicketsCache,
             });
+
             builder.Services.AddScoped<IDbAccessFactory, DbAccessFactory>();
 
             // Add services to the container.
