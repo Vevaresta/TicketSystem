@@ -134,7 +134,10 @@ namespace Ticketsystem.DbAccess
 
             await _ticketsystemContext.SaveChangesAsync();
 
-            await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals, "clients_");
+            if (_globals.EnableRedisCache)
+            {
+                await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals, "clients_");
+            }
         }
 
         public async Task UpdateClient(Client client)
@@ -142,7 +145,10 @@ namespace Ticketsystem.DbAccess
             _ticketsystemContext.Update(client);
             await _ticketsystemContext.SaveChangesAsync();
 
-            await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals, "clients_");
+            if (_globals.EnableRedisCache)
+            {
+                await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals, "clients_");
+            }
         }
     }
 }
