@@ -32,6 +32,9 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             _emailSender = emailSender;
         }
 
+        [ViewData]
+        public bool DataChanged { get; set; }
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -117,8 +120,9 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             var email = await _userManager.GetEmailAsync(user);
             if (Input.NewEmail != email)
             {
-                var userId = await _userManager.GetUserIdAsync(user);
                 var code = await _userManager.GenerateChangeEmailTokenAsync(user, Input.NewEmail);
+
+                //var userId = await _userManager.GetUserIdAsync(user);
                 //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 //var callbackUrl = Url.Page(
                 //    "/Account/ConfirmEmailChange",
@@ -132,9 +136,12 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
 
                 //StatusMessage = "Confirmation link to change email sent. Please check your email.";
 
+                DataChanged = true;
+                Email = Input.NewEmail;
+
                 await _userManager.ChangeEmailAsync(user, Input.NewEmail, code);
 
-                return RedirectToPage();
+                return Page();
             }
 
             StatusMessage = "Your email is unchanged.";

@@ -26,6 +26,9 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             _signInManager = signInManager;
         }
 
+        [ViewData]
+        public bool DataChanged { get; set; }
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -119,16 +122,31 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
                     StatusMessage = "Unexpected error when trying to set phone number.";
                     return RedirectToPage();
                 }
+
+                DataChanged = true;
             }
 
-            user.FirstName = Input.FirstName;
-            user.LastName = Input.LastName;
+            if (Input.FirstName != user.FirstName)
+            {
+                user.FirstName = Input.FirstName;
+
+                DataChanged = true;
+            }
+            if (Input.LastName != user.LastName)
+            {
+                user.LastName = Input.LastName;
+
+                DataChanged = true;
+            }
+
+            Username = user.UserName;
 
             await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
-            return RedirectToPage();
+
+            return Page();
         }
     }
 }

@@ -3,6 +3,13 @@
 @{
     ViewData["Title"] = "Email-Adresse ändern";
     ViewData["ActivePage"] = ManageNavPages.Email;
+
+    string showDataChanged = "collapse";
+
+    if ((bool)ViewData["DataChanged"])
+    {
+        showDataChanged = "";
+    }
 }
 
 
@@ -47,6 +54,7 @@
         </div>
 
         <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="w-100 btn btn-lg btn-primary">Ändern</button>
+        <span class="text-info @showDataChanged" id="info-data-changed">E-Mail-Adresse geändert!</span>
     </form>
 </div>
 

@@ -3,6 +3,13 @@
 @{
     ViewData["Title"] = "Persönliche Daten";
     ViewData["ActivePage"] = ManageNavPages.Index;
+
+    string showDataChanged = "collapse";
+
+    if ((bool)ViewData["DataChanged"])
+    {
+        showDataChanged = "";
+    }
 }
 
 @*<partial name="_StatusMessage" for="StatusMessage" />*@
@@ -40,7 +47,8 @@
             </div>
         </div>
 
-        <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+        <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Speichern</button>
+        <span class="text-info @showDataChanged" id="info-data-changed">Persönliche Daten geändert!</span>
     </form>
 </div>
 
