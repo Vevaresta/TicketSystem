@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Text;
 using Ticketsystem.ViewModels;
+using Ticketsystem.Utilities;
 
 namespace Ticketsystem.DbAccess
 {
@@ -53,10 +54,10 @@ namespace Ticketsystem.DbAccess
 
         public async Task<List<ClientIndexViewModel>> GetAllClients(ClientData clientData)
         {
-            string cacheKey = "";
+            string cacheKey = $"clients_{clientData.FilterByFirstName}_{clientData.FilterByLastName}_{clientData.FilterByEmail}_{clientData.SortBy}_{clientData.Take}_{clientData.Skip}_{clientData.DoReverse}";
             if (_globals.EnableRedisCache)
             {
-                cacheKey = $"tickets_{clientData.FilterByFirstName}_{clientData.FilterByLastName}_{clientData.FilterByEmail}_{clientData.SortBy}_{clientData.Take}_{clientData.Skip}_{clientData.DoReverse}";
+                
                 var cachedClients = await _cache.GetAsync(cacheKey);
                 if (cachedClients != null)
                 {
@@ -132,12 +133,16 @@ namespace Ticketsystem.DbAccess
             }
 
             await _ticketsystemContext.SaveChangesAsync();
+
+            await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals, "clients_");
         }
 
         public async Task UpdateClient(Client client)
         {
             _ticketsystemContext.Update(client);
             await _ticketsystemContext.SaveChangesAsync();
+
+            await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals, "clients_");
         }
     }
 }

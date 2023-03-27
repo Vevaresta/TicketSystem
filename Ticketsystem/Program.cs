@@ -24,6 +24,8 @@ namespace Ticketsystem
             string dbms = builder.Configuration.GetValue<string>("DBMS");
             bool seedTestData = builder.Configuration.GetValue<bool>("SeedTestData");
             bool enableRedisCache = builder.Configuration.GetValue<bool>("EnableRedisCache");
+            string redisServer = builder.Configuration.GetSection("RedisCacheOptions")["Configuration"];
+            string redisTicketsCache = builder.Configuration.GetSection("RedisCacheOptions")["InstanceName"];
 
             if (dbms == "sqlite")
             {
@@ -60,7 +62,9 @@ namespace Ticketsystem
 
             builder.Services.AddSingleton<Globals>(new Globals()
             {
-                EnableRedisCache = enableRedisCache
+                EnableRedisCache = enableRedisCache,
+                RedisServer = redisServer,
+                RedisTicketsCache = redisTicketsCache,
             });
             builder.Services.AddScoped<IDbAccessFactory, DbAccessFactory>();
 

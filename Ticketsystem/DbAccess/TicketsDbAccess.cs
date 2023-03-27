@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Ticketsystem.ViewModels;
 using Ticketsystem.Enums;
 using Ticketsystem.Extensions;
+using Ticketsystem.Utilities;
 
 namespace Ticketsystem.DbAccess
 {
@@ -95,14 +96,12 @@ namespace Ticketsystem.DbAccess
         }
         public async Task<IList<TicketIndexViewModel>> GetAllTickets(TicketData ticketData)
         {
-            string cacheKey = "";
+            string cacheKey = $"tickets_{ticketData.FilterByTicketId}_{ticketData.FilterByTicketName}_{ticketData.FilterByClientName}_{ticketData.FilterByTicketStatus}_{ticketData.FilterByTicketType}_{ticketData.FilterByStartDate}_{ticketData.FilterByEndDate}_{ticketData.SortBy}_{ticketData.DoReverse}_{ticketData.Skip}_{ticketData.Take}";
             if (_globals.EnableRedisCache)
             {
-                cacheKey = $"tickets_{ticketData.FilterByTicketId}_{ticketData.FilterByTicketName}_{ticketData.FilterByClientName}_{ticketData.FilterByTicketStatus}_{ticketData.FilterByTicketType}_{ticketData.FilterByStartDate}_{ticketData.FilterByEndDate}_{ticketData.SortBy}_{ticketData.DoReverse}_{ticketData.Skip}_{ticketData.Take}";
                 var cachedTickets = await _cache.GetAsync(cacheKey);
                 if (cachedTickets != null)
                 {
-                    await Console.Out.WriteLineAsync("Got Tickets from Cache");
                     return JsonConvert.DeserializeObject<List<TicketIndexViewModel>>(Encoding.UTF8.GetString(cachedTickets));
                 }
             }
@@ -181,6 +180,8 @@ namespace Ticketsystem.DbAccess
         {
             _ticketsystemContext.Add(ticket);
             await _ticketsystemContext.SaveChangesAsync();
+
+            await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals, "tickets_");
         }
 
         public async Task UpdateTicket(Ticket ticket)
@@ -245,6 +246,8 @@ namespace Ticketsystem.DbAccess
 
             _ticketsystemContext.Update(ticket);
             await _ticketsystemContext.SaveChangesAsync();
+
+            await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals, "tickets_");
         }
 
         public async Task DeleteTicket(Ticket ticket)
@@ -255,6 +258,8 @@ namespace Ticketsystem.DbAccess
             }
 
             await _ticketsystemContext.SaveChangesAsync();
+
+            await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals, "tickets_");
         }
     }
 }
