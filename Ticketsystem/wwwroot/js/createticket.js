@@ -40,6 +40,9 @@ $(document).ready(function () {
             $('#tabs a[href="#tab1"]').tab('show');
         }
         else {
+            if ($('#switch-backup').prop('checked')) {
+                $("#backup-choices").removeClass("collapse");
+            }
             singleDevice.hide();
             devicesTab.show();
             backup.show();
