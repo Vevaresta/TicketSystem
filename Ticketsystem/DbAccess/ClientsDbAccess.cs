@@ -136,7 +136,7 @@ namespace Ticketsystem.DbAccess
 
             if (_globals.EnableRedisCache)
             {
-                await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals, "clients_");
+                await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals.RedisServer, _globals.RedisTicketsCache);
             }
         }
 
@@ -147,7 +147,7 @@ namespace Ticketsystem.DbAccess
 
             if (_globals.EnableRedisCache)
             {
-                await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals, "clients_");
+                await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals.RedisServer, _globals.RedisTicketsCache);
             }
         }
     }

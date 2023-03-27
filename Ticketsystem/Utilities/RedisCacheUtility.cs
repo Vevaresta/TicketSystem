@@ -5,14 +5,14 @@ namespace Ticketsystem.Utilities
 {
     public static class RedisCacheUtility
     {
-        public static async Task DeleteCacheEntriesByPrefix(Globals globals, string prefix)
+        public static async Task DeleteCacheEntriesByPrefix(string redisServer, string redisTicketsCache)
         {
-            using var redisConnection = ConnectionMultiplexer.Connect(globals.RedisServer);
-            var server = redisConnection.GetServer(globals.RedisServer);
+            using var redisConnection = ConnectionMultiplexer.Connect(redisServer);
+            var server = redisConnection.GetServer(redisServer);
 
             if (server != null)
             {
-                foreach (var key in server.Keys(pattern: globals.RedisTicketsCache + "*" + prefix + "*"))
+                foreach (var key in server.Keys(pattern: redisTicketsCache + "*"))
                 {
                     await redisConnection.GetDatabase().KeyDeleteAsync(key);
                 }
