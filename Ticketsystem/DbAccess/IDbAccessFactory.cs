@@ -2,12 +2,12 @@
 {
     public interface IDbAccessFactory
     {
-        public RolePermissionsDbAccess RolePermissionsDbAccess { get; }
-        public RolesDbAccess RolesDbAccess { get; }
-        public RolesToDisplayDbAccess RolesToDisplayDbAccess { get; }
-        public TicketTypesDbAccess TicketTypesDbAccess { get; }
-        public TicketStatusesDbAccess TicketStatusesDbAccess { get; }
-        public TicketChangesDbAccess TicketChangesDbAccess { get; }
-        public IDbAccess GetTicketsClientsDbAccess<T>();
+        public RolePermissionsDbAccess GetRolePermissionsDbAccess();
+        public RolesDbAccess GetRolesDbAccess();
+        public RolesToDisplayDbAccess GetRolesToDisplayDbAccess();
+        public TicketTypesDbAccess GetTicketTypesDbAccess();
+        public TicketStatusesDbAccess GetTicketStatusesDbAccess();
+        public TicketChangesDbAccess GetTicketChangesDbAccess();
+        public ITicketsClientsDbAccess GetTicketsClientsDbAccess<T>();
     }
 }

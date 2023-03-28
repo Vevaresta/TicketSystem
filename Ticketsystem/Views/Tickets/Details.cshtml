@@ -4,8 +4,8 @@
 @inject IDbAccessFactory serviceFactory;
 
 @{
-    var rolePermissionsService = serviceFactory.RolePermissionsDbAccess;
-    var ticketStatusesService = serviceFactory.TicketStatusesDbAccess;
+    var rolePermissionsService = serviceFactory.GetRolePermissionsDbAccess();
+    var ticketStatusesService = serviceFactory.GetTicketStatusesDbAccess;
     var loggedInUser = await userManager.GetUserAsync(User);
     if (loggedInUser == null)
     {

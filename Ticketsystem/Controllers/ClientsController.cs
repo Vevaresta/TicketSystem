@@ -15,7 +15,7 @@ namespace Ticketsystem.Controllers
 {
     public class ClientsController : Controller
     {
-        private readonly IDbAccess _clientsService;
+        private readonly ITicketsClientsDbAccess _clientsService;
 
         public ClientsController(IDbAccessFactory serviceFactory)
         {

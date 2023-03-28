@@ -26,7 +26,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             Roles = (from role in _roleManager.Roles
                             select role.Name).ToList();
 
-            RolesToDisplay = _serviceFactory.RolesToDisplayDbAccess.GetList();
+            RolesToDisplay = _serviceFactory.GetRolesToDisplayDbAccess().GetList();
 
             return Page();
         }

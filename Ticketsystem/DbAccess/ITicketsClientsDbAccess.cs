@@ -2,10 +2,10 @@
 
 namespace Ticketsystem.DbAccess
 {
-    public interface IDbAccess
+    public interface ITicketsClientsDbAccess
     {
-        Task<List<T>> GetAll<T>(IFilterData data) where T : class;
         Task<T> GetById<T, TT>(TT id) where T : class;
+        Task<List<T>> GetAll<T>(IFilterData data) where T : class;
         int GetCount(IFilterData data);
         Task Delete<T>(T entity) where T : class;
         Task Update<T>(T entity) where T : class;

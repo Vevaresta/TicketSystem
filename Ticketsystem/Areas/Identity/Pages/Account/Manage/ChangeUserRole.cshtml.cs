@@ -44,7 +44,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             Role = userRoles.FirstOrDefault();
             UserToEdit = user;
 
-            RolesToDisplay = _serviceFactory.RolesToDisplayDbAccess.GetList();
+            RolesToDisplay = _serviceFactory.GetRolesToDisplayDbAccess().GetList();
 
             return Page();
         }

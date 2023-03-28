@@ -2,7 +2,7 @@
 @inject IDbAccessFactory serviceFactory
 
 @{
-    var rolePermissionsService = serviceFactory.RolePermissionsDbAccess;
+    var rolePermissionsService = serviceFactory.GetRolePermissionsDbAccess();
     var loggedInUser = await userManager.GetUserAsync(User);
 }
 

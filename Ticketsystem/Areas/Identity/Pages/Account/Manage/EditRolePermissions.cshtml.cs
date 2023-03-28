@@ -17,7 +17,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
         public EditRolePermissionsModel(IDbAccessFactory serviceFactory)
         {
             _serviceFactory = serviceFactory;
-            _rolePermissionsService = serviceFactory.RolePermissionsDbAccess;
+            _rolePermissionsService = serviceFactory.GetRolePermissionsDbAccess();
 
             Permissions = new List<string>();
         }
@@ -26,7 +26,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
         {
             RoleToEdit = role;
 
-            Role roleInDb = await _serviceFactory.RolesDbAccess.GetRoleByName(role);
+            Role roleInDb = await _serviceFactory.GetRolesDbAccess().GetRoleByName(role);
 
             foreach (Permission permission in roleInDb.Permissions)
             {
@@ -46,7 +46,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
                 permissionsEmumList.Add(permissionEnum);
             }
 
-            Role roleInDb = await _serviceFactory.RolesDbAccess.GetRoleByName(role);
+            Role roleInDb = await _serviceFactory.GetRolesDbAccess().GetRoleByName(role);
 
             await _rolePermissionsService.AddPermissionListToRole(roleInDb, permissionsEmumList);
 
