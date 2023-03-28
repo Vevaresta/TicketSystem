@@ -12,7 +12,7 @@ using Ticketsystem.Utilities;
 
 namespace Ticketsystem.DbAccess
 {
-    public class TicketsDbAccess
+    public class TicketsDbAccess : IDbAccess
     {
         private readonly TicketsystemContext _ticketsystemContext;
         private readonly IDistributedCache _cache;
@@ -28,7 +28,7 @@ namespace Ticketsystem.DbAccess
             _globals = globals;
         }
 
-        private IQueryable<Ticket> GetTicketsShared(TicketData ticketData)
+        private IQueryable<Ticket> GetTicketsShared(TicketFilterData ticketData)
         {
             IQueryable<Ticket> query = _ticketsystemContext.Tickets
                 .Include(t => t.TicketStatus)
@@ -90,20 +90,28 @@ namespace Ticketsystem.DbAccess
             return query;
         }
 
-        public int GetTicketsCount(TicketData ticketData)
+        public async Task Add<T>(T ticket) where T : class
         {
-            return GetTicketsShared(ticketData).Count();
+            _ticketsystemContext.Add(ticket);
+            await _ticketsystemContext.SaveChangesAsync();
+
+            if (_globals.EnableRedisCache)
+            {
+                await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals.RedisServer, _globals.RedisTicketsCache);
+            }
         }
-        
-        public async Task<IList<TicketIndexViewModel>> GetAllTickets(TicketData ticketData)
+
+        public async Task<List<T>> GetAll<T>(IFilterData data) where T : class
         {
+            var ticketData = data as TicketFilterData;
+
             string cacheKey = $"tickets_{ticketData.FilterByTicketId}_{ticketData.FilterByTicketName}_{ticketData.FilterByClientName}_{ticketData.FilterByTicketStatus}_{ticketData.FilterByTicketType}_{ticketData.FilterByStartDate}_{ticketData.FilterByEndDate}_{ticketData.SortBy}_{ticketData.DoReverse}_{ticketData.Skip}_{ticketData.Take}";
             if (_globals.EnableRedisCache)
             {
                 var cachedTickets = await _cache.GetAsync(cacheKey);
                 if (cachedTickets != null)
                 {
-                    return JsonConvert.DeserializeObject<List<TicketIndexViewModel>>(Encoding.UTF8.GetString(cachedTickets));
+                    return JsonConvert.DeserializeObject<List<T>>(Encoding.UTF8.GetString(cachedTickets));
                 }
             }
 
@@ -129,11 +137,11 @@ namespace Ticketsystem.DbAccess
 
             var tickets = await query.ToListAsync();
 
-            List<TicketIndexViewModel> list = new();
+            List<T> list = new();
 
             foreach (var ticket in tickets)
             {
-                list.Add(new TicketIndexViewModel
+                TicketIndexViewModel ticketIndexViewModel = new()
                 {
                     Id = ticket.Id,
                     Name = ticket.Name,
@@ -141,7 +149,9 @@ namespace Ticketsystem.DbAccess
                     TicketType = Enum.GetValues<TicketTypes>().FirstOrDefault(tt => tt.ToString() == ticket.TicketType.Name).GetText(),
                     TicketStatus = Enum.GetValues<TicketStatuses>().FirstOrDefault(tt => tt.ToString() == ticket.TicketStatus.Name).GetText(),
                     ClientLastName = ticket.Client.LastName,
-                });
+                };
+
+                list.Add(ticketIndexViewModel as T);
             }
 
             if (_globals.EnableRedisCache)
@@ -154,18 +164,20 @@ namespace Ticketsystem.DbAccess
 
             return list;
         }
-        
-        public async Task<Ticket> GetTicketById(int id)
+
+        public async Task<T> GetById<T, TT>(TT id) where T : class
         {
+            var ticketId = int.Parse(id as string);
+
             var ticket = await _ticketsystemContext.Tickets
                 .Include(t => t.Client)
                 .Include(t => t.Devices).ThenInclude(d => d.Software)
                 .Include(t => t.TicketStatus)
                 .Include(t => t.TicketType)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == ticketId);
 
             var ticketChanges = _ticketsystemContext.TicketChanges
-                .Where(tc => tc.TicketId == id)
+                .Where(tc => tc.TicketId == ticketId)
                 .Include(tc => tc.User)
                 .Include(tc => tc.OldTicketStatus)
                 .Include(tc => tc.NewTicketStatus)
@@ -173,12 +185,21 @@ namespace Ticketsystem.DbAccess
 
             ticket.TicketChanges = await ticketChanges.ToListAsync();
 
-            return ticket;
+            return ticket as T;
         }
-        
-        public async Task AddTicket(Ticket ticket)
+
+        public int GetCount(IFilterData data)
         {
-            _ticketsystemContext.Add(ticket);
+            return GetTicketsShared(data as TicketFilterData).Count();
+        }
+
+        public async Task Delete<T>(T entity) where T : class
+        {
+            if (entity is Ticket ticket)
+            {
+                _ticketsystemContext.Tickets.Remove(ticket);
+            }
+
             await _ticketsystemContext.SaveChangesAsync();
 
             if (_globals.EnableRedisCache)
@@ -187,8 +208,9 @@ namespace Ticketsystem.DbAccess
             }
         }
 
-        public async Task UpdateTicket(Ticket ticket)
+        public async Task Update<T>(T entity) where T : class
         {
+            var ticket = entity as Ticket;
             var devices = ticket.Devices;
 
             if (devices != null)
@@ -248,21 +270,6 @@ namespace Ticketsystem.DbAccess
             }
 
             _ticketsystemContext.Update(ticket);
-            await _ticketsystemContext.SaveChangesAsync();
-
-            if (_globals.EnableRedisCache)
-            {
-                await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals.RedisServer, _globals.RedisTicketsCache);
-            }
-        }
-
-        public async Task DeleteTicket(Ticket ticket)
-        {
-            if (ticket != null)
-            {
-                _ticketsystemContext.Tickets.Remove(ticket);
-            }
-
             await _ticketsystemContext.SaveChangesAsync();
 
             if (_globals.EnableRedisCache)

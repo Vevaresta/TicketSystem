@@ -15,22 +15,22 @@ namespace Ticketsystem.Controllers
 {
     public class ClientsController : Controller
     {
-        private readonly ClientsDbAccess _clientsService;
+        private readonly IDbAccess _clientsService;
 
         public ClientsController(IDbAccessFactory serviceFactory)
         {
-            _clientsService = serviceFactory.ClientsDbAccess;
+            _clientsService = serviceFactory.GetTicketsClientsDbAccess<ClientsDbAccess>();
         }
 
         // GET: Clients
-        public async Task<IActionResult> Index(ClientData clientData)
+        public async Task<IActionResult> Index(ClientFilterData clientData)
         {
-            List<ClientIndexViewModel> clients = await _clientsService.GetAllClients(clientData);
+            List<ClientIndexViewModel> clients = await _clientsService.GetAll<ClientIndexViewModel>(clientData);
 
             ViewBag.Take = clientData.Take;
             ViewBag.Skip = clientData.Skip;
             ViewBag.SortBy = clientData.SortBy;
-            ViewBag.ClientsCount = _clientsService.GetClientsCount(clientData);
+            ViewBag.ClientsCount = _clientsService.GetCount(clientData);
             ViewBag.DoReverse = clientData.DoReverse;
             ViewBag.FilterByLastName = clientData.FilterByLastName;
             ViewBag.FilterByFirstName = clientData.FilterByFirstName;
@@ -42,7 +42,7 @@ namespace Ticketsystem.Controllers
         // GET: Clients/Details/5
         public async Task<IActionResult> Details(string id)
         {
-           var client = await _clientsService.GetClientById(id);
+           var client = await _clientsService.GetById<Client, string>(id);
            if (client == null)
            {
                return NotFound();
@@ -56,7 +56,7 @@ namespace Ticketsystem.Controllers
         // GET: Clients/Update/5
         public async Task<IActionResult> Update(string id)
         {
-           var client = await _clientsService.GetClientById(id);
+           var client = await _clientsService.GetById<Client, string>(id);
            if (client == null)
            {
                return NotFound();
@@ -84,7 +84,7 @@ namespace Ticketsystem.Controllers
 
                 try
                 {
-                    await _clientsService.UpdateClient(client);
+                    await _clientsService.Update(client);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -108,7 +108,7 @@ namespace Ticketsystem.Controllers
         // GET: Tickets/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
-            var client = await _clientsService.GetClientById(id);
+            var client = await _clientsService.GetById<Client, string>(id);
 
             if (client == null)
             {
@@ -124,16 +124,16 @@ namespace Ticketsystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var client = await _clientsService.GetClientById(id);
+            var client = await _clientsService.GetById<Client, string>(id);
 
-            await _clientsService.DeleteClient(client);
+            await _clientsService.Delete(client);
 
             return RedirectToAction(nameof(Index));
         }
 
         private bool ClientExists(string id)
         {
-           return _clientsService.GetClientById(id) != null;
+           return _clientsService.GetById<Client, string>(id) != null;
         }
     }
 }

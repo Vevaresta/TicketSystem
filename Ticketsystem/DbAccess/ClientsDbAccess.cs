@@ -10,7 +10,7 @@ using Ticketsystem.Utilities;
 
 namespace Ticketsystem.DbAccess
 {
-    public class ClientsDbAccess
+    public class ClientsDbAccess : IDbAccess
     {
         private readonly TicketsystemContext _ticketsystemContext;
         private readonly IDistributedCache _cache;
@@ -26,7 +26,7 @@ namespace Ticketsystem.DbAccess
             _globals = globals;
         }
 
-        private IQueryable<Client> GetClientsShared(ClientData clientData)
+        private IQueryable<Client> GetClientsShared(ClientFilterData clientData)
         {
             IQueryable<Client> query = _ticketsystemContext.Clients
             .Where(c => c.Id != "Fallback");
@@ -47,21 +47,23 @@ namespace Ticketsystem.DbAccess
             return query;
         }
 
-        public int GetClientsCount(ClientData clientData)
+        public async Task<Client> GetClientById(string id)
         {
-            return GetClientsShared(clientData).Count();
+            return await _ticketsystemContext.Clients.FirstOrDefaultAsync(m => m.Id == id);
         }
 
-        public async Task<List<ClientIndexViewModel>> GetAllClients(ClientData clientData)
+        public async Task<List<T>> GetAll<T>(IFilterData data) where T : class
         {
+            var clientData = data as ClientFilterData;
+
             string cacheKey = $"clients_{clientData.FilterByFirstName}_{clientData.FilterByLastName}_{clientData.FilterByEmail}_{clientData.SortBy}_{clientData.Take}_{clientData.Skip}_{clientData.DoReverse}";
             if (_globals.EnableRedisCache)
             {
-                
+
                 var cachedClients = await _cache.GetAsync(cacheKey);
                 if (cachedClients != null)
                 {
-                    return JsonConvert.DeserializeObject<List<ClientIndexViewModel>>(Encoding.UTF8.GetString(cachedClients));
+                    return JsonConvert.DeserializeObject<List<T>>(Encoding.UTF8.GetString(cachedClients));
                 }
             }
 
@@ -84,17 +86,18 @@ namespace Ticketsystem.DbAccess
 
             var clients = await query.ToListAsync();
 
-            List<ClientIndexViewModel> list = new();
+            List<T> list = new();
 
             foreach (var client in clients)
             {
-                list.Add(new ClientIndexViewModel
+                ClientIndexViewModel item = new()
                 {
                     Id = client.Id,
                     LastName = client.LastName,
                     FirstName = client.FirstName,
                     Email = client.Email
-                });
+                };
+                list.Add(item as T);
             }
 
             if (_globals.EnableRedisCache)
@@ -108,13 +111,24 @@ namespace Ticketsystem.DbAccess
             return list;
         }
 
-        public async Task<Client> GetClientById(string id)
+        public async Task<T> GetById<T, TT>(TT id) where T : class
         {
-            return await _ticketsystemContext.Clients.FirstOrDefaultAsync(m => m.Id == id);
+            string clientId = id as string;
+
+            Client client = await _ticketsystemContext.Clients.FirstOrDefaultAsync(m => m.Id == clientId);
+
+            return client as T;
         }
 
-        public async Task DeleteClient(Client client)
+        public int GetCount(IFilterData data)
         {
+            return GetClientsShared(data as ClientFilterData).Count();
+        }
+
+        public async Task Delete<T>(T entity) where T : class
+        {
+            var client = entity as Client;
+
             if (client != null)
             {
                 _ticketsystemContext.Clients.Remove(client);
@@ -139,15 +153,20 @@ namespace Ticketsystem.DbAccess
             }
         }
 
-        public async Task UpdateClient(Client client)
+        public async Task Update<T>(T entity) where T : class
         {
-            _ticketsystemContext.Update(client);
+            _ticketsystemContext.Update(entity as Client);
             await _ticketsystemContext.SaveChangesAsync();
 
             if (_globals.EnableRedisCache)
             {
                 await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals.RedisServer, _globals.RedisTicketsCache);
             }
+        }
+
+        public Task Add<T>(T entity) where T : class
+        {
+            throw new NotImplementedException();
         }
     }
 }
