@@ -94,6 +94,7 @@ namespace Ticketsystem.DbAccess
         {
             return GetTicketsShared(ticketData).Count();
         }
+        
         public async Task<IList<TicketIndexViewModel>> GetAllTickets(TicketData ticketData)
         {
             string cacheKey = $"tickets_{ticketData.FilterByTicketId}_{ticketData.FilterByTicketName}_{ticketData.FilterByClientName}_{ticketData.FilterByTicketStatus}_{ticketData.FilterByTicketType}_{ticketData.FilterByStartDate}_{ticketData.FilterByEndDate}_{ticketData.SortBy}_{ticketData.DoReverse}_{ticketData.Skip}_{ticketData.Take}";
@@ -153,8 +154,7 @@ namespace Ticketsystem.DbAccess
 
             return list;
         }
-
-
+        
         public async Task<Ticket> GetTicketById(int id)
         {
             var ticket = await _ticketsystemContext.Tickets
@@ -175,7 +175,7 @@ namespace Ticketsystem.DbAccess
 
             return ticket;
         }
-
+        
         public async Task AddTicket(Ticket ticket)
         {
             _ticketsystemContext.Add(ticket);
