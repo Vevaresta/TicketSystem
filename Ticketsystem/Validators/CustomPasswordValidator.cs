@@ -12,7 +12,7 @@ public class CustomPasswordValidator : IPasswordValidator<User>
 
         if (!password.Any(char.IsNumber))
         {
-            errors.Add(new IdentityError { Description = "Das Passwort muss mindestens eine Zahl enthalten ('a'-'z')." });
+            errors.Add(new IdentityError { Description = "Das Passwort muss mindestens eine Zahl enthalten ('0'-'9')." });
         }
 
         if (!password.Any(char.IsLower))
