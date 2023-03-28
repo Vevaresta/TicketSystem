@@ -75,7 +75,7 @@ namespace Ticketsystem.DbAccess
             }
 
 
-            List<Permission> tempPermissionList = new List<Permission>(role.Permissions);
+            List<Permission> tempPermissionList = new(role.Permissions);
 
             foreach (var permissionInDb in tempPermissionList)
             {

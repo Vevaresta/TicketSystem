@@ -12,7 +12,7 @@ using Ticketsystem.Utilities;
 
 namespace Ticketsystem.DbAccess
 {
-    public class TicketsDbAccess : IDbAccess
+    public class TicketsDbAccess : ITicketsClientsDbAccess
     {
         private readonly TicketsystemContext _ticketsystemContext;
         private readonly IDistributedCache _cache;
@@ -167,7 +167,7 @@ namespace Ticketsystem.DbAccess
 
         public async Task<T> GetById<T, TT>(TT id) where T : class
         {
-            var ticketId = int.Parse(id as string);
+            int ticketId = (int)(object)id;
 
             var ticket = await _ticketsystemContext.Tickets
                 .Include(t => t.Client)

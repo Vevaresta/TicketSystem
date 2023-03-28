@@ -31,7 +31,7 @@ namespace Ticketsystem.DbAccess
             _globals = globals;
         }
 
-        public IDbAccess GetTicketsClientsDbAccess<T>()
+        public ITicketsClientsDbAccess GetTicketsClientsDbAccess<T>()
         {
             if (typeof(T) == typeof(ClientsDbAccess))
             {
@@ -47,11 +47,11 @@ namespace Ticketsystem.DbAccess
             }
         }
 
-        public RolesDbAccess RolesDbAccess { get => new(_userManager, _roleManager); }
-        public RolePermissionsDbAccess RolePermissionsDbAccess { get => new(_ticketsystemContext, _userManager, _roleManager); }
-        public RolesToDisplayDbAccess RolesToDisplayDbAccess { get => new(_roleManager); }
-        public TicketTypesDbAccess TicketTypesDbAccess { get => new(_ticketsystemContext); }
-        public TicketStatusesDbAccess TicketStatusesDbAccess { get => new(_ticketsystemContext); }
-        public TicketChangesDbAccess TicketChangesDbAccess { get => new(_ticketsystemContext); }
+        public RolesDbAccess GetRolesDbAccess() => new(_userManager, _roleManager);
+        public RolePermissionsDbAccess GetRolePermissionsDbAccess() => new(_ticketsystemContext, _userManager, _roleManager);
+        public RolesToDisplayDbAccess GetRolesToDisplayDbAccess() => new(_roleManager);
+        public TicketTypesDbAccess GetTicketTypesDbAccess() => new(_ticketsystemContext);
+        public TicketStatusesDbAccess GetTicketStatusesDbAccess() => new(_ticketsystemContext);
+        public TicketChangesDbAccess GetTicketChangesDbAccess() => new(_ticketsystemContext);
     }
 }
