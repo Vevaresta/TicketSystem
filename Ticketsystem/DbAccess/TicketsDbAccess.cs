@@ -167,7 +167,7 @@ namespace Ticketsystem.DbAccess
 
         public async Task<T> GetById<T, TT>(TT id) where T : class
         {
-            int ticketId = (int)(object)id;
+            int ticketId = (dynamic)id;
 
             var ticket = await _ticketsystemContext.Tickets
                 .Include(t => t.Client)

@@ -17,7 +17,13 @@ $(document).ready(function () {
 });
 
 // Umschalten der Ticketart durch Klick auf Radio-Button oder Label
-$(".ticket-type-container").on("click", function (event) {
+$(".ticket-type-input").on("click", function (event) {
+    var radio = $(event.target);
+    changeTicketType(radio);
+});
+
+// Umschalten der Ticketart durch Klick auf Radio-Button oder Label
+$(".ticket-type-label").on("click", function (event) {
     var label = $(event.target);
     var radio = label.prev('input[type=radio]');
     changeTicketType(radio);
