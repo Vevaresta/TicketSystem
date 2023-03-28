@@ -113,7 +113,6 @@ namespace Ticketsystem.DbAccess
             return await _ticketsystemContext.Clients.FirstOrDefaultAsync(m => m.Id == id);
         }
 
-
         public async Task DeleteClient(Client client)
         {
             if (client != null)
