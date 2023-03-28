@@ -19,7 +19,7 @@ namespace Ticketsystem.Controllers
 {
     public class TicketsController : Controller
     {
-        private readonly TicketsDbAccess _ticketsService;
+        private readonly IDbAccess _ticketsService;
         private readonly TicketStatusesDbAccess _ticketStatusesService;
         private readonly TicketTypesDbAccess _ticketTypesService;
         private readonly TicketChangesDbAccess _ticketChangesService;
@@ -27,7 +27,7 @@ namespace Ticketsystem.Controllers
 
         public TicketsController(IDbAccessFactory serviceFactory, UserManager<User> userManager)
         {
-            _ticketsService = serviceFactory.TicketsDbAccess;
+            _ticketsService = serviceFactory.GetTicketsClientsDbAccess<TicketsDbAccess>();
             _ticketStatusesService = serviceFactory.TicketStatusesDbAccess;
             _ticketTypesService = serviceFactory.TicketTypesDbAccess;
             _ticketChangesService = serviceFactory.TicketChangesDbAccess;
@@ -35,14 +35,14 @@ namespace Ticketsystem.Controllers
         }
 
         // GET: Tickets
-        public async Task<IActionResult> Index(TicketData ticketData)
+        public async Task<IActionResult> Index(TicketFilterData ticketData)
         {
-            var tickets = await _ticketsService.GetAllTickets(ticketData);
+            var tickets = await _ticketsService.GetAll<TicketIndexViewModel>(ticketData);
 
             ViewBag.Take = ticketData.Take;
             ViewBag.Skip = ticketData.Skip;
             ViewBag.SortBy = ticketData.SortBy;
-            ViewBag.TicketsCount = _ticketsService.GetTicketsCount(ticketData);
+            ViewBag.TicketsCount = _ticketsService.GetCount(ticketData);
             ViewBag.DoReverse = ticketData.DoReverse;
             ViewBag.FilterByTicketId = ticketData.FilterByTicketId;
             ViewBag.FilterByTicketName = ticketData.FilterByTicketName;
@@ -95,7 +95,7 @@ namespace Ticketsystem.Controllers
                 ticket.TicketStatus = ticketStatusOpen;
                 ticket.OrderDate = DateTime.Now.ToUniversalTime();
 
-                await _ticketsService.AddTicket(ticket);
+                await _ticketsService.Add(ticket);
 
                 TicketChange ticketChange = new()
                 {
@@ -117,7 +117,7 @@ namespace Ticketsystem.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            var ticket = await _ticketsService.GetTicketById(id);
+            var ticket = await _ticketsService.GetById<Ticket, int>(id);
 
             if (ticket == null)
             {
@@ -139,7 +139,7 @@ namespace Ticketsystem.Controllers
 
         public async Task<IActionResult> Update(int id)
         {
-            var ticket = await _ticketsService.GetTicketById(id);
+            var ticket = await _ticketsService.GetById<Ticket, int>(id);
 
             if (ticket == null)
             {
@@ -209,7 +209,7 @@ namespace Ticketsystem.Controllers
                 }
                 try
                 {
-                    await _ticketsService.UpdateTicket(ticket);
+                    await _ticketsService.Update(ticket);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -226,7 +226,7 @@ namespace Ticketsystem.Controllers
             }
 
 
-            var t = await _ticketsService.GetTicketById(id);
+            var t = await _ticketsService.GetById<Ticket, int>(id);
 
             if (t == null)
             {
@@ -250,7 +250,7 @@ namespace Ticketsystem.Controllers
         // GET: Tickets/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var ticket = await _ticketsService.GetTicketById(id);
+            var ticket = await _ticketsService.GetById<Ticket, int>(id);
 
             if (ticket == null)
             {
@@ -266,16 +266,16 @@ namespace Ticketsystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var ticket = await _ticketsService.GetTicketById(id);
+            var ticket = await _ticketsService.GetById<Ticket, int>(id);
 
-            await _ticketsService.DeleteTicket(ticket);
+            await _ticketsService.Delete(ticket);
 
             return RedirectToAction(nameof(Index));
         }
 
         private bool TicketExists(int id)
         {
-            return _ticketsService.GetTicketById(id) != null;
+            return _ticketsService.GetById<Ticket, int>(id) != null;
         }
 
         public IActionResult TicketHistory()

@@ -31,13 +31,27 @@ namespace Ticketsystem.DbAccess
             _globals = globals;
         }
 
+        public IDbAccess GetTicketsClientsDbAccess<T>()
+        {
+            if (typeof(T) == typeof(ClientsDbAccess))
+            {
+                return new ClientsDbAccess(_ticketsystemContext, _cache, _globals);
+            }
+            else if (typeof(T) == typeof(TicketsDbAccess))
+            {
+                return new TicketsDbAccess(_ticketsystemContext, _cache, _globals);
+            }
+            else
+            {
+                throw new Exception("Wrong DbAccess type!");
+            }
+        }
+
         public RolesDbAccess RolesDbAccess { get => new(_userManager, _roleManager); }
         public RolePermissionsDbAccess RolePermissionsDbAccess { get => new(_ticketsystemContext, _userManager, _roleManager); }
         public RolesToDisplayDbAccess RolesToDisplayDbAccess { get => new(_roleManager); }
-        public TicketsDbAccess TicketsDbAccess { get => new(_ticketsystemContext, _cache, _globals); }
         public TicketTypesDbAccess TicketTypesDbAccess { get => new(_ticketsystemContext); }
         public TicketStatusesDbAccess TicketStatusesDbAccess { get => new(_ticketsystemContext); }
         public TicketChangesDbAccess TicketChangesDbAccess { get => new(_ticketsystemContext); }
-        public ClientsDbAccess ClientsDbAccess { get => new(_ticketsystemContext, _cache, _globals); }
     }
 }

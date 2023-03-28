@@ -1,6 +1,6 @@
 ﻿namespace Ticketsystem.Models.Data
 {
-    public class TicketData
+    public class TicketFilterData : IFilterData
     {
         public int Take { get; set; } = 10;
         public int Skip { get; set; } = 0;
