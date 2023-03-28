@@ -35,32 +35,45 @@
 }
 
 <form method="post">
-    <input type="hidden" id="hidden-devices" value="@devicesJson" />
-    <input type="hidden" id="hidden-ticket-type" value="@ticketType" />
     @Html.AntiForgeryToken()
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" id="hidden-devices" value="@devicesJson" />
+    <input type="hidden" id="hidden-ticket-type" value="@ticketType" />
+    <input type="hidden" name="loggedInUserId" value="@loggedInUser.Id" />
+    <input type="hidden" id="ticketTypeInput" name="ticketType" />
+    <input type="hidden" id="deviceListInput" name="deviceList" />
+
     <div class="stretch-container">
         <h3>@ViewData["Title"]</h3>
 
-        <div class="d-flex col-lg-8 mb-3" >
-            <div class="d-inline-block">
-                <div class="form-check form-check-inline ticket-type-container me-lg-5">
-                    <input class="form-check-input" type="radio" name="ticket-type" id="radio-repair" value="@TicketTypes.Repair.ToString()" checked>
-                    <label class="form-check-label" for="radio-repair">@TicketTypes.Repair.GetText()</label>
+        <div class="col-lg-8 mb-3">
+            <div class="row">
+                <div class="col-6 col-md-3">
+                    <div class="form-check form-check-inline ticket-type-container mb-1 mb-md-0">
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-repair" value="@TicketTypes.Repair.ToString()" checked>
+                        <label class="form-check-label" for="radio-repair">@TicketTypes.Repair.GetText()</label>
+                    </div>
                 </div>
-                <div class="form-check form-check-inline ticket-type-container me-lg-4">
-                    <input class="form-check-input" type="radio" name="ticket-type" id="radio-recovery" value="@TicketTypes.DataRecovery.ToString()">
-                    <label class="form-check-label" for="radio-recovery">@TicketTypes.DataRecovery.GetText()</label>
+                <div class="col-6 col-md-3">
+                    <div class="form-check form-check-inline ticket-type-container mb-1 mb-md-0">
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-recovery" value="@TicketTypes.DataRecovery.ToString()">
+                        <label class="form-check-label" for="radio-recovery">@TicketTypes.DataRecovery.GetText()</label>
+                    </div>
                 </div>
-            </div>
-            <div class="d-inline-block">
-                <div class="form-check form-check-inline ticket-type-container me-lg-5">
-                    <input class="form-check-input" type="radio" name="ticket-type" id="radio-advice" value="@TicketTypes.Consultation.ToString()">
-                    <label class="form-check-label" for="radio-advice">@TicketTypes.Consultation.GetText()</label>
+
+                <div class="w-100 d-block d-md-none "></div>
+
+                <div class="col-6 col-md-3">
+                    <div class="form-check form-check-inline ticket-type-container">
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-advice" value="@TicketTypes.Consultation.ToString()">
+                        <label class="form-check-label" for="radio-advice">@TicketTypes.Consultation.GetText()</label>
+                    </div>
                 </div>
-                <div class="form-check form-check-inline ticket-type-container">
-                    <input class="form-check-input" type="radio" name="ticket-type" id="radio-special" value="@TicketTypes.Special.ToString()">
-                    <label class="form-check-label" for="radio-special">@TicketTypes.Special.GetText()</label>
+                <div class="col-6 col-md-3">
+                    <div class="form-check form-check-inline ticket-type-container">
+                        <input class="form-check-input" type="radio" name="ticket-type" id="radio-special" value="@TicketTypes.Special.ToString()">
+                        <label class="form-check-label" for="radio-special">@TicketTypes.Special.GetText()</label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -254,9 +267,6 @@
                         </div>
                     </div>
                 </div>
-                <input type="hidden" name="loggedInUserId" value="@loggedInUser.Id" />
-                <input type="hidden" id="ticketTypeInput" name="ticketType" />
-                <input type="hidden" id="deviceListInput" name="deviceList" />
             </div>
             <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
                 <div class="row mt-2">
