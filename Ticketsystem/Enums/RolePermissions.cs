@@ -34,14 +34,14 @@ namespace Ticketsystem.Enums
         [Description("Neue Tickets erstellen")]
         CreateTickets,
 
-        [Description("Ticketdetails anzeigen")]
-        ViewTicketDetails,
-
         [Description("Tickets suchen")]
         SearchTickets,
 
         [Description("Tickets ändern")]
         UpdateTickets,
+
+        [Description("Ticketdetails anzeigen")]
+        ViewTicketDetails,
 
         [Description("Tickets löschen")]
         DeleteTickets,
@@ -55,11 +55,11 @@ namespace Ticketsystem.Enums
         [Description("Kunden suchen")]
         SearchClients,
 
-        [Description("Kundendaten anzeigen")]
-        ViewClientDetails,
-
         [Description("Kundendaten ändern")]
         UpdateClients,
+
+        [Description("Kundendaten anzeigen")]
+        ViewClientDetails,
 
         [Description("Kunden löschen")]
         DeleteClients

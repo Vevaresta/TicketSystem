@@ -172,18 +172,9 @@
                             </td>
                             <td class="text-end index-column-buttons">
                                 <div class="d-inline-block">
-                                    @if (canUpdate)
-                                    {
-                                        <a class="bi bi-pen me-3" title="Bearbeiten" asp-action="Update" asp-route-id="@item.Id" class="me-xl-3"></a>
-                                    }
-                                    @if (canViewDetails)
-                                    {
-                                        <a class="bi bi-card-list me-3" title="Details" asp-action="Details" asp-route-id="@item.Id" class="me-xl-3"></a>
-                                    }
-                                    @if (canDelete)
-                                    {
-                                        <a class="bi bi-x-square" style="color: #b30000;" title="Löschen" asp-action="Delete" asp-route-id="@item.Id" class="me-xl-3"></a>
-                                    }
+                                    <a class="@(!canUpdate ? "disabled-link" : "") bi bi-pen me-3" title="Bearbeiten" asp-action="Update" asp-route-id="@item.Id" class="me-xl-3"></a>
+                                    <a class="@(!canViewDetails ? "disabled-link" : "") bi bi-card-list me-3" title="Details" asp-action="Details" asp-route-id="@item.Id" class="me-xl-3"></a>
+                                    <a class="@(!canDelete ? "disabled-link" : "") bi bi-x-square" style="color: #b30000;" title="Löschen" asp-action="Delete" asp-route-id="@item.Id" class="me-xl-3"></a>
                                 </div>
                             </td>
                         </tr>

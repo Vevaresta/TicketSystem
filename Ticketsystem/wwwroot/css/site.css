@@ -112,3 +112,8 @@ input[type="search"]::placeholder,
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.disabled-link {
+    pointer-events: none;
+    color: gray !important;
+}

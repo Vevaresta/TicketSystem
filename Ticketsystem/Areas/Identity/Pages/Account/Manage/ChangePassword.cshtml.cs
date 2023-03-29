@@ -54,7 +54,7 @@ namespace Ticketsystem.Areas.Identity.Pages.Account.Manage
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required(ErrorMessage = "Pflichtfeld")]
-            [DataType(DataType.Password)]
+            [DataType(DataType.Password, ErrorMessage = "Test")]
             [Display(Name = "Aktuelles Passwort")]
             public string OldPassword { get; set; }
 
