@@ -22,23 +22,37 @@
     ViewData["Title"] = "Ticket Nr. " + Model.Id + " bearbeiten";
 
     string devicesJson = "";
-
-    if (Model.Devices != null)
-    {
-        devicesJson = JsonConvert.SerializeObject(Model.Devices);
-    }
-
     string ticketChangeError = "";
 
+    string displayForSingleDevice = "";
+    string displayForSpecial = "";
+    string displayBackup = "";
+
+    bool backupByClientBool = false;
+    bool backupByStaffBool = true;
+
     var ticketChangeState = ViewData.ModelState.FirstOrDefault(ms => ms.Key == "TicketChange.Comment").Value;
+    
     if (ticketChangeState != null)
     {
         ticketChangeError = ticketChangeState.Errors.Any() ? "true" : "false";
     }
 
-    string displayForSingleDevice = Model.TicketType == TicketTypes.Repair || Model.TicketType == TicketTypes.DataRecovery ? "block" : "none";
-    string displayForSpecial = Model.TicketType == TicketTypes.Special ? "block" : "none";
-    string displayBackup = Model.TicketType == TicketTypes.Repair || Model.TicketType == TicketTypes.DataRecovery || Model.TicketType == TicketTypes.Special ? "block" : "none";
+    if (Model != null)
+    {
+        if (Model.Devices != null)
+        {
+            devicesJson = JsonConvert.SerializeObject(Model.Devices);
+        }
+
+        backupByClientBool = Model.DataBackupByClient;
+
+        displayForSingleDevice = Model.TicketType == TicketTypes.Repair || Model.TicketType == TicketTypes.DataRecovery ? "block" : "none";
+        displayForSpecial = Model.TicketType == TicketTypes.Special ? "block" : "none";
+        displayBackup = Model.TicketType == TicketTypes.Repair || Model.TicketType == TicketTypes.DataRecovery || Model.TicketType == TicketTypes.Special ? "block" : "none";
+    }
+
+    backupByStaffBool = !backupByClientBool;
 }
 
 <form method="post">
@@ -46,10 +60,13 @@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="@Model.TicketStatus" />
     <input type="hidden" asp-for="@Model.OrderDate" />
+    <input type="hidden" id="hidden-backup-by-client" value="@backupByClientBool" />
+    <input type="hidden" id="hidden-backup-by-staff" value="@backupByStaffBool" />
     <input type="hidden" id="hidden-ticket-change" value="@ticketChangeError" />
     <input type="hidden" id="hidden-devices" value="@devicesJson" />
     <input type="hidden" id="hidden-ticket-type" value="@Model.TicketType.ToString()" />
     <input type="hidden" name="loggedInUserId" value="@loggedInUser.Id" />
+
     <input type="hidden" id="ticketTypeInput" name="ticketType" />
     <input type="hidden" id="deviceListInput" name="deviceList" />
 

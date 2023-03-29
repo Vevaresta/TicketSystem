@@ -23,6 +23,8 @@
 
     string devicesJson = "";
     string ticketType = "";
+    bool backupByClient = false;
+    bool backupByStaff = false;
 
     if (Model != null)
     {
@@ -31,15 +33,25 @@
             devicesJson = JsonConvert.SerializeObject(Model.Devices);
         }
         ticketType = Model.TicketType.ToString();
+
+        backupByClient = Model.DataBackupByClient;
     }
+
+    backupByStaff = !backupByClient;
+    Console.WriteLine();
 }
 
 <form method="post">
     @Html.AntiForgeryToken()
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <input type="hidden" id="hidden-backup-by-client" value="@backupByClient" />
+    <input type="hidden" id="hidden-backup-by-staff" value="@backupByStaff" />
     <input type="hidden" id="hidden-devices" value="@devicesJson" />
     <input type="hidden" id="hidden-ticket-type" value="@ticketType" />
     <input type="hidden" name="loggedInUserId" value="@loggedInUser.Id" />
+
+    @* Wird bei Post übermittelt: *@
     <input type="hidden" id="ticketTypeInput" name="ticketType" />
     <input type="hidden" id="deviceListInput" name="deviceList" />
 

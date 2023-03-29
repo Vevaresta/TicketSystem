@@ -70,25 +70,25 @@ namespace Ticketsystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TicketViewModel ticketViewModel, string ticketType, string deviceList, string loggedInUserId)
         {
+            if (ticketViewModel.DoBackup)
+            {
+                if (ticketViewModel.BackupChoices == BackupChoices.BackupByStaff.ToString())
+                {
+                    ticketViewModel.DataBackupByStaff = true;
+                }
+                else if (ticketViewModel.BackupChoices == BackupChoices.BackupByClient.ToString())
+                {
+                    ticketViewModel.DataBackupByClient = true;
+                    ticketViewModel.DataBackupDone = true;
+                }
+            }
+
             ticketViewModel.Devices = JsonConvert.DeserializeObject<List<DeviceViewModel>>(deviceList);
 
             if (ModelState.IsValid)
             {
                 Ticket ticket = ticketViewModel;
                 ticket.TicketType = await _ticketTypesService.GetTicketTypeByName(ticketType);
-
-                if (ticketViewModel.DoBackup)
-                {
-                    if (ticketViewModel.BackupChoices == BackupChoices.BackupByStaff.ToString())
-                    {
-                        ticket.DataBackupByStaff = true;
-                    }
-                    else if (ticketViewModel.BackupChoices == BackupChoices.BackupByClient.ToString())
-                    {
-                        ticket.DataBackupByClient = true;
-                        ticket.DataBackupDone = true;
-                    }
-                }
 
                 var ticketStatusOpen = await _ticketStatusesService.GetTicketStatusByName(TicketStatuses.Open.ToString());
 
@@ -170,6 +170,19 @@ namespace Ticketsystem.Controllers
                 return NotFound();
             }
 
+            if (ticketViewModel.DoBackup)
+            {
+                if (ticketViewModel.BackupChoices == BackupChoices.BackupByStaff.ToString())
+                {
+                    ticketViewModel.DataBackupByStaff = true;
+                }
+                else if (ticketViewModel.BackupChoices == BackupChoices.BackupByClient.ToString())
+                {
+                    ticketViewModel.DataBackupByClient = true;
+                    ticketViewModel.DataBackupDone = true;
+                }
+            }
+
             ticketViewModel.Devices = JsonConvert.DeserializeObject<List<DeviceViewModel>>(deviceList);
 
             if (ModelState.IsValid)
@@ -195,18 +208,6 @@ namespace Ticketsystem.Controllers
                 ticket.TicketType = await _ticketTypesService.GetTicketTypeByName(ticketType);
                 ticket.TicketStatus = await _ticketStatusesService.GetTicketStatusByName(ticketStatusChange);
 
-                if (ticketViewModel.DoBackup)
-                {
-                    if (ticketViewModel.BackupChoices == BackupChoices.BackupByStaff.ToString())
-                    {
-                        ticket.DataBackupByStaff = true;
-                    }
-                    else if (ticketViewModel.BackupChoices == BackupChoices.BackupByClient.ToString())
-                    {
-                        ticket.DataBackupByClient = true;
-                        ticket.DataBackupDone = true;
-                    }
-                }
                 try
                 {
                     await _ticketsService.Update(ticket);

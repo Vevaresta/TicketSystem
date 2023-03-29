@@ -14,6 +14,12 @@ $(document).ready(function () {
     if (isTicketChangeError) {
         $('#tabs a[href="#tab3"]').tab('show');
     }
+
+    let backupByClient = $("#hidden-backup-by-client").val();
+    let backupByStaff = $("#hidden-backup-by-staff").val();
+
+    $("#radio-backup-client").prop("checked", backupByClient);
+    $("#radio-backup-staff").prop("checked", backupByStaff);
 });
 
 // Changes-Listbox-Item Click
