@@ -258,7 +258,7 @@
                                 @item.TicketStatus
                             </td>
                             <td class="fit">
-                                @Html.DisplayFor(modelItem => item.OrderDate)
+                                <label>@item.OrderDate.ToString("dd.MM.yyyy - HH:mm")</label>
                             </td>
                             <td class="text-end fit">
                                 <div class="d-flex flex-row flex-nowrap justify-content-sm-end">
