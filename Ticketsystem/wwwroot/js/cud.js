@@ -15,7 +15,7 @@ const cud = {
     softwareListBoxSelectedIndex: undefined,
     deviceEditedIndex: -1,
     softwareEditedIndex: -1,
-
+    currentTabId: "",
     viewName: "",
 
     setViewType: function (vt) {
@@ -25,9 +25,14 @@ const cud = {
     initTabs: function () {
         $('#tabs a').on('click', function (e) {
             e.preventDefault();
-            $("#show-device").hide();
-            $("#software-list").hide();
-            $("#show-software").hide();
+
+            let tab = e.target.id;
+            if (tab == "tab3-tab" && cud.currentTabId != "tab3-tab") {
+                $("#changes-per-date").hide();
+            }
+
+            cud.currentTabId = e.target.id;
+
             $(this).tab('show');
         });
 
@@ -412,7 +417,6 @@ const cud = {
         $("#changes-input-email").val(ticketChange.Email);
         $("#changes-input-comment").val(ticketChange.Comment);
         $("#changes-per-date").show();
-
     }
 };
 

@@ -47,11 +47,6 @@ namespace Ticketsystem.DbAccess
             return query;
         }
 
-        public async Task<Client> GetClientById(string id)
-        {
-            return await _ticketsystemContext.Clients.FirstOrDefaultAsync(m => m.Id == id);
-        }
-
         public async Task<List<T>> GetAll<T>(IFilterData data) where T : class
         {
             var clientData = data as ClientFilterData;
@@ -125,6 +120,22 @@ namespace Ticketsystem.DbAccess
             return GetClientsShared(data as ClientFilterData).Count();
         }
 
+        public Task Add<T>(T entity) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task Update<T>(T entity) where T : class
+        {
+            _ticketsystemContext.Update(entity as Client);
+            await _ticketsystemContext.SaveChangesAsync();
+
+            if (_globals.EnableRedisCache)
+            {
+                await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals.RedisServer, _globals.RedisTicketsCache);
+            }
+        }
+
         public async Task Delete<T>(T entity) where T : class
         {
             var client = entity as Client;
@@ -151,22 +162,6 @@ namespace Ticketsystem.DbAccess
             {
                 await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals.RedisServer, _globals.RedisTicketsCache);
             }
-        }
-
-        public async Task Update<T>(T entity) where T : class
-        {
-            _ticketsystemContext.Update(entity as Client);
-            await _ticketsystemContext.SaveChangesAsync();
-
-            if (_globals.EnableRedisCache)
-            {
-                await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals.RedisServer, _globals.RedisTicketsCache);
-            }
-        }
-
-        public Task Add<T>(T entity) where T : class
-        {
-            throw new NotImplementedException();
         }
     }
 }

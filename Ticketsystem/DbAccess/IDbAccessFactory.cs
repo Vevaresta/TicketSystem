@@ -1,4 +1,6 @@
-﻿namespace Ticketsystem.DbAccess
+﻿using NuGet.Protocol.Plugins;
+
+namespace Ticketsystem.DbAccess
 {
     public interface IDbAccessFactory
     {

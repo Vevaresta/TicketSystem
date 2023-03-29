@@ -90,17 +90,6 @@ namespace Ticketsystem.DbAccess
             return query;
         }
 
-        public async Task Add<T>(T ticket) where T : class
-        {
-            _ticketsystemContext.Add(ticket);
-            await _ticketsystemContext.SaveChangesAsync();
-
-            if (_globals.EnableRedisCache)
-            {
-                await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals.RedisServer, _globals.RedisTicketsCache);
-            }
-        }
-
         public async Task<List<T>> GetAll<T>(IFilterData data) where T : class
         {
             var ticketData = data as TicketFilterData;
@@ -193,13 +182,9 @@ namespace Ticketsystem.DbAccess
             return GetTicketsShared(data as TicketFilterData).Count();
         }
 
-        public async Task Delete<T>(T entity) where T : class
+        public async Task Add<T>(T ticket) where T : class
         {
-            if (entity is Ticket ticket)
-            {
-                _ticketsystemContext.Tickets.Remove(ticket);
-            }
-
+            _ticketsystemContext.Add(ticket);
             await _ticketsystemContext.SaveChangesAsync();
 
             if (_globals.EnableRedisCache)
@@ -270,6 +255,21 @@ namespace Ticketsystem.DbAccess
             }
 
             _ticketsystemContext.Update(ticket);
+            await _ticketsystemContext.SaveChangesAsync();
+
+            if (_globals.EnableRedisCache)
+            {
+                await RedisCacheUtility.DeleteCacheEntriesByPrefix(_globals.RedisServer, _globals.RedisTicketsCache);
+            }
+        }
+
+        public async Task Delete<T>(T entity) where T : class
+        {
+            if (entity is Ticket ticket)
+            {
+                _ticketsystemContext.Tickets.Remove(ticket);
+            }
+
             await _ticketsystemContext.SaveChangesAsync();
 
             if (_globals.EnableRedisCache)
