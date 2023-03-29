@@ -245,22 +245,34 @@
                     {
                         <tr>
                             <td class="text-nowrap">
-                                @Html.DisplayFor(modelItem => item.Id)
+                                <div class="cell-overflow">
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </div>
                             </td>
                             <td class="text-nowrap">
-                                @Html.DisplayFor(modelItem => item.Name)
+                                <div class="cell-overflow">
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </div>
                             </td>
                             <td class="text-nowrap d-none d-md-table-cell">
-                                @item.TicketType
+                                <div class="cell-overflow">
+                                    @item.TicketType
+                                </div>
                             </td>
                             <td class="text-nowrap d-none d-xl-table-cell">
-                                @Html.DisplayFor(modelItem => item.ClientLastName)
+                                <div class="cell-overflow">
+                                    @Html.DisplayFor(modelItem => item.ClientLastName)
+                                </div>
                             </td>
                             <td class="text-nowrap d-none d-lg-table-cell">
-                                @item.TicketStatus
+                                <div class="cell-overflow">
+                                    @item.TicketStatus
+                                </div>
                             </td>
                             <td class="text-nowrap">
-                                <label>@item.OrderDate.ToString("dd.MM.yyyy - HH:mm")</label>
+                                <div class="cell-overflow">
+                                    <label>@item.OrderDate.ToString("dd.MM.yyyy - HH:mm")</label>
+                                </div>
                             </td>
                             <td class="text-end index-column-buttons">
                                 <div class="d-inline-block">

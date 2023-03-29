@@ -114,18 +114,18 @@
                         <tr>
                             <td class="col-4 padding-right-3">
                                 <input class="form-control" type="search" placeholder="Nachname"
-                                    name="FilterByLastName">
+                                       name="FilterByLastName">
                             </td>
                             <td class="col-4 padding-right-3">
                                 <input class="form-control" type="search" placeholder="Vorname"
-                                    name="FilterByFirstName">
+                                       name="FilterByFirstName">
                             </td>
                             <td class="col-4 padding-right-3">
                                 <input class="form-control" type="search" placeholder="Email" name="FilterByEmail">
                             </td>
                             <td>
                                 <button class="btn btn-primary" type="submit"
-                                    style="margin-top: 2px;margin-bottom: 2px;">
+                                        style="margin-top: 2px;margin-bottom: 2px;">
                                     Suchen
                                 </button>
                             </td>
@@ -156,13 +156,19 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.LastName)
+                                <div class="cell-overflow">
+                                    @Html.DisplayFor(modelItem => item.LastName)
+                                </div>
                             </td>
                             <td class="d-none d-md-table-cell">
-                                @Html.DisplayFor(modelItem => item.FirstName)
+                                <div class="cell-overflow">
+                                    @Html.DisplayFor(modelItem => item.FirstName)
+                                </div>
                             </td>
                             <td class="d-none d-md-table-cell">
-                                @Html.DisplayFor(modelItem => item.Email)
+                                <div class="cell-overflow">
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </div>
                             </td>
                             <td class="text-end index-column-buttons">
                                 <div class="d-inline-block">
