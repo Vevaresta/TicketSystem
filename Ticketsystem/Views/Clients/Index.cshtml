@@ -92,7 +92,7 @@
 }
 
 <div class="row">
-    <div class="col-12 col-lg-8 mx-auto">
+    <div class="col-12 col-sm-12 col-lg-10 mx-auto">
         <h2>Kundenliste</h2>
         <hr />
 
@@ -145,7 +145,7 @@
                         <th class="d-none d-md-table-cell">
                             @Html.ActionLink("Vorname", "Index", GetLinkData("FirstName"))
                         </th>
-                        <th>
+                        <th class="d-none d-md-table-cell">
                             @Html.ActionLink("Email-Adresse", "Index", GetLinkData("Email"))
                         </th>
                         <th class="index-column-buttons"></th>
@@ -161,7 +161,7 @@
                             <td class="d-none d-md-table-cell">
                                 @Html.DisplayFor(modelItem => item.FirstName)
                             </td>
-                            <td class="">
+                            <td class="d-none d-md-table-cell">
                                 @Html.DisplayFor(modelItem => item.Email)
                             </td>
                             <td class="text-end index-column-buttons">
