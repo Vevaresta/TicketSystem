@@ -114,6 +114,5 @@ input[type="search"]::placeholder,
 }
 
 .disabled-link {
-    pointer-events: none;
     color: gray !important;
 }
