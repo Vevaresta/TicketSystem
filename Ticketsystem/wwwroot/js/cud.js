@@ -159,9 +159,11 @@ const cud = {
         $("#software-list").show();
         $("#validate-input-devices-name").hide();
 
-        $('html, body').animate({
-            scrollTop: $('#add-device').offset().top
-        }, 1000);
+        if ($(window).width() < 768) {
+            $('html, body').animate({
+                scrollTop: $('#add-device').offset().top
+            }, 1000);
+        }
     },
 
     onClickButtonDevicesListEdit: function () {
@@ -203,17 +205,21 @@ const cud = {
             $("#add-device").show();
             $("#add-software").hide();
 
-            $('html, body').animate({
-                scrollTop: $('#add-device').offset().top
-            }, 1000);
+            if ($(window).width() < 768) {
+                $('html, body').animate({
+                    scrollTop: $('#add-device').offset().top
+                }, 1000);
+            }
         }
         else {
             $("#show-device").show();
             $("#show-software").hide();
 
-            $('html, body').animate({
-                scrollTop: $('#show-device').offset().top
-            }, 1000);
+            if ($(window).width() < 768) {
+                $('html, body').animate({
+                    scrollTop: $('#show-device').offset().top
+                }, 1000);
+            }
         }
 
         $("#software-list").show();
@@ -303,9 +309,11 @@ const cud = {
 
         $("#add-software").show();
 
-        $('html, body').animate({
-            scrollTop: $('#add-software').offset().top
-        }, 1000);
+        if ($(window).width() < 768) {
+            $('html, body').animate({
+                scrollTop: $('#add-software').offset().top
+            }, 1000);
+        }
     },
 
     onClickButtonSoftwareListEdit: function () {
@@ -321,16 +329,20 @@ const cud = {
             $("#button-software-edit").removeClass("collapse");
             $("#add-software").show();
 
-            $('html, body').animate({
-                scrollTop: $('#add-software').offset().top
-            }, 1000);
+            if ($(window).width() < 768) {
+                $('html, body').animate({
+                    scrollTop: $('#add-software').offset().top
+                }, 1000);
+            }
         }
         else {
             $("#show-software").show();
 
-            $('html, body').animate({
-                scrollTop: $('#show-software').offset().top
-            }, 1000);
+            if ($(window).width() < 768) {
+                $('html, body').animate({
+                    scrollTop: $('#show-software').offset().top
+                }, 1000);
+            }
         }
     },
 
@@ -442,9 +454,11 @@ const cud = {
         $("#changes-input-comment").val(ticketChange.Comment);
         $("#changes-per-date").show();
 
-        $('html, body').animate({
-            scrollTop: $('#changes-per-date').offset().top
-        }, 1000);
+        if ($(window).width() < 768) {
+            $('html, body').animate({
+                scrollTop: $('#changes-per-date').offset().top
+            }, 1000);
+        }
     }
 };
 

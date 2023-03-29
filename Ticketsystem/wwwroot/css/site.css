@@ -74,7 +74,6 @@ input[type="search"]::placeholder,
     display: none;
 }
 
-/* Set width to 100% for xs screens */
 @media (max-width: 767.98px) {
     .tickets-index-column-id {
         width: 70px;
@@ -90,7 +89,6 @@ input[type="search"]::placeholder,
     }
 }
 
-/* Set width to 50% for sm screens */
 @media (min-width: 768px) {
     .tickets-index-column-id {
         width: 80px;
