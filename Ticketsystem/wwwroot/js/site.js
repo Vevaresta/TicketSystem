@@ -1,4 +1,4 @@
-﻿$(document).ready();
+﻿$(document).ready(showWidth);
 
 // Fenster- / Dokumentengröße am unteren rechten Rand anzeigen
 // Snippet geklaut von: https://stackoverflow.com/a/14184672
