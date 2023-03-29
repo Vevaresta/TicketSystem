@@ -123,7 +123,7 @@
                             </td>
                             <td class="col-2 padding-right-3">
                                 <input class="form-control" type="search" placeholder="Ticketname"
-                                    name="FilterByTicketName">
+                                       name="FilterByTicketName">
                             </td>
                             <td class="col-2 padding-right-3">
                                 <select class="form-control select-option-disabled-text" name="FilterByTicketStatus">
@@ -136,7 +136,7 @@
                                         @TicketStatuses.InProgress.GetText()
                                     </option>
                                     <option class="select-option-text"
-                                        value="@TicketStatuses.WaitingForResponse.ToString()">
+                                            value="@TicketStatuses.WaitingForResponse.ToString()">
                                         @TicketStatuses.WaitingForResponse.GetText()
                                     </option>
                                     <option class="select-option-text" value="@TicketStatuses.Resolved.ToString()">
@@ -155,7 +155,8 @@
                             </td>
                             <td class="col-2">
                                 <select class="form-control select-option-disabled-text" name="FilterByTicketType">
-                                    <option class="select-option-disabled" disabled selected value="">Ticketart
+                                    <option class="select-option-disabled" disabled selected value="">
+                                        Ticketart
                                     </option>
                                     <option class="select-option-text" value="">Keine</option>
                                     <option class="select-option-text" value="@TicketTypes.Repair.ToString()">
@@ -176,18 +177,18 @@
                         <tr>
                             <td class="padding-right-3">
                                 <input class="form-control" type="search" value="" placeholder="Startdatum"
-                                    name="FilterByStartDate">
+                                       name="FilterByStartDate">
                             </td>
                             <td class="padding-right-3">
                                 <input class="form-control" type="search" value="" placeholder="Enddatum"
-                                    name="FilterByEndDate">
+                                       name="FilterByEndDate">
                             </td>
                             <td class="padding-right-3">
                                 <input class="form-control" type="search" placeholder="Kunde" name="FilterByClientName">
                             </td>
                             <td>
                                 <button class="btn btn-primary w-100" type="submit"
-                                    style="margin-top: 2px;margin-bottom: 2px;">
+                                        style="margin-top: 2px;margin-bottom: 2px;">
                                     Suchen
                                 </button>
                             </td>
@@ -213,55 +214,56 @@
         aria-valuemax="100"></div>
         </div>
         </div>*@
+
         <div class="row">
-            <table class="table">
+            <table class="table" style="table-layout: fixed; width: 100%">
                 <thead>
                     <tr>
-                        <th>
+                        <th class="tickets-index-column-id">
                             @Html.ActionLink("Nummer", "Index", GetLinkData("Id"))
                         </th>
-                        <th>
+                        <th class="">
                             @Html.ActionLink("Ticketname", "Index", GetLinkData("Name"))
                         </th>
-                        <th>
+                        <th class="d-none d-md-table-cell">
                             @Html.ActionLink("Auftragsart", "Index", GetLinkData("TicketType"))
                         </th>
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             @Html.ActionLink("Kunde", "Index", GetLinkData("LastName"))
                         </th>
-                        <th>
+                        <th class="d-none d-lg-table-cell tickets-index-column-status">
                             @Html.ActionLink("Status", "Index", GetLinkData("TicketStatus"))
                         </th>
-                        <th>
+                        <th class="tickets-index-column-date">
                             @Html.ActionLink("Auftragsdatum", "Index", GetLinkData("OrderDate"))
                         </th>
-                        <th></th>
+                        <th class="index-column-buttons"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td class="fit">
+                            <td class="text-nowrap">
                                 @Html.DisplayFor(modelItem => item.Id)
                             </td>
-                            <td>
+                            <td class="text-nowrap">
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
-                            <td>
+                            <td class="text-nowrap d-none d-md-table-cell">
                                 @item.TicketType
                             </td>
-                            <td>
+                            <td class="text-nowrap d-none d-xl-table-cell">
                                 @Html.DisplayFor(modelItem => item.ClientLastName)
                             </td>
-                            <td class="fit">
+                            <td class="text-nowrap d-none d-lg-table-cell">
                                 @item.TicketStatus
                             </td>
-                            <td class="fit">
+                            <td class="text-nowrap">
                                 <label>@item.OrderDate.ToString("dd.MM.yyyy - HH:mm")</label>
                             </td>
-                            <td class="text-end fit">
-                                <div class="d-flex flex-row flex-nowrap justify-content-sm-end">
+                            <td class="text-end index-column-buttons">
+                                <div class="d-inline-block">
                                     @if (canUpdate)
                                     {
                                         <a class="bi bi-pen me-3" title="Bearbeiten" asp-action="Update" asp-route-id="@item.Id" class="me-xl-3"></a>

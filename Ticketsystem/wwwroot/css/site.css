@@ -73,3 +73,35 @@ input[type="search"]::placeholder,
 .hide {
     display: none;
 }
+
+/* Set width to 100% for xs screens */
+@media (max-width: 767.98px) {
+    .tickets-index-column-id {
+        width: 70px;
+    }
+    .tickets-index-column-date {
+        width: 130px;
+    }
+    .tickets-index-column-status {
+        width: 100px;
+    }
+    .index-column-buttons {
+        width: 100px;
+    }
+}
+
+/* Set width to 50% for sm screens */
+@media (min-width: 768px) {
+    .tickets-index-column-id {
+        width: 80px;
+    }
+    .tickets-index-column-date {
+        width: 150px;
+    }
+    .tickets-index-column-status {
+        width: 200px;
+    }
+    .index-column-buttons {
+        width: 120px;
+    }
+}
