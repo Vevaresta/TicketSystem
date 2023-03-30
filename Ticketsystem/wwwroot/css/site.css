@@ -104,7 +104,7 @@ input[type="search"]::placeholder,
     }
 }
 
-.cell-overflow {
+.cell-overflow, .text-overflow {
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;

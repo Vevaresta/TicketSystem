@@ -11,12 +11,12 @@
     @if (signInManager.IsSignedIn(User) && loggedInUser != null)
     {
         <li class="nav-item">
-            <span class="nav-link text-dark fw-bold me-2">Hallo @loggedInUser.FirstName @loggedInUser.LastName</span>
+            <div class="nav-link text-dark fw-bold me-1">@loggedInUser.Email</div>
         </li>
-        <li class="nav-item">
-            <a id="manage" class="nav-link text-dark me-1" asp-area="Identity" asp-page="/Account/Manage/Index">Einstellungen</a>
+        <li class="nav-item text-end">
+            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">Einstellungen</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item text-end">
             <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
         </li>
     }
