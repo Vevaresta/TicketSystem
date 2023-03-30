@@ -5,17 +5,14 @@ namespace Ticketsystem.Utilities
 {
     public static class RedisCacheUtility
     {
-        public static async Task DeleteCacheEntriesByPrefix(string redisServer, string redisTicketsCache)
+        public static async Task FlushDb(string redisServer)
         {
-            using var redisConnection = ConnectionMultiplexer.Connect(redisServer);
+            using var redisConnection = ConnectionMultiplexer.Connect($"{redisServer},allowAdmin=true");
             var server = redisConnection.GetServer(redisServer);
 
             if (server != null)
             {
-                foreach (var key in server.Keys(pattern: redisTicketsCache + "*"))
-                {
-                    await redisConnection.GetDatabase().KeyDeleteAsync(key);
-                }
+                await server.FlushDatabaseAsync();
             }
         }
     }

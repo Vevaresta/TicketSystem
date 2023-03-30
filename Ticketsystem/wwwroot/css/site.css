@@ -81,12 +81,6 @@ input[type="search"]::placeholder,
     .tickets-index-column-date {
         width: 130px;
     }
-    .tickets-index-column-type {
-        width: 100px;
-    }
-    .tickets-index-column-status {
-        width: 100px;
-    }
     .index-column-buttons {
         width: 100px;
     }
