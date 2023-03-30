@@ -15,11 +15,11 @@ namespace Ticketsystem.Controllers
 {
     public class ClientsController : Controller
     {
-        private readonly ITicketsClientsDbAccess _clientsService;
+        private readonly ClientsDbAccess _clientsService;
 
         public ClientsController(IDbAccessFactory serviceFactory)
         {
-            _clientsService = serviceFactory.GetTicketsClientsDbAccess<ClientsDbAccess>();
+            _clientsService = serviceFactory.GetDbAccess<ClientsDbAccess>();
         }
 
         // GET: Clients

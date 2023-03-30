@@ -19,7 +19,7 @@ namespace Ticketsystem.Controllers
 {
     public class TicketsController : Controller
     {
-        private readonly ITicketsClientsDbAccess _ticketsService;
+        private readonly TicketsDbAccess _ticketsService;
         private readonly TicketStatusesDbAccess _ticketStatusesService;
         private readonly TicketTypesDbAccess _ticketTypesService;
         private readonly TicketChangesDbAccess _ticketChangesService;
@@ -27,10 +27,10 @@ namespace Ticketsystem.Controllers
 
         public TicketsController(IDbAccessFactory serviceFactory, UserManager<User> userManager)
         {
-            _ticketsService = serviceFactory.GetTicketsClientsDbAccess<TicketsDbAccess>();
-            _ticketStatusesService = serviceFactory.GetTicketStatusesDbAccess();
-            _ticketTypesService = serviceFactory.GetTicketTypesDbAccess();
-            _ticketChangesService = serviceFactory.GetTicketChangesDbAccess();
+            _ticketsService = serviceFactory.GetDbAccess<TicketsDbAccess>();
+            _ticketStatusesService = serviceFactory.GetDbAccess<TicketStatusesDbAccess>();
+            _ticketTypesService = serviceFactory.GetDbAccess<TicketTypesDbAccess>();
+            _ticketChangesService = serviceFactory.GetDbAccess<TicketChangesDbAccess>();
             _userManager = userManager;
         }
 

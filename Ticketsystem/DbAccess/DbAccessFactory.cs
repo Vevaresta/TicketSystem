@@ -31,27 +31,44 @@ namespace Ticketsystem.DbAccess
             _globals = globals;
         }
 
-        public ITicketsClientsDbAccess GetTicketsClientsDbAccess<T>()
+        public T GetDbAccess<T>() where T : class
         {
             if (typeof(T) == typeof(ClientsDbAccess))
             {
-                return new ClientsDbAccess(_ticketsystemContext, _cache, _globals);
+                return new ClientsDbAccess(_ticketsystemContext, _cache, _globals) as T;
             }
             else if (typeof(T) == typeof(TicketsDbAccess))
             {
-                return new TicketsDbAccess(_ticketsystemContext, _cache, _globals);
+                return new TicketsDbAccess(_ticketsystemContext, _cache, _globals) as T;
+            }
+            else if (typeof(T) == typeof(RolePermissionsDbAccess))
+            {
+                return new RolePermissionsDbAccess(_ticketsystemContext, _userManager, _roleManager) as T;
+            }
+            else if (typeof(T) == typeof(RolesToDisplayDbAccess))
+            {
+                return new RolesToDisplayDbAccess(_roleManager) as T;
+            }
+            else if (typeof(T) == typeof(RolesDbAccess))
+            {
+                return new RolesDbAccess(_userManager, _roleManager) as T;
+            }
+            else if (typeof(T) == typeof(TicketTypesDbAccess))
+            {
+                return new TicketTypesDbAccess(_ticketsystemContext) as T;
+            }
+            else if (typeof(T) == typeof(TicketStatusesDbAccess))
+            {
+                return new TicketStatusesDbAccess(_ticketsystemContext) as T;
+            }
+            else if (typeof(T) == typeof(TicketChangesDbAccess))
+            {
+                return new TicketChangesDbAccess(_ticketsystemContext) as T;
             }
             else
             {
                 throw new Exception("Wrong DbAccess type!");
             }
         }
-
-        public RolesDbAccess GetRolesDbAccess() => new(_userManager, _roleManager);
-        public RolePermissionsDbAccess GetRolePermissionsDbAccess() => new(_ticketsystemContext, _userManager, _roleManager);
-        public RolesToDisplayDbAccess GetRolesToDisplayDbAccess() => new(_roleManager);
-        public TicketTypesDbAccess GetTicketTypesDbAccess() => new(_ticketsystemContext);
-        public TicketStatusesDbAccess GetTicketStatusesDbAccess() => new(_ticketsystemContext);
-        public TicketChangesDbAccess GetTicketChangesDbAccess() => new(_ticketsystemContext);
     }
 }

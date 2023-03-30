@@ -12,7 +12,7 @@ using Ticketsystem.Utilities;
 
 namespace Ticketsystem.DbAccess
 {
-    public class TicketsDbAccess : ITicketsClientsDbAccess
+    public class TicketsDbAccess
     {
         private readonly TicketsystemContext _ticketsystemContext;
         private readonly IDistributedCache _cache;

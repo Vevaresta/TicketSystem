@@ -9,7 +9,7 @@
 
 @* ROLEPERMISSIONSSERVICE: *@
 @{
-    var rolePermissionsService = serviceFactory.GetRolePermissionsDbAccess();
+    var rolePermissionsService = serviceFactory.GetDbAccess<RolePermissionsDbAccess>();
     var loggedInUser = await userManager.GetUserAsync(User);
     if (loggedInUser == null)
     {
