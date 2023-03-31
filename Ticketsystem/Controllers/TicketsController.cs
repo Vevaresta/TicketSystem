@@ -293,5 +293,13 @@ namespace Ticketsystem.Controllers
         {
             return RedirectToAction("PermissionError", "Home");
         }
+
+        [HttpPost]
+        public IActionResult SendEmail()
+        {
+            Console.WriteLine("Works");
+
+            return Json(new { Message = "Done" });
+        }
     }
 }

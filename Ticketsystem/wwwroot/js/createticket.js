@@ -20,7 +20,23 @@ $(document).ready(function () {
 
     $("#radio-backup-client").prop("checked", backupByClient);
     $("#radio-backup-staff").prop("checked", backupByStaff);
+
+    var switchSendEmail = $("#switch-send-email");
+
 });
+
+$("#button-send-email").on("click", function () {
+    $.ajax({
+        url: '@Url.Action("SendEmail", "Tickets")',
+        type: 'POST',
+        success: function (response) {
+            $("#button-send-email").prop("disabled");
+        },
+        error: function () {
+            console.log("Works");
+        }
+    });
+})
 
 // Umschalten der Ticketart durch Klick auf Radio-Button oder Label
 $(".ticket-type-input").on("click", function (event) {
@@ -71,6 +87,16 @@ function changeTicketType(radio) {
         $('#input-device-name').rules('remove', 'required');
     }
 }
+
+$("#switch-send-email").on("change", function () {
+    if ($("#switch-send-email").prop("checked")) {
+        $("#button-send-email").show();
+    }
+    else {
+
+        $("#button-send-email").hide();
+    }
+});
 
 // Switch für "Datensicherung?"
 $("#switch-backup").on('change', function () {

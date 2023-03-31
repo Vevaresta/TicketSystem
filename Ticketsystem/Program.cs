@@ -12,6 +12,8 @@ using Ticketsystem.DbAccess;
 using Ticketsystem.Models.Data;
 using Ticketsystem.Utilities;
 using Ticketsystem.Validators;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using MimeKit;
 
 namespace Ticketsystem
 {
@@ -91,7 +93,7 @@ namespace Ticketsystem
 
             builder.Services.AddElmah<XmlFileErrorLog>(options =>
             {
-                options.LogPath = "~/log"; 
+                options.LogPath = "~/log";
             });
 
             builder.Services.AddStackExchangeRedisCache(options =>
@@ -99,6 +101,19 @@ namespace Ticketsystem
                 options.Configuration = builder.Configuration.GetSection("RedisCacheOptions:Configuration").Value;
                 options.InstanceName = builder.Configuration.GetSection("RedisCacheOptions:InstanceName").Value;
             });
+            // Für Email Sender
+            var emailConfig = builder.Configuration
+                .GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
+            builder.Services.AddSingleton(emailConfig);
+            builder.Services.AddScoped<IEmailSender, EmailSender>();
+
+            //MailboxAddress[] arr = new MailboxAddress[1];
+            //arr[0] = new MailboxAddress("test", "nikola.krpan-fiae202201@bfw-neueslernen.de");
+
+            //var message = new Message(arr, "Test Email", "Hello Liebe Kunde....");
+            //_emailSender.SendEmail(message);
+
 
             WebApplication app = builder.Build();
 
@@ -115,7 +130,7 @@ namespace Ticketsystem
                 // app.UseExceptionHandler("/Home/Error");
                 app.UseElmahExceptionPage();
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();                           
+                app.UseHsts();
             }
 
             // app.UseHttpsRedirection();
