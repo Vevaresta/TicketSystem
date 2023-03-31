@@ -10,13 +10,13 @@
 <ul class="navbar-nav">
     @if (signInManager.IsSignedIn(User) && loggedInUser != null)
     {
-        <li class="nav-item text-end">
+        <li class="nav-item text-start">
             <div class="nav-link text-dark fw-bold me-1">@loggedInUser.Email</div>
         </li>
-        <li class="nav-item text-end">
+        <li class="nav-item text-start">
             <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">Einstellungen</a>
         </li>
-        <li class="nav-item text-end">
+        <li class="nav-item text-start">
             <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
         </li>
     }
