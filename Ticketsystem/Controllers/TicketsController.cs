@@ -297,8 +297,7 @@ namespace Ticketsystem.Controllers
         [HttpPost]
         public IActionResult SendEmail()
         {
-            Console.WriteLine("Works");
-
+            Console.WriteLine("SendEmail method called"); //for testing purposes only
             return Json(new { Message = "Done" });
         }
     }

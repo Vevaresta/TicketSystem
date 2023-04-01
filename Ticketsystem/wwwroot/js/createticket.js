@@ -20,20 +20,18 @@ $(document).ready(function () {
 
     $("#radio-backup-client").prop("checked", backupByClient);
     $("#radio-backup-staff").prop("checked", backupByStaff);
-
-    var switchSendEmail = $("#switch-send-email");
-
 });
 
 $("#button-send-email").on("click", function () {
     $.ajax({
-        url: '@Url.Action("SendEmail", "Tickets")',
-        type: 'POST',
-        success: function (response) {
-            $("#button-send-email").prop("disabled");
+        type: "POST",
+        url: "/Tickets/SendEmail",
+        dataType: "json",
+        success: function (msg) {
+            console.log(msg);
         },
-        error: function () {
-            console.log("Works");
+        error: function (req, status, error) {
+            alert(error);
         }
     });
 })
