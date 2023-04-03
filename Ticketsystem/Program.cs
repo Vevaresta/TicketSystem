@@ -55,6 +55,20 @@ namespace Ticketsystem
                         });
                 });
             }
+            else if (dbms == "mariadb")
+            {
+                string dbConnectionString = builder.Configuration.GetConnectionString("MariaDbContextConnection") ?? throw new InvalidOperationException("Connection string 'MariaDbSQLContextConnection' not found.");
+                builder.Services.AddDbContext<TicketsystemContext>(contextOptions =>
+                {
+                    contextOptions.UseMySql(
+                        dbConnectionString,
+                        new MySqlServerVersion(new Version(10, 11, 2)),
+                        sqlOptions =>
+                        {
+                            sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                        });
+                });
+            }
 
             builder.Services.AddScoped<ContextSeed>();
             builder.Services.AddDefaultIdentity<User>(options =>
