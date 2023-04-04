@@ -20,42 +20,27 @@ public class TicketsystemContext : IdentityDbContext<User, Role, string>
     public DbSet<TicketStatus> TicketStatuses { get; set; }
     public DbSet<TicketType> TicketTypes { get; set; }
     public DbSet<TicketChange> TicketChanges { get; set; }
-    public virtual DbSet<TicketView> MyView { get; set; }
-
-    public virtual DbSet<TicketView> TicketViewQuery(string selectColumns, int limit, int offset, string orderByColumn, string orderByDirection)
-    {
-        var query = @"
-            CREATE OR REPLACE VIEW my_view AS
-              SELECT {0} -- the columns to be selected will be replaced here
-              FROM (
-                SELECT t.""Id"", t.""ClientId"", t.""DataBackupByClient"", t.""DataBackupByStaff"", t.""DataBackupDone"", t.""DoBackup"", t.""Name"", t.""OrderDate"", t.""TicketStatusId"", t.""TicketTypeId"", t.""WorkOrder""
-                FROM ""Tickets"" AS t
-                ORDER BY t.""OrderDate"" DESC
-                LIMIT {1} OFFSET {2}
-              ) AS t0
-              LEFT JOIN ""Clients"" AS c ON t0.""ClientId"" = c.""Id""
-              LEFT JOIN ""TicketStatuses"" AS t1 ON t0.""TicketStatusId"" = t1.""Id""
-              LEFT JOIN ""TicketTypes"" AS t2 ON t0.""TicketTypeId"" = t2.""Id""
-              ORDER BY {3} {4}, t0.""Id"", c.""Id"", t1.""Id"", t2.""Id""";
-
-        var sql = string.Format(query, selectColumns, limit, offset, orderByColumn, orderByDirection);
-        return (DbSet<TicketView>)Set<TicketView>().FromSqlRaw(sql);
-    }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        // Customize the ASP.NET Identity model and override the defaults if needed.
-        // For example, you can rename the ASP.NET Identity table names and more.
-        // Add your customizations after calling base.OnModelCreating(builder);
 
-        builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
-        builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
-        builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
-        builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
-        builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
-        builder.Entity<User>().ToTable("Users");
-        builder.Entity<Role>().ToTable("Roles");
+        builder.Entity<IdentityRoleClaim<string>>().ToTable("TS_RoleClaims");
+        builder.Entity<IdentityUserClaim<string>>().ToTable("TS_UserClaims");
+        builder.Entity<IdentityUserLogin<string>>().ToTable("TS_UserLogins");
+        builder.Entity<IdentityUserRole<string>>().ToTable("TS_UserRoles");
+        builder.Entity<IdentityUserToken<string>>().ToTable("TS_UserTokens");
+        builder.Entity<User>().ToTable("TS_Users");
+        builder.Entity<Role>().ToTable("TS_Roles");
+
+        builder.Entity<Ticket>().ToTable("TS_Tickets");
+        builder.Entity<Device>().ToTable("TS_Devices");
+        builder.Entity<Client>().ToTable("TS_Clients");
+        builder.Entity<Permission>().ToTable("TS_Permissions");
+        builder.Entity<Software>().ToTable("TS_Software");
+        builder.Entity<TicketStatus>().ToTable("TS_TicketStatuses");
+        builder.Entity<TicketType>().ToTable("TS_TicketTypes");
+        builder.Entity<TicketChange>().ToTable("TS_TicketChanges");
 
         builder.Entity<Ticket>()
             .HasMany(t => t.Devices)
@@ -84,6 +69,6 @@ public class TicketsystemContext : IdentityDbContext<User, Role, string>
         builder.Entity<Role>()
             .HasMany(r => r.Permissions)
             .WithMany(p => p.Roles)
-            .UsingEntity(j => j.ToTable("RolePermissions"));
+            .UsingEntity(j => j.ToTable("TS_RolePermissions"));
     }
 }
