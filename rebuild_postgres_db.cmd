@@ -1,6 +1,6 @@
 @echo off
 
-for /f "tokens=10 delims==;" %%a in ('type Ticketsystem\appsettings.json ^| find /i "Password"') do (
+for /f "tokens=10 delims==;" %%a in ('type Ticketsystem\appsettings.json ^| find /i "PostgreSQLContextConnection" ^| find /i "Password"') do (
     set "PGPASSWORD=%%~a"
 )
 
@@ -17,3 +17,5 @@ rmdir /q /s Migrations
 dotnet ef migrations add InitialCreate
 
 dotnet ef database update
+
+cd ..
