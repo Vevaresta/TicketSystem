@@ -442,9 +442,20 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
-                <input type="submit" value="Ticket Speichern" class="btn btn-lg btn-primary mb-2"
-                       id="button-main-save-ticket" asp-action="Create" />
+            <div class="col-md-12">
+
+                <div class="d-flex flex-row align-items-center">
+
+                    <input type="submit" value="Ticket Speichern" class="btn btn-lg btn-primary me-3"
+                           id="button-main-save-ticket" asp-action="Create" />
+
+                    <span class="me-1">Bestätigungs E-Mail senden?</span>
+                    <span style="margin-top:7px" class="form-check form-switch">
+
+
+                    <input class="form-check-input my-auto" type="checkbox" id="switch-send-email" asp-for ="DoSendEmail"/>
+                    </span>
+                </div>
             </div>
         </div>
     </div>

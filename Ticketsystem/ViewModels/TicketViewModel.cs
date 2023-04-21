@@ -44,6 +44,8 @@ namespace Ticketsystem.ViewModels
         public DeviceViewModel Device { get; set; }
         public TicketChangeViewModel TicketChange { get; set; }
 
+        public bool DoSendEmail { get; set; }
+
         public static implicit operator Ticket(TicketViewModel viewModel)
         {
             var ticket = new Ticket
