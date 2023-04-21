@@ -50,6 +50,7 @@ function changeTicketType(radio) {
         if ($('#switch-backup').prop('checked')) {
             $("#backup-choices").removeClass("collapse");
         }
+        $('#input-client-email').rules('add', 'required');
         $('#input-device-name').rules('add', 'required');
         $('#tabs a[href="#tab1"]').tab('show');
     }
@@ -58,6 +59,7 @@ function changeTicketType(radio) {
         devicesTab.hide();
         backup.hide();
         $("#backup-choices").addClass("collapse");
+        $('#input-client-email').rules('remove', 'required');
         $('#input-device-name').rules('remove', 'required');
         $('#tabs a[href="#tab1"]').tab('show');
     }
@@ -68,6 +70,7 @@ function changeTicketType(radio) {
         singleDevice.hide();
         devicesTab.show();
         backup.show();
+        $('#input-client-email').rules('add', 'required');
         $('#input-device-name').rules('remove', 'required');
     }
 }

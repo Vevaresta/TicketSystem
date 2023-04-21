@@ -92,18 +92,6 @@
                         <option class="select-option-text" value="@TicketStatuses.InProgress.ToString()">
                             @TicketStatuses.InProgress.GetText()
                         </option>
-                        <option class="select-option-text" value="@TicketStatuses.Resolved.ToString()">
-                            @TicketStatuses.Resolved.GetText()
-                        </option>
-                        <option class="select-option-text" value="@TicketStatuses.WaitingForResponse.ToString()">
-                            @TicketStatuses.WaitingForResponse.GetText()
-                        </option>
-                        <option class="select-option-text" value="@TicketStatuses.Escalated.ToString()">
-                            @TicketStatuses.Escalated.GetText()
-                        </option>
-                        <option class="select-option-text" value="@TicketStatuses.OnHold.ToString()">
-                            @TicketStatuses.OnHold.GetText()
-                        </option>
                         <option class="select-option-text" value="@TicketStatuses.Closed.ToString()">
                             @TicketStatuses.Closed.GetText()
                         </option>
@@ -131,7 +119,7 @@
                     <div class="col-lg-4">
                         <div class="row mb-5">
                             @{
-                                bool wasClientDeleted = Model.Client.Id == "Fallback";
+                                bool wasClientDeleted = Model.Client.Id == 0;
                                 string collapseClient = wasClientDeleted ? "collapse" : "";
                                 if (wasClientDeleted)
                                 {

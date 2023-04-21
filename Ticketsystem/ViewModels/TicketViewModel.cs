@@ -9,8 +9,7 @@ namespace Ticketsystem.ViewModels
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Pflichtfeld")]
-        [DisplayName("Ticketname")]
+        [DisplayName("Tickettitel")]
         public string Name { get; set; }
 
         [DisplayName("Auftragsdatum")]

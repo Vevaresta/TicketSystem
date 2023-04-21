@@ -9,7 +9,7 @@ namespace Ticketsystem.ViewModels;
 
 public class ClientViewModel
 {
-    public string Id { get; set; }
+    public int Id { get; set; }
 
     [DisplayName("Nachname")]
     [Required(ErrorMessage = "Pflichtfeld")]
@@ -18,6 +18,7 @@ public class ClientViewModel
     [DisplayName("Vorname")]
     public string FirstName { get; set; }
 
+    [Required(ErrorMessage = "Pflichtfeld")]
     [DisplayName("Email-Adresse")]
     [EmailAddress(ErrorMessage = "Keine gültige Email-Adresse")]
     public string Email { get; set; }

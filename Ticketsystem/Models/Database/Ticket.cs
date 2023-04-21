@@ -24,7 +24,7 @@ public class Ticket
     public string TicketStatusId { get; set; }
 
     [ForeignKey(nameof(Client))]
-    public string ClientId { get; set; }
+    public int ClientId { get; set; }
 
     [Required(ErrorMessage = "Dies ist ein Plichtfeld")]
     [DisplayName("Ticketname")]
