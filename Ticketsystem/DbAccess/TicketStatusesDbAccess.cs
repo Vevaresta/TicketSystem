@@ -30,6 +30,14 @@ namespace Ticketsystem.DbAccess
             statpersent[0] = statuses[0] * 100 / statsum;
             statpersent[1] = statuses[1] * 100 / statsum;
             statpersent[2] = statuses[2] * 100 / statsum;
+
+            if (statpersent.Sum() != 100)
+            {
+                statpersent[2] += 1;
+            }
+
+
+            return statpersent;
         }
     }
 }

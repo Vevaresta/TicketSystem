@@ -39,6 +39,8 @@ namespace Ticketsystem.Controllers
         {
             var tickets = await _ticketsService.GetAll<TicketIndexViewModel>(ticketData);
 
+            var statpersent = await _ticketStatusesService.GetTicketStatusPercentages();
+
             ViewBag.Take = ticketData.Take;
             ViewBag.Skip = ticketData.Skip;
             ViewBag.SortBy = ticketData.SortBy;
@@ -51,6 +53,9 @@ namespace Ticketsystem.Controllers
             ViewBag.FilterByStartDate = ticketData.FilterByStartDate;
             ViewBag.FilterByEndDate = ticketData.FilterByEndDate;
             ViewBag.FilterByTicketType = ticketData.FilterByTicketType;
+            ViewBag.TicketStatusesOpen = statpersent[0];
+            ViewBag.TicketStatusesInProgress = statpersent[1];
+            ViewBag.TicketStatusesClose = statpersent[2];
 
             return View(tickets);
         }
