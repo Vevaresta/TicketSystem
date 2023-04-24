@@ -35,6 +35,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Files\Kundenauftrag.odt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\Kundenauftrag.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Files\MVVM vs MVC Handout.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -101,7 +101,7 @@ namespace Ticketsystem.Controllers
                 ticket.TicketStatus = ticketStatusOpen;
                 ticket.OrderDate = DateTime.Now.ToUniversalTime();
 
-                var pdfNewTicket = await System.IO.File.ReadAllBytesAsync("Files/MVVM vs MVC Handout.pdf");
+                var pdfNewTicket = await System.IO.File.ReadAllBytesAsync("Files/Kundenauftrag.pdf");
                 ticket.PdfNewTicket = pdfNewTicket;
 
                 await _ticketsService.Add(ticket);
@@ -168,22 +168,6 @@ namespace Ticketsystem.Controllers
             //ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
             return View(ticketViewModel);
         }
-
-
-        public async Task<IActionResult> ShowPdfNewTicket(int id)
-        {
-            var ticket = await _ticketsService.GetById<Ticket, int>(id);
-
-            if (ticket != null && ticket.PdfNewTicket != null)
-            {
-                return File(ticket.PdfNewTicket, "application/pdf");  
-            }
-            else
-            {
-                return RedirectToPage("/Tickets/ErrorPdfNotFound");
-            }
-        }
-
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -298,6 +282,20 @@ namespace Ticketsystem.Controllers
             await _ticketsService.Delete(ticket);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> ShowPdfNewTicket(int id)
+        {
+            var ticket = await _ticketsService.GetById<Ticket, int>(id);
+
+            if (ticket != null && ticket.PdfNewTicket != null)
+            {
+                return File(ticket.PdfNewTicket, "application/pdf");
+            }
+            else
+            {
+                return RedirectToPage("/Tickets/ErrorPdfNotFound");
+            }
         }
 
         private bool TicketExists(int id)
