@@ -416,15 +416,13 @@
                                                 Comment = ticketChange.Comment,
                                                 OldStatus = oldStatus,
                                                 NewStatus = newStatus
-                                            };
-                                                //<button type="button" value="@JsonConvert.SerializeObject(item)" class="list-group-item list-group-item-action changes-listbox-item text-nowrap">@currentDate | @userName | @oldStatus | @shortTicketComment</button>
-
+                                            };                                         
                                             <tr class="table-active changes-listbox-item">
                                                 <th scope="row">@currentDate</th>
                                                 <td>@userName</td>
                                                 <td>@oldStatus</td>                                             
                                                 <td>@shortTicketComment</td>
-                                                <td><button value="@JsonConvert.SerializeObject(item)" class="btn btn-primary">Öffnen</button></td>
+                                                <td><button value="@JsonConvert.SerializeObject(item)" class="btn btn-link">Details</button></td>
                                             </tr>
                                             counter += 1;
                                         }
