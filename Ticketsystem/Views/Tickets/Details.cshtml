@@ -396,9 +396,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @{
-                                            int counter = 0;
-                                        }
                                         @foreach (var ticketChange in Model.TicketChanges)
                                         {
                                             string currentDate = @ticketChange.ChangeDate.ToString("dd.MM.yyyy");
@@ -417,15 +414,14 @@
                                                 Comment = ticketChange.Comment,
                                                 OldStatus = oldStatus,
                                                 NewStatus = newStatus
-                                            };                                         
+                                            };
                                             <tr class="table-active changes-listbox-item">
-                                                <th scope="row">@currentDate</th>
+                                                <td>@currentDate</td>
                                                 <td>@userName</td>
-                                                <td>@oldStatus</td>                                             
+                                                <td>@oldStatus</td>
                                                 <td>@shortTicketComment</td>
                                                 <td><button value="@JsonConvert.SerializeObject(item)" class="btn btn-link">Details</button></td>
                                             </tr>
-                                            counter += 1;
                                         }
                                     </tbody>
                                 </table>
