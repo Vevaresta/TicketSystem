@@ -507,8 +507,9 @@
                                     <div class="list-group bg-light" id="changes-listbox" style="height: 400px; overflow-y: scroll;">
                                         @foreach (var ticketChange in Model.TicketChanges)
                                         {
-                                            string currentDate = @ticketChange.ChangeDate.ToString("dd.MM.yyyy - HH:mm 'Uhr'");
+                                            string currentDate = @ticketChange.ChangeDate.ToString("dd.MM.yyyy");
                                             string oldStatus = ticketChange.OldTicketStatus.AsEnum.GetText();
+                                            string userName = @ticketChange.User.UserName;
                                             string newStatus = "";
                                             if (ticketChange.NewTicketStatus != null)
                                             {
@@ -522,7 +523,7 @@
                                                 OldStatus = oldStatus,
                                                 NewStatus = newStatus
                                             };
-                                            <button type="button" value="@JsonConvert.SerializeObject(item)" class="list-group-item list-group-item-action changes-listbox-item text-nowrap">@currentDate</button>
+                                            <button type="button" value="@JsonConvert.SerializeObject(item)" class="list-group-item list-group-item-action changes-listbox-item text-nowrap">@currentDate - @userName</button>
                                         }
                                     </div>
                                 </div>

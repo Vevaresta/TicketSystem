@@ -11,7 +11,7 @@ public class ClientViewModel
 {
     public int Id { get; set; }
 
-    [DisplayName("Nachname")]
+    [DisplayName("Nachname*")]
     [Required(ErrorMessage = "Pflichtfeld")]
     public string LastName { get; set; }
 
@@ -19,7 +19,7 @@ public class ClientViewModel
     public string FirstName { get; set; }
 
     [Required(ErrorMessage = "Pflichtfeld")]
-    [DisplayName("Email-Adresse")]
+    [DisplayName("Email-Adresse*")]
     [EmailAddress(ErrorMessage = "Keine gültige Email-Adresse")]
     public string Email { get; set; }
 

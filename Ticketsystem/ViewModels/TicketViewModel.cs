@@ -16,7 +16,7 @@ namespace Ticketsystem.ViewModels
         public DateTime OrderDate { get; set; }
 
         [Required(ErrorMessage = "Pflichtfeld")]
-        [DisplayName("Arbeitsanweisung")]
+        [DisplayName("Arbeitsanweisung*")]
         public string WorkOrder { get; set; }
 
         [Required(ErrorMessage = "Pflichtfeld")]
