@@ -9,6 +9,7 @@ using Ticketsystem.ViewModels;
 using Ticketsystem.Enums;
 using Ticketsystem.Extensions;
 using Ticketsystem.Utilities;
+using Npgsql.Internal.TypeHandlers;
 
 namespace Ticketsystem.DbAccess
 {
@@ -276,6 +277,13 @@ namespace Ticketsystem.DbAccess
             {
                 await RedisCacheUtility.FlushDb(_globals.RedisServer);
             }
+        }
+
+        public async Task<byte[]> GetPdfNewTicket(int ticketId)
+        {
+            var ticket = await _ticketsystemContext.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);
+            var pdfFile = ticket.PdfNewTicket;
+            return pdfFile;
         }
     }
 }
