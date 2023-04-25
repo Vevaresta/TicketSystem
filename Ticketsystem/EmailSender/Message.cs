@@ -23,7 +23,7 @@ namespace Ticketsystem
         /// </summary>
         /// <param name="to"></param>
         /// <param name="emailtype">Currently EmailTypes.ConfirmationEmail or EmailTypes.OrderFinished</param>
-        public Message(string clientEmailAdress, EmailTypes emailtype)
+        public Message(IEnumerable<MailboxAddress> to, EmailTypes emailtype)
         {
             // To Do Create Object for Emaiaddress
             To = to.ToList();
