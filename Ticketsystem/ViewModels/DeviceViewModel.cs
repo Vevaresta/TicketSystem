@@ -9,7 +9,7 @@ public class DeviceViewModel
 {
     public string Id { get; set; }
 
-    [DisplayName("Bezeichnung")]
+    [DisplayName("Bezeichnung*")]
     public string Name { get; set; }
 
     [DisplayName("Geräteart")]

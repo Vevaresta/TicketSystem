@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,6 +15,7 @@ using Ticketsystem.Models.Database;
 using Ticketsystem.DbAccess;
 using Ticketsystem.ViewModels;
 using Ticketsystem.Extensions;
+using Ticketsystem.Utilities;
 
 namespace Ticketsystem.Controllers
 {
@@ -24,20 +26,27 @@ namespace Ticketsystem.Controllers
         private readonly TicketTypesDbAccess _ticketTypesService;
         private readonly TicketChangesDbAccess _ticketChangesService;
         private readonly UserManager<User> _userManager;
+        private readonly PdfUtility _pdfUtilty;
 
-        public TicketsController(IDbAccessFactory serviceFactory, UserManager<User> userManager)
+        public TicketsController(
+            IDbAccessFactory serviceFactory,
+            UserManager<User> userManager,
+            PdfUtility pdfUtility)
         {
             _ticketsService = serviceFactory.GetDbAccess<TicketsDbAccess>();
             _ticketStatusesService = serviceFactory.GetDbAccess<TicketStatusesDbAccess>();
             _ticketTypesService = serviceFactory.GetDbAccess<TicketTypesDbAccess>();
             _ticketChangesService = serviceFactory.GetDbAccess<TicketChangesDbAccess>();
             _userManager = userManager;
+            _pdfUtilty = pdfUtility;
         }
 
         // GET: Tickets
         public async Task<IActionResult> Index(TicketFilterData ticketData)
         {
             var tickets = await _ticketsService.GetAll<TicketIndexViewModel>(ticketData);
+
+            var statpersent = await _ticketStatusesService.GetTicketStatusPercentages();
 
             ViewBag.Take = ticketData.Take;
             ViewBag.Skip = ticketData.Skip;
@@ -51,6 +60,9 @@ namespace Ticketsystem.Controllers
             ViewBag.FilterByStartDate = ticketData.FilterByStartDate;
             ViewBag.FilterByEndDate = ticketData.FilterByEndDate;
             ViewBag.FilterByTicketType = ticketData.FilterByTicketType;
+            ViewBag.TicketStatusesOpen = statpersent[0];
+            ViewBag.TicketStatusesInProgress = statpersent[1];
+            ViewBag.TicketStatusesClose = statpersent[2];
 
             return View(tickets);
         }
@@ -95,7 +107,7 @@ namespace Ticketsystem.Controllers
                 ticket.TicketStatus = ticketStatusOpen;
                 ticket.OrderDate = DateTime.Now.ToUniversalTime();
 
-                await _ticketsService.Add(ticket);
+                var newTicketInDb = await _ticketsService.Add(ticket);
 
                 TicketChange ticketChange = new()
                 {
@@ -125,6 +137,7 @@ namespace Ticketsystem.Controllers
             }
 
             TicketViewModel ticketViewModel = ticket;
+            ticketViewModel.Id = ticket.Id;
             ticketViewModel.TicketChanges = new List<TicketChangeViewModel>();
 
             foreach (var ticketChange in ticket.TicketChanges)
@@ -274,6 +287,51 @@ namespace Ticketsystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> ShowPdfNewTicket(int id)
+        {
+            var ticket = await _ticketsService.GetById<Ticket, int>(id);
+
+            string formDataDeviceType = "";
+            string formDataDeviceSerialNumber = "";
+            string formDataDeviceAccessories = "";
+
+            if (ticket.Devices != null)
+            {
+                if (ticket.Devices.Count == 1)
+                {
+                    formDataDeviceType = ticket.Devices[0].DeviceType;
+                    formDataDeviceSerialNumber = ticket.Devices[0].SerialNumber;
+                    formDataDeviceAccessories = ticket.Devices[0].Accessories;
+                }
+            }
+
+            PdfFormData formData = new()
+            {
+                TicketId = ticket.Id.ToString(),
+                WorkOrder = ticket.WorkOrder,
+                TicketType = ticket.TicketType.Name,
+                ClientName = ticket.Client.FirstName ?? "" + " " + ticket.Client.LastName ?? "",
+                ClientEmail = ticket.Client.Email,
+                ClientPhone = ticket.Client.PhoneNumber,
+                BackupByClient = ticket.DataBackupByClient,
+                BackupByStaff = ticket.DataBackupByStaff,
+                DeviceType = formDataDeviceType,
+                DeviceSerialNumber = formDataDeviceSerialNumber,
+                DeviceAccessories = formDataDeviceAccessories,
+            };
+
+            var pdf = await _pdfUtilty.FillPdfNewTicket(formData);
+
+            if (pdf != null)
+            {
+                return File(pdf, "application/pdf");
+            }
+            else
+            {
+                return RedirectToPage("/Tickets/ErrorPdfNotFound");
+            }
+        }
+
         private bool TicketExists(int id)
         {
             return _ticketsService.GetById<Ticket, int>(id) != null;
@@ -295,6 +353,7 @@ namespace Ticketsystem.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult SendEmail()
         {
             Console.WriteLine("SendEmail method called"); //for testing purposes only

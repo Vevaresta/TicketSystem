@@ -32,8 +32,8 @@ namespace Ticketsystem.Controllers
             ViewBag.SortBy = clientData.SortBy;
             ViewBag.ClientsCount = _clientsService.GetCount(clientData);
             ViewBag.DoReverse = clientData.DoReverse;
+            ViewBag.FilterById = clientData.FilterById;
             ViewBag.FilterByLastName = clientData.FilterByLastName;
-            ViewBag.FilterByFirstName = clientData.FilterByFirstName;
             ViewBag.FilterByEmail = clientData.FilterByEmail;
 
             return View(clients);
@@ -71,7 +71,7 @@ namespace Ticketsystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(string id, ClientViewModel clientViewModel)
+        public async Task<IActionResult> Update(int id, ClientViewModel clientViewModel)
         {
             if (id != clientViewModel.Id)
             {
@@ -131,9 +131,9 @@ namespace Ticketsystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClientExists(string id)
+        private bool ClientExists(int id)
         {
-           return _clientsService.GetById<Client, string>(id) != null;
+           return _clientsService.GetById<Client, int>(id) != null;
         }
     }
 }

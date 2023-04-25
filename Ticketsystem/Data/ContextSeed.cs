@@ -55,13 +55,13 @@ namespace Ticketsystem.Data
 
         private async Task SeedFallbackClient()
         {
-            var fallbackClientInDb = await _ticketSystemContext.Clients.FirstOrDefaultAsync(c => c.Id == "Fallback");
+            var fallbackClientInDb = await _ticketSystemContext.Clients.FirstOrDefaultAsync(c => c.Id == -1);
 
             if (fallbackClientInDb == null)
             {
                 var fallbackClient = new Client
                 {
-                    Id = "Fallback",
+                    Id = -1,
                     LastName = "<Kunde gelöscht>",
                     FirstName = "<Kunde gelöscht>",
                     Email = "<Kunde gelöscht>",

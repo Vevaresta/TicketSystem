@@ -9,6 +9,7 @@ using Ticketsystem.ViewModels;
 using Ticketsystem.Enums;
 using Ticketsystem.Extensions;
 using Ticketsystem.Utilities;
+using Npgsql.Internal.TypeHandlers;
 
 namespace Ticketsystem.DbAccess
 {
@@ -182,15 +183,17 @@ namespace Ticketsystem.DbAccess
             return GetTicketsShared(data as TicketFilterData).Count();
         }
 
-        public async Task Add<T>(T ticket) where T : class
+        public async Task<T> Add<T>(T ticket) where T : class
         {
-            _ticketsystemContext.Add(ticket);
+            var newTicketInDb = _ticketsystemContext.Add(ticket);
             await _ticketsystemContext.SaveChangesAsync();
 
             if (_globals.EnableRedisCache)
             {
                 await RedisCacheUtility.FlushDb(_globals.RedisServer);
             }
+
+            return newTicketInDb.Entity;
         }
 
         public async Task Update<T>(T entity) where T : class

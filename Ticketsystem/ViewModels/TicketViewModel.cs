@@ -9,19 +9,20 @@ namespace Ticketsystem.ViewModels
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Pflichtfeld")]
-        [DisplayName("Ticketname")]
+        [DisplayName("Tickettitel")]
         public string Name { get; set; }
 
         [DisplayName("Auftragsdatum")]
         public DateTime OrderDate { get; set; }
 
         [Required(ErrorMessage = "Pflichtfeld")]
-        [DisplayName("Arbeitsanweisung")]
+        [DisplayName("Arbeitsanweisung*")]
         public string WorkOrder { get; set; }
 
         [Required(ErrorMessage = "Pflichtfeld")]
         public bool DoBackup { get; set; }
+
+        public bool Virus { get; set; }
 
         [Display(Name = "Bereits erledigt durch Kunde")]
         public bool DataBackupByClient { get; set; }
@@ -44,6 +45,8 @@ namespace Ticketsystem.ViewModels
 
         public DeviceViewModel Device { get; set; }
         public TicketChangeViewModel TicketChange { get; set; }
+
+        public bool DoSendEmail { get; set; }
 
         public static implicit operator Ticket(TicketViewModel viewModel)
         {

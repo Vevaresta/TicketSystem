@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using Ticketsystem.Enums;
 using Ticketsystem.Extensions;
 using Ticketsystem.ViewModels;
@@ -24,16 +25,12 @@ public class Ticket
     public string TicketStatusId { get; set; }
 
     [ForeignKey(nameof(Client))]
-    public string ClientId { get; set; }
+    public int ClientId { get; set; }
 
-    [Required(ErrorMessage = "Dies ist ein Plichtfeld")]
-    [DisplayName("Ticketname")]
     public string Name { get; set; }
 
     public DateTime OrderDate { get; set; }
 
-    [Required(ErrorMessage = "Dies ist ein Plichtfeld")]
-    [DisplayName("Arbeitsanweisung")]
     public string WorkOrder { get; set; }
 
     public bool DoBackup { get; set; } = false;

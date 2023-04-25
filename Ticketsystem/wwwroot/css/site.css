@@ -87,7 +87,7 @@ input[type="search"]::placeholder,
 }
 
 @media (min-width: 768px) {
-    .tickets-index-column-id {
+    .tickets-index-column-id, .clients-index-column-id {
         width: 80px;
     }
     .tickets-index-column-date {
@@ -113,4 +113,16 @@ input[type="search"]::placeholder,
 
 .disabled-link {
     color: gray !important;
+}
+
+.btn-link {
+    padding: 0;
+}
+
+.btn-primary-small {
+    height: 36px
+}
+
+.btn-space {
+    margin-right: 31px;
 }

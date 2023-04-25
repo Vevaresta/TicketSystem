@@ -29,15 +29,15 @@ namespace Ticketsystem.DbAccess
         private IQueryable<Client> GetClientsShared(ClientFilterData clientData)
         {
             IQueryable<Client> query = _ticketsystemContext.Clients
-            .Where(c => c.Id != "Fallback");
+            .Where(c => c.Id != -1);
 
+            if (clientData.FilterById != null)
+            {
+                query = query.Where(t => t.Id == clientData.FilterById);
+            }
             if (!string.IsNullOrEmpty(clientData.FilterByLastName))
             {
                 query = query.Where(t => t.LastName.ToLower().Contains(clientData.FilterByLastName.ToLower()));
-            }
-            if (!string.IsNullOrEmpty(clientData.FilterByFirstName))
-            {
-                query = query.Where(t => t.FirstName.ToLower().Contains(clientData.FilterByFirstName.ToLower()));
             }
             if (!string.IsNullOrEmpty(clientData.FilterByEmail))
             {
@@ -51,7 +51,7 @@ namespace Ticketsystem.DbAccess
         {
             var clientData = data as ClientFilterData;
 
-            string cacheKey = $"clients_{clientData.FilterByFirstName}_{clientData.FilterByLastName}_{clientData.FilterByEmail}_{clientData.SortBy}_{clientData.Take}_{clientData.Skip}_{clientData.DoReverse}";
+            string cacheKey = $"clients_{clientData.FilterById}_{clientData.FilterByLastName}_{clientData.FilterByEmail}_{clientData.SortBy}_{clientData.Take}_{clientData.Skip}_{clientData.DoReverse}";
             if (_globals.EnableRedisCache)
             {
 
@@ -66,6 +66,7 @@ namespace Ticketsystem.DbAccess
 
             query = clientData.SortBy switch
             {
+                "Id" => query.OrderBy(t => t.Id),
                 "LastName" => query.OrderBy(t => t.LastName),
                 "FirstName" => query.OrderBy(t => t.FirstName),
                 "Email" => query.OrderBy(t => t.Email),
@@ -108,7 +109,7 @@ namespace Ticketsystem.DbAccess
 
         public async Task<T> GetById<T, TT>(TT id) where T : class
         {
-            string clientId = id as string;
+            int clientId = int.Parse(id as string);
 
             Client client = await _ticketsystemContext.Clients.FirstOrDefaultAsync(m => m.Id == clientId);
 
@@ -149,7 +150,7 @@ namespace Ticketsystem.DbAccess
 
             if (clientTickets != null)
             {
-                var fallbackClient = await _ticketsystemContext.Clients.FirstOrDefaultAsync(c => c.Id == "Fallback");
+                var fallbackClient = await _ticketsystemContext.Clients.FirstOrDefaultAsync(c => c.Id == 0);
                 foreach (var ticket in clientTickets)
                 {
                     ticket.Client = fallbackClient;

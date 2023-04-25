@@ -32,3 +32,8 @@ $("#button-software-close").on("click", function () {
 $("#button-changes-close").on("click", function () {
     $("#changes-per-date").hide();
 });
+
+$("#button-show-pdf-new").on("click", function () {
+    let id = $("#hidden-ticketid").val();
+    window.open("/Tickets/ShowPdfNewTicket/" + id + "?", "_blank");
+});

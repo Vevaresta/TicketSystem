@@ -108,7 +108,8 @@
                     }
                     @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.SearchTickets))
                     {
-                        <button class="btn btn-secondary" style="width: 120px;" id="btn-search" type="button">Suchen</button>
+                        <button class="btn btn-info" style="width: 120px;" id="btn-search" type="button">Suchen</button>
+                        @Html.ActionLink("Filter zurücksetzen", "Index")
                     }
                 }
             </div>
@@ -122,7 +123,7 @@
                                 <input class="form-control" type="search" placeholder="Nummer" name="FilterByTicketId">
                             </td>
                             <td class="col-2 padding-right-3">
-                                <input class="form-control" type="search" placeholder="Ticketname"
+                                <input class="form-control" type="search" placeholder="Tickettitel"
                                        name="FilterByTicketName">
                             </td>
                             <td class="col-2 padding-right-3">
@@ -134,19 +135,6 @@
                                     </option>
                                     <option class="select-option-text" value="@TicketStatuses.InProgress.ToString()">
                                         @TicketStatuses.InProgress.GetText()
-                                    </option>
-                                    <option class="select-option-text"
-                                            value="@TicketStatuses.WaitingForResponse.ToString()">
-                                        @TicketStatuses.WaitingForResponse.GetText()
-                                    </option>
-                                    <option class="select-option-text" value="@TicketStatuses.Resolved.ToString()">
-                                        @TicketStatuses.Resolved.GetText()
-                                    </option>
-                                    <option class="select-option-text" value="@TicketStatuses.Escalated.ToString()">
-                                        @TicketStatuses.Escalated.GetText()
-                                    </option>
-                                    <option class="select-option-text" value="@TicketStatuses.OnHold.ToString()">
-                                        @TicketStatuses.OnHold.GetText()
                                     </option>
                                     <option class="select-option-text" value="@TicketStatuses.Closed.ToString()">
                                         @TicketStatuses.Closed.GetText()
@@ -184,10 +172,10 @@
                                        name="FilterByEndDate">
                             </td>
                             <td class="padding-right-3">
-                                <input class="form-control" type="search" placeholder="Kunde" name="FilterByClientName">
+                                <input class="form-control" type="search" placeholder="Kunden-Nr." name="FilterByClientName">
                             </td>
                             <td>
-                                <button class="btn btn-primary w-100" type="submit"
+                                <button class="btn btn-info w-100" type="submit"
                                         style="margin-top: 2px;margin-bottom: 2px;">
                                     Suchen
                                 </button>
@@ -198,22 +186,22 @@
             </div>
         </div>
 
-        @*<div style="margin-bottom: 20px">
-        <span class="badge bg-danger">Offen</span>
-        <span class="badge bg-primary">In Bearbeitung</span>
-        <span class="badge bg-success">Geschlossen</span>
-        <div class="progress">
-        <div class="progress-bar bg-danger" role="progressbar" style="width: 15%;" aria-valuenow="15"
-        aria-valuemin="0"
-        aria-valuemax="100"></div>
-        <div class="progress-bar bg-primary" role="progressbar" style="width: 30%;" aria-valuenow="30"
-        aria-valuemin="0"
-        aria-valuemax="100"></div>
-        <div class="progress-bar bg-success" role="progressbar" style="width: 55%;" aria-valuenow="55"
-        aria-valuemin="0"
-        aria-valuemax="100"></div>
+        <div style="margin-bottom: 20px">
+            <span class="badge bg-danger">Offen</span>
+            <span class="badge bg-primary">In Bearbeitung</span>
+            <span class="badge bg-success">Geschlossen</span>
+            <div class="progress">
+                <div class="progress-bar bg-danger" role="progressbar" style="width: @ViewBag.TicketStatusesOpen%;" aria-valuenow="15"
+                     aria-valuemin="0"
+                     aria-valuemax="100"></div>
+                <div class="progress-bar bg-primary" role="progressbar" style="width: @ViewBag.TicketStatusesInProgress%;" aria-valuenow="30"
+                     aria-valuemin="0"
+                     aria-valuemax="100"></div>
+                <div class="progress-bar bg-success" role="progressbar" style="width: @ViewBag.TicketStatusesClose%;" aria-valuenow="55"
+                     aria-valuemin="0"
+                     aria-valuemax="100"></div>
+            </div>
         </div>
-        </div>*@
 
         <div class="row">
             <table class="table" style="table-layout: fixed; width: 100%">
