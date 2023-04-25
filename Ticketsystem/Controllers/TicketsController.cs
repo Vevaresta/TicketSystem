@@ -107,10 +107,39 @@ namespace Ticketsystem.Controllers
                 ticket.TicketStatus = ticketStatusOpen;
                 ticket.OrderDate = DateTime.Now.ToUniversalTime();
 
-                var blankPdf = await _pdfUtilty.GetPdfNewTicket();
-                ticket.PdfNewTicket = _pdfUtilty.FillPdfNewTicket(blankPdf);
+                var newTicketInDb = await _ticketsService.Add(ticket);
 
-                await _ticketsService.Add(ticket);
+                string formDataDeviceType = "";
+                string formDataDeviceSerialNumber = "";
+                string formDataDeviceAccessories = "";
+
+                if (newTicketInDb.Devices != null)
+                {
+                    if (newTicketInDb.Devices.Count == 1)
+                    {
+                        formDataDeviceType = newTicketInDb.Devices[0].DeviceType;
+                        formDataDeviceSerialNumber = newTicketInDb.Devices[0].SerialNumber;
+                        formDataDeviceAccessories = newTicketInDb.Devices[0].Accessories;
+                    }
+                }
+
+                PdfFormData formData = new()
+                {
+                    TicketId = newTicketInDb.Id.ToString(),
+                    WorkOrder = newTicketInDb.WorkOrder,
+                    TicketType = newTicketInDb.TicketType.Name,
+                    ClientName = newTicketInDb.Client.FirstName ?? "" + " " + newTicketInDb.Client.LastName ?? "",
+                    ClientEmail = newTicketInDb.Client.Email,
+                    ClientPhone = newTicketInDb.Client.PhoneNumber,
+                    BackupByClient = newTicketInDb.DataBackupByClient,
+                    BackupByStaff = newTicketInDb.DataBackupByStaff,
+                    DeviceType = formDataDeviceType,
+                    DeviceSerialNumber = formDataDeviceSerialNumber,
+                    DeviceAccessories = formDataDeviceAccessories,
+                };
+
+                newTicketInDb.PdfNewTicket = await _pdfUtilty.FillPdfNewTicket(formData);
+                await _ticketsService.Update(newTicketInDb);
 
                 TicketChange ticketChange = new()
                 {
