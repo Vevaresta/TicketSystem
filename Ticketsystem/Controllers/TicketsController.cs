@@ -107,10 +107,7 @@ namespace Ticketsystem.Controllers
                 ticket.TicketStatus = ticketStatusOpen;
                 ticket.OrderDate = DateTime.Now.ToUniversalTime();
 
-                var blankPdf = await _pdfUtilty.GetPdfNewTicket();
-                ticket.PdfNewTicket = _pdfUtilty.FillPdfNewTicket(blankPdf);
-
-                await _ticketsService.Add(ticket);
+                var newTicketInDb = await _ticketsService.Add(ticket);
 
                 TicketChange ticketChange = new()
                 {
@@ -294,9 +291,40 @@ namespace Ticketsystem.Controllers
         {
             var ticket = await _ticketsService.GetById<Ticket, int>(id);
 
-            if (ticket != null && ticket.PdfNewTicket != null)
+            string formDataDeviceType = "";
+            string formDataDeviceSerialNumber = "";
+            string formDataDeviceAccessories = "";
+
+            if (ticket.Devices != null)
             {
-                return File(ticket.PdfNewTicket, "application/pdf");
+                if (ticket.Devices.Count == 1)
+                {
+                    formDataDeviceType = ticket.Devices[0].DeviceType;
+                    formDataDeviceSerialNumber = ticket.Devices[0].SerialNumber;
+                    formDataDeviceAccessories = ticket.Devices[0].Accessories;
+                }
+            }
+
+            PdfFormData formData = new()
+            {
+                TicketId = ticket.Id.ToString(),
+                WorkOrder = ticket.WorkOrder,
+                TicketType = ticket.TicketType.Name,
+                ClientName = ticket.Client.FirstName ?? "" + " " + ticket.Client.LastName ?? "",
+                ClientEmail = ticket.Client.Email,
+                ClientPhone = ticket.Client.PhoneNumber,
+                BackupByClient = ticket.DataBackupByClient,
+                BackupByStaff = ticket.DataBackupByStaff,
+                DeviceType = formDataDeviceType,
+                DeviceSerialNumber = formDataDeviceSerialNumber,
+                DeviceAccessories = formDataDeviceAccessories,
+            };
+
+            var pdf = await _pdfUtilty.FillPdfNewTicket(formData);
+
+            if (pdf != null)
+            {
+                return File(pdf, "application/pdf");
             }
             else
             {

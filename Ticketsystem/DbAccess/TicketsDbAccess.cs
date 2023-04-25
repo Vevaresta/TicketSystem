@@ -183,15 +183,17 @@ namespace Ticketsystem.DbAccess
             return GetTicketsShared(data as TicketFilterData).Count();
         }
 
-        public async Task Add<T>(T ticket) where T : class
+        public async Task<T> Add<T>(T ticket) where T : class
         {
-            _ticketsystemContext.Add(ticket);
+            var newTicketInDb = _ticketsystemContext.Add(ticket);
             await _ticketsystemContext.SaveChangesAsync();
 
             if (_globals.EnableRedisCache)
             {
                 await RedisCacheUtility.FlushDb(_globals.RedisServer);
             }
+
+            return newTicketInDb.Entity;
         }
 
         public async Task Update<T>(T entity) where T : class
@@ -277,13 +279,6 @@ namespace Ticketsystem.DbAccess
             {
                 await RedisCacheUtility.FlushDb(_globals.RedisServer);
             }
-        }
-
-        public async Task<byte[]> GetPdfNewTicket(int ticketId)
-        {
-            var ticket = await _ticketsystemContext.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);
-            var pdfFile = ticket.PdfNewTicket;
-            return pdfFile;
         }
     }
 }
