@@ -10,6 +10,7 @@ namespace Ticketsystem.Utilities
         public async Task<byte[]> FillPdfNewTicket(PdfFormData formData)
         {
             var pdfFileAsByteArray = await GetPdfNewTicket();
+
             using MemoryStream inputPdfStream = new(pdfFileAsByteArray);
             using MemoryStream outputPdfStream = new();
             using (PdfDocument pdfDoc = new(new PdfReader(inputPdfStream), new PdfWriter(outputPdfStream)))
@@ -52,7 +53,7 @@ namespace Ticketsystem.Utilities
             return outputPdfStream.ToArray();
         }
 
-        public async Task<byte[]> GetPdfNewTicket()
+        private async Task<byte[]> GetPdfNewTicket()
         {
             byte[] pdfFile = null;
             try

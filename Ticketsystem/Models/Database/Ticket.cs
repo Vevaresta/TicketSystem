@@ -38,8 +38,6 @@ public class Ticket
     public bool DataBackupByStaff { get; set; } = false;
     public bool DataBackupDone { get; set; }
 
-    public byte[] PdfNewTicket { get; set; }
-
     public virtual TicketType TicketType { get; set; }
     public virtual TicketStatus TicketStatus { get; set; }
     public virtual Client Client { get; set; }

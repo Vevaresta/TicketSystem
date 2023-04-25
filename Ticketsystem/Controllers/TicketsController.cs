@@ -109,38 +109,6 @@ namespace Ticketsystem.Controllers
 
                 var newTicketInDb = await _ticketsService.Add(ticket);
 
-                string formDataDeviceType = "";
-                string formDataDeviceSerialNumber = "";
-                string formDataDeviceAccessories = "";
-
-                if (newTicketInDb.Devices != null)
-                {
-                    if (newTicketInDb.Devices.Count == 1)
-                    {
-                        formDataDeviceType = newTicketInDb.Devices[0].DeviceType;
-                        formDataDeviceSerialNumber = newTicketInDb.Devices[0].SerialNumber;
-                        formDataDeviceAccessories = newTicketInDb.Devices[0].Accessories;
-                    }
-                }
-
-                PdfFormData formData = new()
-                {
-                    TicketId = newTicketInDb.Id.ToString(),
-                    WorkOrder = newTicketInDb.WorkOrder,
-                    TicketType = newTicketInDb.TicketType.Name,
-                    ClientName = newTicketInDb.Client.FirstName ?? "" + " " + newTicketInDb.Client.LastName ?? "",
-                    ClientEmail = newTicketInDb.Client.Email,
-                    ClientPhone = newTicketInDb.Client.PhoneNumber,
-                    BackupByClient = newTicketInDb.DataBackupByClient,
-                    BackupByStaff = newTicketInDb.DataBackupByStaff,
-                    DeviceType = formDataDeviceType,
-                    DeviceSerialNumber = formDataDeviceSerialNumber,
-                    DeviceAccessories = formDataDeviceAccessories,
-                };
-
-                newTicketInDb.PdfNewTicket = await _pdfUtilty.FillPdfNewTicket(formData);
-                await _ticketsService.Update(newTicketInDb);
-
                 TicketChange ticketChange = new()
                 {
                     TicketId = ticket.Id,
@@ -323,9 +291,40 @@ namespace Ticketsystem.Controllers
         {
             var ticket = await _ticketsService.GetById<Ticket, int>(id);
 
-            if (ticket != null && ticket.PdfNewTicket != null)
+            string formDataDeviceType = "";
+            string formDataDeviceSerialNumber = "";
+            string formDataDeviceAccessories = "";
+
+            if (ticket.Devices != null)
             {
-                return File(ticket.PdfNewTicket, "application/pdf");
+                if (ticket.Devices.Count == 1)
+                {
+                    formDataDeviceType = ticket.Devices[0].DeviceType;
+                    formDataDeviceSerialNumber = ticket.Devices[0].SerialNumber;
+                    formDataDeviceAccessories = ticket.Devices[0].Accessories;
+                }
+            }
+
+            PdfFormData formData = new()
+            {
+                TicketId = ticket.Id.ToString(),
+                WorkOrder = ticket.WorkOrder,
+                TicketType = ticket.TicketType.Name,
+                ClientName = ticket.Client.FirstName ?? "" + " " + ticket.Client.LastName ?? "",
+                ClientEmail = ticket.Client.Email,
+                ClientPhone = ticket.Client.PhoneNumber,
+                BackupByClient = ticket.DataBackupByClient,
+                BackupByStaff = ticket.DataBackupByStaff,
+                DeviceType = formDataDeviceType,
+                DeviceSerialNumber = formDataDeviceSerialNumber,
+                DeviceAccessories = formDataDeviceAccessories,
+            };
+
+            var pdf = await _pdfUtilty.FillPdfNewTicket(formData);
+
+            if (pdf != null)
+            {
+                return File(pdf, "application/pdf");
             }
             else
             {
