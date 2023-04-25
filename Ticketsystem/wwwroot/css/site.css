@@ -116,7 +116,5 @@ input[type="search"]::placeholder,
 }
 
 .btn-link {
-    font-size: inherit;
-    margin: -2px 0 0 0;
-    padding: 0 ;
+    padding: 0;
 }
