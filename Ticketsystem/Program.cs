@@ -122,6 +122,8 @@ namespace Ticketsystem
             builder.Services.AddSingleton(emailConfig);
             builder.Services.AddScoped<IEmailSender, EmailSender>();
 
+            builder.Services.AddTransient<PdfUtility>();
+
             //MailboxAddress[] arr = new MailboxAddress[1];
             //arr[0] = new MailboxAddress("test", "nikola.krpan-fiae202201@bfw-neueslernen.de");
 

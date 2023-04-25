@@ -15,6 +15,7 @@ using Ticketsystem.Models.Database;
 using Ticketsystem.DbAccess;
 using Ticketsystem.ViewModels;
 using Ticketsystem.Extensions;
+using Ticketsystem.Utilities;
 
 namespace Ticketsystem.Controllers
 {
@@ -25,14 +26,19 @@ namespace Ticketsystem.Controllers
         private readonly TicketTypesDbAccess _ticketTypesService;
         private readonly TicketChangesDbAccess _ticketChangesService;
         private readonly UserManager<User> _userManager;
+        private readonly PdfUtility _pdfUtilty;
 
-        public TicketsController(IDbAccessFactory serviceFactory, UserManager<User> userManager)
+        public TicketsController(
+            IDbAccessFactory serviceFactory,
+            UserManager<User> userManager,
+            PdfUtility pdfUtility)
         {
             _ticketsService = serviceFactory.GetDbAccess<TicketsDbAccess>();
             _ticketStatusesService = serviceFactory.GetDbAccess<TicketStatusesDbAccess>();
             _ticketTypesService = serviceFactory.GetDbAccess<TicketTypesDbAccess>();
             _ticketChangesService = serviceFactory.GetDbAccess<TicketChangesDbAccess>();
             _userManager = userManager;
+            _pdfUtilty = pdfUtility;
         }
 
         // GET: Tickets
@@ -101,8 +107,8 @@ namespace Ticketsystem.Controllers
                 ticket.TicketStatus = ticketStatusOpen;
                 ticket.OrderDate = DateTime.Now.ToUniversalTime();
 
-                var pdfNewTicket = await System.IO.File.ReadAllBytesAsync("Files/Kundenauftrag.pdf");
-                ticket.PdfNewTicket = pdfNewTicket;
+                var blankPdf = await _pdfUtilty.GetPdfNewTicket();
+                ticket.PdfNewTicket = _pdfUtilty.FillPdfNewTicket(blankPdf);
 
                 await _ticketsService.Add(ticket);
 

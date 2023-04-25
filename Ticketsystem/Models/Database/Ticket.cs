@@ -27,7 +27,6 @@ public class Ticket
     [ForeignKey(nameof(Client))]
     public int ClientId { get; set; }
 
-    [AllowNull]
     public string Name { get; set; }
 
     public DateTime OrderDate { get; set; }

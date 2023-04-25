@@ -1,16 +1,35 @@
-﻿using iTextSharp.text.pdf;
+﻿using iText.Kernel.Pdf;
+using iText.Forms;
 
 namespace Ticketsystem.Utilities
 {
     public class PdfUtility
     {
-        public static void SaveToPdf()
+        public byte[] FillPdfNewTicket(byte[] pdfFileAsByteArray)
         {
-            using PdfReader reader = new(@"Kundenauftrag.pdf");
-            using PdfStamper stamper = new(reader, new FileStream(@"Filled Form.pdf", FileMode.Create));
-            AcroFields form = stamper.AcroFields;
-            form.SetField("Frau", "Yes");
-            form.SetField("Name", "Test");
+            using MemoryStream inputPdfStream = new(pdfFileAsByteArray);
+            using MemoryStream outputPdfStream = new();
+            using PdfDocument pdfDoc = new(new PdfReader(inputPdfStream), new PdfWriter(outputPdfStream));
+            PdfAcroForm form = PdfAcroForm.GetAcroForm(pdfDoc, true);
+            form.GetField("txtClientName").SetValue("value2");
+
+            return outputPdfStream.ToArray();
         }
+
+        public async Task<byte[]> GetPdfNewTicket()
+        {
+            byte[] pdfFile = null;
+            try
+            {
+                pdfFile = await File.ReadAllBytesAsync("Files/Kundenauftrag.pdf");
+            }
+            catch
+            {
+
+            }
+
+            return pdfFile;
+        }
+
     }
 }
