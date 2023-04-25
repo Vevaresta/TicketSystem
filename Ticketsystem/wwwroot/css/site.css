@@ -118,3 +118,11 @@ input[type="search"]::placeholder,
 .btn-link {
     padding: 0;
 }
+
+.btn-primary-small {
+    height: 36px
+}
+
+.btn-space {
+    margin-right: 32px;
+}

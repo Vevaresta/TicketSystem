@@ -429,8 +429,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8 col-lg-6" id="changes-per-date" style="display: none;">
-                    <div class="row mb-3">
+                <div class="col-lg-6" id="changes-per-date" style="display: none;">
+                    <div class="row mb-5 mb-sm-5 mb-lg-3">
                         <div class="container">
                             <h5 id="changes-per-date-header"></h5>
                             <div class="row mb-1">
@@ -456,6 +456,11 @@
                                     <label class="control-label">Status</label>
                                     <input id="changes-input-unchanged" class="form-control bg-lightyellow" readonly autocomplete="off" />
                                 </div>
+                                <div class="col-6 form-group">
+                                    <button type="button" class="mt-4 btn btn-primary-small  btn-primary" id="button-changes-close">
+                                        Schließen
+                                    </button>
+                                </div>
                             </div>
                             <div class="row collapse" id="changes-status-changed">
                                 <div class="col-6 form-group">
@@ -467,17 +472,6 @@
                                     <input id="changes-input-newstatus" class="form-control bg-lightyellow" readonly autocomplete="off" />
                                 </div>
                             </div>
-                            <div class="container-0">
-                                <div class="row mt-3">
-                                    <div class="col-sm-12">
-                                        <div class="d-flex">
-                                            <button type="button" class="btn btn-primary" id="button-changes-close">
-                                                Schließen
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -487,9 +481,9 @@
     <div class="row">
         <div class="col-md-6">
             <form method="get">
-                <input type="submit" value="Ticket Bearbeiten" class="btn btn-lg btn-primary mb-2"
+                <input type="submit" value="Ticket Bearbeiten" class="btn-space btn btn-lg btn-primary mb-2"
                        asp-action="Update" asp-route-id="@Model.Id" />
-                <input type="submit" value="E-Mail erneut senden" class="btn btn-lg btn-info mb-2" />
+                <input type="submit" value="E-Mail erneut senden" class="btn-space btn btn-lg btn-info mb-2" />
                 <input type="submit" value="PDF anzeigen" class="btn btn-lg btn-info mb-2" id="button-show-pdf-new" />
             </form>
         </div>
