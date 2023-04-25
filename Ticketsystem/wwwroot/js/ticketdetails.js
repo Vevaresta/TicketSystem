@@ -34,6 +34,6 @@ $("#button-changes-close").on("click", function () {
 });
 
 $("#button-show-pdf-new").on("click", function () {
-    let id = $("#hidden-ticketid").val();
-    window.open("/Tickets/ShowPdfNewTicket/" + id + "?", "_blank");
+    let route = $("#hidden-generate-pdf").val();
+    window.open(route, "_blank");
 });

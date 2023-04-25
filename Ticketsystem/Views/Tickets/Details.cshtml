@@ -32,9 +32,11 @@
     string displayForSingleDevice = Model.TicketType == TicketTypes.Repair || Model.TicketType == TicketTypes.DataRecovery ? "block" : "none";
     string displayForSpecial = Model.TicketType == TicketTypes.Special ? "block" : "none";
     string displayBackup = Model.TicketType == TicketTypes.Repair || Model.TicketType == TicketTypes.DataRecovery || Model.TicketType == TicketTypes.Special ? "block" : "none";
+    string generatePdfRoute = "/Tickets/ShowPDF/" + @Model.Id.ToString() + "?";
 }
 
-<input type="hidden" id="hidden-ticketid" value="@Model.Id" />
+
+<input type="hidden" id="hidden-generate-pdf" value="@generatePdfRoute" />
 <input type="hidden" id="hidden-devices" value="@devicesJson" />
 <input type="hidden" id="hidden-ticket-type" value="@Model.TicketType.ToString()" />
 

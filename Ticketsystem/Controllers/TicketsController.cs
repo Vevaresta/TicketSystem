@@ -287,7 +287,7 @@ namespace Ticketsystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> ShowPdfNewTicket(int id)
+        public async Task<IActionResult> ShowPdf(int id)
         {
             var ticket = await _ticketsService.GetById<Ticket, int>(id);
 
