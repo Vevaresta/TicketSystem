@@ -22,6 +22,8 @@ namespace Ticketsystem.ViewModels
         [Required(ErrorMessage = "Pflichtfeld")]
         public bool DoBackup { get; set; }
 
+        public bool Virus { get; set; }
+
         [Display(Name = "Bereits erledigt durch Kunde")]
         public bool DataBackupByClient { get; set; }
 
