@@ -1,10 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Ticketsystem.Data;
+﻿using Ticketsystem.Data;
 using Ticketsystem.Models.Data;
 using Ticketsystem.Models.Database;
-using Newtonsoft.Json;
-using Microsoft.Extensions.Caching.Distributed;
-using System.Text;
 using Ticketsystem.ViewModels;
 using Ticketsystem.Utilities;
 

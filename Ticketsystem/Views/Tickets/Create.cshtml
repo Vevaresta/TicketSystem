@@ -109,7 +109,7 @@
                                 <h5>Kunde</h5>
                                 <div class="row mb-1">
                                     <div class="form-group">
-                                        <label  class="control-label">Nachname*</label>
+                                        <label class="control-label">Nachname*</label>
                                         <input asp-for="Client.LastName" class="form-control" autocomplete="off" />
                                         <span asp-validation-for="Client.LastName" class="text-danger"></span>
                                     </div>
@@ -458,9 +458,7 @@
 
                     <span class="me-1">Bestätigungs E-Mail senden?</span>
                     <span style="margin-top:7px" class="form-check form-switch">
-
-
-                    <input class="form-check-input my-auto" type="checkbox" id="switch-send-email" asp-for ="DoSendEmail"/>
+                        <input class="form-check-input my-auto" type="checkbox" id="switch-send-email" asp-for="DoSendEmail" />
                     </span>
                 </div>
             </div>

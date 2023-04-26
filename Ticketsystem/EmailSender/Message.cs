@@ -25,51 +25,49 @@ namespace Ticketsystem
         /// <param name="emailtype">Currently EmailTypes.ConfirmationEmail or EmailTypes.OrderFinished</param>
         public Message(IEnumerable<MailboxAddress> to, EmailTypes emailtype)
         {
-            // To Do Create Object for Emaiaddress
+            // To Do Create Object for email address
             To = to.ToList();
             switch (emailtype)
             {
                 case EmailTypes.ConfirmationEmail:
-                    createConfirmationMail();
+                    CreateConfirmationMail();
                     break;
                 case EmailTypes.OrderFinished:
-                    createOrderFinishedMail();
+                    CreateOrderFinishedMail();
                     break;
             }
 
         }
-        private void createConfirmationMail()
+        private void CreateConfirmationMail()
         {
             string filename = "ConfirmationMail.txt";
             string subfolder = "EmailSender/Emailtxt";
             string filepath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, subfolder, filename);
             // BfW specific
             Subject = "Bestätigungsemail ihres Kundenauftrages beim Service Point des BfW Nürnberg";
-            Content = createContentString(filepath);
+            Content = CreateContentString(filepath);
         }
 
-        private void createOrderFinishedMail()
+        private void CreateOrderFinishedMail()
         {
             string filename = "OrderFinished.txt";
             string subfolder = "EmailSender/Emailtxt";
             string filepath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, subfolder, filename);
             // BfW specific
             Subject = "Ihr Kundenauftrag beim Service Point des BfW Nürnberg ist fertiggestellt";
-            Content = createContentString(filepath);
+            Content = CreateContentString(filepath);
         }
 
-        private string createContentString(string filePath)
+        private string CreateContentString(string filePath)
         {
-            using (StreamReader reader = new StreamReader(filePath))
-            {
-                string fileContent = reader.ReadToEnd();
-                string concatenatedString = string.Join(Environment.NewLine, fileContent.Split(
-                    new[] { Environment.NewLine },
-                    StringSplitOptions.None
-                ));
+            using StreamReader reader = new StreamReader(filePath);
+            string fileContent = reader.ReadToEnd();
+            string concatenatedString = string.Join(Environment.NewLine, fileContent.Split(
+                new[] { Environment.NewLine },
+                StringSplitOptions.None
+            ));
 
-                return concatenatedString;
-            }
+            return concatenatedString;
         }
     }
 }

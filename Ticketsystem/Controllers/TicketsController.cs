@@ -1,20 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.IO;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Ticketsystem.Data;
-using Ticketsystem.Enums;
+﻿using Ticketsystem.Enums;
 using Ticketsystem.Models.Data;
 using Ticketsystem.Models.Database;
 using Ticketsystem.DbAccess;
 using Ticketsystem.ViewModels;
-using Ticketsystem.Extensions;
 using Ticketsystem.Utilities;
 
 namespace Ticketsystem.Controllers
@@ -119,6 +107,11 @@ namespace Ticketsystem.Controllers
                 };
 
                 await _ticketChangesService.AddTicketChange(ticketChange);
+
+                if (ticketViewModel.DoSendEmail)
+                {
+                    // TODO: Send email
+                }
 
                 return RedirectToAction(nameof(Index));
             }
