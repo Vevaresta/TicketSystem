@@ -22,20 +22,6 @@ $(document).ready(function () {
     $("#radio-backup-staff").prop("checked", backupByStaff);
 });
 
-$("#button-send-email").on("click", function () {
-    $.ajax({
-        type: "POST",
-        url: "/Tickets/SendEmail",
-        dataType: "json",
-        success: function (msg) {
-            console.log(msg);
-        },
-        error: function (req, status, error) {
-            alert(error);
-        }
-    });
-})
-
 // Umschalten der Ticketart durch Klick auf Radio-Button oder Label
 $(".ticket-type-input").on("click", function (event) {
     var radio = $(event.target);

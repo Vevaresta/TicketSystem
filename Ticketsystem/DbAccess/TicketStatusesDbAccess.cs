@@ -27,9 +27,18 @@ namespace Ticketsystem.DbAccess
 
             int[] statpersent = new int[3];
 
-            statpersent[0] = statuses[0] * 100 / statsum;
-            statpersent[1] = statuses[1] * 100 / statsum;
-            statpersent[2] = statuses[2] * 100 / statsum;
+            if (statsum == 0)
+            {
+                statpersent[0] = 100;
+                statpersent[1] = 0;
+                statpersent[2] = 0;
+            }
+            else
+            {
+                statpersent[0] = statuses[0] * 100 / statsum;
+                statpersent[1] = statuses[1] * 100 / statsum;
+                statpersent[2] = statuses[2] * 100 / statsum;
+            }
 
             if (statpersent.Sum() != 100)
             {

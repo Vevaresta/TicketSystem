@@ -23,10 +23,9 @@ namespace Ticketsystem
         /// </summary>
         /// <param name="to"></param>
         /// <param name="emailtype">Currently EmailTypes.ConfirmationEmail or EmailTypes.OrderFinished</param>
-        public Message(IEnumerable<MailboxAddress> to, EmailTypes emailtype)
+        public Message(List<MailboxAddress> to, EmailTypes emailtype)
         {
-            // To Do Create Object for email address
-            To = to.ToList();
+            To = to;
             switch (emailtype)
             {
                 case EmailTypes.ConfirmationEmail:
