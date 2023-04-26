@@ -150,7 +150,8 @@ namespace Ticketsystem.DbAccess
 
             if (clientTickets != null)
             {
-                var fallbackClient = await _ticketsystemContext.Clients.FirstOrDefaultAsync(c => c.Id == 0);
+                var fallbackClient = await _ticketsystemContext.Clients.FirstOrDefaultAsync(c => c.Id == -1);
+
                 foreach (var ticket in clientTickets)
                 {
                     ticket.Client = fallbackClient;
