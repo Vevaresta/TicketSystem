@@ -486,14 +486,23 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
-                @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.ViewTicketChanges))
-                {
-                    <div class="row">
-                        <div class="col-xl-6">
+                <div class="row mt-2">
+                    <div class="col-xl-6">
+                        <div class="row mb-3">
+                            <div class="container">
+                                <h5>Meine Änderungen:</h5>
+                                <div class="form-group">
+                                    <textarea asp-for="TicketChange.Comment" style="height: 70px; overflow-y: scroll;" class="form-control" rows="12" autocomplete="off"></textarea>
+                                    <span asp-validation-for="TicketChange.Comment" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        @if (await rolePermissionsService.HasPermission(loggedInUser, RolePermissions.ViewTicketChanges))
+                        {
                             <div class="row mb-3">
                                 <div class="container">
                                     <h5>Alte Änderungen:</h5>
-                                    <div class="list-group bg-light" id="changes-listbox" style="height: 400px; overflow-y: scroll;">
+                                    <div class="list-group bg-light" id="changes-listbox" style="height: 300px; overflow-y: scroll;">
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
@@ -529,7 +538,7 @@
                                                         <td>@userName</td>
                                                         <td>@oldStatus</td>
                                                         <td>@shortTicketComment</td>
-                                                        <td class="text-end"><button value="@JsonConvert.SerializeObject(item)" class="btn btn-link">Details</button></td>
+                                                        <td class="text-end"><button type="button" value="@JsonConvert.SerializeObject(item)" class="btn btn-link">Details</button></td>
                                                     </tr>
 
                                                 }
@@ -538,63 +547,50 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xl-6" id="changes-per-date" style="display: none;">
-                            <div class="row mb-5 mb-sm-5 mb-lg-3">
-                                <div class="container">
-                                    <h5 id="changes-per-date-header"></h5>
-                                    <div class="row mb-1">
-                                        <div class="form-group">
-                                            <label class="control-label">Mitarbeiter</label>
-                                            <input id="changes-input-username" class="form-control bg-lightyellow" readonly autocomplete="off" />
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1">
-                                        <div class="form-group">
-                                            <label lass="control-label">Email</label>
-                                            <input id="changes-input-email" class="form-control bg-lightyellow" readonly autocomplete="off" />
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <label class="control-label">Änderung</label>
-                                            <textarea class="form-control bg-lightyellow" id="changes-input-comment" readonly rows="8"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="row collapse" id="changes-status-unchanged">
-                                        <div class="col-6 form-group">
-                                            <label class="control-label">Status</label>
-                                            <input id="changes-input-unchanged" class="form-control bg-lightyellow" readonly autocomplete="off" />
-                                        </div>
-                                        <div class="col-6 form-group">
-                                            <button type="button" class="mt-4 btn btn-primary-small  btn-primary" id="button-changes-close">
-                                                Schließen
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="row collapse" id="changes-status-changed">
-                                        <div class="col-6 form-group">
-                                            <label class="control-label">Alter Status</label>
-                                            <input id="changes-input-oldstatus" class="form-control bg-lightyellow" readonly autocomplete="off" />
-                                        </div>
-                                        <div class="col-6 form-group">
-                                            <label class="control-label">Neuer Status</label>
-                                            <input id="changes-input-newstatus" class="form-control bg-lightyellow" readonly autocomplete="off" />
-                                        </div>
+                        }
+                    </div>
+                    <div class="col-xl-6" id="changes-per-date" style="display: none;">
+                        <div class="row mb-5 mb-sm-5 mb-lg-3">
+                            <div class="container">
+                                <h5 id="changes-per-date-header"></h5>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Mitarbeiter</label>
+                                        <input id="changes-input-username" class="form-control bg-lightyellow" readonly autocomplete="off" />
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-                <div class="row mt-1">
-                    <div class="col-lg-6">
-                        <div class="row mb-3">
-                            <div class="container">
-                                <h5>Meine Änderungen:</h5>
-                                <div class="form-group">
-                                    <textarea asp-for="TicketChange.Comment" style="height: 80px; overflow-y: scroll;" class="form-control" rows="12" autocomplete="off"></textarea>
-                                    <span asp-validation-for="TicketChange.Comment" class="text-danger"></span>
+                                <div class="row mb-1">
+                                    <div class="form-group">
+                                        <label lass="control-label">Email</label>
+                                        <input id="changes-input-email" class="form-control bg-lightyellow" readonly autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="control-label">Änderung</label>
+                                        <textarea class="form-control bg-lightyellow" id="changes-input-comment" readonly rows="5"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row collapse" id="changes-status-unchanged">
+                                    <div class="col-6 form-group">
+                                        <label class="control-label">Status</label>
+                                        <input id="changes-input-unchanged" class="form-control bg-lightyellow" readonly autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="row collapse" id="changes-status-changed">
+                                    <div class="col-6 form-group">
+                                        <label class="control-label">Alter Status</label>
+                                        <input id="changes-input-oldstatus" class="form-control bg-lightyellow" readonly autocomplete="off" />
+                                    </div>
+                                    <div class="col-6 form-group">
+                                        <label class="control-label">Neuer Status</label>
+                                        <input id="changes-input-newstatus" class="form-control bg-lightyellow" readonly autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="col-6 form-group">
+                                    <button type="button" class="mt-4 btn btn-primary-small  btn-primary" id="button-changes-close">
+                                        Schließen
+                                    </button>
                                 </div>
                             </div>
                         </div>
