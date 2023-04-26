@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Identity;
+using MimeKit;
+using System.Net;
 
 namespace Ticketsystem.Controllers
 {
@@ -19,11 +21,13 @@ namespace Ticketsystem.Controllers
         private readonly TicketChangesDbAccess _ticketChangesService;
         private readonly UserManager<User> _userManager;
         private readonly PdfUtility _pdfUtilty;
+        private readonly IEmailSender _emailSender;
 
         public TicketsController(
             IDbAccessFactory serviceFactory,
             UserManager<User> userManager,
-            PdfUtility pdfUtility)
+            PdfUtility pdfUtility,
+            IEmailSender emailSender)
         {
             _ticketsService = serviceFactory.GetDbAccess<TicketsDbAccess>();
             _ticketStatusesService = serviceFactory.GetDbAccess<TicketStatusesDbAccess>();
@@ -31,6 +35,7 @@ namespace Ticketsystem.Controllers
             _ticketChangesService = serviceFactory.GetDbAccess<TicketChangesDbAccess>();
             _userManager = userManager;
             _pdfUtilty = pdfUtility;
+            _emailSender = emailSender;
         }
 
         // GET: Tickets
@@ -114,7 +119,7 @@ namespace Ticketsystem.Controllers
 
                 if (ticketViewModel.DoSendEmail)
                 {
-                    // TODO: Send email
+                    await SendEmail(newTicketInDb.Id);
                 }
 
                 return RedirectToAction(nameof(Index));
@@ -350,11 +355,47 @@ namespace Ticketsystem.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult SendEmail()
+        public async Task<IActionResult> SendEmail(int id)
         {
-            Console.WriteLine("SendEmail method called"); //for testing purposes only
-            return Json(new { Message = "Done" });
+            var ticketInDb = await _ticketsService.GetById<Ticket, int>(id);
+
+            var clientName = ticketInDb.Client.FirstName + " " + ticketInDb.Client.LastName;
+            var clientEmail = ticketInDb.Client.Email;
+
+            try
+            {
+                Message message = new(new List<MailboxAddress>() { new MailboxAddress(clientName, clientEmail) }, EmailTypes.ConfirmationEmail);
+                await _emailSender.SendEmail(message);
+
+                return Json(new { Message = "SUCCESS" });
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(new { ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendEmailClosed(int id)
+        {
+            var ticketInDb = await _ticketsService.GetById<Ticket, int>(id);
+
+            var clientName = ticketInDb.Client.FirstName + " " + ticketInDb.Client.LastName;
+            var clientEmail = ticketInDb.Client.Email;
+
+            try
+            {
+                Message message = new(new List<MailboxAddress>() { new MailboxAddress(clientName, clientEmail) }, EmailTypes.OrderFinished);
+                await _emailSender.SendEmail(message);
+
+                return Json(new { Message = "SUCCESS" });
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(new { ex.Message });
+            }
         }
     }
 }

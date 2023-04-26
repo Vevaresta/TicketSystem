@@ -37,3 +37,39 @@ $("#button-show-pdf-new").on("click", function () {
     let route = $("#hidden-generate-pdf").val();
     window.open(route, "_blank");
 });
+
+$("#button-send-email").on("click", function (event) {
+    event.preventDefault();
+    let buttonSendEmail = $("#button-send-email");
+    let checkIcon = $("#icon-send-email-check");
+    let ticketId = $("#hidden-ticket-id").val();
+    buttonSendEmail.addClass("disabled");
+    buttonSendEmail.addClass("btn-space");
+    checkIcon.addClass("collapse");
+
+    $.ajax(
+        {
+            type: 'POST',
+            dataType: 'JSON',
+            url: '/Tickets/SendEmail',
+            data: { id: ticketId },
+            success:
+                function (response) {
+                    console.log(response);
+                    setTimeout(function () {
+                        buttonSendEmail.removeClass("disabled");
+                        buttonSendEmail.removeClass("btn-space");
+                        checkIcon.removeClass("collapse");
+                    }, 1000);
+                },
+            error:
+                function (response) {
+                    alert("Error: " + response.responseText);
+                    console.log(response);
+                    setTimeout(function () {
+                        buttonSendEmail.removeClass("disabled");
+                    }, 1000);
+                }
+        }
+    );
+});

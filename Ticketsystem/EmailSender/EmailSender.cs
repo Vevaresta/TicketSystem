@@ -11,11 +11,11 @@ namespace Ticketsystem
         {
             _emailConfig = emailConfig;
         }
-        public void SendEmail(Message message)
+        public async Task<string> SendEmail(Message message)
         {
             var emailMessage = CreateEmailMessage(message);
             
-            Send(emailMessage);
+            return await Send(emailMessage);
         }
 
         private MimeMessage CreateEmailMessage(Message message)
@@ -29,7 +29,7 @@ namespace Ticketsystem
             return emailMessage;
         }
 
-        private void Send(MimeMessage mailMessage)
+        private async Task<string> Send(MimeMessage mailMessage)
         {
             using var client = new SmtpClient();
             try
@@ -38,11 +38,11 @@ namespace Ticketsystem
                 client.AuthenticationMechanisms.Remove("XOAUTH2");
                 client.Authenticate(_emailConfig.UserName, _emailConfig.Password);
 
-                client.Send(mailMessage);
+                return await client.SendAsync(mailMessage);
             }
             catch
             {
-                throw new Exception("Error sending Email.");
+                throw;
             }
             finally
             {
