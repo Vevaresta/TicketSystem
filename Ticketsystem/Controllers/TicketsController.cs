@@ -377,12 +377,17 @@ namespace Ticketsystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult SendEmailClosed(int id)
+        public async Task<IActionResult> SendEmailClosed(int id)
         {
+            var ticketInDb = await _ticketsService.GetById<Ticket, int>(id);
+
+            var clientName = ticketInDb.Client.FirstName + " " + ticketInDb.Client.LastName;
+            var clientEmail = ticketInDb.Client.Email;
+
             try
             {
-                Message message = new(new List<MailboxAddress>() { new MailboxAddress("Jann", "j.emken@gmx.net") }, EmailTypes.OrderFinished);
-                _emailSender.SendEmail(message);
+                Message message = new(new List<MailboxAddress>() { new MailboxAddress(clientName, clientEmail) }, EmailTypes.OrderFinished);
+                await _emailSender.SendEmail(message);
 
                 return Json(new { Message = "SUCCESS" });
             }
