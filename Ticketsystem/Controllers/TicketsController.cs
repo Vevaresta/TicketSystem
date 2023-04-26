@@ -4,6 +4,10 @@ using Ticketsystem.Models.Database;
 using Ticketsystem.DbAccess;
 using Ticketsystem.ViewModels;
 using Ticketsystem.Utilities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Identity;
 
 namespace Ticketsystem.Controllers
 {

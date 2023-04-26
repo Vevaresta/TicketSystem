@@ -3,6 +3,10 @@ using Ticketsystem.Models.Data;
 using Ticketsystem.Models.Database;
 using Ticketsystem.ViewModels;
 using Ticketsystem.Utilities;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
+using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ticketsystem.DbAccess
 {
