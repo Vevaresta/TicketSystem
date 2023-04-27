@@ -33,10 +33,13 @@
     string displayForSpecial = Model.TicketType == TicketTypes.Special ? "block" : "none";
     string displayBackup = Model.TicketType == TicketTypes.Repair || Model.TicketType == TicketTypes.DataRecovery || Model.TicketType == TicketTypes.Special ? "block" : "none";
     string generatePdfRoute = "/Tickets/ShowPDF/" + @Model.Id.ToString() + "?";
+    string showPdfSignedRoute = "/Tickets/ShowPDFSigned/" + @Model.Id.ToString() + "?";
 }
 
 <input type="hidden" id="hidden-ticket-id" value="@Model.Id" />
+<input type="hidden" id="hidden-is-pdf-signed" value="@Model.IsPdfSigned" />
 <input type="hidden" id="hidden-generate-pdf" value="@generatePdfRoute" />
+<input type="hidden" id="hidden-show-pdf-signed" value="@showPdfSignedRoute" />
 <input type="hidden" id="hidden-devices" value="@devicesJson" />
 <input type="hidden" id="hidden-ticket-type" value="@Model.TicketType.ToString()" />
 
@@ -483,13 +486,23 @@
     <div class="row mt-4 mt-lg-0">
         <div class="col-md-12">
             <form method="get">
-                <div class="d-flex flex-lg-row flex-column align-items-lg-center align-items-start" style="min-height: 60px;">
-                    <input type="submit" value="Ticket Bearbeiten" class="btn btn-lg btn-primary btn-space text-nowrap mb-2 mb-lg-0" style="" asp-action="Update" asp-route-id="@Model.Id" />
-                    <span class="d-flex flex-lg-row align-items-center mb-2 mb-lg-0">
-                        <button type="button" class="btn btn-lg btn-info btn-space text-nowrap" id="button-send-email" style="">Email erneut senden</button>
-                        <span class="bi bi-check collapse me-2" id="icon-send-email-check" style="color: green; font-size: 40px; margin-top: -10px; margin-bottom: -10px;"></span>
-                    </span>
-                    <input type="submit" value="PDF anzeigen" class="btn btn-lg btn-info text-nowrap" id="button-show-pdf-new" />
+                <div class="d-flex flex-xl-row flex-column">
+                    <div class="d-flex flex-lg-row flex-column align-items-lg-center align-items-start" style="min-height: 60px;">
+                        <input type="submit" value="Ticket Bearbeiten" class="btn btn-lg btn-primary btn-space text-nowrap mb-2 mb-lg-0" style="" asp-action="Update" asp-route-id="@Model.Id" />
+                        <span class="d-flex flex-lg-row align-items-center mb-2 mb-lg-0">
+                            <button type="button" class="btn btn-lg btn-info btn-space text-nowrap" id="button-send-email" style="">Email erneut senden</button>
+                            <span class="bi bi-check collapse me-2" id="icon-send-email-check" style="color: green; font-size: 40px; margin-top: -10px; margin-bottom: -10px;"></span>
+                        </span>
+                    </div>
+                    @{
+                        string buttonShowPdfVisibility = Model.IsPdfSigned ? "" : "collapse";
+                    }
+                    <div class="d-flex flex-lg-row flex-column align-items-lg-center align-items-start" style="min-height: 60px;">
+                        <input type="button" value="PDF anzeigen" class="btn btn-lg btn-info btn-space text-nowrap mb-2 mb-lg-0 @buttonShowPdfVisibility" id="button-show-pdf-signed" />
+                        <input type="button" value="PDF generieren" class="btn btn-lg btn-info btn-space text-nowrap mb-2 mb-lg-0" id="button-generate-pdf" />
+                        <input type="file" id="file-picker-pdf-signed" style="display: none;" />
+                        <input type="button" class="btn btn-lg btn-info text-nowrap" value="PDF hochladen..." onclick="document.getElementById('file-picker-pdf-signed').click();" />
+                    </div>
                 </div>
             </form>
         </div>

@@ -16,7 +16,6 @@ namespace Ticketsystem.Data
         private readonly UserManager<User> _userManager;
 
         private readonly IDbAccessFactory _serviceFactory;
-        private readonly RolesDbAccess _rolesService;
 
         public ContextSeed(
             TicketsystemContext ticketsystemContext,
@@ -29,7 +28,6 @@ namespace Ticketsystem.Data
             _roleManager = roleManager;
             _userManager = userManager;
             _serviceFactory = serviceFactory;
-            _rolesService = serviceFactory.GetDbAccess<RolesDbAccess>();
         }
 
         public async Task Seed(bool doSeedTestData = false)

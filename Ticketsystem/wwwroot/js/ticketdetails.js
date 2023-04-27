@@ -33,9 +33,35 @@ $("#button-changes-close").on("click", function () {
     $("#changes-per-date").hide();
 });
 
-$("#button-show-pdf-new").on("click", function () {
+$("#button-generate-pdf").on("click", function () {
     let route = $("#hidden-generate-pdf").val();
     window.open(route, "_blank");
+});
+
+$("#button-show-pdf-signed").on("click", function () {
+    let route = $("#hidden-show-pdf-signed").val();
+    window.open(route, "_blank");
+});
+
+$('#file-picker-pdf-signed').on('change', function () {
+    let ticketId = $("#hidden-ticket-id").val();
+    var file = this.files[0];
+    var formData = new FormData();
+    formData.append('pdfFile', file);
+
+    $.ajax({
+        url: '/Tickets/UploadPdf?id=' + ticketId,
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            $("#button-show-pdf-signed").removeClass("collapse");
+        },
+        error: function (error) {
+            alert(response);
+        }
+    });
 });
 
 $("#button-send-email").on("click", function (event) {

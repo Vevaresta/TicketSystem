@@ -48,6 +48,8 @@ namespace Ticketsystem.ViewModels
 
         public bool DoSendEmail { get; set; }
 
+        public bool IsPdfSigned { get; set; }
+
         public static implicit operator Ticket(TicketViewModel viewModel)
         {
             var ticket = new Ticket

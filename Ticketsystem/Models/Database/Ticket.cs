@@ -42,6 +42,8 @@ public class Ticket
     public virtual TicketStatus TicketStatus { get; set; }
     public virtual Client Client { get; set; }
 
+    public byte[] PdfSigned { get; set; }
+
     public virtual IList<Device> Devices { get; set; }
     public virtual IList<TicketChange> TicketChanges { get; set; }
 

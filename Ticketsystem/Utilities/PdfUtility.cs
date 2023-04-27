@@ -53,7 +53,7 @@ namespace Ticketsystem.Utilities
             return outputPdfStream.ToArray();
         }
 
-        private async Task<byte[]> GetPdfNewTicket()
+        private static async Task<byte[]> GetPdfNewTicket()
         {
             byte[] pdfFile = null;
             try

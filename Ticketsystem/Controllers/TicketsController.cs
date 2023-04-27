@@ -142,6 +142,11 @@ namespace Ticketsystem.Controllers
             ticketViewModel.Id = ticket.Id;
             ticketViewModel.TicketChanges = new List<TicketChangeViewModel>();
 
+            if (ticket.PdfSigned != null)
+            {
+                ticketViewModel.IsPdfSigned = true;
+            }
+
             foreach (var ticketChange in ticket.TicketChanges)
             {
                 ticketViewModel.TicketChanges.Add(ticketChange);
@@ -332,6 +337,34 @@ namespace Ticketsystem.Controllers
             {
                 return RedirectToPage("/Tickets/ErrorPdfNotFound");
             }
+        }
+
+        public async Task<IActionResult> UploadPdf(int id)
+        {
+            var ticket = await _ticketsService.GetById<Ticket, int>(id);
+
+            byte[] fileBytes = new byte[Request.ContentLength.Value];
+            Request.Body.Read(fileBytes, 0, fileBytes.Length);
+
+            ticket.PdfSigned = fileBytes;
+            await _ticketsService.Update(ticket);
+
+            return Json(new { Message = "SUCCESS" });
+        }
+
+        public async Task<IActionResult> ShowPdfSigned(int id)
+        {
+            var ticket = await _ticketsService.GetById<Ticket, int>(id);
+
+            if (ticket.PdfSigned != null)
+            {
+                return File(ticket.PdfSigned, "application/pdf");
+            }
+            else
+            {
+                return Json(new { message = "Error" });
+            }
+
         }
 
         private bool TicketExists(int id)
