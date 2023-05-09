@@ -172,7 +172,7 @@
                                        name="FilterByEndDate">
                             </td>
                             <td class="padding-right-3">
-                                <input class="form-control" type="search" placeholder="Kunden-Nr." name="FilterByClientName">
+                                <input class="form-control" type="search" placeholder="Nachname" name="FilterByClientName">
                             </td>
                             <td>
                                 <button class="btn btn-info w-100" type="submit"
@@ -210,14 +210,14 @@
                         <th class="tickets-index-column-id">
                             @Html.ActionLink("Nummer", "Index", GetLinkData("Id"))
                         </th>
-                        <th class="">
-                            @Html.ActionLink("Ticketname", "Index", GetLinkData("Name"))
+                        <th class="d-none d-xl-table-cell">
+                            @Html.ActionLink("Kunde", "Index", GetLinkData("LastName"))
                         </th>
                         <th class="d-none d-md-table-cell tickets-index-column-type">
                             @Html.ActionLink("Auftragsart", "Index", GetLinkData("TicketType"))
                         </th>
-                        <th class="d-none d-xl-table-cell">
-                            @Html.ActionLink("Kunde", "Index", GetLinkData("LastName"))
+                        <th class="">
+                            @Html.ActionLink("Ticketname", "Index", GetLinkData("Name"))
                         </th>
                         <th class="d-none d-lg-table-cell tickets-index-column-status">
                             @Html.ActionLink("Status", "Index", GetLinkData("TicketStatus"))
@@ -237,9 +237,9 @@
                                     @Html.DisplayFor(modelItem => item.Id)
                                 </div>
                             </td>
-                            <td class="text-nowrap">
+                            <td class="text-nowrap d-none d-xl-table-cell">
                                 <div class="cell-overflow">
-                                    @Html.DisplayFor(modelItem => item.Name)
+                                    @Html.DisplayFor(modelItem => item.ClientLastName)
                                 </div>
                             </td>
                             <td class="text-nowrap d-none d-md-table-cell">
@@ -247,9 +247,9 @@
                                     @item.TicketType
                                 </div>
                             </td>
-                            <td class="text-nowrap d-none d-xl-table-cell">
+                            <td class="text-nowrap">
                                 <div class="cell-overflow">
-                                    @Html.DisplayFor(modelItem => item.ClientLastName)
+                                    @Html.DisplayFor(modelItem => item.Name)
                                 </div>
                             </td>
                             <td class="text-nowrap d-none d-lg-table-cell">
