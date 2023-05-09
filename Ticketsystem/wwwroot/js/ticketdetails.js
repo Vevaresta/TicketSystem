@@ -47,12 +47,10 @@ $('#file-picker-pdf-signed').on('change', function () {
     let ticketId = $("#hidden-ticket-id").val();
     var file = this.files[0];
 
-
     if (file.type != 'application/pdf') {
         alert('Keine gültige PDF-Datei!');
     }
     else {
-
         var formData = new FormData();
         formData.append('pdfFile', file);
 

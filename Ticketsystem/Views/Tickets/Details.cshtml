@@ -494,9 +494,9 @@
             <form method="get">
                 <div class="d-flex flex-xl-row flex-column">
                     <div class="d-flex flex-lg-row flex-column align-items-lg-center align-items-start" style="min-height: 60px;">
-                        <input type="submit" value="Ticket Bearbeiten" class="btn btn-lg btn-primary btn-space text-nowrap mb-2 mb-lg-0" style="" asp-action="Update" asp-route-id="@Model.Id" />
+                        <input type="submit" value="Ticket Bearbeiten" class="btn btn-lg btn-primary btn-space text-nowrap mb-2 mb-lg-0" style="width: 220px;" asp-action="Update" asp-route-id="@Model.Id" />
                         <span class="d-flex flex-lg-row align-items-center mb-2 mb-lg-0">
-                            <button type="button" class="btn btn-lg btn-info btn-space text-nowrap" id="button-send-email" style="">Email erneut senden</button>
+                            <button type="button" class="btn btn-lg btn-info btn-space text-nowrap" id="button-send-email" style="width: 220px;">Email erneut senden</button>
                             <span class="bi bi-check collapse me-2" id="icon-send-email-check" style="color: green; font-size: 40px; margin-top: -10px; margin-bottom: -10px;"></span>
                         </span>
                     </div>
@@ -504,10 +504,10 @@
                         string buttonShowPdfVisibility = Model.IsPdfSigned ? "" : "collapse";
                     }
                     <div class="d-flex flex-lg-row flex-column align-items-lg-center align-items-start" style="min-height: 60px;">
-                        <input type="button" value="PDF anzeigen" class="btn btn-lg btn-info btn-space text-nowrap mb-2 mb-lg-0 @buttonShowPdfVisibility" id="button-show-pdf-signed" />
-                        <input type="button" value="PDF generieren" class="btn btn-lg btn-info btn-space text-nowrap mb-2 mb-lg-0" id="button-generate-pdf" />
-                        <input type="file" id="file-picker-pdf-signed" style="display: none;" />
-                        <input type="button" class="btn btn-lg btn-info text-nowrap" value="PDF hochladen..." onclick="document.getElementById('file-picker-pdf-signed').click();" />
+                        <input type="button" value="PDF anzeigen" class="btn btn-lg btn-info btn-space text-nowrap mb-2 mb-lg-0 @buttonShowPdfVisibility" id="button-show-pdf-signed" style="width: 220px;" />
+                        <input type="button" value="PDF generieren" class="btn btn-lg btn-info btn-space text-nowrap mb-2 mb-lg-0" id="button-generate-pdf" style="width: 220px;" />
+                        <input type="file" id="file-picker-pdf-signed" style="display: none; width: 220px;" />
+                        <input type="button" class="btn btn-lg btn-info text-nowrap" value="PDF hochladen..." onclick="document.getElementById('file-picker-pdf-signed').click();" style="width: 220px;" />
                     </div>
                 </div>
             </form>
