@@ -37,6 +37,7 @@ public class Ticket
     public bool DataBackupByClient { get; set; } = false;
     public bool DataBackupByStaff { get; set; } = false;
     public bool DataBackupDone { get; set; }
+    public bool IsVirus { get; set; }
 
     public virtual TicketType TicketType { get; set; }
     public virtual TicketStatus TicketStatus { get; set; }
@@ -57,6 +58,7 @@ public class Ticket
             OrderDate = ticket.OrderDate.ToLocalTime(),
             Client = ticket.Client,
             DoBackup = ticket.DoBackup,
+            IsVirus = ticket.IsVirus,
             DataBackupByClient = ticket.DataBackupByClient,
             DataBackupByStaff = ticket.DataBackupByStaff,
             DataBackupDone = ticket.DataBackupDone,
