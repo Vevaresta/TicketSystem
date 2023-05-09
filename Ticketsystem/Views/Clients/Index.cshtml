@@ -181,14 +181,6 @@
                             </td>
                             <td class="text-end index-column-buttons">
                                 <div class="d-inline-block">
-                                    @if (canUpdate)
-                                    {
-                                        <a class=" bi bi-pen me-3" title="Kunde Bearbeiten" asp-action="Update" asp-route-id="@item.Id"></a>
-                                    }
-                                    else
-                                    {
-                                        <a class=" bi bi-pen me-3 disabled-link" title="Fehlende Berechtigung"></a>
-                                    }
                                     @if (canViewDetails)
                                     {
                                         <a class=" bi bi-card-list me-3" title="Kundendetails anzeigen" asp-action="Details" asp-route-id="@item.Id"></a>
@@ -196,6 +188,14 @@
                                     else
                                     {
                                         <a class=" bi bi-card-list me-3 disabled-link" title="Fehlende Berechtigung"></a>
+                                    }
+                                    @if (canUpdate)
+                                    {
+                                        <a class=" bi bi-pen me-3" title="Kunde Bearbeiten" asp-action="Update" asp-route-id="@item.Id"></a>
+                                    }
+                                    else
+                                    {
+                                        <a class=" bi bi-pen me-3 disabled-link" title="Fehlende Berechtigung"></a>
                                     }
                                     @if (canDelete)
                                     {

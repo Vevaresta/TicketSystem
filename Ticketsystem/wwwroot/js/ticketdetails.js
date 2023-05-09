@@ -46,30 +46,22 @@ $("#button-show-pdf-signed").on("click", function () {
 $('#file-picker-pdf-signed').on('change', function () {
     let ticketId = $("#hidden-ticket-id").val();
     var file = this.files[0];
+    var formData = new FormData();
+    formData.append('pdfFile', file);
 
-
-    if (file.type != 'application/pdf') {
-        alert('Keine gültige PDF-Datei!');
-    }
-    else {
-
-        var formData = new FormData();
-        formData.append('pdfFile', file);
-
-        $.ajax({
-            url: '/Tickets/UploadPdf?id=' + ticketId,
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                $("#button-show-pdf-signed").removeClass("collapse");
-            },
-            error: function (error) {
-                alert(response);
-            }
-        });
-    }
+    $.ajax({
+        url: '/Tickets/UploadPdf?id=' + ticketId,
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            $("#button-show-pdf-signed").removeClass("collapse");
+        },
+        error: function (error) {
+            alert(response);
+        }
+    });
 });
 
 $("#button-send-email").on("click", function (event) {
