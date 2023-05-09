@@ -93,6 +93,9 @@ input[type="search"]::placeholder,
     .tickets-index-column-date {
         width: 150px;
     }
+    .tickets-details-column-date {
+        width: 80px;
+    }
     .tickets-index-column-type {
         width: 130px;
     }

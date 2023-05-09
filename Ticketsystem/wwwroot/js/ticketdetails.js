@@ -54,20 +54,19 @@ $('#file-picker-pdf-signed').on('change', function () {
         var formData = new FormData();
         formData.append('pdfFile', file);
 
-        $.ajax({
-            url: '/Tickets/UploadPdf?id=' + ticketId,
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                $("#button-show-pdf-signed").removeClass("collapse");
-            },
-            error: function (error) {
-                alert(response);
-            }
-        });
-    }
+    $.ajax({
+        url: '/Tickets/UploadPdf?id=' + ticketId,
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            $("#button-show-pdf-signed").removeClass("collapse");
+        },
+        error: function (error) {
+            alert(response);
+        }
+    });
 });
 
 $("#button-send-email").on("click", function (event) {

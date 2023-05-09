@@ -399,9 +399,9 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Datum</th>
+                                            <th class="tickets-details-column-date" scope="col">Datum</th>
                                             <th scope="col">Mitarbeiter</th>
-                                            <th scope="col">Status</th>
+                                            <th class="d-none d-lg-table-cell" scope="col">Status</th>
                                             <th scope="col">Anmerkung</th>
                                             <th scope="col"></th>
                                         </tr>
@@ -429,7 +429,7 @@
                                             <tr class="table-active changes-listbox-item">
                                                 <td>@currentDate</td>
                                                 <td>@userName</td>
-                                                <td>@oldStatus</td>
+                                                <td class="d-none d-lg-table-cell">@oldStatus</td>
                                                 <td>@shortTicketComment</td>
                                                 <td class="text-end"><button value="@JsonConvert.SerializeObject(item)" class="btn btn-link">Details</button></td>
                                             </tr>
