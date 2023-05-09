@@ -22,7 +22,8 @@ namespace Ticketsystem.ViewModels
         [Required(ErrorMessage = "Pflichtfeld")]
         public bool DoBackup { get; set; }
 
-        public bool Virus { get; set; }
+        [DisplayName("Virus-Quarantäne?")]
+        public bool IsVirus { get; set; }
 
         [Display(Name = "Bereits erledigt durch Kunde")]
         public bool DataBackupByClient { get; set; }
@@ -59,6 +60,7 @@ namespace Ticketsystem.ViewModels
                 OrderDate = viewModel.OrderDate.ToUniversalTime(),
                 WorkOrder = viewModel.WorkOrder,
                 DoBackup = viewModel.DoBackup,
+                IsVirus = viewModel.IsVirus,
                 DataBackupByClient = viewModel.DataBackupByClient,
                 DataBackupByStaff = viewModel.DataBackupByStaff,
                 DataBackupDone = viewModel.DataBackupDone,
@@ -86,6 +88,7 @@ namespace Ticketsystem.ViewModels
                 OrderDate = OrderDate.ToUniversalTime(),
                 WorkOrder = WorkOrder,
                 DoBackup = DoBackup,
+                IsVirus = IsVirus,
                 DataBackupByClient = DataBackupByClient,
                 DataBackupByStaff = DataBackupByStaff,
                 DataBackupDone = DataBackupDone,
