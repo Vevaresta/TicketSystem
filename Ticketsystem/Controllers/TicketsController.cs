@@ -15,6 +15,7 @@ namespace Ticketsystem.Controllers
 {
     public class TicketsController : Controller
     {
+        private readonly ClientsDbAccess _clientsService;
         private readonly TicketsDbAccess _ticketsService;
         private readonly TicketStatusesDbAccess _ticketStatusesService;
         private readonly TicketTypesDbAccess _ticketTypesService;
@@ -30,6 +31,7 @@ namespace Ticketsystem.Controllers
             IEmailSender emailSender)
         {
             _ticketsService = serviceFactory.GetDbAccess<TicketsDbAccess>();
+            _clientsService = serviceFactory.GetDbAccess<ClientsDbAccess>();
             _ticketStatusesService = serviceFactory.GetDbAccess<TicketStatusesDbAccess>();
             _ticketTypesService = serviceFactory.GetDbAccess<TicketTypesDbAccess>();
             _ticketChangesService = serviceFactory.GetDbAccess<TicketChangesDbAccess>();
@@ -429,6 +431,22 @@ namespace Ticketsystem.Controllers
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return Json(new { ex.Message });
             }
+        }
+
+        public async Task<IActionResult> CreateFromClient(string id)
+        {
+            var client = await _clientsService.GetById<Client, string>(id);
+            ClientViewModel clientViewModel = client;
+
+            if (clientViewModel == null)
+            {
+                return NotFound();
+            }
+
+            TicketViewModel ticketViewModel = new();
+            ticketViewModel.Client = client;
+
+            return View("Create", ticketViewModel);
         }
     }
 }
