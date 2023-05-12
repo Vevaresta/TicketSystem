@@ -27,6 +27,8 @@
     bool backupByClient = false;
     bool backupByStaff = false;
 
+    int clientId = 0;
+
     if (Model != null)
     {
         if (Model.Devices != null)
@@ -36,6 +38,8 @@
         ticketType = Model.TicketType.ToString();
 
         backupByClient = Model.DataBackupByClient;
+
+        clientId = Model.Client.Id;
     }
 
     backupByStaff = !backupByClient;
@@ -108,6 +112,7 @@
                         <div class="row mb-5">
                             <div class="container">
                                 <h5>Kunde</h5>
+                                <input type="hidden" value="@clientId" asp-for="Client.Id" />
                                 <div class="row mb-1">
                                     <div class="form-group">
                                         <label class="control-label">Nachname*</label>

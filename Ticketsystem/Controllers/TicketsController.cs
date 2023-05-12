@@ -99,6 +99,11 @@ namespace Ticketsystem.Controllers
             if (ModelState.IsValid)
             {
                 Ticket ticket = ticketViewModel;
+                if (ticketViewModel.Client.Id != 0)
+                {
+                    ticket.Client.Id = ticketViewModel.Client.Id;
+                    ticket.ClientId = ticketViewModel.Client.Id;
+                }
                 ticket.TicketType = await _ticketTypesService.GetTicketTypeByName(ticketType);
 
                 var ticketStatusOpen = await _ticketStatusesService.GetTicketStatusByName(TicketStatuses.Open.ToString());
