@@ -16,7 +16,22 @@ namespace Ticketsystem.Utilities
             using (PdfDocument pdfDoc = new(new PdfReader(inputPdfStream), new PdfWriter(outputPdfStream)))
             {
                 PdfAcroForm form = PdfAcroForm.GetAcroForm(pdfDoc, true);
+
+                // Client Info
+
                 form.GetField("txtTicketNumber").SetValue(formData.TicketId ?? "");
+                form.GetField("txtClientFirstName").SetValue(formData.ClientFirstName ?? "");
+                form.GetField("txtClientLastName").SetValue(formData.ClientLastName ?? "");
+                form.GetField("txtClientEmail").SetValue(formData.ClientEmail ?? "");
+                form.GetField("txtClientPhone").SetValue(formData.ClientPhone ?? "");
+                form.GetField("txtParticipantNumber").SetValue(formData.ParticipantNumber ?? "");
+                form.GetField("txtCourse").SetValue(formData.Course ?? "");
+                form.GetField("txtStreetAndHouseNumber").SetValue(formData.StreetAndHouseNumber ?? "");
+                form.GetField("txtPostalCode").SetValue(formData.PostalCode ?? "");
+                form.GetField("txtCity").SetValue(formData.City ?? "");
+                
+                // Device Info
+
                 switch (formData.TicketType)
                 {
                     case "Repair":
@@ -32,13 +47,21 @@ namespace Ticketsystem.Utilities
                         form.GetField("chbTicketTypeSpecial").SetValue("Yes");
                         break;
                 }
-                form.GetField("txtOrderDescription").SetValue(formData.WorkOrder ?? "");
-                form.GetField("txtClientName").SetValue(formData.ClientName ?? "");
-                form.GetField("txtClientEmail").SetValue(formData.ClientEmail ?? "");
-                form.GetField("txtClientPhone").SetValue(formData.ClientPhone ?? "");
+
+                if(formData.VirusQuarantine == true)
+                {
+                    form.GetField("chbVirusQuarantine").SetValue("Yes");
+                }
                 form.GetField("txtDeviceType").SetValue(formData.DeviceType ?? "");
-                form.GetField("txtSerialNumber").SetValue(formData.DeviceSerialNumber ?? "");
-                form.GetField("txtAccessories").SetValue(formData.DeviceAccessories ?? "");
+                form.GetField("txtSerialNumber").SetValue(formData.SerialNumber ?? "");
+                form.GetField("txtAccessories").SetValue(formData.Accessories ?? "");
+                form.GetField("txtDeviceProducer").SetValue(formData.DeviceProducer ?? "");
+                form.GetField("txtDeviceDescription").SetValue(formData.DeviceDescription ?? "");
+
+                // Tasks
+
+                form.GetField("txtTicketName").SetValue(formData.TicketName ?? "");
+                form.GetField("txtWorkDescription").SetValue(formData.WorkDescription ?? "");
                 
                 if (formData.BackupByClient)
                 {
@@ -48,6 +71,9 @@ namespace Ticketsystem.Utilities
                 {
                     form.GetField("chbBackupByStaff").SetValue("Yes");
                 }
+                form.GetField("txtClientSignature").SetValue(formData.ClientSignature ?? "");
+                form.GetField("txtOrderEnd").SetValue(formData.OrderEnd ?? "");
+                form.GetField("txtSignatureOfAcceptance").SetValue(formData.SignatureOfAcceptance ?? "");
             }
 
             return outputPdfStream.ToArray();
