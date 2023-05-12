@@ -82,7 +82,7 @@ input[type="search"]::placeholder,
         width: 130px;
     }
     .index-column-buttons {
-        width: 100px;
+        width: 140px;
     }
 }
 
@@ -103,7 +103,7 @@ input[type="search"]::placeholder,
         width: 200px;
     }
     .index-column-buttons {
-        width: 120px;
+        width: 140px;
     }
 }
 

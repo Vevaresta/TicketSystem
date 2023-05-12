@@ -185,7 +185,13 @@ namespace Ticketsystem.DbAccess
 
         public async Task<T> Add<T>(T ticket) where T : class
         {
-            var newTicketInDb = _ticketsystemContext.Add(ticket);
+            Ticket t = ticket as Ticket;
+            if (t.ClientId != 0)
+            {
+                var clientInDb = await _ticketsystemContext.Clients.FirstOrDefaultAsync(c => c.Id == t.ClientId);
+                t.Client = clientInDb;
+            }
+            var newTicketInDb = _ticketsystemContext.Add(t);
             await _ticketsystemContext.SaveChangesAsync();
 
             if (_globals.EnableRedisCache)
@@ -193,7 +199,7 @@ namespace Ticketsystem.DbAccess
                 await RedisCacheUtility.FlushDb(_globals.RedisServer);
             }
 
-            return newTicketInDb.Entity;
+            return newTicketInDb as T;
         }
 
         public async Task Update<T>(T entity) where T : class

@@ -30,6 +30,8 @@
     RolePermissions.ViewClientDetails);
     bool canDelete = await rolePermissionsService.HasPermission(loggedInUser,
     RolePermissions.DeleteClients);
+    bool canCreate = await rolePermissionsService.HasPermission(loggedInUser,
+    RolePermissions.ViewClientDetails); //ToDo
 }
 
 @* FUNCTIONS: *@
@@ -152,7 +154,7 @@
                         <th class="d-none d-md-table-cell">
                             @Html.ActionLink("Email-Adresse", "Index", GetLinkData("Email"))
                         </th>
-                        <th class="index-column-buttons"></th>
+                        <th class="index-column-buttons" ></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -180,7 +182,7 @@
                                 </div>
                             </td>
                             <td class="text-end index-column-buttons">
-                                <div class="d-inline-block">
+                                <div class="d-inline">
                                     @if (canViewDetails)
                                     {
                                         <a class=" bi bi-card-list me-3" title="Kundendetails anzeigen" asp-action="Details" asp-route-id="@item.Id"></a>
@@ -188,6 +190,14 @@
                                     else
                                     {
                                         <a class=" bi bi-card-list me-3 disabled-link" title="Fehlende Berechtigung"></a>
+                                    }
+                                    @if (canCreate)
+                                    {
+                                        <a class="bi bi-clipboard-plus me-3" title="Neues Ticket" asp-controller="Tickets" asp-action="CreateFromClient" asp-route-id="@item.Id"></a>
+                                    }
+                                    else
+                                    {
+                                        <a class=" bi bi-pen me-3 disabled-link" title="Fehlende Berechtigung"></a>
                                     }
                                     @if (canUpdate)
                                     {
